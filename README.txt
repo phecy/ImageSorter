@@ -4,8 +4,8 @@ This is a program written in C++ using QT Creator. The aim of this program is
 pass the program a list of pictures via the command line and it will take and
 sort the images, rating each image on a scale 0-9 based on the catagories of:
 level of blur, pallet of colors in the image, level of exposer of the image, 
-and the grey scale the image has. Each picture that is deamed a duplicate will
-be given a value of zero as well.
+and the grey scale the image has. Duplicates will be given a value of zero
+as well.
 
 To run this code, you must have the pictures in the directory of the program,
 and you must pass in each file name of the target pictures. As of now the
