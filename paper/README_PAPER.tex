@@ -1,0 +1,41 @@
+\documentclass[twocolumn]{article}
+
+\title{
+   Assessing Image Quality on Import From Camera
+} % Work in Progress
+\author{
+   Allison Carlisle\\
+   Biomolecular Engineering Undergraduate\\
+   Univ. of Calif. at Santa Cruz\\
+   acarlisle@ucsc.edu
+  \and
+   K. Armin Samii\\
+   Computer Science Undergraduate\\
+   Univ. of Calif. at Santa Cruz\\
+   ksamii@ucsc.edu
+  \and
+   Uliana Popov\\
+   Computer Science Graduate\\
+   Univ. of Calif. at Santa Cruz\\
+   uliana@soe.ucsc.edu
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In this paper, we propose a novel method for ranking images as they are imported from a users camera. We provide the user with the best image from every scene photographed and a ranking of these scenes. Our goal is to filter images which are technically flawed to allow the photographer to focus on the best image from each similar set. By assuming a chronological import, we rank images relative to each other, eliminating the need for no-reference image based techniques. The set chosen by our algorithm matches the top two choices of photographers in our study with astonishing accuracy (97\%).
+\end{abstract}
+
+\section{Introduction}
+In general, photographers who wish to polish their photos on a computer need to sort through the images taken during a photoshoot and select the ones most suited for retouching. This process involves first throwing out all technically flawed images, then subjectively choosing their favorites from the remaining set.
+
+Our research aims to replace the computational work required by the human in the first step and allow a computer to perform the tedious work. The second, subjective step is one of personal preference and not the goal of this work.
+
+Various approaches have been proposed to rank a set of random images based on aesthetic quality. Yeh \textit{et al.}\cite{Yeh:2010:PPR:1873951.1873963} ranks any input on highly customizable, subjective ratings based on a user's personal preference, but is only intended for amateur photographers. 
+
+\bibliographystyle{plain}
+\bibliography{README_BIB}
+\end{document}
