@@ -34,7 +34,37 @@ In general, photographers who wish to polish their photos on a computer need to 
 
 Our research aims to replace the computational work required by the human in the first step and allow a computer to perform the tedious work. The second, subjective step is one of personal preference and not the goal of this work.
 
-Various approaches have been proposed to rank a set of random images based on aesthetic quality. Yeh \textit{et al.}\cite{Yeh:2010:PPR:1873951.1873963} ranks any input on highly customizable, subjective ratings based on a user's personal preference, but is only intended for amateur photographers. 
+Various approaches have been proposed to rank a set of random images based on aesthetic quality. Yeh \textit{et al.}\cite{Yeh:2010:PPR:1873951.1873963} ranks any input on highly customizable, subjective ratings based on a user's personal preference, but is only intended for amateur photographers, and is too slow to be practical. We have aimed for a lighter application which focuses on what photographers look for the most: blur, noise, exposure, and the relationship between colors.
+
+Past research has quantified these artifacts globally[...refs] and independently (no-reference algorithms) [...refs]. Our approach combines local-feature algorithms [...refs] and reference-based algorithms [...refs] to extract similar foreground content in near-duplicate photographs and compare that data. Similarly, by separating foreground and background content, we can better measure exposure balance and weight noise levels which closer match the human visual system (HVS)[...refs].
+
+\section{Quantifying Image Quality}
+Each quality assessed will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores. For example, a perfectly-ranked noise image (i.e. no noise whatsoever) should still fail to a partially noisy image if it is extremely blurred.
+\[
+\displaystyle\sum\limits_{i=1}^n {\log^{-1}(component)}/{9n}
+\]
+
+\subsection{Content Recognition}
+We obtain a bounding box around the most salient foreground object, in a method similar to [\#]. Rather than using the precision that [\#] uses, we aim for accuracy, and observed faster and equally accurate results with this method. We achieve high accuracy because of the simplicity, though secondary objects are sometimes ignored or mistaken as foreground. We have found that this does not heavily affect the outcome of our algorithm.
+
+\subsection{Near-Duplicate Detection and Similar-Image Clustering}
+To find near-duplicates, we first look at the time the photo was taken. The algorithm explained in [\#] provides a good estimation of whether or not images were taken sequentially. We use this as a weight for further near-duplicate detection:
+
+The first step is to perform a fast 9-segment test similar to [\#]. If this does not succeed, we perform a second, more complicated test to determine similarity based on the area and histogram distribution of the foreground[\#]. We use the bounding box for this calculation.
+
+Along with the weight calculated from the timestamp, we can cluster similar images with high accuracy.
+
+\subsection{Blur Detection}
+Using the bounding box, the blur-detection algorithm quantifies the contrast between the edges and background. It ignores the rest of the image. In a method similar to [\#], it obtains a value for the sharpness. This algorithm does not perform well when ranking diverse images, due to differences in scale and levels of acceptable background blur, so constraining it to the bounding box increases accuracy. Furthermore, we compare these rankings to the near-duplicates to remove any photograph-specific artifacts which we may not have accounted for. This increases the accuracy of the algorithm with just one photographs, and does even better when there is a sequence of similar images.
+
+\subsection{Noise Detection}
+We use a binary-weight scheme to weigh the noise, in a weak combination of local and global quality assessment. Noise within the bounding box has more negative weight than noise in the background. Our algorithm is similar to [\#], which has results good enough to support itself.
+
+\subsection{Exposure}
+Because there is no "good" histogram for well-exposed histograms, the content-separated results provide a more convenient way to examine the photograph. As described in [\#], we can accurately rate well exposed images by ....la di da....
+
+\subsection{Color Harmony}
+LA DI DA DI DA
 
 \bibliographystyle{plain}
 \bibliography{README_BIB}
