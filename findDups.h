@@ -27,24 +27,15 @@ This file is part of ppm.
 
 using namespace std;
 
-class findDups
+class DuplicateSegmented
 {
-
-
 public:
 
-    void load(char*);
+    void addImage(QImage*);
 
     // First string in inner list is the picture, and the following
     // strings are pictures that are duplicates to it
-
     list< list<string> > findDuplicates();
-
-
-
-protected:
-
-
 
 private:
 

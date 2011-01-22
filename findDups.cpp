@@ -1,18 +1,12 @@
 /*
-This file is part of ppm.
+    DuplicateGlobal
+    Will determine if two pictures are similar based on content color,
+    looking at the entire image and splitting it into NUMOFBLOCKS segments.
+    Phase 2 of duplicate detection.
 
-    ppm is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    ppm is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with ppm.  If not, see <http://www.gnu.org/licenses/>.
+    1. Timestamp-based weight
+    2. DuplicateGlobal
+    3. DuplicateLocal
 */
 
 #include "findDups.h"
@@ -25,31 +19,15 @@ This file is part of ppm.
 #include <vector>
 #include <list>
 
-// must be an integer and a perfect square ex 9, 16, 25 ...
-#define NUMOFBLOCKS 9
+#define NUMOFBLOCKS 9 // Must be a perfect square
 #define DISTANCE 40
 #define MATCHING 7
 
 using namespace std;
 
-void findDups::load(char * file)
+void DuplicateSegmented::addImage(QImage* i)
 {
-    if(readFile(file))
-        findAverageColor(file);
-}
-
-
-
-bool findDups::readFile(char *file)
-{
-    image = new QImage(file);
-    if (image == NULL) {
-       qDebug ("%s Not Loaded", file);
-       return false;
-       //exit(1);
-   }
-
-
+    image = i;
 
     int w = image->width();
     int h = image->height();
@@ -109,12 +87,9 @@ bool findDups::readFile(char *file)
        free(vals[a]);
 
     free(vals);
-    image->~QImage();
-
-    return true;
 }
 
-void findDups::findAverageColor(char * file)
+void DuplicateSegmented::findAverageColor(char * file)
 {
      vector<QRgb> averages;
 
@@ -148,7 +123,7 @@ void findDups::findAverageColor(char * file)
 //The inner list being returned contains a list of pictures
 // the porgram calculated to be very similar
 // the string refers to the file name
-list<list<string> > findDups::findDuplicates()
+list<list<string> > DuplicateSegmented::findDuplicates()
 {
     list<list<string> > l;
 
@@ -190,11 +165,6 @@ list<list<string> > findDups::findDuplicates()
        l.push_back(duplicatesToI);
     }
 
-
-
-
-
-
     return l;
 
 }
@@ -202,7 +172,7 @@ list<list<string> > findDups::findDuplicates()
 // Loop through each block and see if each corrseponding block
 // is similiar between eeach picture. If a single block is
 // not similiar enough then it will not be marked as a duplciated
-bool findDups::isSimilarPic(vector<QRgb> a, vector<QRgb> b)
+bool DuplicateSegmented::isSimilarPic(vector<QRgb> a, vector<QRgb> b)
 {
     int count = 0;
     for (int i = 0; i < NUMOFBLOCKS; ++i)
@@ -217,9 +187,9 @@ bool findDups::isSimilarPic(vector<QRgb> a, vector<QRgb> b)
 
 // The smaller max disatance is the more sensitive
 // the program will be in similary between "duplicates"
-// HIgher values will allow less similiar pictures to
+// Higher values will allow less similiar pictures to
 // be marked as duplicates
-bool findDups::isSimilarRGB(QRgb a, QRgb b)
+bool DuplicateSegmented::isSimilarRGB(QRgb a, QRgb b)
 {
     int maxDistance = DISTANCE;
 
@@ -237,14 +207,3 @@ bool findDups::isSimilarRGB(QRgb a, QRgb b)
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
