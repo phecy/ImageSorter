@@ -89,7 +89,7 @@ private:
 
     // User-set constants
     int threshhold;  // -100-100%: how far from average we want to be
-    int radius;     // >0: radius to examine
+    int radius;     // >0: How many pixels around this pixel to look at?
     int edgeRadius;     // How many pixels thick may an edge in highpass be?
     int highpassRadius; // How far apart do we want our edges?
     int sharpness; // Angle required between two pixels to be considered sharp

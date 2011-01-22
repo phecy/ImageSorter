@@ -41,3 +41,6 @@ QMAKE_LFLAGS += -static-libgcc
 
 FORMS += \
     display.ui
+
+OTHER_FILES += \
+    paper/README_PAPER.tex

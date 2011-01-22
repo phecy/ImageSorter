@@ -27,10 +27,10 @@ This file is part of ppm.
 BlurDetect::BlurDetect()
 {
     width = height = 0;
-    radius = 5;
+    radius = 4;
 
     threshhold = 98;
-    edgeRadius = 5;
+    edgeRadius = 3;
     highpassRadius = 10;
 
     sharpness = 30;
@@ -102,7 +102,7 @@ void BlurDetect::edgeDetect() {
                 highPass[w][h] = 255;
         }
     }
-    // debugPrint(highPass);
+    debugPrint(highPass);
 }
 
 void BlurDetect::correctSpacing(int w, int h) {

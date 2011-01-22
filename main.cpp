@@ -110,21 +110,22 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        exposeVals[i] = newExpose.expose(currIm);
+        //exposeVals[i] = newExpose.expose(currIm);
         // qDebug() << "exposeVals" <<exposeVals[i] << "  image:" <<files[i];
         resultsExpanded << "   image: " <<imageArray[i] << " expose: " <<exposeVals[i];
 
-        palletVals[i] = colorAnalysis(currIm);
+        //palletVals[i] = colorAnalysis(currIm);
         // qDebug() << "palletVals" <<palletVals[i] << "  image:" <<files[i];
         resultsExpanded << " pallet: " <<palletVals[i];
 
-        greyVals[i] = newGrey.calcGrey(currIm);
+        //greyVals[i] = newGrey.calcGrey(currIm);
         // qDebug() << "greyVals" <<greyVals[i] << "  image:" <<files[i];
         resultsExpanded <<" grey: " <<greyVals[i];
 
         blurVals[i] = newBlur->calculateBlur(currIm);
         // qDebug() << "blurVals" <<blurVals[i] << "  image:" <<files[i];
         resultsExpanded << " blur: " <<blurVals[i] <<endl;
+        newBlur->show();
 
         currIm->~QImage();
     }
@@ -133,8 +134,9 @@ int main(int argc, char *argv[])
     //Calculate picture values using respective weights.
 
     for(int i=0;i<size; ++i){
-     picValue[i] = exposeVals[i]*exposeScale+palletVals[i]*palletScale;
-     picValue[i] += blurVals[i]*blurScale+greyVals[i]*greyScale;
+     //picValue[i] = exposeVals[i]*exposeScale+palletVals[i]*palletScale;
+     //picValue[i] += blurVals[i]*blurScale+greyVals[i]*greyScale;
+        picValue[i] = blurVals[i];
     }
 
     //Finds and "deletes" duplicates.
@@ -185,9 +187,9 @@ int main(int argc, char *argv[])
     insertion_sort(picValue, imageArray, size);
 
     // GUI
-    display *disp = new display();
-    disp->setImageData((char**)imageArray, (float*)picValue, size);
-    disp->init();
+//    display *disp = new display();
+//    disp->setImageData((char**)imageArray, (float*)picValue, size);
+//    disp->init();
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     results << "Final Values:" << endl;
