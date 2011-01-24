@@ -200,7 +200,7 @@ int BlurDetect::resultCalc() {
     }
     double result = (total*threshhold*numColors) / (double)(180 * width * height);
     // printf("Picture quality rating: %f\%\n", result);
-    if(result > 100) result = 100;
+    if(result > 90) result = 90;
     result = (int)round((double)result / 10);
     return (int)result;
 }
