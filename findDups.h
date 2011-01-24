@@ -20,46 +20,64 @@ This file is part of ppm.
 
 #include <QImage>
 #include <QRgb>
-#include <vector>
-#include <list>
 #include <string>
-
+#include <map>
 
 using namespace std;
+class RGB_set;
+
+// A NUMBLOCKS-by-NUMBLOCKS vector of the avg grayvals
+// unsigned long to hold total, then average it
+typedef vector<vector<RGB_set>* > segVector;
+typedef map<QImage*, segVector*> segMap; // Maps im* to segmented
+typedef pair<QImage*, segVector*> segPair; // A pair for segMap
+typedef vector<vector<QImage*> > dupGroup;
+
+class RGB_set {
+public:
+    RGB_set();
+    void add_color(int, int, int);
+    QRgb get_avg();
+    void operator+=(QRgb);
+private:
+    // Floats to allow for precision in avg'ing
+    float r;
+    float g;
+    float b;
+    unsigned int numCounted;
+};
 
 class DuplicateSegmented
 {
 public:
+    DuplicateSegmented();
+    ~DuplicateSegmented();
 
+    // Segments an image and stores the hash'd values
     void addImage(QImage*);
 
-    // First string in inner list is the picture, and the following
-    // strings are pictures that are duplicates to it
-    list< list<string> > findDuplicates();
+    // Returns a list of lists of duplicates
+    vector< vector<QImage*> > findDuplicates();
 
 private:
+    // A list of QImages and their respective segmented grayval blocks
+    segMap* allPics;
 
-    bool readFile(char * file);
-    void findAverageColor(char * file);
-    bool isSimilarRGB(QRgb a, QRgb b);
-    bool isSimilarPic(vector<QRgb> a, vector<QRgb> b);
+    // A list of near-duplicates
+    dupGroup* allGroups;
 
-    QImage* image;
+    // Inserts the image into the correct group
+    void insertGrouped(QImage*, dupGroup*);
 
-    // vals[a][a] = QRGB color at given pixel
-    QRgb ** vals;
+    // Checks if two images are near-duplicates
+    // returns true if they are
+    bool isMatch(QImage*, QImage*);
 
-    // block does not need per pixel data. no need to store pixel location
-    // block[a] refers to block number
-    // block[a][a] refers to given value in block
+    // Set by #defines (blocksAcross=sqrt(numblocks))
+    int numBlocks, blocksAcross;
 
-    vector<vector<QRgb> > block;
-
-   // the vector holds 9 QRgb objects. Each Qrgb has the average
-   //values for the 9 quadrants in row major order
-   //The lists contains a pair with a string (filename) and the saidvectors.
-    //each list element refers to one picture
-    list<pair<string, vector<QRgb> > > allPics;
+    // Set by #define of PCTSIMILARITYDIST% * numImages
+    int similarityDist;
 } ;
 
 #endif

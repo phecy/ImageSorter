@@ -17,193 +17,156 @@
 #include <string>
 #include <math.h>
 #include <vector>
-#include <list>
+#include <vector>
 
-#define NUMOFBLOCKS 9 // Must be a perfect square
-#define DISTANCE 40
-#define MATCHING 7
+#define BLOCKSACROSS 3 // How to place grid
+#define NUMOFBLOCKS BLOCKSACROSS*BLOCKSACROSS
+#define DISTANCE 50 // Between color pixels
+#define NUMSECTIONALLOWANCE 1 // How many blocks can be off
+#define PCTSIMILARITYDIST 10.0 // % of the total pics in a set that an img can
+                               // be different from before being rejected
 
 using namespace std;
 
-void DuplicateSegmented::addImage(QImage* i)
-{
-    image = i;
+RGB_set::RGB_set() {
+    numCounted = 0;
+    r=0;
+    g=0;
+    b=0;
+}
 
-    int w = image->width();
-    int h = image->height();
+void RGB_set::add_color(int R, int G, int B) {
+    double ratio = (double)numCounted / (++numCounted);
+    double numCounted_double = numCounted;
+    r = r*ratio + R/numCounted_double;
+    g = g*ratio + G/numCounted_double;
+    b = b*ratio + B/numCounted_double;
+}
 
-    vals = (QRgb**)malloc(w * sizeof(QRgb*));
-    for (int a = 0; a < w; ++a)
-        vals[a] = (QRgb*)malloc(h * sizeof(QRgb*));
+void RGB_set::operator+=(QRgb color) {
+    add_color(qRed(color), qBlue(color), qGreen(color));
+}
 
-    // read in color vales into array
-    // could proabaly be optimized to do the next
-    // two loops together
-    for (int a = 0; a < w; ++a)
-       for (int b = 0; b < h; ++b)
-           vals[a][b] = image->pixel(a,b);
+QRgb RGB_set::get_avg() {
+    return qRgb(r, g, b);
+}
 
-    int rows = sqrt(NUMOFBLOCKS);
+DuplicateSegmented::DuplicateSegmented() {
+    allPics = new segMap();
+    blocksAcross = BLOCKSACROSS;
+    numBlocks = NUMOFBLOCKS;
+    similarityDist = 0; // temporarily
+}
 
-    int xStart = 0;
-    int yStart = 0;
-    int xBound;
-    int yBound;
+DuplicateSegmented::~DuplicateSegmented() {
+    delete allPics;
+    delete allGroups;
+}
 
-    block.clear();
-    block.resize(NUMOFBLOCKS);
-    int xSection = w/rows;
-    int ySection = h/rows;
+void DuplicateSegmented::addImage(QImage* image) {
+    int width = image->width();
+    int height = image->height();
 
+    int blockHeight = height / blocksAcross;
+    int blockWidth  =  width / blocksAcross;
 
-    for ( int i = 0; i < NUMOFBLOCKS; ++i)
-    {
-        xBound = xStart + xSection;
-        yBound = yStart + ySection;
+    // Initialize a numBlocksxnumBlocks array to 0
 
-        for (int a = xStart; a < xBound; ++a)
-               for (int b = yStart; b < yBound; ++b)
-                     block[i].push_back(vals[a][b]);
+    segVector* imagehash = new segVector(blocksAcross);
+    for(int i=0; i<blocksAcross; ++i) {
+        imagehash->at(i) = new vector<RGB_set>(blocksAcross, RGB_set());
+    }
 
-        xStart = (xStart + xSection)%w;
-        // Because not all w,h values will be evenly divisible
-        // by the row count, there is a chance that will increment
-        // xStart over bounds rather that setting back to zero
-        // same goes for yStart below
-        if (xStart > w - xSection)
-            xStart = 0;
+    // Get total sum of grayvals in each block
+    for(int w=0; w < width; w++) {
+        int colNum = min(w / blockWidth, int(blocksAcross-1));
 
-        //only increment boounds if at edge
-        if( i%rows == rows - 1)
-        {
-            yStart = (yStart + ySection)%h;
-            if (yStart > h - ySection)
-                yStart = 0;
+        // Add everything
+        for(int h=0; h < height; h++) {
+            int rowNum = min(h / blockHeight, int(blocksAcross-1));
+            (*(*imagehash)[rowNum])[colNum] += image->pixel(w,h);
         }
     }
 
-
-    for (int a = 0; a < w; ++a)
-       free(vals[a]);
-
-    free(vals);
+    // Add to allPics list
+    segPair* imgpair = new segPair(image, imagehash);
+    allPics->insert(allPics->end(), *imgpair);
 }
 
-void DuplicateSegmented::findAverageColor(char * file)
-{
-     vector<QRgb> averages;
+dupGroup DuplicateSegmented::findDuplicates() {
+    similarityDist = allPics->size() * PCTSIMILARITYDIST/100;
 
-    for (int i = 0; i < NUMOFBLOCKS; ++i)
-    {
-        //temp float array, each pertaining to the sum of the color values
-        int sumColor[4] = {0,0,0,0};
-
-        // iterate vector of Colors, summing up each color compoenent
-        vector<QRgb>::const_iterator iter = block[i].begin();
-        for ( ; iter != block[i].end(); ++iter)
-        {
-            sumColor[0] += qRed(*iter);
-            sumColor[1] += qGreen(*iter);
-            sumColor[2] += qBlue(*iter);
-            sumColor[3] += qAlpha(*iter);
-        }
-
-        int size = block[i].size();
-        // Push in average color in to average array
-
-        //qDebug("file: %s block: %d %d %d %d %d\n", file, i, sumColor[0]/size, sumColor[1]/size, sumColor[2]/size, sumColor[3]/size);
-        QRgb color = qRgba(sumColor[0]/size, sumColor[1]/size, sumColor[2]/size, sumColor[3]/size);
-        averages.push_back(color);
+    segMap::iterator i = allPics->begin();
+    allGroups = new dupGroup();
+    for(; i != allPics->end(); ++i) {
+        insertGrouped(i->first, allGroups);
     }
-
-    pair<string, vector<QRgb> > p(file, averages);
-    allPics.push_back( p );
+    return *allGroups;
 }
 
-//The inner list being returned contains a list of pictures
-// the porgram calculated to be very similar
-// the string refers to the file name
-list<list<string> > DuplicateSegmented::findDuplicates()
-{
-    list<list<string> > l;
+void DuplicateSegmented::insertGrouped(QImage* im, dupGroup* list) {
+    bool foundSetFlag = false; // True if a match was just found
 
-    list<pair<string, vector<QRgb> > >::iterator i = allPics.begin();
-    list<pair<string, vector<QRgb> > >::iterator end = allPics.end();
+    // Look for any set this could match
+    dupGroup::iterator i = list->begin();
+    // For every set, check if it matches all imgs but NUMSECTIONALLOWANCE
+    for( ; i != list->end(); ++i) {
+        int numNotRelatedTo = 0;
 
-    list<pair<string, vector<QRgb> > >::iterator i2;
-
-
-   // compare all pictures with all other pictures
-    // and see if they are duplicates, or very similar
-    for (; i!=end; ++i)
-    {
-        i2 = i;
-        if (i2 != end)
-            i2++;
-
-       list<string> duplicatesToI;
-       duplicatesToI.push_back(i->first);
-       for ( ;i2 != end; )
-        {
-                 if( isSimilarPic(i->second, i2->second))
-                {
-
-                    duplicatesToI.push_back(i2->first);
-                    i2 = allPics.erase(i2);
-                    continue;
+        // Look through every pic in this group, counting mismatches
+        int picsInSet = i->size();
+        for(int picNum=0; picNum < picsInSet; ++picNum) {
+            QImage* currIm = (*i).at(picNum);
+            if(!isMatch(currIm, im)) {
+                // If not match, penalize.
+                // If penalized too much, check next group.
+                if(++numNotRelatedTo >= similarityDist) {
+                    foundSetFlag = false;
+                    break;
                 }
-            // if a duplicate is found then erase that duplicate from the list
-            // so program will not find the duplicates of a duplicate b/c it is redundant
-            // However when an element is erased from list via list.erase(iterator)
-            // the iterator is automatically incremented so the iterator increment should not
-            // occour if a picture was erased from the list, hence the continute and the
-            // increment not in the for control structure.
-
-            ++i2;
-
+            } else {
+                foundSetFlag = true;
+            }
         }
-       l.push_back(duplicatesToI);
+        if(foundSetFlag) {
+            // Add to group if hadn't been overpenalized
+            i->push_back(im);
+            return;
+        }
     }
 
-    return l;
-
+    // Nothing matched. New entry.
+    vector<QImage*> thisSet;
+    thisSet.push_back(im);
+    list->push_back(thisSet);
 }
 
-// Loop through each block and see if each corrseponding block
-// is similiar between eeach picture. If a single block is
-// not similiar enough then it will not be marked as a duplciated
-bool DuplicateSegmented::isSimilarPic(vector<QRgb> a, vector<QRgb> b)
-{
-    int count = 0;
-    for (int i = 0; i < NUMOFBLOCKS; ++i)
-    {
-        if(isSimilarRGB(a[i], b[i]))
-            count++;
+bool DuplicateSegmented::isMatch(QImage *first, QImage *second) {
+    segVector* vFirst = allPics->find(first)->second;
+    segVector* vSecond = allPics->find(second)->second;
+
+    // Test every section. Return false if more than one is too far off.
+    int failedSections = 0;
+    for(int r=0; r<blocksAcross; ++r) {
+        for(int c=0; c<blocksAcross; ++c) {
+            // Check if blocks are out of allowable distance
+            QRgb firstPix = vFirst->at(r)->at(c).get_avg();
+            QRgb secondPix = vSecond->at(r)->at(c).get_avg();
+            int rDist = abs(qRed(firstPix) - qRed(secondPix));
+            int gDist = abs(qGreen(firstPix) - qGreen(secondPix));
+            int bDist = abs(qBlue(firstPix) - qBlue(secondPix));
+
+            if(rDist > DISTANCE ||
+               gDist > DISTANCE ||
+               bDist > DISTANCE) {
+                // If out of allowable distance, add to failedSections
+                if(++failedSections > NUMSECTIONALLOWANCE) {
+                    // If too many failed sections, fail completely
+                    return false;
+                }
+            }
+        }
     }
-    if ( count >= MATCHING)
-        return true;
-    else return false;
-}
-
-// The smaller max disatance is the more sensitive
-// the program will be in similary between "duplicates"
-// Higher values will allow less similiar pictures to
-// be marked as duplicates
-bool DuplicateSegmented::isSimilarRGB(QRgb a, QRgb b)
-{
-    int maxDistance = DISTANCE;
-
-    if ( abs(qRed(a) - qRed(b)) > maxDistance)
-        return false;
-
-    if ( abs(qGreen(a) - qGreen(b)) > maxDistance)
-        return false;
-
-    if ( abs(qBlue(a) - qBlue(b)) > maxDistance)
-        return false;
-
+    // If did not fail...succeeded!
     return true;
-
-
-
 }
