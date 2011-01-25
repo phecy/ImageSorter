@@ -17,13 +17,12 @@
 #include <string>
 #include <math.h>
 #include <vector>
-#include <vector>
 
 #define BLOCKSACROSS 3 // How to place grid
 #define NUMOFBLOCKS BLOCKSACROSS*BLOCKSACROSS
-#define DISTANCE 50 // Between color pixels
-#define NUMSECTIONALLOWANCE 1 // How many blocks can be off
-#define PCTSIMILARITYDIST 10.0 // % of the total pics in a set that an img can
+#define DISTANCE 40 // Between color pixels
+#define NUMSECTIONALLOWANCE 2 // How many blocks can be off
+#define PCTSIMILARITYDIST 30.0 // % of the total pics in a set that an img can
                                // be different from before being rejected
 
 using namespace std;
