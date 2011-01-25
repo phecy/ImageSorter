@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
         picValue[i] = blurVals[i];
     }
 
-    //Finds and "deletes" duplicates.
+    //Finds and combines duplicates.
     vector<vector<QImage*> > dupeList = newDups.findDuplicates();
     numSets=dupeList.size();
 
