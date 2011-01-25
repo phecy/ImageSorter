@@ -41,9 +41,9 @@ using namespace std;
 #define NUM_WANTED_PICS 400
 
 //used to locate duplicate files index
-int findIndex(char *fileName, char *imageArray[], int argc){
-    for(int i=0; i < argc-1;++i){
-        if(strcmp(imageArray[i],fileName) == 0)
+int findIndex(QImage *im, QImage *imageDatArray[], int size){
+    for(int i=0; i < size; ++i){
+        if(im==imageDatArray[i])
             return i;
     }
     return -1;
@@ -59,35 +59,28 @@ int main(int argc, char *argv[])
             NULL,
             "Images (*.png *.ppm *.jpeg *.gif *.pbm *.jpg)");
     int size = files.length();
-    char *imageArray[size];
+    if(size == 0) return EXIT_SUCCESS;
+    char *imageStrArray[size];
+    QImage *imageDatArray[size];
     float picValue[size];
     exposure newExpose;
-    findDups newDups;
+    DuplicateSegmented newDups;
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
-
-    //Fill imageArray with file names
-    QStringList::Iterator it = files.begin();
-    int index=0;
-    while(it != files.end()) {
-        QByteArray temp = (*it).toLatin1();
-        char* data = temp.data();
-        newDups.load(data);
-        imageArray[index] = strdup(data);
-        ++it; ++index;
-    }
 
     //Set picture values to 0
     int exposeVals[size];
     int palletVals[size];
     int greyVals[size];
     int blurVals[size];
+    int setNum[size]; int numSets = 0; // <= size
     for(int i=0; i < size; ++i){
         picValue[i] = 0.0f;
         exposeVals[i] = 0;
         palletVals[i] = 0;
         greyVals[i] = 0;
         blurVals[i] = 0;
+        setNum[i] = 0;
     }
 
     //Sets the different methods respective weights.
@@ -104,15 +97,21 @@ int main(int argc, char *argv[])
     //Call different calculation methods
     QImage* currIm;
     for(int i=0;i<size; ++i){
-        currIm = new QImage(imageArray[i]);
+        QByteArray temp = (files.at(i)).toLatin1();
+        char* data = temp.data();
+        imageStrArray[i] = strdup(data);
+
+        currIm = new QImage(imageStrArray[i]);
         if(currIm == NULL) {
-            cout << "Image " << imageArray[i] << " failed to load!";
+            cout << "Image " << imageStrArray[i] << " failed to load!";
             continue;
         }
+        imageDatArray[i] = currIm;
+        newDups.addImage(currIm);
 
         //exposeVals[i] = newExpose.expose(currIm);
         // qDebug() << "exposeVals" <<exposeVals[i] << "  image:" <<files[i];
-        resultsExpanded << "   image: " <<imageArray[i] << " expose: " <<exposeVals[i];
+        resultsExpanded << "   image: " <<imageStrArray[i] << " expose: " <<exposeVals[i];
 
         //palletVals[i] = colorAnalysis(currIm);
         // qDebug() << "palletVals" <<palletVals[i] << "  image:" <<files[i];
@@ -125,7 +124,7 @@ int main(int argc, char *argv[])
         blurVals[i] = newBlur->calculateBlur(currIm);
         // qDebug() << "blurVals" <<blurVals[i] << "  image:" <<files[i];
         resultsExpanded << " blur: " <<blurVals[i] <<endl;
-        newBlur->show();
+        // newBlur->show();
 
         currIm->~QImage();
     }
@@ -140,37 +139,36 @@ int main(int argc, char *argv[])
     }
 
     //Finds and "deletes" duplicates.
-    list<list<string> > dupeList = newDups.findDuplicates();
-    list<list<string> >::const_iterator i = dupeList.begin();
-    list<list<string> >::const_iterator e = dupeList.end();
+    vector<vector<QImage*> > dupeList = newDups.findDuplicates();
+    numSets=dupeList.size();
 
-    for ( ; i != e; ++i)
+    for (int set_index = 0; set_index < numSets; ++set_index)
     {
-       list<string>::const_iterator j = i->begin();
-       list<string>::const_iterator je = i->end();
        float max = 0;
-       char *best="";
+       QImage *best;
 
-       for ( ; j != je; ++j){
-           char name[512];
+       vector<QImage*> picList = dupeList[set_index];
+       int picsInSet = picList.size();
+       for (int picset_index=0; picset_index < picsInSet; ++picset_index){
            float rating = 0;
-           strcpy(name, j->c_str());
-           rating = picValue[findIndex(name, imageArray, size+1)];
+           QImage* currPic = picList[picset_index];
+           int picIndex = findIndex(currPic, imageDatArray, size);
+           rating = picValue[picIndex];
+           setNum[picIndex] = set_index;
+
            if(rating > max){
-               picValue[findIndex(best, imageArray, size+1)] = 0;
-               if(picValue[findIndex(best, imageArray, size+1)] == -1)
-                   qDebug() <<" Could not find picture:" << best ;
+               // picValue[findIndex(best, imageDatArray, size)] = 0;
+
                max = rating;
-               best = name;
+               best = currPic;
            }
            else{
                //set value of picture to zero since it is not a better duplicate
                //cout << "Deleting Duplicate: " << imageArray[findIndex(name, imageArray, argc)] << endl;
-               picValue[findIndex(name, imageArray, size-1)] = 0;
+               // picValue[findIndex(currPic, imageArray, size)] = 0;
            }
        }
-
-   }
+    }
 
 
     //Creates a .txt file "results" to store the final values.
@@ -184,19 +182,19 @@ int main(int argc, char *argv[])
     int wantedPics = NUM_WANTED_PICS;// changes how many pictures are wanted from group.
 
     // Sort
-    insertion_sort(picValue, imageArray, size);
+    insertion_sort(picValue, imageStrArray, size);
 
     // GUI
-//    display *disp = new display();
-//    disp->setImageData((char**)imageArray, (float*)picValue, size);
-//    disp->init();
+    display *disp = new display();
+    disp->setImageData((char**)imageStrArray, (float*)picValue, setNum, numSets, size);
+    disp->init();
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     results << "Final Values:" << endl;
-    for(int i=0; i<size; ++i){
+    for(int i=0; i<size; ++i) {
         if(picValue[i] != 0) {
-           cout << "Picture:\"" << imageArray[i] << "\" has a Value of: " << picValue[i] << endl;
-           results <<"   Picture:\"" << imageArray[i] << "\" has a Value of: " << picValue[i] << endl;
+           cout << "Picture:\"" << imageStrArray[i] << "\" has a Value of: " << picValue[i] << endl;
+           results <<"   Picture:\"" << imageStrArray[i] << "\" has a Value of: " << picValue[i] << endl;
            wantedPics--;
         }
         if(wantedPics == 0) break;
