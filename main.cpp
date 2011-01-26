@@ -18,6 +18,8 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QtDebug>
+#include <QImageReader>
+#include <QtPlugin>
 #include <QImage>
 #include <stdio.h>
 #include <string.h>
@@ -37,8 +39,11 @@ using namespace std;
 #include "grey.h"
 #include "display.h"
 #include "insertionsort.h"
+#include "duplicatesegmented.h"
 
 #define NUM_WANTED_PICS 400
+
+
 
 //used to locate duplicate files index
 int findIndex(QImage *im, QImage *imageDatArray[], int size){
@@ -64,7 +69,7 @@ int main(int argc, char *argv[])
     QImage *imageDatArray[size];
     float picValue[size];
     exposure newExpose;
-    DuplicateSegmented newDups;
+    Duplicates newDups(size);
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
 
@@ -102,9 +107,9 @@ int main(int argc, char *argv[])
         imageStrArray[i] = strdup(data);
 
         currIm = new QImage(imageStrArray[i]);
-        if(currIm == NULL) {
-            cout << "Image " << imageStrArray[i] << " failed to load!";
-            continue;
+        if(currIm->isNull()) {
+            cout << "Image " << imageStrArray[i] << " failed to load!\n";
+            return EXIT_FAILURE;
         }
         imageDatArray[i] = currIm;
         newDups.addImage(currIm);
