@@ -54,7 +54,7 @@ void display::newPic(int picNum)
     label->setPixmap(currPix);
     show();
 
-    char text[20];
+    char text[52];
     // Ranks start at 1, not 0, for display; +1 to indeces
     sprintf(text, "Image %d/%d: Ranked %1.02f/9 || Set number %d/%d",
             picNum+1, size, ranks[picNum], setnum[picNum]+1, numsets);
