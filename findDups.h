@@ -18,66 +18,50 @@ This file is part of ppm.
 #ifndef FINDDUPS_H
 #define FINDDUPS_H
 
-#include <QImage>
-#include <QRgb>
-#include <string>
 #include <map>
+#include "duplicatesegmented.h"
 
 using namespace std;
-class RGB_set;
 
-// A NUMBLOCKS-by-NUMBLOCKS vector of the avg grayvals
-// unsigned long to hold total, then average it
-typedef vector<vector<RGB_set>* > segVector;
-typedef map<QImage*, segVector*> segMap; // Maps im* to segmented
-typedef pair<QImage*, segVector*> segPair; // A pair for segMap
-typedef vector<vector<QImage*> > dupGroup;
+typedef vector<QImage*> imgList;
+typedef vector<imgList > dupGroup;
 
-class RGB_set {
+class Duplicates {
 public:
-    RGB_set();
-    void add_color(int, int, int);
-    QRgb get_avg();
-    void operator+=(QRgb);
-private:
-    // Floats to allow for precision in avg'ing
-    float r;
-    float g;
-    float b;
-    unsigned int numCounted;
-};
+    Duplicates(int numImages);
 
-class DuplicateSegmented
-{
-public:
-    DuplicateSegmented();
-    ~DuplicateSegmented();
-
-    // Segments an image and stores the hash'd values
     void addImage(QImage*);
 
-    // Returns a list of lists of duplicates
-    vector< vector<QImage*> > findDuplicates();
-
+    dupGroup findDuplicates();
 private:
-    // A list of QImages and their respective segmented grayval blocks
-    segMap* allPics;
+    // Runs all of the modules, which should update rater.
+    void runModules();
+
+    // Inserts two into one's list
+    // ONE'S LIST MUST EXIST and be in setFinder!
+    void insertIntoList(QImage* one, QImage* two);
+
+    // Creates a list. Call this before insertIntoList on *one.
+    void createNewList(QImage *one);
+
+    // Checks if there exists a set list for whichIm
+    bool setExistsFor(QImage* whichIm);
 
     // A list of near-duplicates
     dupGroup* allGroups;
 
-    // Inserts the image into the correct group
-    void insertGrouped(QImage*, dupGroup*);
+    // Maps an image to its set number (index in allGroups)
+    map<QImage*, int>* setFinder;
 
-    // Checks if two images are near-duplicates
-    // returns true if they are
-    bool isMatch(QImage*, QImage*);
+    // Maintains state of duplicate detection
+    DuplicateRater* rater;
 
-    // Set by #defines (blocksAcross=sqrt(numblocks))
-    int numBlocks, blocksAcross;
+    // Segmentation-based module
+    DuplicateSegmented* segmented;
 
-    // Set by #define of PCTSIMILARITYDIST% * numImages
-    int similarityDist;
-} ;
+    // All images fed to the duplicate tester
+    imgList* allImages;
+
+};
 
 #endif

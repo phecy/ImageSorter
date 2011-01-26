@@ -9,7 +9,6 @@
     3. DuplicateLocal
 */
 
-#include "findDups.h"
 #include <iostream>
 #include <stdio.h>
 #include <QImage>
@@ -17,155 +16,80 @@
 #include <string>
 #include <math.h>
 #include <vector>
+#include <assert.h>
+#include "findDups.h"
+#include "duplicaterater.h"
+#include "duplicatesegmented.h"
 
-#define BLOCKSACROSS 3 // How to place grid
-#define NUMOFBLOCKS BLOCKSACROSS*BLOCKSACROSS
-#define DISTANCE 40 // Between color pixels
-#define NUMSECTIONALLOWANCE 2 // How many blocks can be off
-#define PCTSIMILARITYDIST 30.0 // % of the total pics in a set that an img can
-                               // be different from before being rejected
+// Amount needed for two images to be considered similar on 0-10 scale
+#define SIMILARITY_RANK_THRESHHOLD 7
 
 using namespace std;
 
-RGB_set::RGB_set() {
-    numCounted = 0;
-    r=0;
-    g=0;
-    b=0;
+Duplicates::Duplicates(int numImages) {
+    rater = new DuplicateRater(numImages);
+    segmented = new DuplicateSegmented(rater);
+    setFinder = new map<QImage*, int>();
+    allImages = new imgList();
+    allGroups = new dupGroup();
 }
 
-void RGB_set::add_color(int R, int G, int B) {
-    double ratio = (double)numCounted / (++numCounted);
-    double numCounted_double = numCounted;
-    r = r*ratio + R/numCounted_double;
-    g = g*ratio + G/numCounted_double;
-    b = b*ratio + B/numCounted_double;
+void Duplicates::addImage(QImage *im) {
+    segmented->addImage(im);
+    allImages->insert(allImages->end(), im);
 }
 
-void RGB_set::operator+=(QRgb color) {
-    add_color(qRed(color), qBlue(color), qGreen(color));
-}
+dupGroup Duplicates::findDuplicates() {
+    runModules();
 
-QRgb RGB_set::get_avg() {
-    return qRgb(r, g, b);
-}
+    // Look past every image for potential duplicates,
+    // mark them, and skip them when they are main_i
+    imgList::iterator main_i, after_i;
+    for(main_i = allImages->begin(); main_i != allImages->end(); ++main_i) {
+        if(setExistsFor(*main_i)) continue; // Skip if previously found set
+        createNewList(*main_i);
+        for(after_i = (++main_i)--; after_i < allImages->end(); ++after_i) {
+            int rank = rater->getRanking(*main_i, *after_i);
 
-DuplicateSegmented::DuplicateSegmented() {
-    allPics = new segMap();
-    blocksAcross = BLOCKSACROSS;
-    numBlocks = NUMOFBLOCKS;
-    similarityDist = 0; // temporarily
-}
-
-DuplicateSegmented::~DuplicateSegmented() {
-    delete allPics;
-    delete allGroups;
-}
-
-void DuplicateSegmented::addImage(QImage* image) {
-    int width = image->width();
-    int height = image->height();
-
-    int blockHeight = height / blocksAcross;
-    int blockWidth  =  width / blocksAcross;
-
-    // Initialize a numBlocksxnumBlocks array to 0
-
-    segVector* imagehash = new segVector(blocksAcross);
-    for(int i=0; i<blocksAcross; ++i) {
-        imagehash->at(i) = new vector<RGB_set>(blocksAcross, RGB_set());
-    }
-
-    // Get total sum of grayvals in each block
-    for(int w=0; w < width; w++) {
-        int colNum = min(w / blockWidth, int(blocksAcross-1));
-
-        // Add everything
-        for(int h=0; h < height; h++) {
-            int rowNum = min(h / blockHeight, int(blocksAcross-1));
-            (*(*imagehash)[rowNum])[colNum] += image->pixel(w,h);
+            if(rank > SIMILARITY_RANK_THRESHHOLD) {
+                insertIntoList(*main_i, *after_i);
+            } else {
+                continue;
+            }
         }
     }
 
-    // Add to allPics list
-    segPair* imgpair = new segPair(image, imagehash);
-    allPics->insert(allPics->end(), *imgpair);
-}
-
-dupGroup DuplicateSegmented::findDuplicates() {
-    similarityDist = allPics->size() * PCTSIMILARITYDIST/100;
-
-    segMap::iterator i = allPics->begin();
-    allGroups = new dupGroup();
-    for(; i != allPics->end(); ++i) {
-        insertGrouped(i->first, allGroups);
-    }
     return *allGroups;
 }
 
-void DuplicateSegmented::insertGrouped(QImage* im, dupGroup* list) {
-    bool foundSetFlag = false; // True if a match was just found
-
-    // Look for any set this could match
-    dupGroup::iterator i = list->begin();
-    // For every set, check if it matches all imgs but NUMSECTIONALLOWANCE
-    for( ; i != list->end(); ++i) {
-        int numNotRelatedTo = 0;
-
-        // Look through every pic in this group, counting mismatches
-        int picsInSet = i->size();
-        for(int picNum=0; picNum < picsInSet; ++picNum) {
-            QImage* currIm = (*i).at(picNum);
-            if(!isMatch(currIm, im)) {
-                // If not match, penalize.
-                // If penalized too much, check next group.
-                if(++numNotRelatedTo >= similarityDist) {
-                    foundSetFlag = false;
-                    break;
-                }
-            } else {
-                foundSetFlag = true;
-            }
-        }
-        if(foundSetFlag) {
-            // Add to group if hadn't been overpenalized
-            i->push_back(im);
-            return;
-        }
-    }
-
-    // Nothing matched. New entry.
-    vector<QImage*> thisSet;
-    thisSet.push_back(im);
-    list->push_back(thisSet);
+void Duplicates::runModules() {
+    segmented->rankAll();
 }
 
-bool DuplicateSegmented::isMatch(QImage *first, QImage *second) {
-    segVector* vFirst = allPics->find(first)->second;
-    segVector* vSecond = allPics->find(second)->second;
+void Duplicates::insertIntoList(QImage *one, QImage *two) {
+    // First, look for *one in the setFinder
+    map<QImage*, int>::iterator item = setFinder->find(one);
+    assert(item != setFinder->end());
 
-    // Test every section. Return false if more than one is too far off.
-    int failedSections = 0;
-    for(int r=0; r<blocksAcross; ++r) {
-        for(int c=0; c<blocksAcross; ++c) {
-            // Check if blocks are out of allowable distance
-            QRgb firstPix = vFirst->at(r)->at(c).get_avg();
-            QRgb secondPix = vSecond->at(r)->at(c).get_avg();
-            int rDist = abs(qRed(firstPix) - qRed(secondPix));
-            int gDist = abs(qGreen(firstPix) - qGreen(secondPix));
-            int bDist = abs(qBlue(firstPix) - qBlue(secondPix));
+    // Then, insert at end of that list
+    int index = item->second;
+    imgList set = allGroups->at(index);
+    set.insert(set.end(), two);
 
-            if(rDist > DISTANCE ||
-               gDist > DISTANCE ||
-               bDist > DISTANCE) {
-                // If out of allowable distance, add to failedSections
-                if(++failedSections > NUMSECTIONALLOWANCE) {
-                    // If too many failed sections, fail completely
-                    return false;
-                }
-            }
-        }
-    }
-    // If did not fail...succeeded!
-    return true;
+    setFinder->insert(pair<QImage*,int>(two, index));
+}
+
+void Duplicates::createNewList(QImage *one) {
+    // Create a new list
+    imgList thisSet;
+    thisSet.push_back(one);
+    allGroups->push_back(thisSet);
+
+    // Then map it
+    setFinder->insert(pair<QImage*,int>(one, allGroups->size()-1));
+}
+
+bool Duplicates::setExistsFor(QImage* whichIm) {
+    map<QImage*, int>::iterator item = setFinder->find(whichIm);
+    return item != setFinder->end();
 }
