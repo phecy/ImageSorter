@@ -47,7 +47,7 @@ using namespace std;
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
 int findIndex(QImage *im, QImage *imageDatArray[], int size){
-    for(int i=0; i < size; ++i){
+    for(int i=0; i < size; ++i) {
         if(im==imageDatArray[i])
             return i;
     }
@@ -61,17 +61,16 @@ void loadExif(QualityExif* exifs, const char* fn) {
         qDebug("No exif data available for %s", fn);
         return;
     }
-    exif_loader_write_file(loader, "/home/artoonie/Desktop/DSC_9887.jpg");
+    exif_loader_write_file(loader, fn);
     ExifData* data = exif_loader_get_data(loader);
     if(!data) {
         qDebug("No exif data available for %s", fn);
         return;
     }
 
-    ExifContent* content = *data->ifd;
-    exif_content_dump(content, 3);
+    exif_content_dump(data->ifd[EXIF_IFD_0], 3);
 
-    exifs->parseContent(content);
+    exifs->parseData(data);
     exif_loader_unref(loader);
 }
 
@@ -163,7 +162,7 @@ int main(int argc, char *argv[])
             0,
             "Select the images you wish to use",
             NULL,
-            "Images (*.png *.ppm *.jpeg *.gif *.pbm *.jpg)");
+            "Images (*.jpeg *.jpg *.nef *.raw)");
 
     // Check validity of file dialog result
     int size = files.length();

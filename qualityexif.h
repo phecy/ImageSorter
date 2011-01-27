@@ -8,7 +8,7 @@ class QualityExif
 public:
     QualityExif();
 
-    void parseContent(ExifContent* data);
+    void parseData(ExifData* data);
 
     float getAperture() { return aperture; }
     float getShutter() { return shutter; }

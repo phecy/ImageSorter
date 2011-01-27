@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <QDebug>
 #include "qualityexif.h"
 
 QualityExif::QualityExif()
@@ -10,13 +11,13 @@ QualityExif::QualityExif()
     time = 0;
 }
 
-void QualityExif::parseContent(ExifContent* content) {
-    ExifEntry* entry; const char* data;
-    entry = exif_content_get_entry(content, EXIF_TAG_APERTURE_VALUE);
+void QualityExif::parseData(ExifData* data) {
+    ExifEntry* entry = exif_data_get_entry(data, EXIF_TAG_FNUMBER);
 
-    // To do: This segfaults
-    //data = (char*)entry->data;
+    char vals[10];
+    exif_entry_get_value(entry, vals, 8);
 
-    //aperture = atof(data);
+    aperture = atof(vals+2); // get rid of f/
+    qDebug("Aperture: %f", aperture);
     return;
 }
