@@ -20,6 +20,7 @@ This file is part of ppm.
 
 #include <map>
 #include "duplicatesegmented.h"
+#include "duplicatetime.h"
 
 using namespace std;
 
@@ -58,6 +59,9 @@ private:
 
     // Segmentation-based module
     DuplicateSegmented* segmented;
+
+    // Time-based module
+    DuplicateTime* timed;
 
     // All images fed to the duplicate tester
     imgList* allImages;

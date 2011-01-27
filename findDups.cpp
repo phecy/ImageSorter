@@ -20,6 +20,7 @@
 #include "findDups.h"
 #include "duplicaterater.h"
 #include "duplicatesegmented.h"
+#include "duplicatetime.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
 #define SIMILARITY_RANK_THRESHHOLD 7
@@ -29,6 +30,9 @@ using namespace std;
 Duplicates::Duplicates(int numImages) {
     rater = new DuplicateRater(numImages);
     segmented = new DuplicateSegmented(rater);
+    timed = new DuplicateTime(rater);
+
+
     setFinder = new map<QImage*, int>();
     allImages = new imgList();
     allGroups = new dupGroup();
@@ -36,6 +40,7 @@ Duplicates::Duplicates(int numImages) {
 
 void Duplicates::addImage(QImage *im) {
     segmented->addImage(im);
+    timed->addImage(im);
     allImages->insert(allImages->end(), im);
 }
 
@@ -50,6 +55,8 @@ dupGroup Duplicates::findDuplicates() {
         createNewList(*main_i);
         for(after_i = (++main_i)--; after_i < allImages->end(); ++after_i) {
             int rank = rater->getRanking(*main_i, *after_i);
+            qDebug("findDups: Img#%p->%p similarity hypothesis: %d/10",
+                   *main_i, *after_i, rank);
 
             if(rank > SIMILARITY_RANK_THRESHHOLD) {
                 insertIntoList(*main_i, *after_i);
@@ -63,7 +70,14 @@ dupGroup Duplicates::findDuplicates() {
 }
 
 void Duplicates::runModules() {
-    segmented->rankAll();
+    // Rank every image against every image after it.
+    imgList::iterator main_i, after_i;
+    for(main_i = allImages->begin(); main_i != allImages->end(); ++main_i) {
+        for(after_i = (++main_i)--; after_i != allImages->end(); ++after_i) {
+            segmented->rankOne(*main_i, *after_i);
+            timed->rankOne(*main_i, *after_i);
+        }
+    }
 }
 
 void Duplicates::insertIntoList(QImage *one, QImage *two) {
