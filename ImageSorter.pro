@@ -18,7 +18,8 @@ HEADERS += blurdetect.h \
            findDups.h \
            grey.h \
            harmony.h \
-           insertionsort.h
+           insertionsort.h \
+    duplicatetime.h
 FORMS += display.ui
 SOURCES += blurdetect.cpp \
            color.cpp \
@@ -30,4 +31,5 @@ SOURCES += blurdetect.cpp \
            grey.cpp \
            harmony.cpp \
            insertionsort.cpp \
-           main.cpp
+           main.cpp \
+    duplicatetime.cpp
