@@ -4,6 +4,7 @@
 #include <QRgb>
 #include "duplicatesegmented.h"
 #include "duplicaterater.h"
+#include "assert.h"
 
 #define BLOCKSACROSS 3 // How to place grid
 #define NUMOFBLOCKS BLOCKSACROSS*BLOCKSACROSS
@@ -11,7 +12,7 @@
 #define NUMSECTIONALLOWANCE 2 // How many blocks can be off
 
 using namespace std;
-
+// TO DO: Update threshold calculation. It's always giving 9
 RGB_set::RGB_set() {
     numCounted = 0;
     r=0;
@@ -40,7 +41,6 @@ DuplicateSegmented::DuplicateSegmented(DuplicateRater* rater) {
 
     blocksAcross = BLOCKSACROSS;
     numBlocks = NUMOFBLOCKS;
-    similarityDist = 0; // temporarily
 
     this->rater = rater;
 }
@@ -79,18 +79,9 @@ void DuplicateSegmented::addImage(QImage* image) {
     allPics->insert(allPics->end(), *imgpair);
 }
 
-void DuplicateSegmented::rankAll() {
-
-    // Rank every image against every image after it.
-    segMap::iterator main_i, after_i;
-    for(main_i = allPics->begin(); main_i != allPics->end(); ++main_i) {
-        for(after_i = (++main_i)--; after_i != allPics->end(); ++after_i) {
-            QImage* first = main_i->first;
-            QImage* second = after_i->first;
-            int rank = getSimilarity(first, second);
-            rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_SEGMENTED);
-        }
-    }
+void DuplicateSegmented::rankOne(QImage *first, QImage *second) {
+    int rank = getSimilarity(first, second);
+    rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_SEGMENTED);
 }
 
 int DuplicateSegmented::getSimilarity(QImage *first, QImage *second) {
@@ -112,9 +103,12 @@ int DuplicateSegmented::getSimilarity(QImage *first, QImage *second) {
 
             // Penalize average difference divided by allowed distance
             // Then, penalize less as the rating gets lower
-            rating -= ((double)((rDist+gDist+bDist)/3) / DISTANCE) / (rating*NUMOFBLOCKS);
+            rating -= ((double)((rDist+gDist+bDist)/3) / DISTANCE) / (BLOCKSACROSS);
         }
     }
+
+    qDebug("DuplicateSegmented: Img#%p->%p similarity hypothesis: %2.2f/10",
+           first, second, rating);
 
     if(rating < 0) rating = 0;
 

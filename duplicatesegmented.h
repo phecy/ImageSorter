@@ -41,8 +41,8 @@ public:
     // Segments an image and stores the hash'd values
     void addImage(QImage*);
 
-    // Returns a list of lists of duplicates
-    void rankAll();
+    // Adds a single ranking to the DuplicateRater
+    void rankOne(QImage*, QImage*);
 
 private:
     // A list of QImages and their respective segmented grayval blocks
@@ -53,9 +53,6 @@ private:
 
     // Set by #defines (blocksAcross=sqrt(numblocks))
     int numBlocks, blocksAcross;
-
-    // Set by #define of PCTSIMILARITYDIST% * numImages
-    int similarityDist;
 
     // Holds each modules ranking
     DuplicateRater* rater;
