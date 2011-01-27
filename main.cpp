@@ -41,17 +41,91 @@ using namespace std;
 #include "insertionsort.h"
 #include "duplicatesegmented.h"
 
-#define NUM_WANTED_PICS 400
-
-
-
-//used to locate duplicate files index
+// Finds im in imageDatArray and returns its index
+// -1 if not exist
 int findIndex(QImage *im, QImage *imageDatArray[], int size){
     for(int i=0; i < size; ++i){
         if(im==imageDatArray[i])
             return i;
     }
     return -1;
+}
+
+// Calculates ranking for each image based on params. Puts into picValue.
+// Then prints all info to cout
+void calcAndPrintWeights(char** imageStrArray,
+                 float* picValue, int* exposeVals,
+                 int* palletVals, int* greyVals, int* blurVals,
+                 int numPics) {
+    float exposeScale = 0.4;
+    float palletScale = 0.1;
+    float blurScale = 0.25;
+    float greyScale = 0.25;
+
+    cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
+    for(int i=0;i<numPics; ++i){
+     //picValue[i] = exposeVals[i]*exposeScale+palletVals[i]*palletScale;
+     //picValue[i] += blurVals[i]*blurScale+greyVals[i]*greyScale;
+        picValue[i] = blurVals[i];
+
+        cout << "Image \"" << imageStrArray << "\"" << endl;
+        cout << "   Total rank: " << picValue[i] << endl;
+        cout << "-----------------------" << endl;
+        cout << "  *       exposure: " << exposeVals[i] << endl;
+        cout << "  *  color pallete: " << palletVals[i] << endl;
+        cout << "  *    middle gray: " << greyVals[i] << endl;
+        cout << "  *           blur: " << blurVals[i] << endl;
+    }
+}
+
+// False on failure
+bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
+                    QImage** imageDatArray, float* finalValue) {
+    // Create each module object
+    exposure newExpose;
+    grey newGrey;
+    BlurDetect* newBlur = new BlurDetect();
+
+    // Initialize ranks from all modules
+    int exposeVals[size];
+    int palletVals[size];
+    int greyVals[size];
+    int blurVals[size];
+    for(int i=0; i < size; ++i){
+        finalValue[i] = 0.0f;
+        exposeVals[i] = 0;
+        palletVals[i] = 0;
+        greyVals[i] = 0;
+        blurVals[i] = 0;
+    }
+
+    //Call different calculation methods
+    QImage* currIm;
+    for(int i=0;i<size; ++i){
+        currIm = new QImage(imageStrArray[i]);
+        if(currIm->isNull()) {
+            cout << "Image " << &currIm << " failed to load!\n";
+            return false;
+        }
+        imageDatArray[i] = currIm;
+
+        dupFinder.addImage(currIm);
+        exposeVals[i] = newExpose.expose(currIm);
+        palletVals[i] = colorAnalysis(currIm);
+        greyVals[i] = newGrey.calcGrey(currIm);
+        blurVals[i] = newBlur->calculateBlur(currIm);
+        // newBlur->show();
+
+        currIm->~QImage();
+    }
+
+
+    // Sets the different methods' respective weights.
+    // Puts it into calcWeights.
+    calcAndPrintWeights(imageStrArray, finalValue, exposeVals,
+                        palletVals, greyVals, blurVals, size);
+
+    return true;
 }
 
 int main(int argc, char *argv[])
@@ -63,96 +137,45 @@ int main(int argc, char *argv[])
             "Select the images you wish to use",
             NULL,
             "Images (*.png *.ppm *.jpeg *.gif *.pbm *.jpg)");
+
+    // Check validity of file dialog result
     int size = files.length();
     if(size == 0) return EXIT_SUCCESS;
-    char *imageStrArray[size];
+
+    // Some variables for each image
     QImage *imageDatArray[size];
+    char *imageStrArray[size];
     float picValue[size];
-    exposure newExpose;
-    Duplicates newDups(size);
-    grey newGrey;
-    BlurDetect* newBlur = new BlurDetect();
 
-    //Set picture values to 0
-    int exposeVals[size];
-    int palletVals[size];
-    int greyVals[size];
-    int blurVals[size];
-    int setNum[size]; int numSets = 0; // <= size
-    for(int i=0; i < size; ++i){
-        picValue[i] = 0.0f;
-        exposeVals[i] = 0;
-        palletVals[i] = 0;
-        greyVals[i] = 0;
-        blurVals[i] = 0;
-        setNum[i] = 0;
-    }
-
-    //Sets the different methods respective weights.
-    float exposeScale = 0.4;
-    float palletScale = 0.1;
-    float blurScale = 0.25;
-    float greyScale = 0.25;
-
-    //Creates a .txt file that stores the expanded results.
-    ofstream resultsExpanded;
-    resultsExpanded.open ("results_expanded.txt");
-    resultsExpanded << "Expanded Values:" << endl;
-
-    //Call different calculation methods
-    QImage* currIm;
-    for(int i=0;i<size; ++i){
+    // Get strings for each filename
+    for(int i=0; i < size; ++i) {
         QByteArray temp = (files.at(i)).toLatin1();
         char* data = temp.data();
         imageStrArray[i] = strdup(data);
-
-        currIm = new QImage(imageStrArray[i]);
-        if(currIm->isNull()) {
-            cout << "Image " << imageStrArray[i] << " failed to load!\n";
-            return EXIT_FAILURE;
-        }
-        imageDatArray[i] = currIm;
-        newDups.addImage(currIm);
-
-        //exposeVals[i] = newExpose.expose(currIm);
-        // qDebug() << "exposeVals" <<exposeVals[i] << "  image:" <<files[i];
-        resultsExpanded << "   image: " <<imageStrArray[i] << " expose: " <<exposeVals[i];
-
-        //palletVals[i] = colorAnalysis(currIm);
-        // qDebug() << "palletVals" <<palletVals[i] << "  image:" <<files[i];
-        resultsExpanded << " pallet: " <<palletVals[i];
-
-        //greyVals[i] = newGrey.calcGrey(currIm);
-        // qDebug() << "greyVals" <<greyVals[i] << "  image:" <<files[i];
-        resultsExpanded <<" grey: " <<greyVals[i];
-
-        blurVals[i] = newBlur->calculateBlur(currIm);
-        // qDebug() << "blurVals" <<blurVals[i] << "  image:" <<files[i];
-        resultsExpanded << " blur: " <<blurVals[i] <<endl;
-        // newBlur->show();
-
-        currIm->~QImage();
     }
-    resultsExpanded.close();
 
-    //Calculate picture values using respective weights.
+    // Initialize duplicate stuff
+    Duplicates dupFinder(size);
+    int setNum[size];
+    int numSets = 0; // <= size
+    for(int i=0; i < size; ++i)
+        setNum[i] = 0;
 
-    for(int i=0;i<size; ++i){
-     //picValue[i] = exposeVals[i]*exposeScale+palletVals[i]*palletScale;
-     //picValue[i] += blurVals[i]*blurScale+greyVals[i]*greyScale;
-        picValue[i] = blurVals[i];
-    }
+    // Calculate everything. Gather duplicates.
+    bool succeeded = calcAllModules(imageStrArray, size, dupFinder,
+                                    imageDatArray, picValue);
+    if(!succeeded) return EXIT_FAILURE;
 
     //Finds and combines duplicates.
-    vector<vector<QImage*> > dupeList = newDups.findDuplicates();
-    numSets=dupeList.size();
+    vector<vector<QImage*> > dupList = dupFinder.findDuplicates();
+    numSets=dupList.size();
 
     for (int set_index = 0; set_index < numSets; ++set_index)
     {
        float max = 0;
        QImage *best;
 
-       vector<QImage*> picList = dupeList[set_index];
+       vector<QImage*> picList = dupList[set_index];
        int picsInSet = picList.size();
        for (int picset_index=0; picset_index < picsInSet; ++picset_index){
            float rating = 0;
@@ -167,7 +190,7 @@ int main(int argc, char *argv[])
                max = rating;
                best = currPic;
            }
-           else{
+           else {
                //set value of picture to zero since it is not a better duplicate
                //cout << "Deleting Duplicate: " << imageArray[findIndex(name, imageArray, argc)] << endl;
                // picValue[findIndex(currPic, imageArray, size)] = 0;
@@ -175,16 +198,6 @@ int main(int argc, char *argv[])
        }
     }
 
-
-    //Creates a .txt file "results" to store the final values.
-    ofstream results;
-    results.open ("results.txt");
-    results << "Weights:\n" <<"   expose: " << exposeScale;
-    results << " pallet: " << palletScale << " blur: " << blurScale;
-    results << " grey: " << greyScale << endl << endl;
-
-    //Prints Final Solution set.
-    int wantedPics = NUM_WANTED_PICS;// changes how many pictures are wanted from group.
 
     // Sort
     insertion_sort(picValue, imageStrArray, size);
@@ -194,17 +207,5 @@ int main(int argc, char *argv[])
     disp->setImageData((char**)imageStrArray, (float*)picValue, setNum, numSets, size);
     disp->init();
 
-    cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
-    results << "Final Values:" << endl;
-    for(int i=0; i<size; ++i) {
-        if(picValue[i] != 0) {
-           cout << "Picture:\"" << imageStrArray[i] << "\" has a Value of: " << picValue[i] << endl;
-           results <<"   Picture:\"" << imageStrArray[i] << "\" has a Value of: " << picValue[i] << endl;
-           wantedPics--;
-        }
-        if(wantedPics == 0) break;
-    }
-
-    results.close();
     return app.exec();
 }
