@@ -4,7 +4,7 @@
 #include <QImage>
 #include <map>
 
-#define NUM_MODULES 1 // add more as we go
+#define NUM_MODULES 2 // add more as we go
 
 using namespace std;
 
@@ -17,10 +17,9 @@ class DuplicateRater
 public:
     // The module_type
     enum module_type {
-           //DUP_TIME_LARGESET = 0,
-           DUPLICATE_SEGMENTED = 0,
-           //DUP_TIME_SMALLSET = 2,
-           //DUP_HISTOGRAM_DIST = 3
+           DUPLICATE_TIME = 0,
+           DUPLICATE_SEGMENTED = 1,
+           //DUP_HISTOGRAM_DIST = 2
        };
 
     // Creates a numIm x numIm x NUM_MODULES 3d vector

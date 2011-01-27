@@ -1,5 +1,15 @@
 #include "duplicaterater.h"
 
+// Mins: Below this value on any module, fail
+// Maxs: Above this value on any module, succeed
+#define MIN_SEGMENTED_THRESHHOLD 2
+#define MAX_SEGMENTED_THRESHHOLD 9
+#define MIN_TIME_THRESHHOLD 2
+#define MAX_TIME_THRESHHOLD 9
+
+// Avg: A value over this will scale to assist other modules in success
+#define AVG_EXPECTED_TIME 6
+
 DuplicateRater::DuplicateRater(int numImages)
 {
     // Initialize everything. Large overhead. Sorry.
@@ -40,5 +50,22 @@ int DuplicateRater::getRanking(QImage *first, QImage *second) {
 }
 
 int DuplicateRater::calcRank(vector1d moduleRanks) {
-    return moduleRanks[0]; // Do some complicated formula later
+    float rankCalc;
+
+    int timeRating = moduleRanks[DUPLICATE_TIME];
+    int segRating = moduleRanks[DUPLICATE_SEGMENTED];
+
+    if(timeRating <= MIN_TIME_THRESHHOLD ||
+       timeRating >= MAX_TIME_THRESHHOLD)
+        return timeRating;
+
+    if(segRating <= MIN_SEGMENTED_THRESHHOLD ||
+       segRating >= MAX_SEGMENTED_THRESHHOLD)
+        return segRating;
+
+    // No auto-pass or auto-fail. Calculate.
+    // Currently: Any time over AVG_EXP_TIME improves segRating
+    rankCalc = timeRating/AVG_EXPECTED_TIME * segRating;
+
+    return rankCalc;
 }
