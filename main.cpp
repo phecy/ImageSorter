@@ -30,6 +30,8 @@
 
 using namespace std;
 
+#include "libexif/exif-loader.h"
+#include "libexif/exif-data.h"
 #include "blurdetect.h"
 #include "exposure.h"
 #include "color.h"
@@ -40,6 +42,7 @@ using namespace std;
 #include "display.h"
 #include "insertionsort.h"
 #include "duplicatesegmented.h"
+#include "qualityexif.h"
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -49,6 +52,27 @@ int findIndex(QImage *im, QImage *imageDatArray[], int size){
             return i;
     }
     return -1;
+}
+
+// Loads the exif data of the image into the QualityExif object
+void loadExif(QualityExif* exifs, const char* fn) {
+    ExifLoader* loader = exif_loader_new();
+    if(!loader) {
+        qDebug("No exif data available for %s", fn);
+        return;
+    }
+    exif_loader_write_file(loader, "/home/artoonie/Desktop/DSC_9887.jpg");
+    ExifData* data = exif_loader_get_data(loader);
+    if(!data) {
+        qDebug("No exif data available for %s", fn);
+        return;
+    }
+
+    ExifContent* content = *data->ifd;
+    exif_content_dump(content, 3);
+
+    exifs->parseContent(content);
+    exif_loader_unref(loader);
 }
 
 // Calculates ranking for each image based on params. Puts into picValue.
@@ -64,17 +88,16 @@ void calcAndPrintWeights(char** imageStrArray,
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
-     //picValue[i] = exposeVals[i]*exposeScale+palletVals[i]*palletScale;
-     //picValue[i] += blurVals[i]*blurScale+greyVals[i]*greyScale;
-        picValue[i] = blurVals[i];
+        picValue[i] = exposeVals[i]*exposeScale+palletVals[i]*palletScale;
+        picValue[i] += blurVals[i]*blurScale+greyVals[i]*greyScale;
 
-        cout << "Image \"" << imageStrArray << "\"" << endl;
+        cout << "Image \"" << imageStrArray[i] << "\"" << endl;
         cout << "   Total rank: " << picValue[i] << endl;
         cout << "-----------------------" << endl;
         cout << "  *       exposure: " << exposeVals[i] << endl;
         cout << "  *  color pallete: " << palletVals[i] << endl;
         cout << "  *    middle gray: " << greyVals[i] << endl;
-        cout << "  *           blur: " << blurVals[i] << endl;
+        cout << "  *           blur: " << blurVals[i] << endl << endl;
     }
 }
 
@@ -91,6 +114,7 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
     int palletVals[size];
     int greyVals[size];
     int blurVals[size];
+    QualityExif exifs[size];
     for(int i=0; i < size; ++i){
         finalValue[i] = 0.0f;
         exposeVals[i] = 0;
@@ -108,6 +132,9 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
             return false;
         }
         imageDatArray[i] = currIm;
+
+        // First get exif
+        loadExif(&exifs[i], imageStrArray[i]);
 
         dupFinder.addImage(currIm);
         exposeVals[i] = newExpose.expose(currIm);
