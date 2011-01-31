@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  21 JAN 2011 01:46
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  31 JAN 2011 12:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -45,27 +45,92 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 31.
 
+
+LaTeX Warning: Citation `Yeh:2010:PPR:1873951.1873963' on page 1 undefined on i
+nput line 43.
+
+
+LaTeX Warning: Citation `Yeh:2010:PPR:1873951.1873963' on page 1 undefined on i
+nput line 46.
+
 [1
 
 
 ]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 43.
+(Font)              <7> on input line 52.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 43.
+(Font)              <5> on input line 52.
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--49
+Underfull \vbox (badness 4872) has occurred while \output is active []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--58
 []\OT1/cmr/bx/n/12 Near-Duplicate De-tec-tion and
  []
 
-(./README_PAPER.bbl) [2] (./README_PAPER.aux) ) 
-Here is how much of TeX's memory you used:
- 235 strings out of 495062
- 2576 string characters out of 1182644
- 52132 words of memory out of 3000000
- 3485 multiletter control sequences out of 15000+50000
- 7933 words of font info for 28 fonts, out of 3000000 for 9000
- 28 hyphenation exceptions out of 8191
- 23i,7n,19p,705b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
+[2]
 
-Output written on README_PAPER.dvi (2 pages, 9388 bytes).
+LaTeX Warning: Citation `Yeh:2010:PPR:1873951.1873963' on page 3 undefined on i
+nput line 73.
+
+(./README_PAPER.bbl
+Missing character: There is no â in font cmti10!
+Missing character: There is no € in font cmti10!
+Missing character: There is no “ in font cmti10!
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.9 \newblock 10.1007/978-3-540-88690-7_
+                                        29.
+? q
+OK, entering \batchmode...
+! Missing $ inserted.
+<inserted text> 
+                $
+l.10 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.10 
+     
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra }, or forgotten \endgroup.
+\par ...m \@noitemerr {\@@par }\fi \else {\@@par }
+                                                  \fi 
+l.10 
+     
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+) [3] (./README_PAPER.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 238 strings out of 495062
+ 2640 string characters out of 1182644
+ 54132 words of memory out of 3000000
+ 3487 multiletter control sequences out of 15000+50000
+ 8241 words of font info for 29 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 23i,7n,21p,705b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on README_PAPER.dvi (3 pages, 13816 bytes).

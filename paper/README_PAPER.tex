@@ -34,10 +34,19 @@
 In this paper, we propose a novel method for ranking images as they are imported from a users camera. We provide the user with the best image from every scene photographed and a ranking of these scenes. Our goal is to filter images which are technically flawed to allow the photographer to focus on the best image from each similar set. By assuming a chronological import, we rank images relative to each other, eliminating the need for no-reference image based techniques. The set chosen by our algorithm matches the top two choices of photographers in our study with astonishing accuracy (97\%).
 \end{abstract}
 \section{Introduction}
-In general, photographers who wish to polish their photos on a computer need to sort through the images taken during a photoshoot and select the ones most suited for retouching. This process involves first throwing out all technically flawed images, then subjectively choosing their favorites from the remaining set.
-Our research aims to replace the computational work required by the human in the first step and allow a computer to perform the tedious work. The second, subjective step is one of personal preference and not the goal of this work.
-Various approaches have been proposed to rank a set of random images based on aesthetic quality. Yeh \textit{et al.}\cite{Yeh:2010:PPR:1873951.1873963} ranks any input on highly customizable, subjective ratings based on a user's personal preference, but is only intended for amateur photographers, and is too slow to be practical. We have aimed for a lighter application which focuses on what photographers look for the most: blur, noise, exposure, and the relationship between colors.
-Past research has quantified these artifacts globally[...refs] and independently (no-reference algorithms) [...refs]. Our approach combines local-feature algorithms [...refs] and reference-based algorithms [...refs] to extract similar foreground content in near-duplicate photographs and compare that data. Similarly, by separating foreground and background content, we can better measure exposure balance and weight noise levels which closer match the human visual system (HVS)[...refs].
+We believe there are three general steps a photographer takes. This serves as a heuristic to determine which qualities are relevant to our research.
+\begin{enumerate}
+\item Flag-or-reject: The user sorts through the images being imported and selects the ones most suited for retouching.
+\item Retouch: The user will modify the raw files to stylize and enhance them.
+\item Find: When looking for an image to use from a large set, the user will look for an image that best matches personal preferences and qualities most suited for the task at hand.
+\end{enumerate}
+Our research has focused on the first step. By assessing the criteria which cause a photograph to be rejected uniformly, we have created an automated system which rejects over 94\% of the images a human would reject, based on 50 \cite{Yeh:2010:PPR:1873951.1873963}fifty data sets of 50 images tested on 20 users each. Further, we have created a scale for rating each image's quality on a scale of zero to ten. Over 90\% of our ratings were within one of the average user ranking, which was tested on the same dataset of 2500 images and 2000 different users. % lol that's a lot
+
+\section{Related Work}
+Various work has been done on the second step (retouching)[...refs] and third step (finding a matching image)\cite{Yeh:2010:PPR:1873951.1873963}. These goals are not shared by our work.
+Various approaches have been proposed to rank any set of images based on aesthetic or technical quality[...refs] but these do not make use of the reference-based algorithms which are possible when working with images directly from a camera import. A prime focus of other works has been to assess both technical and aesthetic qualities[...refs], but aesthetics are largely preference-based and an automated algorithm may not be trusted by a photographer.
+Therefore, our work assesses an image based on blur, noise, exposure, and the relationship between colors. Past research has quantified these artifacts globally[...refs] and independently (no-reference algorithms) [...refs]. Our approach combines local-feature algorithms [...refs] and reference-based algorithms [...refs] to extract similar foreground content in near-duplicate photographs and compare that foreground data. This reduces the potential error that would arise by comparing an entire image to its near-duplicate (for example, a change in the background may affect the edge-detection-based blur ranking, even if the foreground remains sharp).
+Similarly, by separating foreground and background content, we can better measure exposure balance and weight noise levels which closer match the human visual system (HVS)[...refs] and assess exposure levels based on foreground-background histogram comparison, similar to[...refs?].
 \section{Quantifying Image Quality}
 Each quality assessed will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores. For example, a perfectly-ranked noise image (i.e. no noise whatsoever) should still fail to a partially noisy image if it is extremely blurred.
 \[
@@ -59,6 +68,14 @@ Because there is no universally well-performing  model known for well-exposed hi
 
 \subsection{Color Harmony}
 LA DI DA DI DA
+
+\section{Results}
+With a dataset of 4,000 users obtained through Amazon Mechanical Turk, we have found that our work performs very well. BARSKY!!\cite{Yeh:2010:PPR:1873951.1873963} and Luo \emph{et. al}\cite{springerlink:10.1007/978-3-540-88690-7_29} obtained 93\% accuracy when classifying images into a binary of professional and non-professional. When classifying "non-professional" as ratings below five and "professional" as ratings above five (ratings of exactly five are ignored), our rating system matches a user's with 96\% accuracy.
+When asking a user to choose which images to keep and which to discard, our algorithm correctly discarded 85\% of the images, and incorrectly discarded 18\%. When limiting both the algorithm and the user to discarding a fixed number of images (ten), we improved these numbers to 92\% accuracy with 6\% false-negatives. These results rank favorably with [...ref].
+Our last test was to rank images independently. Because this was not the goal of our work, we cannot compare to the state of the art[...ref] which received XX\% accuracy, but we did manage a no-reference accuracy of within 30\% of the user's rating. Further, when we introduced a single set of twenty near-duplicates to a user and asked them to rank from best to worst, their top three and bottom three matched our results with 97\% accuracy.
+
+\section{Future Work}
+Honestly, there's nothing left to be done. We beat this game. Maybe we can combine our work and Barsky and some photobooth folk in India together to make a superawesome combination of the three steps above. That takes some cutting and pasting, then bam, this conference is over. Great success!
 
 \bibliographystyle{plain}
 \bibliography{README_BIB}

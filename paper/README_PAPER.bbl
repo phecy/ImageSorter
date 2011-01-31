@@ -1,5 +1,13 @@
 \begin{thebibliography}{1}
 
+\bibitem{springerlink:10.1007/978-3-540-88690-7_29}
+Yiwen Luo and Xiaoou Tang.
+\newblock Photo and video quality evaluation: Focusing on the subject.
+\newblock In David Forsyth, Philip Torr, and Andrew Zisserman, editors, {\em
+  Computer Vision – ECCV 2008}, volume 5304 of {\em Lecture Notes in Computer
+  Science}, pages 386--399. Springer Berlin / Heidelberg, 2008.
+\newblock 10.1007/978-3-540-88690-7_29.
+
 \bibitem{Yeh:2010:PPR:1873951.1873963}
 Che-Hua Yeh, Yuan-Chen Ho, Brian~A. Barsky, and Ming Ouhyoung.
 \newblock Personalized photograph ranking and selection system.
