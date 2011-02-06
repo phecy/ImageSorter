@@ -20,7 +20,7 @@ public:
 private:
     float aperture;
     float shutter;
-    int time;
+    unsigned long long int time;
     int iso;
 
     bool dataExists;

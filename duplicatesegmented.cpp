@@ -2,17 +2,18 @@
 #include <stdio.h>
 #include <QImage>
 #include <QRgb>
+#include "math.h"
+#include "assert.h"
 #include "duplicatesegmented.h"
 #include "duplicaterater.h"
-#include "assert.h"
 
 #define BLOCKSACROSS 3 // How to place grid
 #define NUMOFBLOCKS BLOCKSACROSS*BLOCKSACROSS
 #define DISTANCE 40 // Between color pixels
 #define NUMSECTIONALLOWANCE 2 // How many blocks can be off
+#define MAX_RATING 10
 
 using namespace std;
-// TO DO: Update threshold calculation. It's always giving 9
 RGB_set::RGB_set() {
     numCounted = 0;
     r=0;
@@ -70,7 +71,8 @@ void DuplicateSegmented::addImage(QImage* image) {
         // Add everything
         for(int h=0; h < height; h++) {
             int rowNum = min(h / blockHeight, int(blocksAcross-1));
-            (*(*imagehash)[rowNum])[colNum] += image->pixel(w,h);
+            QRgb pix = image->pixel(w,h);
+            (*(*imagehash)[rowNum])[colNum] += pix;
         }
     }
 
@@ -103,7 +105,7 @@ int DuplicateSegmented::getSimilarity(QImage *first, QImage *second) {
 
             // Penalize average difference divided by allowed distance
             // Then, penalize less as the rating gets lower
-            rating -= ((double)((rDist+gDist+bDist)/3) / DISTANCE) / (BLOCKSACROSS);
+            rating -= (rating*(double)(min(min(rDist,gDist),bDist)) / DISTANCE) / (.5*BLOCKSACROSS*MAX_RATING);
         }
     }
 
@@ -112,5 +114,5 @@ int DuplicateSegmented::getSimilarity(QImage *first, QImage *second) {
 
     if(rating < 0) rating = 0;
 
-    return rating;
+    return round(rating);
 }

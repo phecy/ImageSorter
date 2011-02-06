@@ -21,6 +21,8 @@ This file is part of ppm.
 #include <map>
 #include "duplicatesegmented.h"
 #include "duplicatetime.h"
+#include "duplicateip.h"
+#include "vimage.h"
 
 using namespace std;
 
@@ -31,16 +33,27 @@ class Duplicates {
 public:
     Duplicates(int numImages);
 
-    void addImage(QImage*);
+    // Initialize anything needed by the modules for this im
+    void addImage(VImage, QualityExif*, const char*);
 
     dupGroup findDuplicates();
+
+    // Debugging output
+    void printRanks();
 private:
     // Runs all of the modules, which should update rater.
     void runModules();
 
+    /*
+     * Work with near-duplicate sets
+     */
+
     // Inserts two into one's list
     // ONE'S LIST MUST EXIST and be in setFinder!
     void insertIntoList(QImage* one, QImage* two);
+
+    // When an image has been chosen, remove from other candidate lists
+    void removeFromList(QImage *one, QImage *two);
 
     // Creates a list. Call this before insertIntoList on *one.
     void createNewList(QImage *one);
@@ -54,6 +67,11 @@ private:
     // Maps an image to its set number (index in allGroups)
     map<QImage*, int>* setFinder;
 
+
+    /*
+     * Modules
+     */
+
     // Maintains state of duplicate detection
     DuplicateRater* rater;
 
@@ -63,6 +81,13 @@ private:
     // Time-based module
     DuplicateTime* timed;
 
+    // Interestpoint-based module
+    DuplicateIp* interest;
+
+
+    /*
+     * Variables
+     */
     // All images fed to the duplicate tester
     imgList* allImages;
 

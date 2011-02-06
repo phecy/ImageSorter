@@ -1,4 +1,6 @@
+#include <iostream>
 #include "duplicaterater.h"
+
 
 // Mins: Below this value on any module, fail
 // Maxs: Above this value on any module, succeed
@@ -7,8 +9,9 @@
 #define MIN_TIME_THRESHHOLD 2
 #define MAX_TIME_THRESHHOLD 9
 
-// Avg: A value over this will scale to assist other modules in success
-#define AVG_EXPECTED_TIME 6
+#define MAX_RANK 10
+
+using namespace std;
 
 DuplicateRater::DuplicateRater(int numImages)
 {
@@ -64,8 +67,31 @@ int DuplicateRater::calcRank(vector1d moduleRanks) {
         return segRating;
 
     // No auto-pass or auto-fail. Calculate.
-    // Currently: Any time over AVG_EXP_TIME improves segRating
-    rankCalc = timeRating/AVG_EXPECTED_TIME * segRating;
+    double scaleBy = timeRating/MAX_RANK;
+    rankCalc = min(scaleBy*segRating + segRating, 10.0);
 
     return rankCalc;
+}
+
+void DuplicateRater::printRanks() {
+    cout << "    ";
+    for(unsigned int i=0; i<ratings->size(); ++i) {
+        cout << "  " << i+1 << "     ";
+    }
+    cout << endl;
+
+    for(unsigned int i=0; i<ratings->size(); ++i) {
+        cout << i+1 << ": ";
+        for(unsigned int j=0; j<ratings[0].size(); ++j) {
+            cout << " {";
+            for(int k=0; k<NUM_MODULES; ++k) {
+                int rank = (*ratings)[i][j][k];
+                cout << ((rank<0) ? 0 : rank);
+                if(k != NUM_MODULES-1)
+                    cout << ", ";
+            }
+            cout << "} ";
+        }
+        cout << endl;
+    }
 }

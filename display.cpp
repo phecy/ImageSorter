@@ -25,12 +25,7 @@ display::~display()
 
 void display::init()
 {
-    qDebug("Init window");
-    images = new QImage*[size];
-    for(int i=0; i<size; i++) {
-        qDebug("Loading image %s", filenames[i]);
-        images[i] = new QImage(filenames[i]);
-    }
+    qDebug("Initialize ui");
 
     label = new QLabel(ui->widget);
     label->setBackgroundRole(QPalette::Base);

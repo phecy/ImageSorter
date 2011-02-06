@@ -2,9 +2,10 @@
 #define DUPLICATETIME_H
 
 #include "duplicaterater.h"
+#include "qualityexif.h"
 
 // For readability
-typedef int exifTime;
+typedef unsigned long long int exifTime;
 
 class DuplicateTime
 {
@@ -12,7 +13,7 @@ public:
     DuplicateTime(DuplicateRater* rater);
 
     // Get the time of this image from exif
-    void addImage(QImage* im);
+    void addImage(QImage* im, QualityExif* exif);
 
     // Adds hypothesized ranking to the DuplicateRater
     // Given two images, compares averages of logs of gaps

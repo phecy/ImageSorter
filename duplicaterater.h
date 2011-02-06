@@ -34,6 +34,9 @@ public:
 
     // Retrieves similarity ranking between two images
     int getRanking(QImage*, QImage*);
+
+    // For debugging purposes
+    void printRanks();
 private:
     // Given each modules rank, determine similarity
     int calcRank(vector1d moduleRanks);

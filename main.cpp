@@ -21,6 +21,7 @@
 #include <QImageReader>
 #include <QtPlugin>
 #include <QImage>
+#include <QPixmap>
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
@@ -43,6 +44,7 @@ using namespace std;
 #include "insertionsort.h"
 #include "duplicatesegmented.h"
 #include "qualityexif.h"
+#include "vimage.h"
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -61,14 +63,13 @@ void loadExif(QualityExif* exifs, const char* fn) {
         qDebug("No exif data available for %s", fn);
         return;
     }
+    return;
     exif_loader_write_file(loader, fn);
     ExifData* data = exif_loader_get_data(loader);
     if(!data) {
         qDebug("No exif data available for %s", fn);
         return;
     }
-
-    exif_content_dump(data->ifd[EXIF_IFD_0], 3);
 
     exifs->parseData(data);
     exif_loader_unref(loader);
@@ -123,28 +124,27 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
     }
 
     //Call different calculation methods
-    QImage* currIm;
+    QImage* currQIm;
     for(int i=0;i<size; ++i){
-        currIm = new QImage(imageStrArray[i]);
-        if(currIm->isNull()) {
-            cout << "Image " << &currIm << " failed to load!\n";
+        char* fn = imageStrArray[i];
+        VImage* currVIm = new VImage(fn);
+        currQIm = currVIm->getQImage();
+        if(currQIm == NULL) {
+            cout << "Image " << fn << " failed to load!\n";
             return false;
         }
-        imageDatArray[i] = currIm;
+        imageDatArray[i] = currQIm;
 
         // First get exif
         loadExif(&exifs[i], imageStrArray[i]);
 
-        dupFinder.addImage(currIm);
-        exposeVals[i] = newExpose.expose(currIm);
-        palletVals[i] = colorAnalysis(currIm);
-        greyVals[i] = newGrey.calcGrey(currIm);
-        blurVals[i] = newBlur->calculateBlur(currIm);
+        dupFinder.addImage(*currVIm, &exifs[i], fn);
+        exposeVals[i] = newExpose.expose(currQIm);
+        palletVals[i] = colorAnalysis(currQIm);
+        greyVals[i] = newGrey.calcGrey(currQIm);
+        blurVals[i] = newBlur->calculateBlur(currQIm);
         // newBlur->show();
-
-        currIm->~QImage();
     }
-
 
     // Sets the different methods' respective weights.
     // Puts it into calcWeights.
@@ -191,10 +191,14 @@ int main(int argc, char *argv[])
     bool succeeded = calcAllModules(imageStrArray, size, dupFinder,
                                     imageDatArray, picValue);
     if(!succeeded) return EXIT_FAILURE;
+    /*DEBUG return app.exec(); */
 
     //Finds and combines duplicates.
     vector<vector<QImage*> > dupList = dupFinder.findDuplicates();
     numSets=dupList.size();
+
+    // Debug output
+    dupFinder.printRanks();
 
     for (int set_index = 0; set_index < numSets; ++set_index)
     {
@@ -224,13 +228,12 @@ int main(int argc, char *argv[])
        }
     }
 
-
     // Sort
-    insertion_sort(picValue, imageStrArray, size);
+    //insertion_sort(picValue, imageStrArray, size);
 
     // GUI
     display *disp = new display();
-    disp->setImageData((char**)imageStrArray, (float*)picValue, setNum, numSets, size);
+    disp->setImageData(imageDatArray, (char**)imageStrArray, (float*)picValue, setNum, numSets, size);
     disp->init();
 
     return app.exec();

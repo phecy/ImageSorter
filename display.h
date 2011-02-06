@@ -17,8 +17,8 @@ class display : public QMainWindow
 public:
     explicit display(QWidget *parent = 0);
     ~display();
-    void setImageData(char** fn, float* rnk, int* sn, int ns, int sz)
-        {filenames = fn; ranks=rnk; size=sz; setnum=sn; numsets=ns;}
+    void setImageData(QImage** im, char** fn, float* rnk, int* sn, int ns, int sz)
+        {images = im; filenames = fn; ranks=rnk; size=sz; setnum=sn; numsets=ns;}
     void init();
 
 private:
