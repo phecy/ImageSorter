@@ -37,17 +37,17 @@ Duplicates::Duplicates(int numImages) {
     timed = new DuplicateTime(rater);
     interest = new DuplicateIp(rater);
 
-    setFinder = new map<QImage*, int>();
+    setFinder = new map<VImage*, int>();
     allImages = new imgList();
     allGroups = new dupGroup();
 }
 
-void Duplicates::addImage(VImage vim, QualityExif* exif, const char*) {
-    QImage* qim = vim.getQImage();
+void Duplicates::addImage(VImage* vim, QualityExif* exif, const char*) {
+    QImage* qim = vim->getQImage();
     segmented->addImage(qim);
     timed->addImage(qim, exif);
     interest->addImage(vim);
-    allImages->insert(allImages->end(), qim);
+    allImages->insert(allImages->end(), vim);
 }
 
 dupGroup Duplicates::findDuplicates() {
@@ -123,7 +123,7 @@ dupGroup Duplicates::findDuplicates() {
         if(setExistsFor(*main_i)) continue; // Skip if previously found set
         createNewList(*main_i);
         for(after_i = (++main_i)--; after_i < allImages->end(); ++after_i) {
-            int rank = rater->getRanking(*main_i, *after_i);
+            int rank = rater->getRanking((*main_i)->getQImage(), (*after_i)->getQImage());
             qDebug("findDups: Img#%p->%p similarity hypothesis: %d/10",
                    *main_i, *after_i, rank);
 
@@ -143,15 +143,18 @@ void Duplicates::runModules() {
     imgList::iterator main_i, after_i;
     for(main_i = allImages->begin(); main_i != allImages->end(); ++main_i) {
         for(after_i = (++main_i)--; after_i != allImages->end(); ++after_i) {
-            segmented->rankOne(*main_i, *after_i);
-            timed->rankOne(*main_i, *after_i);
+            QImage* one = (*main_i)->getQImage();
+            QImage* two = (*after_i)->getQImage();
+            segmented->rankOne(one, two);
+            timed->rankOne(one, two);
+            interest->rankOne(*main_i, *after_i);
         }
     }
 }
 
-void Duplicates::insertIntoList(QImage *one, QImage *two) {
+void Duplicates::insertIntoList(VImage *one, VImage *two) {
     // First, look for *one in the setFinder
-    map<QImage*, int>::iterator item = setFinder->find(one);
+    map<VImage*, int>::iterator item = setFinder->find(one);
     assert(item != setFinder->end());
 
     // Then, insert at end of that list
@@ -159,12 +162,12 @@ void Duplicates::insertIntoList(QImage *one, QImage *two) {
     imgList set = allGroups->at(index);
     set.insert(set.end(), two);
 
-    setFinder->insert(pair<QImage*,int>(two, index));
+    setFinder->insert(pair<VImage*,int>(two, index));
 }
 
-void Duplicates::removeFromList(QImage *one, QImage *two) {
+void Duplicates::removeFromList(VImage *one, VImage *two) {
     // First, look for *one in the setFinder
-    map<QImage*, int>::iterator item = setFinder->find(one);
+    map<VImage*, int>::iterator item = setFinder->find(one);
     assert(item != setFinder->end());
 
     // Then, search for and erase *two from *one's set
@@ -175,18 +178,18 @@ void Duplicates::removeFromList(QImage *one, QImage *two) {
     set.insert(set.end(), two);
 }
 
-void Duplicates::createNewList(QImage *one) {
+void Duplicates::createNewList(VImage *one) {
     // Create a new list
     imgList thisSet;
     thisSet.push_back(one);
     allGroups->push_back(thisSet);
 
     // Then map it
-    setFinder->insert(pair<QImage*,int>(one, allGroups->size()-1));
+    setFinder->insert(pair<VImage*,int>(one, allGroups->size()-1));
 }
 
-bool Duplicates::setExistsFor(QImage* whichIm) {
-    map<QImage*, int>::iterator item = setFinder->find(whichIm);
+bool Duplicates::setExistsFor(VImage* whichIm) {
+    map<VImage*, int>::iterator item = setFinder->find(whichIm);
     return item != setFinder->end();
 }
 

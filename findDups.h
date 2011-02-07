@@ -26,7 +26,7 @@ This file is part of ppm.
 
 using namespace std;
 
-typedef vector<QImage*> imgList;
+typedef vector<VImage*> imgList;
 typedef vector<imgList > dupGroup;
 
 class Duplicates {
@@ -34,7 +34,7 @@ public:
     Duplicates(int numImages);
 
     // Initialize anything needed by the modules for this im
-    void addImage(VImage, QualityExif*, const char*);
+    void addImage(VImage*, QualityExif*, const char*);
 
     dupGroup findDuplicates();
 
@@ -50,22 +50,22 @@ private:
 
     // Inserts two into one's list
     // ONE'S LIST MUST EXIST and be in setFinder!
-    void insertIntoList(QImage* one, QImage* two);
+    void insertIntoList(VImage* one, VImage* two);
 
     // When an image has been chosen, remove from other candidate lists
-    void removeFromList(QImage *one, QImage *two);
+    void removeFromList(VImage *one, VImage *two);
 
     // Creates a list. Call this before insertIntoList on *one.
-    void createNewList(QImage *one);
+    void createNewList(VImage *one);
 
     // Checks if there exists a set list for whichIm
-    bool setExistsFor(QImage* whichIm);
+    bool setExistsFor(VImage* whichIm);
 
     // A list of near-duplicates
     dupGroup* allGroups;
 
     // Maps an image to its set number (index in allGroups)
-    map<QImage*, int>* setFinder;
+    map<VImage*, int>* setFinder;
 
 
     /*

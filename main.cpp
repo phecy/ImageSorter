@@ -63,7 +63,7 @@ void loadExif(QualityExif* exifs, const char* fn) {
         qDebug("No exif data available for %s", fn);
         return;
     }
-    return;
+    // return;
     exif_loader_write_file(loader, fn);
     ExifData* data = exif_loader_get_data(loader);
     if(!data) {
@@ -138,7 +138,7 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
         // First get exif
         loadExif(&exifs[i], imageStrArray[i]);
 
-        dupFinder.addImage(*currVIm, &exifs[i], fn);
+        dupFinder.addImage(currVIm, &exifs[i], fn);
         exposeVals[i] = newExpose.expose(currQIm);
         palletVals[i] = colorAnalysis(currQIm);
         greyVals[i] = newGrey.calcGrey(currQIm);
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
     /*DEBUG return app.exec(); */
 
     //Finds and combines duplicates.
-    vector<vector<QImage*> > dupList = dupFinder.findDuplicates();
+    vector<vector<VImage*> > dupList = dupFinder.findDuplicates();
     numSets=dupList.size();
 
     // Debug output
@@ -205,11 +205,11 @@ int main(int argc, char *argv[])
        float max = 0;
        QImage *best;
 
-       vector<QImage*> picList = dupList[set_index];
+       vector<VImage*> picList = dupList[set_index];
        int picsInSet = picList.size();
        for (int picset_index=0; picset_index < picsInSet; ++picset_index){
            float rating = 0;
-           QImage* currPic = picList[picset_index];
+           QImage* currPic = picList[picset_index]->getQImage();
            int picIndex = findIndex(currPic, imageDatArray, size);
            rating = picValue[picIndex];
            setNum[picIndex] = set_index;

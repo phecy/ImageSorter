@@ -11,15 +11,15 @@
 #include <QMainWindow>
 #include <QImage>
 
-#include "VisionWorkbench-2.1.0/src/vw/Core.h"
-#include <vw/Image/PixelTypeInfo.h>
-#include "VisionWorkbench-2.1.0/src/vw/InterestPoint.h"
-#include "VisionWorkbench-2.1.0/src/vw/Image.h"
-#include "VisionWorkbench-2.1.0/src/vw/FileIO.h"
+#include "vw/Core.h"
+#include "vw/InterestPoint.h"
+#include "vw/Image.h"
 
 using namespace vw;
+using namespace vw::ip;
 
 typedef ImageView<PixelRGB<uint8> > VImage_t;
+
 /*DEBUG class QMainWindow;*/
 class VImage/*DEBUG : public QMainWindow*/
 {
@@ -31,6 +31,8 @@ public:
     VImage_t* getVImage() {return vimage; }
     uchar* getUchar() {return qimage->bits(); }
     char* getFilename() { return filename; }
+    InterestPointList getIp() { return ipList; }
+    void setIp(InterestPointList ip) { ipList = ip; }
 
 private:
     void setData(uchar* data);
@@ -38,6 +40,7 @@ private:
 
     VImage_t* vimage;
     QImage* qimage;
+    InterestPointList ipList;
     char* filename;
     int width;
     int height;
