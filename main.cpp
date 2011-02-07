@@ -34,6 +34,7 @@ using namespace std;
 #include "libexif/exif-loader.h"
 #include "libexif/exif-data.h"
 #include "blurdetect.h"
+#include "sharpdetect.h"
 #include "exposure.h"
 #include "color.h"
 #include "colorUtility.h"
@@ -80,7 +81,7 @@ void loadExif(QualityExif* exifs, const char* fn) {
 void calcAndPrintWeights(char** imageStrArray,
                  float* picValue, int* exposeVals,
                  int* palletVals, int* greyVals, int* blurVals,
-                 int numPics) {
+                 int* sharpVals, int numPics) {
     float exposeScale = 0.4;
     float palletScale = 0.1;
     float blurScale = 0.25;
@@ -88,8 +89,10 @@ void calcAndPrintWeights(char** imageStrArray,
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
-        picValue[i] = exposeVals[i]*exposeScale+palletVals[i]*palletScale;
-        picValue[i] += blurVals[i]*blurScale+greyVals[i]*greyScale;
+        picValue[i] =  exposeVals[i]*exposeScale;
+        picValue[i] += palletVals[i]*palletScale;
+        picValue[i] += .2*blurVals[i]*blurScale + .8*sharpVals[i]*blurScale;
+        picValue[i] += greyVals[i]*greyScale;
 
         cout << "Image \"" << imageStrArray[i] << "\"" << endl;
         cout << "   Total rank: " << picValue[i] << endl;
@@ -97,6 +100,7 @@ void calcAndPrintWeights(char** imageStrArray,
         cout << "  *       exposure: " << exposeVals[i] << endl;
         cout << "  *  color pallete: " << palletVals[i] << endl;
         cout << "  *    middle gray: " << greyVals[i] << endl;
+        cout << "  *      sharpness: " << sharpVals[i] << endl;
         cout << "  *           blur: " << blurVals[i] << endl << endl;
     }
 }
@@ -108,12 +112,14 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
     exposure newExpose;
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
+    SharpDetect sharpDetect;
 
     // Initialize ranks from all modules
     int exposeVals[size];
     int palletVals[size];
     int greyVals[size];
     int blurVals[size];
+    int sharpVals[size];
     QualityExif exifs[size];
     for(int i=0; i < size; ++i){
         finalValue[i] = 0.0f;
@@ -121,6 +127,7 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
         palletVals[i] = 0;
         greyVals[i] = 0;
         blurVals[i] = 0;
+        sharpVals[i] = 0;
     }
 
     //Call different calculation methods
@@ -143,13 +150,14 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
         palletVals[i] = colorAnalysis(currQIm);
         greyVals[i] = newGrey.calcGrey(currQIm);
         blurVals[i] = newBlur->calculateBlur(currQIm);
+        sharpVals[i] = sharpDetect.rankOne(currVIm);
         // newBlur->show();
     }
 
     // Sets the different methods' respective weights.
     // Puts it into calcWeights.
     calcAndPrintWeights(imageStrArray, finalValue, exposeVals,
-                        palletVals, greyVals, blurVals, size);
+                        palletVals, greyVals, blurVals, sharpVals, size);
 
     return true;
 }
