@@ -36,6 +36,9 @@ void DuplicateIp::addImage(VImage* vim) {
 
 void DuplicateIp::rankOne(VImage* one, VImage* two) {
     InterestPointList match1, match2;
-    matcher(one->getIp(), two->getIp(), match1, match2);
+    InterestPointList onelist = one->getIp();
+    InterestPointList twolist = two->getIp();
+
+    // matcher(onelist, twolist, match1, match2); fuck this function
     qDebug("DuplicateIP: Match1 size=%d, Match2 size=%d", match1.size(), match2.size());
 }

@@ -62,7 +62,8 @@ HEADERS += blurdetect.h \
            harmony.h \
            insertionsort.h \
            qualityexif.h \
-           vimage.h
+           vimage.h \
+    sharpdetect.h
 FORMS += display.ui
 SOURCES += blurdetect.cpp \
            color.cpp \
@@ -78,7 +79,8 @@ SOURCES += blurdetect.cpp \
            insertionsort.cpp \
            main.cpp \
            qualityexif.cpp \
-           vimage.cpp
+           vimage.cpp \
+    sharpdetect.cpp
 
 
 LIBS +=  /usr/lib/libexif.a \
@@ -94,4 +96,3 @@ LIBS +=  /usr/lib/libexif.a \
         /usr/lib/lapack/blas/.libs/libblas.so.0 \
         /usr/lib/lapack/libf2c/.libs/libf2c.so.0 \
         /usr/lib/lapack/clapack/.libs/libclapack.so.0
-
