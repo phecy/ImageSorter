@@ -3,6 +3,7 @@
 
 #include "duplicaterater.h"
 #include "qualityexif.h"
+#include "vimage.h"
 
 // For readability
 typedef unsigned long long int exifTime;
@@ -13,7 +14,7 @@ public:
     DuplicateTime(DuplicateRater* rater);
 
     // Get the time of this image from exif
-    void addImage(QImage* im, QualityExif* exif);
+    void addImage(VImage* im, QualityExif* exif);
 
     // Adds hypothesized ranking to the DuplicateRater
     // Given two images, compares averages of logs of gaps
@@ -22,7 +23,7 @@ public:
     //
     // e.g. gets everything between two images, WINDOWSIZE before first,
     // and WINDOWSIZE after second
-    void rankOne(QImage* first, QImage* second);
+    void rankOne(VImage* first, VImage* second);
 
 private:
     // Maps an image to its index in times and gapFinder

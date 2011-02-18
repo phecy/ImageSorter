@@ -6,6 +6,7 @@
 #include "assert.h"
 #include "duplicatesegmented.h"
 #include "duplicaterater.h"
+#include "vimage.h"
 
 #define BLOCKSACROSS 3 // How to place grid
 #define NUMOFBLOCKS BLOCKSACROSS*BLOCKSACROSS
@@ -50,7 +51,9 @@ DuplicateSegmented::~DuplicateSegmented() {
     delete allPics;
 }
 
-void DuplicateSegmented::addImage(QImage* image) {
+void DuplicateSegmented::addImage(VImage* vim) {
+    QImage* image = vim->getQImage();
+
     int width = image->width();
     int height = image->height();
 
@@ -81,12 +84,16 @@ void DuplicateSegmented::addImage(QImage* image) {
     allPics->insert(allPics->end(), *imgpair);
 }
 
-void DuplicateSegmented::rankOne(QImage *first, QImage *second) {
+void DuplicateSegmented::rankOne(VImage *first, VImage *second) {
     int rank = getSimilarity(first, second);
-    rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_SEGMENTED);
+    rater->addRanking(first->getQImage(), second->getQImage(),
+                      rank, DuplicateRater::DUPLICATE_SEGMENTED);
 }
 
-int DuplicateSegmented::getSimilarity(QImage *first, QImage *second) {
+int DuplicateSegmented::getSimilarity(VImage* vim1, VImage* vim2) {
+    QImage* first = vim1->getQImage();
+    QImage* second = vim2->getQImage();
+
     segVector* vFirst = allPics->find(first)->second;
     segVector* vSecond = allPics->find(second)->second;
 
@@ -109,8 +116,8 @@ int DuplicateSegmented::getSimilarity(QImage *first, QImage *second) {
         }
     }
 
-    qDebug("DuplicateSegmented: Img#%p->%p similarity hypothesis: %2.2f/10",
-           first, second, rating);
+//    qDebug("DuplicateSegmented: Img#%s->%s similarity hypothesis: %2.2f/10",
+//           vim1->getFilename(), vim2->getFilename(), rating);
 
     if(rating < 0) rating = 0;
 

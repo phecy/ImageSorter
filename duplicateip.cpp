@@ -27,11 +27,10 @@ void DuplicateIp::addImage(VImage* vim) {
     InterestPointList ips = detect_interest_points(*im, detector);
     vim->setIp(ips);
 
+    int x;
+
     // PatchDescriptorGenerator gen;
     // gen.compute_descriptor(*im, im->begin(), im->end());
-
-    //*im = gaussian_filter( *im, 3.0, ConstantEdgeExtension());
-    //im = im+im;
 }
 
 void DuplicateIp::rankOne(VImage* one, VImage* two) {
@@ -39,6 +38,6 @@ void DuplicateIp::rankOne(VImage* one, VImage* two) {
     InterestPointList onelist = one->getIp();
     InterestPointList twolist = two->getIp();
 
-    // matcher(onelist, twolist, match1, match2); fuck this function
+    matcher(onelist, twolist, match1, match2);
     qDebug("DuplicateIP: Match1 size=%d, Match2 size=%d", match1.size(), match2.size());
 }

@@ -68,30 +68,30 @@ int DuplicateRater::calcRank(vector1d moduleRanks) {
 
     // No auto-pass or auto-fail. Calculate.
     double scaleBy = timeRating/MAX_RANK;
-    rankCalc = min(scaleBy*segRating + segRating, 10.0);
+    rankCalc = min(scaleBy*segRating*.5 + segRating, 10.0);
 
     return rankCalc;
 }
 
 void DuplicateRater::printRanks() {
-    cout << "    ";
+    cerr << "    ";
     for(unsigned int i=0; i<ratings->size(); ++i) {
-        cout << "  " << i+1 << "     ";
+        cerr << "  " << i+1 << "     ";
     }
-    cout << endl;
+    cerr << endl;
 
     for(unsigned int i=0; i<ratings->size(); ++i) {
-        cout << i+1 << ": ";
+        cerr << i+1 << ": ";
         for(unsigned int j=0; j<ratings[0].size(); ++j) {
-            cout << " {";
+            cerr << " {";
             for(int k=0; k<NUM_MODULES; ++k) {
                 int rank = (*ratings)[i][j][k];
-                cout << ((rank<0) ? 0 : rank);
+                cerr << ((rank<0) ? 0 : rank);
                 if(k != NUM_MODULES-1)
-                    cout << ", ";
+                    cerr << ", ";
             }
-            cout << "} ";
+            cerr << "} ";
         }
-        cout << endl;
+        cerr << endl;
     }
 }

@@ -4,6 +4,7 @@
 #include <map>
 
 #include "duplicaterater.h"
+#include "vimage.h"
 
 #ifndef DUPLICATESEGMENTED_H
 #define DUPLICATESEGMENTED_H
@@ -39,17 +40,17 @@ public:
     ~DuplicateSegmented();
 
     // Segments an image and stores the hash'd values
-    void addImage(QImage*);
+    void addImage(VImage*);
 
     // Adds a single ranking to the DuplicateRater
-    void rankOne(QImage*, QImage*);
+    void rankOne(VImage*, VImage*);
 
 private:
     // A list of QImages and their respective segmented grayval blocks
     segMap* allPics;
 
     // Returns a number 0-9 of how similar two images are
-    int getSimilarity(QImage*, QImage*);
+    int getSimilarity(VImage*, VImage*);
 
     // Set by #defines (blocksAcross=sqrt(numblocks))
     int numBlocks, blocksAcross;

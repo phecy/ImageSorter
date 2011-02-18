@@ -1,6 +1,7 @@
 #include <math.h>
 #include "duplicatetime.h"
 #include "qualityexif.h"
+#include "vimage.h"
 
 #define WINDOWSIZE 3
 #define MAXRANK 10 // Subtract MAXRANK-logdiff so lower diff = better
@@ -9,7 +10,8 @@ DuplicateTime::DuplicateTime(DuplicateRater *rater) {
     this->rater = rater;
 }
 
-void DuplicateTime::addImage(QImage *im, QualityExif* exif) {
+void DuplicateTime::addImage(VImage *vim, QualityExif* exif) {
+    QImage* im = vim->getQImage();
     // To do: fix random time. Then get a real time.
     exifTime time = exif->getTime();
 
@@ -21,15 +23,18 @@ void DuplicateTime::addImage(QImage *im, QualityExif* exif) {
 
     // Then calculate gap
     if(currIndex > 0) {
-        int gap = abs(time - times[currIndex-1])+1;
-        float logGap = log2(gap);
+        int gap = abs((int)(time - times[currIndex-1]))+1;
+        float logGap = log2(gap)*2;
         sumGapLogs.push_back(logGap + sumGapLogs[currIndex-1]);
     } else {
         sumGapLogs.push_back(0);
     }
 }
 
-void DuplicateTime::rankOne(QImage* first, QImage* second) {
+void DuplicateTime::rankOne(VImage* vim1, VImage* vim2) {
+    QImage* first = vim1->getQImage();
+    QImage* second = vim2->getQImage();
+
     int numPics = times.size();
 
     // Get indeces of images
@@ -52,8 +57,10 @@ void DuplicateTime::rankOne(QImage* first, QImage* second) {
     //  scaling to account for image distance
     int rank = round(MAXRANK - gapImages/avgGapWindow);
 
-    qDebug("duplicateTime: Img#%p->%p similarity hypothesis: %d/10",
-           first, second, rank);
+    if(rank < 0) rank = 0;
+
+//    qDebug("duplicateTime: Img#%p->%p similarity hypothesis: %d/10",
+//           vim1->getFilename(), vim2->getFilename(), rank);
 
     rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_TIME);
 }
