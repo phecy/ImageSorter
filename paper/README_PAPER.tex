@@ -55,10 +55,11 @@ Each quality assessed will provide a ranking between zero and nine, with larger 
 Where \(Q_i\) represents each quality being ranked, and \(W_i\) represents the weight of that quality. Weights are assigned as follows: (list here of how much each part is weighted)
 \subsection{Content Recognition}
 We obtain a bounding box around the most salient foreground object, in a method similar to [\#]. Rather than using the precision that [\#] uses, we aim for accuracy, and observed faster and equally accurate results with this method. We achieve high accuracy because of the simplicity, though secondary objects are sometimes ignored or mistaken as foreground. We have found that this does not heavily affect the outcome of our algorithm.
-\subsection{Near-Duplicate Detection and Similar-Image Clustering}
+\subsection{Similar-Image Clustering}
 To find near-duplicates, we first look at the time the photo was taken. The algorithm explained in [\#] provides a good estimation of whether or not images were taken sequentially. We use this as a weight for further near-duplicate detection:
 The first step is to perform a fast 9-segment test similar to [\#]. If this does not succeed, we perform a second, more complicated test to determine similarity based on the area and histogram distribution of the foreground[\#]. We use the bounding box for this calculation.
-Along with the weight calculated from the timestamp, we can cluster similar images with high accuracy.
+Along with the weight calculated from the timestamp, we can cluster similar images with high accuracy. Our clustering algorithm is based on \cite{eads-hcluster-software}.
+         
 \subsection{Blur Detection}
 Using the bounding box, the blur-detection algorithm quantifies the contrast between the edges and background. It ignores the rest of the image. In a method similar to [\#], it obtains a value for the sharpness. This algorithm does not perform well when ranking diverse images, due to differences in scale and levels of acceptable background blur, so constraining it to the bounding box increases accuracy. Furthermore, we compare these rankings to the near-duplicates to remove any photograph-specific artifacts which we may not have accounted for. This increases the accuracy of the algorithm with just one photographs, and does even better when there is a sequence of similar images.
 \subsection{Noise Detection}
