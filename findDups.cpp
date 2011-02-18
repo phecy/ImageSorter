@@ -24,7 +24,7 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 6
+#define SIMILARITY_RANK_THRESHHOLD 7
 
 using namespace std;
 
@@ -43,99 +43,170 @@ Duplicates::Duplicates(int numImages) {
 }
 
 void Duplicates::addImage(VImage* vim, QualityExif* exif, const char*) {
-    QImage* qim = vim->getQImage();
-    segmented->addImage(qim);
-    timed->addImage(qim, exif);
-    interest->addImage(vim);
+    segmented->addImage(vim);
+    timed->addImage(vim, exif);
+    //interest->addImage(vim);
     allImages->insert(allImages->end(), vim);
 }
 
 dupGroup Duplicates::findDuplicates() {
-    // Step 1: Gather votes
+    qDebug("Gathering duplicates....");
+    // Gather votes
     runModules();
 
-    // Step 2: Get graph of connected images
-//    imgList::iterator main_i, after_i;
-//    vector2d votes(allImages->size(), vector1d(allImages->size()));
-////    for(main_i = allImages->begin(); main_i != allImages->end(); ++main_i) {
-////        createNewList(*main_i);
-////        for(after_i = (++main_i)--; after_i < allImages->end(); ++after_i) {
-////            int rank = rater->getRanking(*main_i, *after_i);
+    qDebug("Creating a matrix of ranks");
+    // Construct matrix of rankings
+    rankVector* ranks = getRankVector();
+    debugPrintRanks(ranks);
 
-////            if(rank > SIMILARITY_RANK_THRESHHOLD) {
-////                insertIntoList(*main_i, *after_i);
-////            }
-////        }
-//        /* Idea:
-//                Depth-first traverse down every image > THRESHOLD. At each level,
-//                add a half-vote of all of those images. Limit depth (at 3?).
-//                So,
-//                vector<pair<QImage*, int> recursiveVote(int imageIndex, int currentDepth);
-//                imageIndex: The index in allImages to look down
-//                return: a list of all potential duplicates.
+    // Successively merge groupst
+    qDebug("Merging groups together");
+    while(true) {
+       pair<int,int> maxPair = getMaxPair(ranks);
+       if(maxPair.first == -1) break;
+       combineSets(maxPair.first, maxPair.second, ranks);
+       qDebug("Combined %d and %d:", (maxPair.first+1), (maxPair.second+1));
+       debugPrintRanks(ranks);
+    }
 
-//                At each level of recursion, multiply 1/currentDepth to the ranks,
-//                and add that to the returned list of vectors.
-//                Somehow keep track of how many have been added. Make sure that
-//                the depth is accounted for, maybe return a pair<vector<pair>, int>
-//                where the last int is the number to divide by to get the average.
-
-//                The values in that vector are this group's vote for the image.
-
-//                Put the vote in a 2d vector.
-
-//                For each row in the 2d vector, find the largest, join that group,
-//                and remove self from votes of other groups. Perhaps recalculate average?
-//                Wasteful.
-//                Somehow keep track of a way to delete self from averages.
-//         */
-//    }
-
-//    // Step 3: Average votes
-//    vector<avgPair> averages(allImages->size(), avgPair(0,0));
-//    imgList::iterator main_i, after_i;
-//    int avgPairIndex = 0;
-//    for(main_i = allImages->begin(); main_i != allImages->end(); ++main_i) {
-//        for(after_i = (++main_i)--; after_i < allImages->end(); ++after_i) {
-//            int rank = rater->getRanking(*main_i, *after_i);
-//            averages[avgPairIndex].first += rank;
-//            averages[avgPairIndex].second += 1;
-//        }
-//        ++avgPairIndex;
-//    }
-
-    // TO DO: I want to use createNewList and insertIntoList but they use two variables that
-    // I'll need to reconstruct later. Create two more variables that do the same job,
-    // and let the two functions above take in a param that tells which list, the temp
-    // or the final.
-    // (Because right now, step 2 gives every image its own set.
-
-    // Step 4: Find best fit group. Recalculate averages.
-    /* For every image, find the largest average. Then for
-       everything else in the connected set, remove the vote
-       and the avg. */
-
-
-    // Look past every image for potential duplicates,
-    // mark them, and skip them when they are main_i
-    imgList::iterator main_i, after_i;
-    for(main_i = allImages->begin(); main_i != allImages->end(); ++main_i) {
-        if(setExistsFor(*main_i)) continue; // Skip if previously found set
-        createNewList(*main_i);
-        for(after_i = (++main_i)--; after_i < allImages->end(); ++after_i) {
-            int rank = rater->getRanking((*main_i)->getQImage(), (*after_i)->getQImage());
-            qDebug("findDups: Img#%p->%p similarity hypothesis: %d/10",
-                   *main_i, *after_i, rank);
-
-            if(rank > SIMILARITY_RANK_THRESHHOLD) {
-                insertIntoList(*main_i, *after_i);
-            } else {
-                continue;
-            }
+    // Gather all imglists
+    qDebug("Gathering groups from live rows");
+    for(int i=0; i<allImages->size(); ++i) {
+        pair<vector<float>, imgList> thisPair = ranks->at(i);
+        if(thisPair.second.size() > 0) { // Ignore "dead rows"
+            allGroups->push_back(thisPair.second);
         }
     }
 
+    delete ranks;
+
     return *allGroups;
+}
+
+void Duplicates::debugPrintRanks(rankVector* ranks) {
+    cerr << setiosflags(ios::left);
+    cerr << "     ";
+    for(int i=0;i<ranks->size();++i) {
+        cerr << setw(4) << (i+1);
+    }
+    cerr << endl;
+    for(int i=0;i<ranks->size();++i) {
+        cerr << setw(4) << (i+1) << ": ";
+        for(int j=0;j<ranks->size();++j) {
+            float rank = ranks->at(i).first.at(j);
+            if(rank==-1) cerr << "/   ";
+            else if(rank==10) cerr << "=   ";
+            else cerr << setw(4) << setprecision(1) << rank;
+        }
+        cerr << endl;
+    }
+}
+
+rankVector* Duplicates::getRankVector() {
+    int size = allImages->size();
+    rankVector* ranks = new rankVector();
+    for(int i=0; i<size; ++i) {
+        // Working on the row of *first
+        VImage *first = allImages->at(i);
+        pair<vector<float>, imgList> row;
+        row.second.push_back(first);
+
+        // Add firsts rank of all other images
+        for(int j=0; j<size; ++j) {
+            // Comparing second to first
+            VImage *second = allImages->at(j);
+
+            int rank = rater->getRanking(first->getQImage(),
+                                         second->getQImage());
+            row.first.push_back(rank);
+        }
+        ranks->push_back(row);
+    }
+
+    return ranks;
+}
+
+// Merge second row into first
+// Set second row vals to -1
+void Duplicates::combineSets(int first, int second, rankVector* ranks) {
+    pair<vector<float>, imgList> firstRow = ranks->at(first);
+    pair<vector<float>, imgList> secondRow = ranks->at(second);
+
+    // Average rankings and delete second row
+    int size = ranks->size();
+    for(int i=0; i<size; ++i) {
+        // Delete vote for second in firstRow,
+        // and the vote for itself
+        if(i == first || i == second) {
+            firstRow.first.at(i) = -1;
+            secondRow.first.at(i) = -1;
+            continue;
+        }
+        int firstNumVoters = firstRow.second.size();
+        int secondNumVoters = secondRow.second.size();
+
+        // Get averages
+        firstRow.first.at(i) = (firstNumVoters * firstRow.first.at(i) +
+                               secondNumVoters * secondRow.first.at(i)) /
+                               (firstNumVoters + secondNumVoters);
+
+        // Delete second row as we go
+        secondRow.first.at(i) = -1;
+    }
+
+    // Combine two imglists
+    imgList firstList = firstRow.second;
+    imgList secondList = secondRow.second;
+    imgList combined;
+    combined.insert(combined.end(), firstList.begin(), firstList.end());
+    combined.insert(combined.end(), secondList.begin(), secondList.end());
+    firstRow.second = combined;
+
+    secondRow.second.clear(); // Empty the image list
+
+    ranks->at(first) = firstRow;
+    ranks->at(second) = secondRow;
+}
+
+// Returns (-1,-1) if the max ranking is below the threshold
+pair<int,int> Duplicates::getMaxPair(rankVector* ranks) {
+    pair<int,int> maxPair;
+    float max_rank = 0;
+
+    for(int main_i = 0; main_i < ranks->size(); ++main_i) {
+        for(int after_i = main_i+1; after_i < ranks->size(); ++after_i) {
+            pair<vector<float>, imgList> thisRow = ranks->at(main_i);
+
+            // Skip if after_i is already in main_i's list
+            if(contains(thisRow.second, allImages->at(after_i))) continue;
+
+            // Check if max rank
+            float rank = thisRow.first.at(after_i);
+            if(rank > max_rank) {
+                max_rank = rank;
+                maxPair.first = main_i;
+                maxPair.second = after_i;
+            }
+        }
+    }
+    if(max_rank < SIMILARITY_RANK_THRESHHOLD) {
+        maxPair.first = -1;
+        maxPair.second = -1;
+        qDebug("Failed to find max ranking. The closest is %d.", max_rank);
+        return maxPair;
+    }
+
+    qDebug("Found max pair of rank %.2f at (%d, %d).", max_rank,
+           maxPair.first+1, maxPair.second+1);
+    return maxPair;
+}
+
+bool Duplicates::contains(imgList row, VImage* lookFor) {
+    imgList::iterator iter = row.begin();
+    for(; iter != row.end(); ++iter) {
+        if(*iter == lookFor) return true;
+    }
+    return false;
 }
 
 void Duplicates::runModules() {
@@ -143,10 +214,8 @@ void Duplicates::runModules() {
     imgList::iterator main_i, after_i;
     for(main_i = allImages->begin(); main_i != allImages->end(); ++main_i) {
         for(after_i = (++main_i)--; after_i != allImages->end(); ++after_i) {
-            QImage* one = (*main_i)->getQImage();
-            QImage* two = (*after_i)->getQImage();
-            segmented->rankOne(one, two);
-            timed->rankOne(one, two);
+            segmented->rankOne(*main_i, *after_i);
+            timed->rankOne(*main_i, *after_i);
             interest->rankOne(*main_i, *after_i);
         }
     }

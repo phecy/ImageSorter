@@ -29,6 +29,12 @@ using namespace std;
 typedef vector<VImage*> imgList;
 typedef vector<imgList > dupGroup;
 
+
+// A list of sets of rankings and the images that voted
+// float: the ranking
+// imgList: the images that voted on this rank
+typedef vector<pair<vector<float>, imgList> > rankVector;
+
 class Duplicates {
 public:
     Duplicates(int numImages);
@@ -60,6 +66,25 @@ private:
 
     // Checks if there exists a set list for whichIm
     bool setExistsFor(VImage* whichIm);
+
+    /*
+     * Clustering
+     */
+    // Get a 2d matrix of rankings. Destruct it when you're done.
+    rankVector* getRankVector();
+
+    // Prints out the current rank vector
+    void debugPrintRanks(rankVector* ranks);
+
+    // Get the max paired ranking in the rankVector
+    pair<int,int> getMaxPair(rankVector* ranks);
+
+    // True if "checking" is in the row
+    bool contains(imgList row, VImage* lookfor);
+
+    // Combine second row into first. Remove second row.
+    // Return resulting duplicate group list
+    void combineSets(int first, int second, rankVector* ranks);
 
     // A list of near-duplicates
     dupGroup* allGroups;
