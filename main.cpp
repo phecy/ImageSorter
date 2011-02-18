@@ -82,10 +82,10 @@ void calcAndPrintWeights(char** imageStrArray,
                  float* picValue, int* exposeVals,
                  int* palletVals, int* greyVals, int* blurVals,
                  int* sharpVals, int numPics) {
-    float exposeScale = 0.4;
+    float exposeScale = 0.5;
     float palletScale = 0.1;
-    float blurScale = 0.25;
-    float greyScale = 0.25;
+    float blurScale = 0.2;
+    float greyScale = 0.2;
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
@@ -145,12 +145,12 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
         // First get exif
         loadExif(&exifs[i], imageStrArray[i]);
 
-        dupFinder.addImage(currVIm, &exifs[i], fn);
-        exposeVals[i] = newExpose.expose(currQIm);
+        dupFinder.addImage(currVIm, &exifs[i], fn);/*
+        exposeVals[i] = newExpose.expose(currVIm);
         palletVals[i] = colorAnalysis(currQIm);
         greyVals[i] = newGrey.calcGrey(currQIm);
         blurVals[i] = newBlur->calculateBlur(currQIm);
-        sharpVals[i] = sharpDetect.rankOne(currVIm);
+        sharpVals[i] = sharpDetect.rankOne(currVIm);*/
         // newBlur->show();
     }
 

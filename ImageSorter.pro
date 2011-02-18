@@ -63,7 +63,7 @@ HEADERS += blurdetect.h \
            insertionsort.h \
            qualityexif.h \
            vimage.h \
-    sharpdetect.h
+           sharpdetect.h
 FORMS += display.ui
 SOURCES += blurdetect.cpp \
            color.cpp \
@@ -80,19 +80,16 @@ SOURCES += blurdetect.cpp \
            main.cpp \
            qualityexif.cpp \
            vimage.cpp \
-    sharpdetect.cpp
+           sharpdetect.cpp
 
 
 LIBS +=  /usr/lib/libexif.a \
          /usr/lib/libboost*.a \
-        ~/I/VisionWorkbench-2.1.0/src/vw/.libs/libvw.so \
-        ~/I/VisionWorkbench-2.1.0/src/vw/Image/tests/.libs/libgtest.a \
-        ~/I/VisionWorkbench-2.1.0/src/vw/Math/tests/.libs/libgtest.a \
-        ~/I/VisionWorkbench-2.1.0/src/vw/Core/tests/.libs/libgtest.a \
-        ~/I/VisionWorkbench-2.1.0/src/vw/FileIO/tests/.libs/libgtest.a \
+        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/.libs/libvw.so \
+        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/Image/tests/.libs/libgtest.a \
+        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/Math/tests/.libs/libgtest.a \
+        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/Core/tests/.libs/libgtest.a \
+        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/FileIO/tests/.libs/libgtest.a \
         /usr/lib/libblas/libblas.a \
         /usr/lib/lapack/liblapack.a \
-        /usr/lib/lapack/liblapack.so \
-        /usr/lib/lapack/blas/.libs/libblas.so.0 \
-        /usr/lib/lapack/libf2c/.libs/libf2c.so.0 \
-        /usr/lib/lapack/clapack/.libs/libclapack.so.0
+        /usr/lib/lapack/liblapack.so
