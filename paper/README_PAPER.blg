@@ -2,44 +2,44 @@ This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: README_PAPER.aux
 The style file: plain.bst
 Database file #1: README_BIB.bib
-You've used 24 entries,
+You've used 27 entries,
             2118 wiz_defined-function locations,
-            668 strings with 9728 characters,
-and the built_in function-call counts, 11663 in all, are:
-= -- 1157
-> -- 552
-< -- 25
-+ -- 214
-- -- 186
-* -- 899
-:= -- 1793
-add.period$ -- 87
-call.type$ -- 24
-change.case$ -- 157
+            686 strings with 10318 characters,
+and the built_in function-call counts, 13213 in all, are:
+= -- 1314
+> -- 626
+< -- 28
++ -- 243
+- -- 212
+* -- 993
+:= -- 2013
+add.period$ -- 97
+call.type$ -- 27
+change.case$ -- 178
 chr.to.int$ -- 0
-cite$ -- 24
-duplicate$ -- 444
-empty$ -- 888
-format.name$ -- 186
-if$ -- 2566
+cite$ -- 27
+duplicate$ -- 517
+empty$ -- 1004
+format.name$ -- 212
+if$ -- 2924
 int.to.chr$ -- 0
-int.to.str$ -- 24
-missing$ -- 23
-newline$ -- 128
-num.names$ -- 58
-pop$ -- 156
+int.to.str$ -- 27
+missing$ -- 25
+newline$ -- 143
+num.names$ -- 64
+pop$ -- 187
 preamble$ -- 1
-purify$ -- 133
+purify$ -- 152
 quote$ -- 0
-skip$ -- 343
+skip$ -- 409
 stack$ -- 0
-substring$ -- 874
-swap$ -- 170
-text.length$ -- 25
+substring$ -- 965
+swap$ -- 209
+text.length$ -- 28
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 96
+type$ -- 108
 warning$ -- 0
-while$ -- 99
-width$ -- 26
-write$ -- 305
+while$ -- 111
+width$ -- 29
+write$ -- 340

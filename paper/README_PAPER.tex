@@ -27,53 +27,44 @@ davis@soe.ucsc.edu
 \begin{document}
 \maketitle
 \begin{abstract}
-In this paper, we propose a novel method for ranking images as they are imported from a users camera. By gathering sets of similar images, we rank images in relation to others in the set and provide the user with the best images from every scene photographed. Our goal is to filter out images which are technically flawed and provide the photographer with a high-quality representative subset of the imported images. The filtered set chosen by our algorithm matches the user's choices with high accuracy (XX\%).
+In this paper, we propose a novel method for ranking images as they are imported from a users camera. By gathering sets of similar images, we can rank images in relation to others in the set and provide the user with the best images from every scene photographed. We filter out images which are technically flawed to provide the photographer with a high-quality representative subset of the imported images. The filtered set chosen by our algorithm matches the user's choices with high accuracy (XX\%).
 \end{abstract}
 
 \section{Introduction}
 To focus our research and determine which image qualities are relevant, we assume three general steps a photographer takes between shooting and using a picture, which we call the Photographer's Process:
 \begin{enumerate}
-\item Remove: Sort through the images being imported and select the ones most suited for retouching, flag them, and remove the rest.
+\item Remove: Sort through the images being imported and select the ones most suited for retouching, removing the rest from consideration.
 \item Retouch: Modify the raw files just selected to stylize and enhance them.
 \item Retrieve: Select the retouched images most suitable to a given task.
 \end{enumerate}
 Our research focuses on the first step of the Photographer's Process. By quantifying qualities which cause a photograph to be rejected unanimously, we have created an automated system which rejects over XX\% of the images a human would reject, based on XX data sets of XX images tested on XX users each. We have created a scale for rating each image's quality on a scale from one to ten. Over XX\% of our ratings were within one of the average user ranking, which was tested on the same dataset of XX images and XX different users.
 
 \section{Related Work}
-Previous work in quality assessment explores single features such as blur\cite{springerlink:10.1007/978-3-540-77409-9_26} and color harmony\cite{COL:COL5080160410}\cite{COL:COL10004}. Others applied the assessment techniques to different types of images- compressed, iconic \cite{477498} \cite{1038064}, \cite{1284395}, \cite{Berg:EECS-2007-13}.
+Various publications have focused on improving the quality of an image (the second step of the Photographer's Process)\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}; more deeply researched is assessing quality for the purposes of photograph retrieval\cite{Yeh:2010:PPR:1873951.1873963}\cite{vanZwol:2010:FEI:1772690.1772788}\cite{springerlink:10.1007/978-3-642-17187-1_57}\cite{Cui:2008:RTG:1459359.1459471}\cite{Chu2010256}. The methods for image retrieval are not as useful for image removal because they assume a finalized photograph, rather than looking at the potential to be enhanced- or, more simply, they focus on aesthetic quality over technical quality. Removal of technically flawed photographs, as opposed to aesthetically unpleasing ones, is more readily automated without consideration of personal preference. We consider color harmony a technical aspect because attempting to color adjustment is a lossy process (XX ALLISON, I DON'T KNOW WHAT I'M TALKING ABOUT, CAN YOU MAKE SOMETHING UP AND FIND A REFERENCE PERCHANCE?)
 
-\cite{springerlink:10.1007/978-3-540-30541-5_25}, \cite{springerlink:10.1007/11744078_23}, \cite{1640788}, and \cite{springerlink:10.1007/978-3-540-88690-7_29} classified images by whether they were taken by professionals or by home users.
+Previous works in general image quality assessment have explored single features such as blur\cite{springerlink:10.1007/978-3-540-77409-9_26}, exposure\cite{5540170}, and color harmony\cite{COL:COL5080160410}\cite{COL:COL10004}. User tags on Flickr and online search engines have provided similar sets of images to sort\cite{Berg:EECS-2007-13}\cite{Chu2010256}. \cite{springerlink:10.1007/978-3-540-30541-5_25}, \cite{springerlink:10.1007/11744078_23}, \cite{1640788}, and \cite{springerlink:10.1007/978-3-540-88690-7_29} determine the skill level of the photographer and provide a binary split between amateur and professional photographs. Unlike our work, these assume a finalized image.1640788
 
-\cite{1315222} derived various classification of photographs through computations using EXIF data rather than pixel data.
+Compressed image quality assessment has been heavily researched\cite{477498}\cite{1038064}\cite{1284395}, but we assume a high quality import. \cite{1315222} shows how a photograph's EXIF data can be used to robustly classify images into various semantic categories. Various aesthetic-based assessments focus on exploring human visual attention and sensitivity to photograph content\cite{Sun:2009:PAB:1631272.1631351}\cite{1518955}\cite{Pimenov_fastimage}, showing how content segmentation is useful.
 
-\cite{1518955} focused on exploring  visual attention and sensitivity, and so \cite{Sun:2009:PAB:1631272.1631351} , and \cite{Pimenov_fastimage}.
-
-\cite{1532311} assess quality of images and video using statistical models in an information-theoretic setting, and derive a novel QA algorithm.
-
-Various publications have focused on the second step of the Photographer's Process, optimizing quality through retouching\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}. More research has focused on assessing quality for the purposes of photograph retrieval\cite{Yeh:2010:PPR:1873951.1873963}\cite{vanZwol:2010:FEI:1772690.1772788}\cite{springerlink:10.1007/978-3-642-17187-1_57}\cite{Cui:2008:RTG:1459359.1459471}\cite{Chu2010256}. The methods for image retrieval are not as useful for image removal because they assume a finalized photograph, rather than looking at the photograph's potential to be enhanced.
-
-Various approaches have been proposed to rank any set of images based on aesthetic[...refs] or technical quality[...refs] but these do not make use of the reference-based algorithms which are possible when working with images directly from a camera import. While some works assess both technical and aesthetic qualities[...refs], we believe the two are separate problems. Aesthetics are largely preference-based and an automated algorithm may not be trusted by a photographer, whereas technical quality, although dependent on properties of the Human Visual System, is more readily automated without consideration of personal preference (and thus no human input is required).
-
-Therefore, our work assesses an image based on blur, noise, exposure, and the relationship between colors. Past research has quantified these artifacts globally[...refs] and independently (no-reference algorithms) [...refs]. Our approach combines local-feature algorithms [...refs] and reference-based algorithms [...refs] to extract similar foreground content in near-duplicate photographs and compare the foreground data to find a relative ranking. By focusing on the foreground, we reduce the computational errors that may arise when looking globally. For example, background blur and underexposure are not signs of a poor photograph[...ref], but may be mistaken as such[...refs, somebody who had this mistake].
-
-Similarly, by separating foreground and background content, we can better measure exposure balance and weight noise levels which closer match the Human Visual System (HVS)[...refs, the foreground-background noise level paper] and assess exposure levels based on foreground-background histogram comparison, similar to[...refs?].
+Our work assesses an image based on blur, exposure, and the relationship between colors. We focus on the quality of foreground, and provide a relative ranking within a set of contextually similar images. An absolute rank is also provided, providing robustness in cases where there are no similar photographs to compare to in the input set.
 
 \section{Quantifying Image Quality}
 Each selected factor will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use an inverse-logarithmic scale for this overall ranking:
 \[
 \displaystyle\sum\limits_{i=1}^n\frac{\log^{-1}(W_iQ_i)}{rn}
 \]
-Where \(r\) is the range of rankings (9 in our work), \(Q_i\) represents the rating of module \(i\), and \(W_i\) represents the weight of that module. Weights are assigned as follows:
+Where \(r\) is the range of rankings (9 in our work), \(Q_i\) represents the rating of module \(i\), and \(W_i\) represents the weight of that module. Weights are assigned as follows: XX ARE THEY REALLY?
 \begin{itemize}
 \item \(W_{exposure}=40\%\)
-\item \(W_{blur}=30\%\)
-\item \(W_{noise}=15\%\)
+\item \(W_{blur}=40\%\)
 \item \(W_{color}=10\%\)
-\item \(W_{gray}=5\%\)
+\item \(W_{gray}=10\%\)
 \end{itemize}
 
+XX EACH ITEM BELOW SHOULD HAVE AN IMAGE TO GO WITH IT
+
 \subsection{Content Recognition}
-We obtain a bounding box around the most salient foreground object, in a method similar to [\#]. Rather than using the precision that [\#] uses, we aim for accuracy, and observed faster and equally accurate results with this method. We achieve high accuracy because of the simplicity, though secondary objects are sometimes ignored or mistaken as foreground. We have found that this does not heavily affect the outcome of our algorithm.
+Using NASA's Vision Workbench\cite{vision-workbench}, we obtain interest points and find the most dense region. We assume this to be the primary content in the image. It is used in detecting similar images, determining exposure quality, and calculating blur levels. Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
 To find similar images, we perform three steps of increasing complexity for high confidence.
@@ -92,31 +83,30 @@ A_g=\displaystyle\sum\limits_{a={i-w}}^{j+w}G_{a,i}
 We have empirically chosen a window size of \(w=8\).
 We use the calculated similarity index \(T_{i,j}\) as a weight for the next two steps.
 
-The first content-based step is fast 9-segment test similar to [...refs]. We divide the images into a 3x3 grid and compare the average color of each square. Because this is sensitive to exposure differences and movement, we gather interest points using SOME ALGORITHM FROM NASA. We then compute a ranking based on the number of matched interest points.
+The first content-based step is simple 9-segment test. We divide the images into a 3x3 grid and compare the average color of each square. Because this is sensitive to exposure differences, subject movement, and camera reorientation, we then gather interest points using XX SOME ALGORITHM FROM NASA, OR THE AVERAGE COLOR OF THE ROI. We then compute a ranking based on the number of matched interest points.
 
 The two content-based algorithms, weighted by the timestamp, clusters similar images with high accuracy.
 
 \subsection{Blur Detection}
-Using the bounding box, the blur-detection algorithm quantifies the contrast between the edges and background. It ignores the rest of the image. In a method similar to [...refs], it obtains a value for the sharpness. This algorithm does not perform well when ranking diverse images, due to differences in scale and levels of acceptable background blur, so constraining it to the bounding box increases accuracy. Furthermore, we compare these rankings to the near-duplicates to remove any photograph-specific artifacts which we may not have accounted for. This increases the accuracy of the algorithm with just one photographs, and does even better when there is a sequence of similar images.
-
-\subsection{Noise Detection}
-We use a binary-weight scheme to weigh the noise, in a weak combination of local and global quality assessment. Noise within the bounding box has more negative weight than noise in the background. Our algorithm is similar to [...refs], which has results good enough to support itself.
+Using the bounding box, the blur-detection algorithm quantifies the contrast between the edges and background. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the sharpness. To increase accuracy and reduce the adverse affects that acceptable background blur may have, we constrain detection to the bounding box.
+Next, we compute the difference in pixel values between the original image and a Gaussian blurred image. This provides little insight on no-reference images, but when looking at the bounding box of similar images, sharper edges results in a larger difference.
+XX NEED EMPIRICAL EVIDENCE. COMPARE ORIGINAL IMAGE TO 5mm*{1,2,3} REFOCUSED TO SHOW FOCUS BLUR, AND SOMETHING FOR MOTION BLUR (SIMULATED?).
 
 \subsection{Exposure}
-Because local-vs-global exposure methods are more accurate [...refs], we compare the foreground and background exposure to determine quality. Based on the idea that the the mean value of image luminosity is an indication of how well-exposed an image is[...refs], images are divided into different categories of further analysis through mean luminosity ranges. (ALLISON: I DON'T GET THIS, WHAT ARE THE DIFFERENT CATEGORIES OF FURTHER ANALYSIS?)
+We compare the foreground and background exposure to determine quality. Based on the idea that the the mean value of image luminosity is an indication of how well-exposed an image is, images are segmented based on their average luminosity value.
 Luminosity is a measure of how bright the human visual system perceives a color. As the human eye is most sensitive to green and red ranges, those color portions are weighted more heavily to a color's overall perceived intensity. The calculation used by the exposure analyst is
 \[
 p=.59r+.3g+.11b
 \]
-where \(p\) is the perceived intensity, and \(r\), \(g\), and \(b\) are the red, green, and blue components, respectively[...refs].
+where \(p\) is the perceived intensity, and \(r\), \(g\), and \(b\) are the red, green, and blue components, respectively(XX THIS FORMULA NEEDS REFERENCE).
 
-The categories of mean luminosity value (henceforth referred to as the “mean”) correspond roughly to a parabolic mapping of exposure values, with the best images typically falling between 130 and 140, and the further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. Within each category, different measures will indicate either a positive or negative overall impact on image quality. But the measurements can signify different changes in the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
+The categories of mean luminosity value (“mean”) correspond roughly to a parabolic mapping of exposure values, with well exposed photographs having a mean of \(130<p<140\), and the further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. Within each category, different measures will indicate either a positive or negative overall impact on image quality. But the measurements can signify different changes in the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
 
 The other measures of image quality are also based on luminosity, and were determined by taking various measurements on a deliberately chosen pool of images that had a wide variety of exposure problems. The measures are as follows: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures are calculated on both the foreground and the background of the image.
 
-Clipping is an indication of how much “information loss” there is in the image due to extreme shadows and bright spots. Each of these measures is taken in relation to the total number of pixels being measured.
+Clipping is an indication of how much information loss there is in the image due to extreme shadows and bright spots. Each of these measures is taken in relation to the total number of pixels being measured.
 
-Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image. Some highlighting can be desirable in an image, but the amount that is too much varies depending on the image mean.
+Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image. Some highlighting can be desirable in an image, but the amount that is considered overexposed varies depending on the image mean.
 
 Lowlights can be caused by underexposure, but they can also be a product of poor lighting (eg, photographing a shadowed object in extremely bright conditions). Again, some lowlights are desirable for contrast in an image, but too much leads to an undecipherable image.
 
@@ -124,40 +114,43 @@ The percentiles of the image are determined for both the bright and the dark sid
 
 The most extreme mean luminosity values are images of very poor quality, and are rated as very poor exposure quality, based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, but certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. Means below 100 are also part of the “low quality” batch of images, they have a fairly clear relationship with the 98th high percentile and are thus analyzed very simply.
 
-Means between 100 and 120 are further subdivided by the amount of highlighting present. WRITE SOME MORE STUFF
+Means between 100 and 120 are further subdivided by the amount of highlighting present. XX WRITE SOME MORE STUFF
 
-Means between 120 and 138 were found to have the highest concentration of high ratings. WRITE SOME MORE STUFF
+Means between 120 and 138 were found to have the highest concentration of high ratings. XX WRITE SOME MORE STUFF
 
 The images on the most extreme end of the bright scale were not very populated in the training image set, but were hypothesized to follow a similar curve as the dark side, with the redeeming quality being the presence of dark values.
 
 \subsection{Color Harmony}   
-The "ColorCritic" module is inspired by the types of harmonies based on the Color Harmonization paper by Cohen-Or, Sorkine, Gal, Leyvand, and Xu /cite{Cohen-Or:2006:CH:1179352.1141933} Their program shifts the colors in a photo to be part of one of the seven types of harmony, but needs a user to direct the placement and type of the harmony template. The ColorCritic uses the aforementioned color templates as a way of measuring what types of harmony are present in an image.
+Based on the seven types of color harmonies described in \cite{Cohen-Or:2006:CH:1179352.1141933}, the "ColorCritic" module measures which types of harmony are present in a photograph. It uses the I,v,L,I,Y, and X type harmonies (T and N are omitted).
 
-ColorCritic uses the I,v,L,I,Y, and X harmonies (T and N type harmonies were omitted), for each harmony type, the hue is found with the most occurrences of supporting harmony (other pixels that fall in the harmonic range) as well as the percent of the image that has harmonious pixels. Similar to the Exposure Analyst, ColorCritic divides it's images into several categories before further analysis. However, because people tend to like colorful, intense images, ColorCritic divides the images by the color saturation in the image using the results from Mechanical Turk rankings to determine where the exact divisions are. The Harmony types are used to differentiate between various qualities of images withing the saturation ranges.
+For each harmony type, the hue is found with the most occurrences of supporting harmony (other pixels that fall in the harmonic range) as well as the percent of the image that has harmonious pixels. Similar to the Exposure Analyst, ColorCritic divides it's images into several categories before further analysis. However, because people tend to like colorful, intense images (XX THIS NEEDS TO BE SUPPORTED WITH A REFERENCE- IF THE SAME AS COHEN, WE CAN JUST CITE THAT), ColorCritic divides the images by the color saturation in the image using the results from Mechanical Turk rankings to determine where the exact divisions are. The harmony types are used to differentiate between various qualities of images withing the saturation ranges.
 
-The first Harmony checked is the average and great image's I type. If there is a large amount of I harmony, the difference between I and Y harmonies is checked. Because I and Y overlap, you need to check how much of an increase if between the two. If it is very significant, Y harmony is most likely. When the difference is slight, you have a good I harmony (and thus high rating). If there is a medium difference, the I harmony is weak. Rating of the images can be determined on medium to great harmony. A similar check is done in X versus Y harmony. A last pass is done to check the L type on the great images, and a pass checking the v and i harmonies is done on the average images.
+The first harmony checked is the average and great image's I type. If there is a large amount of I harmony, the difference between I and Y harmonies is checked. Because I and Y overlap, you need to check how much of an increase if between the two. If it is very significant, Y harmony is most likely. When the difference is slight, you have a good I harmony (and thus high rating). If there is a medium difference, the I harmony is weak. Rating of the images can be determined on medium to great harmony. A similar check is done in X versus Y harmony. A last pass is done to check the L type on the great images, and a pass checking the v and i harmonies is done on the average images.
 
 The poor images are less well-defined but, the X harmony was the best place to start, and then a pass was done with i.
 
 \section{Results}
-We have run our algorithm on several publicly available datasets as well as our own. To determine the success of the ImageSorter, we compared our results with a “ground truth” from studies that were run through Amazon Mechanical Turk.
-
-Separate studies were run for several sets of previously ranked images (Ke, Tang, and Jing's data set of 48 images as well as Luo and Xiaoou's data set), as well as our own set of test images (459 images). A random sampling of 100 images from Luo et. al. was ranked on Turk, rather than the entire set. For each raking, a minimum of 10 valid Turk responses were used (presence of an invalid input was used to determine the validity of Turk responses) on each image to generate the “ground truth” ranking. Turkers were asked to rank each image on a scale of 1 to 10 to rate image quality. Ke's rankings were scaled linearly to fit on a 1 to 10 scale.
+We have run our algorithm on several publicly available datasets as well as our own. We used Amazon Mechanical Turk and gathered a total of XX users rankings across trials.
 
 Enumerated below are the results and comparisons to similar works.
 
-\subsection{Binary Classification} With a dataset of 4,000 users obtained through Amazon Mechanical Turk, we have found that our algorithm can distinguish between professional and non-professional images well. Barsky \cite{Yeh:2010:PPR:1873951.1873963} and Luo \emph{et. al}\cite{springerlink:10.1007/978-3-540-88690-7_29} obtained 93\% accuracy when classifying images into the two categories. When classifying "non-professional" as ratings below five and "professional" as ratings above five (ratings of exactly five are ignored), our rating system matches a user's with XX\% accuracy.
+\subsection{Quality Filtering} When asking a user to choose which images to keep and which to discard, our algorithm correctly discarded XX\% of the images, and incorrectly discarded XX\%. When limiting both the algorithm and the user to discarding a fixed number of chronological photographs (ten out of twenty), we improved these numbers to XX\% accuracy with XX\% false-negatives. (XX WE PROBABLY ONLY HAVE TIME TO GATHER THE SECOND NUMBER- FIXED NUMBER OF DISCARDS)
 
-\subsection{Quality Filtering} When asking a user to choose which images to keep and which to discard, our algorithm correctly discarded 82\% of the images, and incorrectly discarded 18\%. When limiting both the algorithm and the user to discarding a fixed number of images (ten), we improved these numbers to 92\% accuracy with 6\% false-negatives. These results rank favorably with [...ref].
+\subsection{Image Rating} Separate trials were run to compare our algorithm to previously ranked images: 48 from \cite{1640788}, XX from \cite{springerlink:10.1007/978-3-540-88690-7_29}, and 459 from our own data (XX DIDN'T WE DECREASE THE SIZE OF THIS?). Here we obtain an absolute, no-reference rating of each image.
 
-\subsection{Image Ranking} Because this was not the goal of our work, we cannot compare to the state of the art[...ref] which received XX\% accuracy, but we did manage a no-reference accuracy of within 30\% of the user's rating. Further, when we introduced a single set of twenty near-duplicates to a user and asked them to rank from best to worst, their top three and bottom three matched our results with 97\% accuracy.
+A random sampling of 100 images from \cite{springerlink:10.1007/978-3-540-88690-7_29} was ranked on Turk. XX users were asked to rate each image on a scale of 1 to 10.
 
-\subsection{Comparison with Ke\cite{1640788}} When comparing Ke's data set to our ground truth, we see that their ground truth is based on different factors. Whereas our work matches Amazon Mechanical Turk users' ratings with an accuracy of 80\%, Ke's only matches it with an accuracy of 45\%. (Here, accuracy is defined as being within one standard deviation of the users' rankings.) CHARTS AND GRAPHS TO FINALLY MAKE IT CLEAR.
+When comparing Ke's data set, we see that their ground truth is based on different factors. Whereas our work matches Amazon Mechanical Turk users' ratings with an accuracy of 80\%, Ke's only matches it with an accuracy of 45\%. Here, accuracy is defined as being within one standard deviation of the users' rankings.
+XX INSERT CHART ALLISON SENT
+
+XX INSERT DATA FOR OTHER DATA SET
+
+\subsection{Binary Classification} Using the same data as the Image Rating trials, we have found that our algorithm can distinguish between professional and non-professional images well. Barsky \cite{Yeh:2010:PPR:1873951.1873963} and Luo \emph{et. al}\cite{springerlink:10.1007/978-3-540-88690-7_29} obtained 96\% accuracy when classifying images into the two categories. When classifying "non-professional" as ratings below XX and "professional" as ratings above XX, our rating system matches a user's with XX\% accuracy.
 
 \section{Conclusion and Future Work}
-We propose a method of integrating current research to apply it to the field of photography. By ranking an image's quality in relation to other images in the set, rather than an absolute scale, we obtain an accurate sorting of images. We improve upon past research which provides an absolute ranking by applying it to a relative scale. Images are sorted both relatively within the set of similar images and globally within the set of all input images.
+We propose a method of applying current research to automate another step of the Photographer's Process. By ranking an image's quality in relation to other images in the set, rather than an absolute scale, we obtain an accurate sorting of images. We improve upon past research which provides an absolute ranking by applying it to a relative scale. From this, we derive novel reference-based algorithms for exposure analysis, temporal closeness, and blur detection. To ensure robustness when there are no similar sets (and thus no references), images are sorted both relatively within the set of similar images and globally within the set of all input images.
 
-Our work focuses on a small portion of the Photographer's Process. We would like to see our idea of relative rankings applied to the second and third steps (retouching and retrieving). Retouching can be made relative by looking at each subset and 
+Our work focuses on a small portion of the Photographer's Process. In the future, we would like to see the idea of relative rankings applied to the second Retouching step. (It has already been extensively applied to the third Retrieval step.) Retouching can use relative processing to increase creativity between similar images or combine data from multiple images. With this, we would be able to automate the Photographic Process.
 \bibliographystyle{plain}
 \bibliography{README_BIB}
 \end{document}

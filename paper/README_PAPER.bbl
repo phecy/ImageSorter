@@ -38,6 +38,12 @@ Wei-Ta Chu and Chia-Hung Lin.
 \newblock {\em Journal of Visual Communication and Image Representation},
   21(3):256 -- 268, 2010.
 
+\bibitem{Cohen-Or:2006:CH:1179352.1141933}
+Daniel Cohen-Or, Olga Sorkine, Ran Gal, Tommer Leyvand, and Ying-Qing Xu.
+\newblock Color harmonization.
+\newblock In {\em ACM SIGGRAPH 2006 Papers}, SIGGRAPH '06, pages 624--630, New
+  York, NY, USA, 2006. ACM.
+
 \bibitem{Cui:2008:RTG:1459359.1459471}
 Jingyu Cui, Fang Wen, and Xiaoou Tang.
 \newblock Real time google and live image search re-ranking.
@@ -58,6 +64,17 @@ A.M. Eskicioglu and P.S. Fisher.
 \newblock Image quality measures and their performance.
 \newblock {\em Communications, IEEE Transactions on}, 43(12):2959 --2965,
   December 1995.
+
+\bibitem{5540170}
+Dong Guo, Yuan Cheng, Shaojie Zhuo, and T.~Sim.
+\newblock Correcting over-exposure in photographs.
+\newblock In {\em Computer Vision and Pattern Recognition (CVPR), 2010 IEEE
+  Conference on}, pages 515 --521, June 2010.
+
+\bibitem{vision-workbench}
+M.D. Hancher, M.J. Broxton, and L.J. Edwards.
+\newblock {\em A User's Guide to the NASA Vision Workbench.}
+\newblock NASA Ames Research Center, Intelligent Systems Division, 2006.
 
 \bibitem{springerlink:10.1007/978-3-540-77409-9_26}
 Ping Hsu and Bing-Yu Chen.
@@ -116,18 +133,17 @@ J.C. Platt, M.~Czerwinski, and B.A. Field.
   Joint Conference of the Fourth International Conference on}, volume~1, pages
   6 -- 10 Vol.1, December 2003.
 
-\bibitem{1532311}
-H.R. Sheikh, A.C. Bovik, and G.~de~Veciana.
-\newblock An information fidelity criterion for image quality assessment using
-  natural scene statistics.
-\newblock {\em Image Processing, IEEE Transactions on}, 14(12):2117 --2128,
-  December 2005.
-
 \bibitem{Sun:2009:PAB:1631272.1631351}
 Xiaoshuai Sun, Hongxun Yao, Rongrong Ji, and Shaohui Liu.
 \newblock Photo assessment based on computational visual attention model.
 \newblock In {\em Proceedings of the seventeen ACM international conference on
   Multimedia}, MM '09, pages 541--544, New York, NY, USA, 2009. ACM.
+
+\bibitem{5649226}
+Zhen Tang, Zhenjiang Miao, Yanli Wan, and Jia Li.
+\newblock Automatic foreground extraction for images and videos.
+\newblock In {\em Image Processing (ICIP), 2010 17th IEEE International
+  Conference on}, pages 2993 --2996, sept 2010.
 
 \bibitem{springerlink:10.1007/978-3-540-30541-5_25}
 Hanghang Tong, Mingjing Li, Hong-Jiang Zhang, Jingrui He, and Changshui Zhang.
