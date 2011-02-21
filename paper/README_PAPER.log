@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  19 FEB 2011 15:28
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  20 FEB 2011 21:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -45,19 +45,32 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 28.
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+[1
 
 
 ]
+Underfull \hbox (badness 1122) in paragraph at lines 59--60
+[]\OT1/cmr/m/n/10 Similarly, by sep-a-rat-ing fore-ground and back-
+ []
+
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 47.
+(Font)              <7> on input line 63.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 47.
+(Font)              <5> on input line 63.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 68.
+(/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 68.
  [2]
-Underfull \hbox (badness 3058) in paragraph at lines 70--72
-\OT1/cmr/m/n/10 Because there is no uni-ver-sally high per-form-
- []
-
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+ [3]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
@@ -76,82 +89,63 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
+ [4]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-[3]
-Underfull \hbox (badness 1286) in paragraph at lines 87--94
-\OT1/cmr/m/n/10 The col-or-critic por-tion of the pro-gram was in-
- []
-
-
-Underfull \hbox (badness 5637) in paragraph at lines 87--94
-\OT1/cmr/m/n/10 spired by the types of har-monies based on
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 87--94
-\OT1/cmr/m/n/10 the Color Har-mo-niza-tion pa-per by Cohen-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 87--94
-\OT1/cmr/m/n/10 Or, Sorkine, Gal, Ley-vand, and Xu (
- []
-
-
-Overfull \hbox (102.44524pt too wide) in paragraph at lines 87--94
-\OT1/cmr/m/n/10 http://cs.nyu.edu/ sorkine/ProjectPages/Harmonization/harmoniza
-tion.pdf
- []
-
-
-Underfull \hbox (badness 1005) in paragraph at lines 87--94
-\OT1/cmr/m/n/10 needs a user to di-rect the place-ment and type
- []
-
-
-Underfull \hbox (badness 1629) in paragraph at lines 87--94
-\OT1/cmr/m/n/10 most oc-cur-rences of sup-port-ing har-mony (other
- []
-
-
-Underfull \hbox (badness 1092) in paragraph at lines 87--94
-\OT1/cmr/m/n/10 pix-els that fall in the har-monic range) as well
- []
-
-[4] (./README_PAPER.bbl
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+ [5]
+(./README_PAPER.bbl
+Missing character: There is no ≈ in font cmr10!
+Missing character: There is no ° in font cmr10!
 Missing character: There is no ‚ in font cmti10!
 Missing character: There is no Ä in font cmti10!
 Missing character: There is no ì in font cmti10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
 
-Underfull \vbox (badness 2111) has occurred while \output is active []
+Underfull \hbox (badness 1205) in paragraph at lines 71--77
+[]\OT1/cmr/m/n/10 Shao-Hang Kao, Wei-Yen Day, and Pu-Jen
+ []
 
-) [5]
-(./README_PAPER.aux) ) 
+[6]
+Underfull \hbox (badness 1127) in paragraph at lines 85--89
+[]\OT1/cmr/m/n/10 Johannes Kopf, Boris Neu-bert, Billy Chen,
+ []
+
+
+Underfull \hbox (badness 6842) in paragraph at lines 85--89
+\OT1/cmr/m/n/10 Michael Co-hen, Daniel Cohen-Or, Oliver
+ []
+
+Missing character: There is no ‚ in font cmti10!
+Missing character: There is no Ä in font cmti10!
+Missing character: There is no ì in font cmti10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 4108) in paragraph at lines 133--141
+[]\OT1/cmr/m/n/10 Hanghang Tong, Mingjing Li, Hong-Jiang
+ []
+
+) [7] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
- 238 strings out of 495061
- 2647 string characters out of 1182621
- 58132 words of memory out of 3000000
- 3487 multiletter control sequences out of 15000+50000
+ 277 strings out of 495062
+ 3408 string characters out of 1182644
+ 54132 words of memory out of 3000000
+ 3524 multiletter control sequences out of 15000+50000
  7933 words of font info for 28 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 23i,7n,19p,745b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
-cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share
-/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
-r7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on README_PAPER.pdf (5 pages, 144989 bytes).
-PDF statistics:
- 58 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 23i,7n,20p,752b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
 
+Output written on README_PAPER.dvi (7 pages, 37384 bytes).
