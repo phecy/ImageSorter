@@ -23,6 +23,15 @@ VImage::VImage(const VImage& that) {
     filename = that.filename;
 }
 
+VImage::~VImage() {
+//    if(qimage != NULL)
+//        delete qimage;
+//    if(vimage != NULL)
+//        delete vimage;
+//    if(foreground != NULL)
+//        delete foreground;
+}
+
 void VImage::makeQImage() {
     if(vimage == NULL) return;
 
@@ -48,4 +57,11 @@ void VImage::makeQImage() {
     setCentralWidget(imageLabel);
     this->show();
     */
+}
+
+void VImage::setForeground(boundingBox coords) {
+    this->foregroundCoords = coords;
+    this->foreground =
+            &(this->qimage->copy(coords.first.first, coords.first.second,
+                               coords.second.first, coords.second.second));
 }

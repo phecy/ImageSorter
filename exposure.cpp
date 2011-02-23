@@ -20,7 +20,7 @@ exposure::exposure(){
 
 float exposure::expose(VImage *vim) {
     QImage* im = vim->getQImage();
-    char* imageName = vim->getFilename();
+    string imageName = vim->getFilename();
 
     if (!im) {
         cerr << "Could not load " << imageName << endl;

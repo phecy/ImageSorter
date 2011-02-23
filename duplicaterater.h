@@ -19,7 +19,8 @@ public:
     enum module_type {
            DUPLICATE_TIME = 0,
            DUPLICATE_SEGMENTED = 1,
-           DUP_HISTOGRAM_DIST = 2
+           DUPLICATE_IP = 2
+           //DUP_HISTOGRAM_DIST = 2
        };
 
     // Creates a numIm x numIm x NUM_MODULES 3d vector

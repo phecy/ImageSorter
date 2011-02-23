@@ -45,7 +45,7 @@ Duplicates::Duplicates(int numImages) {
 void Duplicates::addImage(VImage* vim, QualityExif* exif, const char*) {
     segmented->addImage(vim);
     timed->addImage(vim, exif);
-    //interest->addImage(vim);
+    interest->addImage(vim);
     allImages->insert(allImages->end(), vim);
 }
 

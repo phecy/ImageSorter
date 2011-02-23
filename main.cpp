@@ -34,6 +34,7 @@ using namespace std;
 #include "libexif/exif-loader.h"
 #include "libexif/exif-data.h"
 #include "blurdetect.h"
+#include "boundingbox.h"
 #include "sharpdetect.h"
 #include "exposure.h"
 #include "color.h"
@@ -46,6 +47,9 @@ using namespace std;
 #include "duplicatesegmented.h"
 #include "qualityexif.h"
 #include "vimage.h"
+
+#define NUM_MODULES 4
+#define RANGE 9
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -76,6 +80,11 @@ void loadExif(QualityExif* exifs, const char* fn) {
     exif_loader_unref(loader);
 }
 
+// Compute antilog base 10
+double alog10(double num) {
+    return exp(num * log(10));
+}
+
 // Calculates ranking for each image based on params. Puts into picValue.
 // Then prints all info to cout
 void calcAndPrintWeights(char** imageStrArray,
@@ -89,10 +98,13 @@ void calcAndPrintWeights(char** imageStrArray,
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
-        picValue[i] =  exposeVals[i]*exposeScale;
-        picValue[i] += palletVals[i]*palletScale;
-        picValue[i] += .2*blurVals[i]*blurScale + .8*sharpVals[i]*blurScale;
-        picValue[i] += greyVals[i]*greyScale;
+        // Average of scaled inverse logs: penalize low more than rewarding high
+        picValue[i] =  alog10(exposeVals[i]*exposeScale);
+        picValue[i] += alog10(palletVals[i]*palletScale);
+        picValue[i] += alog10(.2*blurVals[i]*blurScale + .8*sharpVals[i]*blurScale);
+        picValue[i] += alog10(greyVals[i]*greyScale);
+        picValue[i] /= (NUM_MODULES);
+
 
         cout << "Image \"" << imageStrArray[i] << "\"" << endl;
         cout << "   Total rank: " << picValue[i] << endl;
@@ -102,6 +114,10 @@ void calcAndPrintWeights(char** imageStrArray,
         cout << "  *    middle gray: " << greyVals[i] << endl;
         cout << "  *      sharpness: " << sharpVals[i] << endl;
         cout << "  *           blur: " << blurVals[i] << endl << endl;
+    }
+    cout<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
+    for(int i=0;i<numPics; ++i){
+        cout << picValue[i] << "," << imageStrArray[i] << endl;
     }
 }
 
@@ -113,6 +129,7 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
     SharpDetect sharpDetect;
+    BoundingBox foregroundDetect;
 
     // Initialize ranks from all modules
     int exposeVals[size];
@@ -145,12 +162,17 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
         // First get exif
         loadExif(&exifs[i], imageStrArray[i]);
 
-        dupFinder.addImage(currVIm, &exifs[i], fn);/*
+        // Find duplicates; use IPs to get foreground
+        dupFinder.addImage(currVIm, &exifs[i], fn);
+//        currVIm->setForeground(
+//            foregroundDetect.getBoundingBox(currQIm, currVIm->getIps()));
+
+        // Calc ranks
         exposeVals[i] = newExpose.expose(currVIm);
         palletVals[i] = colorAnalysis(currQIm);
         greyVals[i] = newGrey.calcGrey(currQIm);
         blurVals[i] = newBlur->calculateBlur(currQIm);
-        sharpVals[i] = sharpDetect.rankOne(currVIm);*/
+        sharpVals[i] = sharpDetect.rankOne(currVIm);
         // newBlur->show();
     }
 

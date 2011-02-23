@@ -20,8 +20,8 @@ public:
 
 private:
     DuplicateRater* rater;
-    vector<InterestPointList> ipList;
-    InterestPointMatcher<RelativeEntropyMetric,ScaleOrientationConstraint> matcher;
+    void cleanIps(InterestPointList ip, VImage* image);
+    vector<InterestPoint> ipList;
 };
 
 #endif // DUPLICATEIP_H

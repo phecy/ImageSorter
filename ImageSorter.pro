@@ -63,7 +63,8 @@ HEADERS += blurdetect.h \
            insertionsort.h \
            qualityexif.h \
            vimage.h \
-           sharpdetect.h
+           sharpdetect.h \
+    boundingbox.h
 FORMS += display.ui
 SOURCES += blurdetect.cpp \
            color.cpp \
@@ -80,7 +81,8 @@ SOURCES += blurdetect.cpp \
            main.cpp \
            qualityexif.cpp \
            vimage.cpp \
-           sharpdetect.cpp
+           sharpdetect.cpp \
+    boundingbox.cpp
 
 
 LIBS +=  /usr/lib/libexif.a \
