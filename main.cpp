@@ -103,7 +103,7 @@ void calcAndPrintWeights(char** imageStrArray,
         picValue[i] += alog10(palletVals[i]*palletScale);
         picValue[i] += alog10(.2*blurVals[i]*blurScale + .8*sharpVals[i]*blurScale);
         picValue[i] += alog10(greyVals[i]*greyScale);
-        picValue[i] /= (NUM_MODULES);
+        picValue[i] /= (NUM_MODULES * RANGE);
 
 
         cout << "Image \"" << imageStrArray[i] << "\"" << endl;
@@ -164,8 +164,8 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
 
         // Find duplicates; use IPs to get foreground
         dupFinder.addImage(currVIm, &exifs[i], fn);
-//        currVIm->setForeground(
-//            foregroundDetect.getBoundingBox(currQIm, currVIm->getIps()));
+        currVIm->setForeground(
+            foregroundDetect.getBoundingBox(currQIm, currVIm->getIps()));
 
         // Calc ranks
         exposeVals[i] = newExpose.expose(currVIm);

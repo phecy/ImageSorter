@@ -53,7 +53,7 @@ densityMap BoundingBox::getTotalIpMap(boolMap ipMap) {
 
 boundingBox BoundingBox::getMaxDensity(densityMap totalIpMap) {
     boundingBox maxDensityBox;
-    int maxDensityVal;
+    double maxDensityVal = 0;
 
     int height = totalIpMap.size();
     int width = totalIpMap[0].size();
@@ -63,13 +63,13 @@ boundingBox BoundingBox::getMaxDensity(densityMap totalIpMap) {
     int window_w = width * .2;
 
     // Run density map max-finder
-    for(int h=window_h; h<height; ++h) {
-        for(int w=window_w; w<width; ++w) {
+    for(int h=1; h<height; ++h) {
+        for(int w=1; w<width; ++w) {
             densityNode includeCurr = totalIpMap[h][w];
             densityNode ignoreCurr = totalIpMap[h-1][w-1];
 
-            if(includeCurr.numPts/includeCurr.area >
-               ignoreCurr.numPts/ignoreCurr.area) {
+            if((double)includeCurr.numPts/includeCurr.area >
+               (double)ignoreCurr.numPts/ignoreCurr.area) {
                 // Add current point to [h-1][w-1] and insert here
                 int startw = includeCurr.startPoint.first;
                 int starth = includeCurr.startPoint.second;
@@ -80,17 +80,23 @@ boundingBox BoundingBox::getMaxDensity(densityMap totalIpMap) {
                 currNode.area = (w - startw *
                                  h - starth);
 
-                currNode.numPts = totalIpMap[h][w].numPts
-                                - totalIpMap[starth-1][w].numPts
-                                - totalIpMap[h][startw-1].numPts
-                                + totalIpMap[h-1][w-1].numPts;
+                currNode.numPts = totalIpMap[h][w].numPts;
+                if(starth != 0)
+                    currNode.numPts - totalIpMap[starth-1][w].numPts;
+                if(startw != 0)
+                    currNode.numPts - totalIpMap[h][startw-1].numPts;
+                if(startw != 0 && starth != 0)
+                    currNode.numPts + totalIpMap[h-1][w-1].numPts;
 
                 // Is max?
-                int densityVal = currNode.numPts / currNode.area;
-                if(densityVal > maxDensityVal) {
-                    // New maximum!
+                double densityVal = (double)currNode.numPts / currNode.area;
+                if(densityVal > maxDensityVal &&
+                   (w-startw > window_w) && (h-starth > window_h)) {
+                    // New maximum of an appropriate size!
                     maxDensityBox = boundingBox(currNode.startPoint, currNode.endPoint);
                     maxDensityVal = densityVal;
+                    qDebug("Found new max rating, %f at ((%d,%d)(%d,%d))!",
+                           densityVal, startw, starth, w, h);
                 }
             } else {
                 // Ignore current point and keep [h-1][w-1]

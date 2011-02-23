@@ -38,7 +38,7 @@ public:
     uchar* getUchar() {return qimage->bits(); }
 
     // Information
-    string getFilename() { return filename; }
+    char* getFilename() { return filename; }
 
     // Foreground stuff
     InterestPointList getIps() { return ipList; }
@@ -57,7 +57,7 @@ private:
     QImage* qimage;
 
     // Information
-    string filename;
+    char* filename;
     int width;
     int height;
 
