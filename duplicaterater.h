@@ -19,7 +19,7 @@ public:
     enum module_type {
            DUPLICATE_TIME = 0,
            DUPLICATE_SEGMENTED = 1,
-           DUPLICATE_IP = 2
+           DUPLICATE_FG = 2
            //DUP_HISTOGRAM_DIST = 2
        };
 

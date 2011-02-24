@@ -35,7 +35,7 @@ Duplicates::Duplicates(int numImages) {
     rater = new DuplicateRater(numImages);
     segmented = new DuplicateSegmented(rater);
     timed = new DuplicateTime(rater);
-    interest = new DuplicateIp(rater);
+    interest = new DuplicateIp(rater, segmented);
 
     setFinder = new map<VImage*, int>();
     allImages = new imgList();
@@ -43,29 +43,29 @@ Duplicates::Duplicates(int numImages) {
 }
 
 void Duplicates::addImage(VImage* vim, QualityExif* exif, const char*) {
-    segmented->addImage(vim);
     timed->addImage(vim, exif);
     interest->addImage(vim);
+    segmented->addImage(vim); // MUST BE AFTER INTEREST
     allImages->insert(allImages->end(), vim);
 }
 
 dupGroup Duplicates::findDuplicates() {
-    qDebug("Gathering duplicates....");
+    //qDebug("Gathering duplicates....");
     // Gather votes
     runModules();
 
-    qDebug("Creating a matrix of ranks");
+    //qDebug("Creating a matrix of ranks");
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
     debugPrintRanks(ranks);
 
     // Successively merge groupst
-    qDebug("Merging groups together");
+    //qDebug("Merging groups together");
     while(true) {
        pair<int,int> maxPair = getMaxPair(ranks);
        if(maxPair.first == -1) break;
        combineSets(maxPair.first, maxPair.second, ranks);
-       qDebug("Combined %d and %d:", (maxPair.first+1), (maxPair.second+1));
+       //qDebug("Combined %d and %d:", (maxPair.first+1), (maxPair.second+1));
        debugPrintRanks(ranks);
     }
 
@@ -192,12 +192,12 @@ pair<int,int> Duplicates::getMaxPair(rankVector* ranks) {
     if(max_rank < SIMILARITY_RANK_THRESHHOLD) {
         maxPair.first = -1;
         maxPair.second = -1;
-        qDebug("Failed to find max ranking. The closest is %d.", max_rank);
+        //qDebug("Failed to find max ranking. The closest is %d.", max_rank);
         return maxPair;
     }
 
-    qDebug("Found max pair of rank %.2f at (%d, %d).", max_rank,
-           maxPair.first+1, maxPair.second+1);
+    //qDebug("Found max pair of rank %.2f at (%d, %d).", max_rank,
+    //       maxPair.first+1, maxPair.second+1);
     return maxPair;
 }
 

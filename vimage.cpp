@@ -61,7 +61,7 @@ void VImage::makeQImage() {
 
 void VImage::setForeground(boundingBox coords) {
     this->foregroundCoords = coords;
-    this->foreground =
-            &(this->qimage->copy(coords.first.first, coords.first.second,
+    this->foreground = new QImage
+            (this->qimage->copy(coords.first.first, coords.first.second,
                                coords.second.first, coords.second.second));
 }

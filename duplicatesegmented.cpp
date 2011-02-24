@@ -40,6 +40,7 @@ QRgb RGB_set::get_avg() {
 
 DuplicateSegmented::DuplicateSegmented(DuplicateRater* rater) {
     allPics = new segMap();
+    allForegrounds = new segMap();
 
     blocksAcross = BLOCKSACROSS;
     numBlocks = NUMOFBLOCKS;
@@ -53,7 +54,16 @@ DuplicateSegmented::~DuplicateSegmented() {
 
 void DuplicateSegmented::addImage(VImage* vim) {
     QImage* image = vim->getQImage();
+    QImage* foreground = vim->getForeground();
 
+    segPair* imgpair = getSegpair(image);
+    segPair* fgpair = getSegpair(foreground);
+
+    allPics->insert(allPics->end(), *imgpair);
+    allForegrounds->insert(allForegrounds->end(), *fgpair);
+}
+
+segPair* DuplicateSegmented::getSegpair(QImage* image) {
     int width = image->width();
     int height = image->height();
 
@@ -80,22 +90,27 @@ void DuplicateSegmented::addImage(VImage* vim) {
     }
 
     // Add to allPics list
-    segPair* imgpair = new segPair(image, imagehash);
-    allPics->insert(allPics->end(), *imgpair);
+    return new segPair(image, imagehash);
 }
 
 void DuplicateSegmented::rankOne(VImage *first, VImage *second) {
-    int rank = getSimilarity(first, second);
+    int rank = getSimilarity(first->getQImage(), second->getQImage(),
+                             allPics);
     rater->addRanking(first->getQImage(), second->getQImage(),
                       rank, DuplicateRater::DUPLICATE_SEGMENTED);
 }
 
-int DuplicateSegmented::getSimilarity(VImage* vim1, VImage* vim2) {
-    QImage* first = vim1->getQImage();
-    QImage* second = vim2->getQImage();
+void DuplicateSegmented::rankOneForeground(VImage *first, VImage *second) {
+    int rank = getSimilarity(first->getForeground(),second->getForeground(),
+                             allForegrounds);
+    rater->addRanking(first->getQImage(), second->getQImage(),
+                      rank, DuplicateRater::DUPLICATE_FG);
+}
 
-    segVector* vFirst = allPics->find(first)->second;
-    segVector* vSecond = allPics->find(second)->second;
+int DuplicateSegmented::getSimilarity(QImage* first, QImage* second,
+                                      segMap* map) {
+    segVector* vFirst = map->find(first)->second;
+    segVector* vSecond = map->find(second)->second;
 
     double rating = 10.0;
 
@@ -112,7 +127,9 @@ int DuplicateSegmented::getSimilarity(VImage* vim1, VImage* vim2) {
 
             // Penalize average difference divided by allowed distance
             // Then, penalize less as the rating gets lower
-            rating -= (rating*(double)(min(min(rDist,gDist),bDist)) / DISTANCE) / (.5*BLOCKSACROSS*MAX_RATING);
+            rating -=
+               (rating*(double)(min(min(rDist,gDist),bDist)) / DISTANCE) /
+               (.5*BLOCKSACROSS*MAX_RATING);
         }
     }
 

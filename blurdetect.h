@@ -20,7 +20,7 @@ This file is part of ppm.
 
 #include <QMainWindow>
 
-class QMainWindow;
+class QMainWindow   ;
 class BlurDetect : public QMainWindow
 {
 public:

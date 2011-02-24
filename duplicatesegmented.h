@@ -44,13 +44,18 @@ public:
 
     // Adds a single ranking to the DuplicateRater
     void rankOne(VImage*, VImage*);
+    void rankOneForeground(VImage*, VImage*);
 
 private:
+    // Helper function for addImage
+    segPair* getSegpair(QImage* image);
+
     // A list of QImages and their respective segmented grayval blocks
     segMap* allPics;
+    segMap* allForegrounds;
 
     // Returns a number 0-9 of how similar two images are
-    int getSimilarity(VImage*, VImage*);
+    int getSimilarity(QImage*, QImage*, segMap*);
 
     // Set by #defines (blocksAcross=sqrt(numblocks))
     int numBlocks, blocksAcross;

@@ -6,6 +6,8 @@
 // Maxs: Above this value on any module, succeed
 #define MIN_SEGMENTED_THRESHHOLD 2
 #define MAX_SEGMENTED_THRESHHOLD 9
+#define MIN_FOREGROUND_THRESHHOLD 2
+#define MAX_FOREGROUND_THRESHHOLD 9
 #define MIN_TIME_THRESHHOLD 2
 #define MAX_TIME_THRESHHOLD 9
 
@@ -57,6 +59,7 @@ int DuplicateRater::calcRank(vector1d moduleRanks) {
 
     int timeRating = moduleRanks[DUPLICATE_TIME];
     int segRating = moduleRanks[DUPLICATE_SEGMENTED];
+    int fgRating = moduleRanks[DUPLICATE_FG];
 
     if(timeRating <= MIN_TIME_THRESHHOLD ||
        timeRating >= MAX_TIME_THRESHHOLD)
@@ -66,9 +69,13 @@ int DuplicateRater::calcRank(vector1d moduleRanks) {
        segRating >= MAX_SEGMENTED_THRESHHOLD)
         return segRating;
 
+    if(fgRating <= MIN_FOREGROUND_THRESHHOLD ||
+       fgRating >= MAX_FOREGROUND_THRESHHOLD)
+        return fgRating;
+
     // No auto-pass or auto-fail. Calculate.
     double scaleBy = timeRating/MAX_RANK;
-    rankCalc = min(scaleBy*segRating*.5 + segRating, 10.0);
+    rankCalc = min(scaleBy*segRating*.5 + (segRating+fgRating)/2, 10.0);
 
     return rankCalc;
 }

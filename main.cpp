@@ -129,7 +129,6 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
     SharpDetect sharpDetect;
-    BoundingBox foregroundDetect;
 
     // Initialize ranks from all modules
     int exposeVals[size];
@@ -164,8 +163,6 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
 
         // Find duplicates; use IPs to get foreground
         dupFinder.addImage(currVIm, &exifs[i], fn);
-        currVIm->setForeground(
-            foregroundDetect.getBoundingBox(currQIm, currVIm->getIps()));
 
         // Calc ranks
         exposeVals[i] = newExpose.expose(currVIm);

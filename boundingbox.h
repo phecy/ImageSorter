@@ -8,6 +8,8 @@
 
 #include "vimage.h"
 
+typedef pair<boundingBox, double> densityBox;
+
 using namespace std;
 struct densityNode;
 typedef vector<vector<bool> > boolMap;
@@ -28,16 +30,32 @@ struct densityNode {
     int numPts;
 };
 
-class BoundingBox
+class QMainWindow;
+class BoundingBox: public QMainWindow
 {
 public:
     BoundingBox();
     boundingBox getBoundingBox(QImage* qim, InterestPointList ips);
 
+    // Debug outputs
+    void debugPrint(QImage* image, point start, point fin);
+
 private:
-    boolMap getIpMap(QImage* qim, InterestPointList ips);
-    densityMap getTotalIpMap(boolMap);
-    boundingBox getMaxDensity(densityMap);
+    // Get the boolean map of which points are IPs
+    boolMap ipMap;
+    boolMap getIpMap(QImage* qim, InterestPointList& ips);
+
+    // Each point is the density from that point to (0,0)
+    densityMap getTotalIpMap(boolMap&);
+
+    // doubles: what 0<s<1 scale of image to start looking for a max
+    // DO NOT CALL WITH ZERO OR ONE, must be strictly within bounds
+    densityBox getMaxDensity(const densityMap, double startscale_x,
+                                         double startscale_y);
+
+    // PRECONDITION: (start < fin) in both dimensions (x and y)
+    double getDensityFrom(densityMap&, point start, point fin);
+    int getPtsFrom(densityMap&, point from, point to);
 };
 
 #endif // BOUNDINGBOX_H
