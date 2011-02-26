@@ -10,8 +10,8 @@
 
 #define BLOCKSACROSS 3 // How to place grid
 #define NUMOFBLOCKS BLOCKSACROSS*BLOCKSACROSS
-#define DISTANCE 40 // Between color pixels
-#define NUMSECTIONALLOWANCE 2 // How many blocks can be off
+#define DISTANCE 30 // Between color pixels
+#define NUMSECTIONALLOWANCE 1 // How many blocks can be off
 #define MAX_RATING 10
 
 using namespace std;

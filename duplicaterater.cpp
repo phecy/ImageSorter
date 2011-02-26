@@ -75,7 +75,7 @@ int DuplicateRater::calcRank(vector1d moduleRanks) {
 
     // No auto-pass or auto-fail. Calculate.
     double scaleBy = timeRating/MAX_RANK;
-    rankCalc = min(scaleBy*segRating*.5 + (segRating+fgRating)/2, 10.0);
+    rankCalc = min(scaleBy*segRating*.5 + (segRating+2*fgRating)/3, 10.0);
 
     return rankCalc;
 }

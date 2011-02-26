@@ -82,6 +82,11 @@ private:
     // True if "checking" is in the row
     bool contains(imgList row, VImage* lookfor);
 
+    // Updated rank of this index after firstRow & secondRow merge
+    int getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
+                       const pair<vector<float>, imgList> &secondRow,
+                       int index);
+
     // Combine second row into first. Remove second row.
     // Return resulting duplicate group list
     void combineSets(int first, int second, rankVector* ranks);

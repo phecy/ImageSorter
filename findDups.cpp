@@ -24,7 +24,12 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 7
+#define SIMILARITY_RANK_THRESHHOLD 6
+
+// The minimum rating required to ensure that if one image ranks another
+// highly, that rating can't be weakened through averaging
+// (or, to claim two images are the "exact" same.)
+#define MIN_EXACT_RATE 8
 
 using namespace std;
 
@@ -126,6 +131,25 @@ rankVector* Duplicates::getRankVector() {
     return ranks;
 }
 
+int Duplicates::getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
+                               const pair<vector<float>, imgList> &secondRow,
+                               int index) {
+    int firstNumVoters = firstRow.second.size();
+    int secondNumVoters = secondRow.second.size();
+
+    int firstRank = firstRow.first.at(index);
+    int secondRank = secondNumVoters * secondRow.first.at(index);
+
+    // See if auto-include:
+    if(firstRank >= MIN_EXACT_RATE)
+        return firstRank;
+    else if(secondRank >= MIN_EXACT_RATE)
+        return secondRank;
+    else // Get averages
+        return (firstNumVoters * firstRank + secondNumVoters * secondRank) /
+               (firstNumVoters + secondNumVoters);
+}
+
 // Merge second row into first
 // Set second row vals to -1
 void Duplicates::combineSets(int first, int second, rankVector* ranks) {
@@ -142,13 +166,8 @@ void Duplicates::combineSets(int first, int second, rankVector* ranks) {
             secondRow.first.at(i) = -1;
             continue;
         }
-        int firstNumVoters = firstRow.second.size();
-        int secondNumVoters = secondRow.second.size();
-
         // Get averages
-        firstRow.first.at(i) = (firstNumVoters * firstRow.first.at(i) +
-                               secondNumVoters * secondRow.first.at(i)) /
-                               (firstNumVoters + secondNumVoters);
+        firstRow.first.at(i) = getUpdatedRank(firstRow, secondRow, i);
 
         // Delete second row as we go
         secondRow.first.at(i) = -1;
