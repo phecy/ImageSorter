@@ -20,6 +20,8 @@ This file is part of ppm.
 
 #include <QMainWindow>
 
+#include "vimage.h"
+
 class QMainWindow   ;
 class BlurDetect : public QMainWindow
 {
@@ -27,7 +29,7 @@ public:
     BlurDetect();
     // We assume filename is valid and abort everything if it isn't.
         // Be sure to check validity of file before calling.
-    int calculateBlur(QImage* im);
+    int calculateBlur(VImage* im);
 
     // Minimum threshhold for high pass: -100-100% of colors from average
     void setThreshhold(int t) { threshhold = t; }

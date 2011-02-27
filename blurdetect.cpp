@@ -24,24 +24,35 @@ This file is part of ppm.
 
 #define PI 3.142
 
+#define MIN_NUM_IPS 0
+#define LOOK_FOR_CONTRAST_RADIUS 2
+#define SENSITIVITY_THRESHOLD 98
+#define EDGE_SIZE 3
+#define DIST_BETWEEN_EDGES 6
+#define SHARPNESS 30
+
 BlurDetect::BlurDetect()
 {
     width = height = 0;
-    radius = 4;
+    radius = LOOK_FOR_CONTRAST_RADIUS;
 
-    threshhold = 98;
-    edgeRadius = 3;
-    highpassRadius = 10;
+    threshhold = SENSITIVITY_THRESHOLD;
+    edgeRadius = EDGE_SIZE;
+    highpassRadius = DIST_BETWEEN_EDGES;
 
-    sharpness = 30;
+    sharpness = SHARPNESS;
 }
 
-int BlurDetect::calculateBlur(QImage* im) {
+int BlurDetect::calculateBlur(VImage* vim) {
     assert(highpassRadius > edgeRadius);
+
+    // Test # IPs
+    if(vim->getIps().size() < MIN_NUM_IPS)
+        return 0;
 
     // Open image
     // if(width == 0) { // If testing same file multiple times, don't reopen
-        QImage* image = im;
+        QImage* image = vim->getForeground();
         minColor = avgColor = maxColor = 0;
         assert(image != NULL);
         *image = image->scaledToWidth(600);
