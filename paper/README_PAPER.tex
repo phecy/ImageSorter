@@ -28,7 +28,7 @@ davis@soe.ucsc.edu
 \begin{document}
 \maketitle
 \begin{abstract}
-In this paper, we propose a method for selecting the most important images from a set of user photographs. We filter out images which are technically flawed to provide the photographer with a high-quality representative subset of the imported images. Taking into account the redundancy of near-duplicates, we provide the user with an ordering of the best and most representative images. The filtered set chosen by our algorithm matches the user's choices with high accuracy (XX\%).
+In this paper, we propose a method for selecting the most important images from a set of user photographs. Taking into account the redundancy of similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. Finally, we provide the photographer with a high-quality representative ordering of the images. Our goal is not to rank images based on aesthetic quality, but instead to help a photographer filter out technically flawed photographs and focus on high quality shots.
 \end{abstract}
 
 \section{Introduction}
