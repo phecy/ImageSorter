@@ -1,5 +1,6 @@
 #include <iostream>
 #include "duplicaterater.h"
+#include "vimage.h"
 
 
 // Mins: Below this value on any module, fail
@@ -9,7 +10,8 @@
 #define MIN_FOREGROUND_THRESHHOLD 2
 #define MAX_FOREGROUND_THRESHHOLD 9
 #define MIN_TIME_THRESHHOLD 2
-#define MAX_TIME_THRESHHOLD 9
+#define MAX_TIME_THRESHHOLD 10
+#define TIME_WEIGHT .3
 
 #define MAX_RANK 10
 
@@ -21,11 +23,11 @@ DuplicateRater::DuplicateRater(int numImages)
     ratings = new vector3d(numImages,
                     vector2d(numImages,
                       vector1d(NUM_MODULES, -1)));
-    imageIndeces = new map<QImage*, int>();
+    imageIndeces = new map<VImage*, int>();
     lastIndex = 0;
 
 }
-void DuplicateRater::addRanking(QImage* first, QImage* second,
+void DuplicateRater::addRanking(VImage* first, VImage* second,
                 int rank, module_type module) {
     int firstIndex = getIndex(first);
     int secondIndex = getIndex(second);
@@ -35,18 +37,18 @@ void DuplicateRater::addRanking(QImage* first, QImage* second,
     (*ratings)[secondIndex][firstIndex][module] = rank;
 }
 
-int DuplicateRater::getIndex(QImage *im) {
-    map<QImage*, int>::iterator elem = imageIndeces->find(im);
+int DuplicateRater::getIndex(VImage *im) {
+    map<VImage*, int>::iterator elem = imageIndeces->find(im);
 
     if(elem == imageIndeces->end()) {
         // Insert
-        imageIndeces->insert(elem, pair<QImage*, int>(im, lastIndex));
+        imageIndeces->insert(elem, pair<VImage*, int>(im, lastIndex));
         return lastIndex++;
     }
     else return elem->second;
 }
 
-int DuplicateRater::getRanking(QImage *first, QImage *second) {
+int DuplicateRater::getRanking(VImage *first, VImage *second) {
     int firstIndex = getIndex(first);
     int secondIndex = getIndex(second);
 
@@ -75,7 +77,7 @@ int DuplicateRater::calcRank(vector1d moduleRanks) {
 
     // No auto-pass or auto-fail. Calculate.
     double scaleBy = timeRating/MAX_RANK;
-    rankCalc = min(scaleBy*segRating*.5 + (segRating+2*fgRating)/3, 10.0);
+    rankCalc = min(scaleBy*segRating*TIME_WEIGHT + (2*segRating+fgRating)/3, 10.0);
 
     return rankCalc;
 }

@@ -30,6 +30,7 @@ private:
     vector<InterestPoint> ipList;
 
     // Bounding Box finder and matcher
+    boundingBox loadBox(VImage* vim); // pre-loaded images
     BoundingBox* foregroundDetect;
     DuplicateSegmented* foregroundRec;
 };

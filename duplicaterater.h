@@ -1,8 +1,8 @@
 #ifndef DUPLICATERATER_H
 #define DUPLICATERATER_H
 
-#include <QImage>
 #include <map>
+#include "vimage.h"
 
 #define NUM_MODULES 3 // add more as we go
 
@@ -27,14 +27,14 @@ public:
     DuplicateRater(int numImages);
 
     // Adds a ranking from a module into the 3d vector
-    void addRanking(QImage* first, QImage* second,
+    void addRanking(VImage* first, VImage* second,
                    int rank, module_type module);
 
     // Gets the index of the image. If it doesn't exist, creates it.
-    int getIndex(QImage*);
+    int getIndex(VImage*);
 
     // Retrieves similarity ranking between two images
-    int getRanking(QImage*, QImage*);
+    int getRanking(VImage*, VImage*);
 
     // For debugging purposes
     void printRanks();
@@ -48,9 +48,9 @@ private:
     // if no rating available
     vector<vector<vector<int > > > *ratings;
 
-    // This provides a mapping from a QImage* to the
+    // This provides a mapping from a VImage* to the
     // index in the above 3d-vector for log(n) access time
-    map<QImage*, int>* imageIndeces;
+    map<VImage*, int>* imageIndeces;
 
     // The last index used
     int lastIndex;

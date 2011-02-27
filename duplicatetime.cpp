@@ -62,7 +62,7 @@ void DuplicateTime::rankOne(VImage* vim1, VImage* vim2) {
 //    qDebug("duplicateTime: Img#%p->%p similarity hypothesis: %d/10",
 //           vim1->getFilename(), vim2->getFilename(), rank);
 
-    rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_TIME);
+    rater->addRanking(vim1, vim2, rank, DuplicateRater::DUPLICATE_TIME);
 }
 
 int DuplicateTime::getIndex(QImage* which) {

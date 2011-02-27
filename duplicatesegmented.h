@@ -48,17 +48,14 @@ public:
 
 private:
     // Helper function for addImage
-    segPair* getSegpair(QImage* image);
+    segPair* getSegpair(QImage* image, int numBlocks);
 
     // A list of QImages and their respective segmented grayval blocks
     segMap* allPics;
     segMap* allForegrounds;
 
     // Returns a number 0-9 of how similar two images are
-    int getSimilarity(QImage*, QImage*, segMap*);
-
-    // Set by #defines (blocksAcross=sqrt(numblocks))
-    int numBlocks, blocksAcross;
+    int getSimilarity(QImage*, QImage*, bool isForeground);
 
     // Holds each modules ranking
     DuplicateRater* rater;

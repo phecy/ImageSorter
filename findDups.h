@@ -40,7 +40,7 @@ public:
     Duplicates(int numImages);
 
     // Initialize anything needed by the modules for this im
-    void addImage(VImage*, QualityExif*, const char*);
+    void addImage(VImage*, QualityExif* );
 
     dupGroup findDuplicates();
 

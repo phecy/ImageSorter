@@ -8,10 +8,10 @@
 #include "duplicaterater.h"
 #include "vimage.h"
 
-#define BLOCKSACROSS 3 // How to place grid
-#define NUMOFBLOCKS BLOCKSACROSS*BLOCKSACROSS
-#define DISTANCE 30 // Between color pixels
-#define NUMSECTIONALLOWANCE 1 // How many blocks can be off
+#define BLOCKSACROSS_ALL 4 // How to place grid
+#define BLOCKSACROSS_FG 4
+#define DISTANCE_ALL 40 // Between color pixels
+#define DISTANCE_FG 30
 #define MAX_RATING 10
 
 using namespace std;
@@ -42,9 +42,6 @@ DuplicateSegmented::DuplicateSegmented(DuplicateRater* rater) {
     allPics = new segMap();
     allForegrounds = new segMap();
 
-    blocksAcross = BLOCKSACROSS;
-    numBlocks = NUMOFBLOCKS;
-
     this->rater = rater;
 }
 
@@ -56,14 +53,14 @@ void DuplicateSegmented::addImage(VImage* vim) {
     QImage* image = vim->getQImage();
     QImage* foreground = vim->getForeground();
 
-    segPair* imgpair = getSegpair(image);
-    segPair* fgpair = getSegpair(foreground);
+    segPair* imgpair = getSegpair(image, BLOCKSACROSS_ALL);
+    segPair* fgpair = getSegpair(foreground, BLOCKSACROSS_FG);
 
     allPics->insert(allPics->end(), *imgpair);
     allForegrounds->insert(allForegrounds->end(), *fgpair);
 }
 
-segPair* DuplicateSegmented::getSegpair(QImage* image) {
+segPair* DuplicateSegmented::getSegpair(QImage* image, int blocksAcross) {
     int width = image->width();
     int height = image->height();
 
@@ -95,20 +92,30 @@ segPair* DuplicateSegmented::getSegpair(QImage* image) {
 
 void DuplicateSegmented::rankOne(VImage *first, VImage *second) {
     int rank = getSimilarity(first->getQImage(), second->getQImage(),
-                             allPics);
-    rater->addRanking(first->getQImage(), second->getQImage(),
-                      rank, DuplicateRater::DUPLICATE_SEGMENTED);
+                             false);
+    rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_SEGMENTED);
 }
 
 void DuplicateSegmented::rankOneForeground(VImage *first, VImage *second) {
     int rank = getSimilarity(first->getForeground(),second->getForeground(),
-                             allForegrounds);
-    rater->addRanking(first->getQImage(), second->getQImage(),
-                      rank, DuplicateRater::DUPLICATE_FG);
+                             true);
+    rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_FG);
 }
 
 int DuplicateSegmented::getSimilarity(QImage* first, QImage* second,
-                                      segMap* map) {
+                                      bool isForeground) {
+    segMap* map;
+    int blocksAcross;
+    int allowedDist;
+    if(isForeground) {
+        map = allForegrounds;
+        blocksAcross = BLOCKSACROSS_FG;
+        allowedDist = DISTANCE_FG;
+    } else {
+        map = allPics;
+        blocksAcross = BLOCKSACROSS_ALL;
+        allowedDist = DISTANCE_ALL;
+    }
     segVector* vFirst = map->find(first)->second;
     segVector* vSecond = map->find(second)->second;
 
@@ -128,8 +135,8 @@ int DuplicateSegmented::getSimilarity(QImage* first, QImage* second,
             // Penalize average difference divided by allowed distance
             // Then, penalize less as the rating gets lower
             rating -=
-               (rating*(double)(min(min(rDist,gDist),bDist)) / DISTANCE) /
-               (.5*BLOCKSACROSS*MAX_RATING);
+               (rating*(double)(min(min(rDist,gDist),bDist)) / allowedDist) /
+               (.5*blocksAcross*MAX_RATING);
         }
     }
 

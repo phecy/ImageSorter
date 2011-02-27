@@ -24,9 +24,9 @@ boundingBox BoundingBox::getBoundingBox(QImage* qim, InterestPointList ips) {
     }
     boundingBox box = maxDensityBox.first;
 
-    qDebug("We find box ((%d, %d),(%d,%d)) to be the most interesting!",
-            box.first.first, box.first.second,
-            box.second.first, box.second.second);
+//    qDebug("We find box ((%d, %d),(%d,%d)) to be the most interesting!",
+//            box.first.first, box.first.second,
+//            box.second.first, box.second.second);
 
     return box;
 }

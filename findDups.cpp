@@ -24,7 +24,7 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 6
+#define SIMILARITY_RANK_THRESHHOLD 6.5
 
 // The minimum rating required to ensure that if one image ranks another
 // highly, that rating can't be weakened through averaging
@@ -47,7 +47,7 @@ Duplicates::Duplicates(int numImages) {
     allGroups = new dupGroup();
 }
 
-void Duplicates::addImage(VImage* vim, QualityExif* exif, const char*) {
+void Duplicates::addImage(VImage* vim, QualityExif* exif) {
     timed->addImage(vim, exif);
     interest->addImage(vim);
     segmented->addImage(vim); // MUST BE AFTER INTEREST
@@ -55,23 +55,23 @@ void Duplicates::addImage(VImage* vim, QualityExif* exif, const char*) {
 }
 
 dupGroup Duplicates::findDuplicates() {
-    //qDebug("Gathering duplicates....");
+    qDebug("Gathering duplicates....");
     // Gather votes
     runModules();
 
-    //qDebug("Creating a matrix of ranks");
+    qDebug("Creating a matrix of ranks");
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
-    debugPrintRanks(ranks);
+    //debugPrintRanks(ranks);
 
     // Successively merge groupst
-    //qDebug("Merging groups together");
+    qDebug("Merging groups together");
     while(true) {
        pair<int,int> maxPair = getMaxPair(ranks);
        if(maxPair.first == -1) break;
        combineSets(maxPair.first, maxPair.second, ranks);
-       //qDebug("Combined %d and %d:", (maxPair.first+1), (maxPair.second+1));
-       debugPrintRanks(ranks);
+       qDebug("Combined %d and %d:", (maxPair.first+1), (maxPair.second+1));
+       // debugPrintRanks(ranks);
     }
 
     // Gather all imglists
@@ -121,8 +121,7 @@ rankVector* Duplicates::getRankVector() {
             // Comparing second to first
             VImage *second = allImages->at(j);
 
-            int rank = rater->getRanking(first->getQImage(),
-                                         second->getQImage());
+            int rank = rater->getRanking(first, second);
             row.first.push_back(rank);
         }
         ranks->push_back(row);
