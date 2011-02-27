@@ -1,8 +1,8 @@
 \documentclass[twocolumn]{article}
 \usepackage{graphicx}
 \title{
-Assessing Image Quality on Import From Camera
-} % Work in Progress
+Selective Removal of Extraneous Photographs
+}
 \author{
 K. Armin Samii\\
 Computer Science Undergraduate\\
@@ -28,7 +28,7 @@ davis@soe.ucsc.edu
 \begin{document}
 \maketitle
 \begin{abstract}
-In this paper, we propose a novel method for ranking images as they are imported from a users camera. By gathering sets of similar images, we can rank images in relation to others in the set and provide the user with the best images from every scene photographed. We filter out images which are technically flawed to provide the photographer with a high-quality representative subset of the imported images. The filtered set chosen by our algorithm matches the user's choices with high accuracy (XX\%).
+In this paper, we propose a method for selecting the most important images from a set of user photographs. We rank images in relation to others in the set, and provide the user with the best images from every scene photographed. We filter out images which are technically flawed to provide the photographer with a high-quality representative subset of the imported images. The filtered set chosen by our algorithm matches the user's choices with high accuracy (XX\%).
 \end{abstract}
 
 \section{Introduction}
@@ -50,14 +50,14 @@ Compressed image quality assessment has been heavily researched\cite{477498}\cit
 Our work assesses an image based on blur, exposure, and the relationship between colors. We focus on the quality of foreground, and provide a relative ranking within a set of contextually similar images. An absolute rank is also provided, providing robustness in cases where there are no similar photographs to compare to in the input set.
 
 \section{Quantifying Image Quality}
-Each selected factor will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use an inverse-logarithmic scale for this overall ranking:
+Each selected factor will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
 \[
-\displaystyle\sum\limits_{i=1}^n\frac{\log^{-1}(W_iQ_i)}{r*n}
+\sqrt[n]{\displaystyle\sum\limits_{i=1}^n(\frac{W_iQ_i}{n})^n}
 \]
-Where \(r\) is the range of ratings, \(Q_i\) represents the rating of module \(i\), and \(W_i\) represents the weight of that module. Weights are assigned as follows: XX ARE THEY REALLY?
+Where \(n\) is the number of modules, \(Q_i\) represents the rating of module \(i\), and \(W_i\) represents the weight of that module. Weights are assigned as follows:
 \begin{itemize}
-\item \(W_{exposure}=50\%\)
-\item \(W_{blur}=40\%\)
+\item \(W_{exposure}=55\%\)
+\item \(W_{blur}=35\%\)
 \item \(W_{color}=10\%\)
 \end{itemize}
 
@@ -114,7 +114,7 @@ Lowlights can be caused by underexposure, but they can also be a product of poor
 
 The percentiles of the image are determined for both the bright and the dark sides of luminosity. For example, to calculate the lower 60th percentile, the value is found at which the sum of the number of pixels that are darker than the given value is equal to sixty percent of the pixels in the image. The upper percentiles are found by the summation of the pixels that are brighter than the given value. These four measures give a good indication of the spread of the luminosity, eg, how sharp the transitions between the extreme and middle values are.
 
-The most extreme mean luminosity values are images of very poor quality, and are rated as such based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, thouugh certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. Means below 100 are also part of the “low quality” batch of images, they have a fairly clear relationship with the 98th high percentile and are thus analyzed very simply.
+The most extreme mean luminosity values are images of very poor quality, and are rated as such based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, though certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. Means below 100 are also part of the “low quality” batch of images, they have a fairly clear relationship with the 98th high percentile and are thus analyzed very simply.
 
 Means between 100 and 120 are further subdivided by the amount of highlighting present. XX WRITE SOME MORE STUFF
 
