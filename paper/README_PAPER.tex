@@ -64,7 +64,7 @@ Where \(n\) is the number of modules, \(Q_i\) represents the rating of module \(
 XX EACH ITEM BELOW SHOULD HAVE AN IMAGE TO GO WITH IT
 
 \subsection{Content Recognition}
-Using NASA's Vision Workbench\cite{vision-workbench}, we obtain interest points and find the most dense region. We assume this to be the primary content in the image. It is used in detecting similar images, determining exposure quality, and calculating blur levels. Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
+Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
 To find similar images, we perform three steps of increasing complexity for high confidence.
