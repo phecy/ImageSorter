@@ -42,6 +42,6 @@ void QualityExif::parseData(ExifData* data) {
         if(isdigit(vals[i]))
             time = time*10 + (vals[i]-'0');
 
-    qDebug("Aperture: %f. Exposure: %f. ISO %d, time=%lld",
-           aperture, shutter, iso, time);
+//    qDebug("Aperture: %f. Exposure: %f. ISO %d, time=%lld",
+//           aperture, shutter, iso, time);
 }
