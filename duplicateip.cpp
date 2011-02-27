@@ -36,7 +36,6 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
     else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9779.jpg") == 0) fgBox = boundingBox(point(66,44),point(429,177));
     else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9782.jpg") == 0) fgBox = boundingBox(point(6,4),point(264,191));
     else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9783.jpg") == 0) fgBox = boundingBox(point(36,24),point(294,211));
-    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9784.jpg") == 0) fgBox = boundingBox(point(0,0),point(0,0));
     else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ourdata/new1-DSC_0031.JPG") == 0) fgBox = boundingBox(point(144,96),point(430,500));
     else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ourdata/new1-DSC_0034.JPG") == 0) fgBox = boundingBox(point(144,96),point(491,408));
     else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ourdata/new1-DSC_0035.JPG") == 0) fgBox = boundingBox(point(279,185),point(551,583));
@@ -499,6 +498,18 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
     else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ourdata/new-DSC_0234.JPG") == 0) fgBox = boundingBox(point(189,126),point(862,296));
 
     else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0086.jpg") == 0) fgBox = boundingBox(point(6,4),point(135,380));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9769.jpg") == 0) fgBox = boundingBox(point(156,104),point(407,306));
+
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9784.jpg") == 0) fgBox = boundingBox(point(120,80),point(480,321));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9785.jpg") == 0) fgBox = boundingBox(point(156,104),point(402,323));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9786.jpg") == 0) fgBox = boundingBox(point(185,124),point(443,311));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9787.jpg") == 0) fgBox = boundingBox(point(185,124),point(443,311));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9788.jpg") == 0) fgBox = boundingBox(point(126,84),point(384,271));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9789.jpg") == 0) fgBox = boundingBox(point(185,124),point(372,382));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9794.jpg") == 0) fgBox = boundingBox(point(6,4),point(253,200));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9795.jpg") == 0) fgBox = boundingBox(point(6,4),point(152,389));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9796.jpg") == 0) fgBox = boundingBox(point(6,4),point(193,262));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9797.jpg") == 0) fgBox = boundingBox(point(245,164),point(552,323));
 
     return fgBox;
 }
