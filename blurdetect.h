@@ -79,6 +79,10 @@ protected:
     void connectivity();
     int calcAngle(int w, int h);
 
+/* Part 2: Calculate width of edges (not angles as above).
+   Sillly: still uses angles[] */
+    int calcEdgeWidth(int w, int h);
+
 /*  Part 3: Calculate blur
     (Maximum angle differences is optimal: More sharp angles means more sharpness and less blur.) */
     int resultCalc();

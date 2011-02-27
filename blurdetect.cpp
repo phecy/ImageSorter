@@ -25,11 +25,11 @@ This file is part of ppm.
 #define PI 3.142
 
 #define MIN_NUM_IPS 0
-#define LOOK_FOR_CONTRAST_RADIUS 2
-#define SENSITIVITY_THRESHOLD 98
-#define EDGE_SIZE 3
+#define LOOK_FOR_CONTRAST_RADIUS 4
+#define SENSITIVITY_THRESHOLD 96
+#define EDGE_SIZE 2
 #define DIST_BETWEEN_EDGES 6
-#define SHARPNESS 30
+#define ANGLE_CONSTITUTING_SHARPNESS 30
 
 BlurDetect::BlurDetect()
 {
@@ -40,7 +40,7 @@ BlurDetect::BlurDetect()
     edgeRadius = EDGE_SIZE;
     highpassRadius = DIST_BETWEEN_EDGES;
 
-    sharpness = SHARPNESS;
+    sharpness = ANGLE_CONSTITUTING_SHARPNESS;
 }
 
 int BlurDetect::calculateBlur(VImage* vim) {
@@ -113,7 +113,7 @@ void BlurDetect::edgeDetect() {
                 highPass[w][h] = 255;
         }
     }
-    debugPrint(highPass);
+//    debugPrint(highPass);
 }
 
 void BlurDetect::correctSpacing(int w, int h) {
@@ -142,9 +142,40 @@ void BlurDetect::connectivity() {
     for(int w=0; w<width; w++) {
         angles[w] = (int*)calloc(height, sizeof(int)); // init to 0
         for(int h=1; h<height; h++) {
-            angles[w][h] = calcAngle(w,h);
+            angles[w][h] = calcEdgeWidth(w,h);
         }
     }
+    debugPrint(angles, true, 1, 3);
+}
+
+int BlurDetect::calcEdgeWidth(int w, int h) {
+    int maxX = 0; int maxY = 0; int maxGray = 255;
+    for(int x=w-radius; x<=w+radius; x++) {
+        for(int y=h-radius; y<=h+radius; y++) {
+            if((x == w && y == h)  ||
+                x<0 || y<0         ||
+                x>=width || y>=height ||
+                highPass[x][y] == 255
+               ) continue;
+            if(highPass[x][y] < maxGray) {
+                maxX = x; maxY=y; maxGray = highPass[x][y];
+            }
+        }
+    }
+    if(maxGray == 255){
+        // This would be noise in the image I suppose. Don't let it get in the way.
+        return 0;
+    }
+
+    // Calc angle
+    int xLen = maxX - w;
+    int yLen = maxY - h;
+
+    if(highPass[w][h] == 255) return 0; // Ignore non-edges
+
+    //qDebug("Edge distacne of %f",sqrt(xLen*xLen + yLen*yLen));
+
+    return (int)sqrt(xLen*xLen + yLen*yLen);
 }
 
 int BlurDetect::calcAngle(int w, int h) {
@@ -169,6 +200,7 @@ int BlurDetect::calcAngle(int w, int h) {
     // Calc angle
     int xLen = maxX - w;
     int yLen = maxY - h;
+
     int dirAngle;
     if(yLen == 0)
         dirAngle = 90;
@@ -225,11 +257,11 @@ void BlurDetect::debugPrint(int **image,
             int color = image[w][h];
             if(stepped) {
                 if(color < step1)
-                    i.setPixel(w, h, qRgb(color*2, 0, 0));
+                    i.setPixel(w, h, qRgb(color*100, 0, 0));
                 else if(color < step2)
-                    i.setPixel(w, h, qRgb(0, color*2, 0));
+                    i.setPixel(w, h, qRgb(0, color*100, 0));
                 else
-                    i.setPixel(w, h, qRgb(0, 0, color*2));
+                    i.setPixel(w, h, qRgb(0, 0, color*100));
             } else {
                 i.setPixel(w, h, qRgb(color, color, color));
             }
