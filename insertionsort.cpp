@@ -1,4 +1,7 @@
 #include "insertionsort.h"
+#include "vimage.h"
+
+#define ECLECTIC .8
 
 void insertion_sort(float sortBy[], char* sortAlso[],int length)
 {
@@ -17,4 +20,32 @@ void insertion_sort(float sortBy[], char* sortAlso[],int length)
      sortBy[i+1]=keySBy;
      sortAlso[i+1]=keySAlso;
   }
+}
+
+vector<VImage*> set_sort(vector<VImage*> imageInfo) {
+    vector<VImage*> sorted;
+
+    // For every image,
+    for(int i=0; i<imageInfo.size(); ++i) {
+        // Get max
+        VImage* max; float maxVal = 0;
+        vector<VImage*>::iterator image_i = imageInfo.begin();
+        for(; image_i != imageInfo.end(); ++image_i) {
+            if((*image_i)->getAdjustedRank() > maxVal) {
+                max = *image_i; maxVal = (*image_i)->getAdjustedRank();
+            }
+        }
+
+        // Insert at front of new list
+        sorted.push_back(max);
+
+        // Multiply all in that set by ECLECTIC
+        vector<VImage*>::iterator setfind_i = imageInfo.begin();
+        for(; setfind_i != imageInfo.end(); ++setfind_i) {
+            if((*setfind_i)->getSetNum() == max->getSetNum())
+                (*setfind_i)->multiplyAdjustedRank(ECLECTIC);
+        }
+    }
+
+    return sorted;
 }

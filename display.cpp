@@ -43,7 +43,21 @@ void display::newPic(int picNum)
     if(picNum < 0 || picNum >= size)
         return;
 
-    currPix = QPixmap::fromImage(*images[picNum]);
+    VImage* vim = images[picNum];
+    QImage* i = vim->getQImage();
+    point start = vim->getForegroundCoords().first;
+    point fin = vim->getForegroundCoords().second;
+
+    for(int w=start.first; w<fin.first; w++) {
+        i->setPixel(w, start.second, qRgb(0,255,0));
+        i->setPixel(w, fin.second, qRgb(0,255,0));
+    }
+    for(int h=start.second; h<fin.second; h++) {
+        i->setPixel(start.first, h, qRgb(0,255,0));
+        i->setPixel(fin.first, h, qRgb(0,255,0));
+    }
+
+    currPix = QPixmap::fromImage(*i);
     currPix.scaledToWidth(600);
 
     label->setPixmap(currPix);
@@ -52,7 +66,7 @@ void display::newPic(int picNum)
     char text[52];
     // Ranks start at 1, not 0, for display; +1 to indeces
     sprintf(text, "Image %d/%d: Ranked %1.02f/9 || Set number %d/%d",
-            picNum+1, size, ranks[picNum], setnum[picNum]+1, numsets);
+            picNum+1, size, vim->getRank(), vim->getSetNum()+1, numsets);
     ui->rankText->setText(text);
 }
 
@@ -81,13 +95,13 @@ void display::prevInSet() {
 int display::findOthersInSet(bool lookForward) {
     int direction = lookForward ? 1 : -1; // Which way to iterate
 
-    int tempIndex = currPixIndex + direction;
-    while(setnum[tempIndex] != setnum[currPixIndex]) {
+    int tempIndex = currPixIndex;
+    do {
         tempIndex += direction;
-        if(tempIndex < 0 || tempIndex >= size) {
+        if(tempIndex < 0 || tempIndex >= size)
             return -1; // Out of bounds
-        }
-    }
+    } while(images[tempIndex]->getSetNum()!=images[currPixIndex]->getSetNum());
+
     return tempIndex; // Success
 }
 

@@ -6,6 +6,8 @@
 #include <QPixmap>
 #include <QLabel>
 
+#include "vimage.h"
+
 namespace Ui {
     class display;
 }
@@ -17,8 +19,8 @@ class display : public QMainWindow
 public:
     explicit display(QWidget *parent = 0);
     ~display();
-    void setImageData(QImage** im, char** fn, float* rnk, int* sn, int ns, int sz)
-        {images = im; filenames = fn; ranks=rnk; size=sz; setnum=sn; numsets=ns;}
+    void setImageData(const vector<VImage*> &im,int ns, int sz)
+        {images = im; size=sz; numsets=ns;}
     void init();
 
 private:
@@ -32,12 +34,9 @@ private:
     void goToPic(int whichPic);
 
     Ui::display *ui;
-    char** filenames;
-    float* ranks;
-    int* setnum;
     int size;
     int numsets;
-    QImage** images;
+    vector<VImage*> images;
     QLabel* label;
 
     QPixmap currPix;

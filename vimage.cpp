@@ -12,6 +12,7 @@ VImage::VImage(char* filename) {
     width = vimage->cols();
     height = vimage->rows();
     this->filename = filename;
+    rankTotal = -1;
     makeQImage();
 }
 

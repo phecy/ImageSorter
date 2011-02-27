@@ -40,7 +40,16 @@ public:
     // Information
     char* getFilename() { return filename; }
 
-    // Foreground stuff
+    // Ranks
+    void setRank(float r) { rankTotal=r; adjustedRank=r; }
+    float getRank() { return rankTotal; }
+    void setSetNum(float s) { setNum = s; }
+    int getSetNum() { return setNum; }
+    void multiplyAdjustedRank(float k) { adjustedRank *= k; }
+    float getAdjustedRank() { return adjustedRank; }
+
+
+    // Foreground stuffRan
     InterestPointList getIps() { return ipList; }
     void setIp(InterestPointList ip) { ipList = ip; }
 
@@ -60,6 +69,11 @@ private:
     char* filename;
     int width;
     int height;
+
+    // Ranks
+    float rankTotal;
+    int setNum;
+    int adjustedRank; // Rank adjusted for sets
 
     // Foreground stuff
     InterestPointList ipList;

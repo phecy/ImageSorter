@@ -53,9 +53,9 @@ using namespace std;
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
-int findIndex(QImage *im, QImage *imageDatArray[], int size){
+int findIndex(QImage *im, vector<VImage*> &imageInfoArray, int size){
     for(int i=0; i < size; ++i) {
-        if(im==imageDatArray[i])
+        if(im==imageInfoArray[i]->getQImage())
             return i;
     }
     return -1;
@@ -85,9 +85,19 @@ double alog10(double num) {
     return exp(num * log(10));
 }
 
+// Compute x^4
+double pow4(double num) {
+    return num*num*num*num;
+}
+
+// Compute fourth-root x
+double root4(double num) {
+    return sqrt(sqrt(num));
+}
+
 // Calculates ranking for each image based on params. Puts into picValue.
 // Then prints all info to cout
-void calcAndPrintWeights(char** imageStrArray,
+void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* picValue, int* exposeVals,
                  int* palletVals, int* greyVals, int* blurVals,
                  int* sharpVals, int numPics) {
@@ -98,15 +108,15 @@ void calcAndPrintWeights(char** imageStrArray,
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
-        // Average of scaled inverse logs: penalize low more than rewarding high
-        picValue[i] =  alog10(exposeVals[i]*exposeScale);
-        picValue[i] += alog10(palletVals[i]*palletScale);
-        picValue[i] += alog10(.2*blurVals[i]*blurScale + .8*sharpVals[i]*blurScale);
-        picValue[i] += alog10(greyVals[i]*greyScale);
-        picValue[i] /= (NUM_MODULES * RANGE);
+        // Average of fourth-root of squared-squares
+        picValue[i] =  pow4(exposeVals[i]*exposeScale) / 4;
+        picValue[i] += pow4(palletVals[i]*palletScale) / 4;
+        picValue[i] += pow4(.2*blurVals[i]*blurScale + .8*sharpVals[i]*blurScale) / 4;
+        picValue[i] += pow4(greyVals[i]*greyScale) / 4;
+        picValue[i] = root4(picValue[i]);
+        picValue[i] *= 3.5;
 
-
-        cout << "Image \"" << imageStrArray[i] << "\"" << endl;
+        cout << "Image \"" << imageInfoArray[i]->getFilename() << "\"" << endl;
         cout << "   Total rank: " << picValue[i] << endl;
         cout << "-----------------------" << endl;
         cout << "  *       exposure: " << exposeVals[i] << endl;
@@ -117,13 +127,13 @@ void calcAndPrintWeights(char** imageStrArray,
     }
     cout<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
-        cout << picValue[i] << "," << imageStrArray[i] << endl;
+        cout << picValue[i] << "," << imageInfoArray[i]->getFilename() << endl;
     }
 }
 
 // False on failure
-bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
-                    QImage** imageDatArray, float* finalValue) {
+bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
+                    int size, Duplicates dupFinder, float* finalValue) {
     // Create each module object
     exposure newExpose;
     grey newGrey;
@@ -156,26 +166,26 @@ bool calcAllModules(char** imageStrArray, int size, Duplicates dupFinder,
             cout << "Image " << fn << " failed to load!\n";
             return false;
         }
-        imageDatArray[i] = currQIm;
+        imageInfoArray[i] = currVIm;
 
         // First get exif
-        loadExif(&exifs[i], imageStrArray[i]);
+        loadExif(&exifs[i], fn);
 
         // Find duplicates; use IPs to get foreground
-        dupFinder.addImage(currVIm, &exifs[i], fn);
+        dupFinder.addImage(currVIm, &exifs[i]);
 
         // Calc ranks
         exposeVals[i] = newExpose.expose(currVIm);
         palletVals[i] = colorAnalysis(currQIm);
         greyVals[i] = newGrey.calcGrey(currQIm);
-        blurVals[i] = newBlur->calculateBlur(currQIm);
+        blurVals[i] = newBlur->calculateBlur(currVIm);
         sharpVals[i] = sharpDetect.rankOne(currVIm);
         // newBlur->show();
     }
 
     // Sets the different methods' respective weights.
     // Puts it into calcWeights.
-    calcAndPrintWeights(imageStrArray, finalValue, exposeVals,
+    calcAndPrintWeights(imageInfoArray, finalValue, exposeVals,
                         palletVals, greyVals, blurVals, sharpVals, size);
 
     return true;
@@ -196,8 +206,8 @@ int main(int argc, char *argv[])
     if(size == 0) return EXIT_SUCCESS;
 
     // Some variables for each image
-    QImage *imageDatArray[size];
-    char *imageStrArray[size];
+    vector<VImage*> imageInfoArray(size);
+    char* imageStrArray[size];
     float picValue[size];
 
     // Get strings for each filename
@@ -211,12 +221,9 @@ int main(int argc, char *argv[])
     Duplicates dupFinder(size);
     int setNum[size];
     int numSets = 0; // <= size
-    for(int i=0; i < size; ++i)
-        setNum[i] = 0;
 
     // Calculate everything. Gather duplicates.
-    bool succeeded = calcAllModules(imageStrArray, size, dupFinder,
-                                    imageDatArray, picValue);
+    bool succeeded = calcAllModules(imageInfoArray, imageStrArray, size, dupFinder, picValue);
     if(!succeeded) return EXIT_FAILURE;
     /*DEBUG return app.exec(); */
 
@@ -229,38 +236,25 @@ int main(int argc, char *argv[])
 
     for (int set_index = 0; set_index < numSets; ++set_index)
     {
-       float max = 0;
-       QImage *best;
+       int picsInSet = dupList[set_index].size();
 
-       vector<VImage*> picList = dupList[set_index];
-       int picsInSet = picList.size();
+       // Put data in VImage
        for (int picset_index=0; picset_index < picsInSet; ++picset_index){
-           float rating = 0;
-           QImage* currPic = picList[picset_index]->getQImage();
-           int picIndex = findIndex(currPic, imageDatArray, size);
-           rating = picValue[picIndex];
-           setNum[picIndex] = set_index;
+           QImage* currPic = dupList[set_index][picset_index]->getQImage();
+           int picIndex = findIndex(currPic, imageInfoArray, size);
 
-           if(rating > max){
-               // picValue[findIndex(best, imageDatArray, size)] = 0;
-
-               max = rating;
-               best = currPic;
-           }
-           else {
-               //set value of picture to zero since it is not a better duplicate
-               //cout << "Deleting Duplicate: " << imageArray[findIndex(name, imageArray, argc)] << endl;
-               // picValue[findIndex(currPic, imageArray, size)] = 0;
-           }
+           dupList[set_index][picset_index]->setSetNum(set_index);
+           dupList[set_index][picset_index]->setRank(picValue[picIndex]);
        }
     }
 
     // Sort
-    //insertion_sort(picValue, imageStrArray, size);
+    // insertion_sort(picValue, imageStrArray, size);
+    imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
     display *disp = new display();
-    disp->setImageData(imageDatArray, (char**)imageStrArray, (float*)picValue, setNum, numSets, size);
+    disp->setImageData(imageInfoArray, numSets, size);
     disp->init();
 
     return app.exec();
