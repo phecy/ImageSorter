@@ -26,15 +26,18 @@ vector<VImage*> set_sort(vector<VImage*> imageInfo) {
     vector<VImage*> sorted;
 
     // For every image,
-    for(int i=0; i<imageInfo.size(); ++i) {
+    while(imageInfo.size() != 0) {
         // Get max
-        VImage* max; float maxVal = 0;
+        VImage* max; float maxVal = 0; vector<VImage*>::iterator max_i;
         vector<VImage*>::iterator image_i = imageInfo.begin();
         for(; image_i != imageInfo.end(); ++image_i) {
             if((*image_i)->getAdjustedRank() > maxVal) {
-                max = *image_i; maxVal = (*image_i)->getAdjustedRank();
+                max = *image_i;
+                maxVal = (*image_i)->getAdjustedRank();
+                max_i = image_i;
             }
         }
+        imageInfo.erase(max_i);
 
         // Insert at front of new list
         sorted.push_back(max);
