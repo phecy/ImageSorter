@@ -109,12 +109,14 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
-        picValue[i] =  pow4(exposeVals[i]*exposeScale) / 4;
-        picValue[i] += pow4(palletVals[i]*palletScale) / 4;
-        picValue[i] += pow4(.2*blurVals[i]*blurScale + .8*sharpVals[i]*blurScale) / 4;
-        picValue[i] += pow4(greyVals[i]*greyScale) / 4;
-        picValue[i] = root4(picValue[i]);
-        picValue[i] *= 3.5;
+        float rank = pow4(exposeVals[i]*exposeScale) / 4;
+        rank += pow4(palletVals[i]*palletScale) / 4;
+        rank += pow4(.4*blurVals[i]*blurScale + .6*sharpVals[i]*blurScale) / 4;
+        rank += pow4(greyVals[i]*greyScale) / 4;
+        rank = root4(rank);
+        rank *= 3.5;
+        if(rank > 9) rank = 9;
+        picValue[i] =  rank;
 
         cout << "Image \"" << imageInfoArray[i]->getFilename() << "\"" << endl;
         cout << "   Total rank: " << picValue[i] << endl;
@@ -180,7 +182,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         greyVals[i] = newGrey.calcGrey(currQIm);
         blurVals[i] = newBlur->calculateBlur(currVIm);
         sharpVals[i] = sharpDetect.rankOne(currVIm);
-        // newBlur->show();
+        newBlur->show();
     }
 
     // Sets the different methods' respective weights.
