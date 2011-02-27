@@ -13,6 +13,11 @@ boundingBox BoundingBox::getBoundingBox(QImage* qim, InterestPointList ips) {
     ipMap = getIpMap(qim, ips);
     densityMap totalIpMap = getTotalIpMap(ipMap);
 
+    // If no IPs, return center of image
+    if(ips.size()==0)
+        return boundingBox(point(.2*qim->width(), .2*qim->height()),
+                           point(.8*qim->width(), .8*qim->height()));
+
     // Get max bounding box
     densityBox maxDensityBox =
             densityBox(boundingBox(point(-1,-1),point(-1,-1)),-1);
