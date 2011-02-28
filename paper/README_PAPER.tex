@@ -28,12 +28,12 @@ Computer Science Undergraduate\\
 Univ. of Calif. at Santa Cruz\\
 ksamii@ucsc.edu
 \and
-Allison Carlisle\\
+Allison A. Carlisle\\
 Bioinformatics/Computer Science Undergraduate\\
 Univ. of Calif. at Santa Cruz\\
 acarlisl@ucsc.edu
 \and
-Uliana A. Popov\\
+Uliana Vodka Popov\\
 Computer Science Graduate\\
 Univ. of Calif. at Santa Cruz\\
 uliana@soe.ucsc.edu
@@ -64,11 +64,7 @@ The need for automating the photographer's process will continue to grow as digi
 Our work assesses an image based on blur, exposure, and the relationship between colors. We focus on the quality of foreground, and provide a relative ranking within a set of contextually similar images. An absolute rank is also provided, providing robustness in cases where there are no similar photographs to compare to in the input set.  We consider color harmony a technical aspect because it can be indicative of probems with lighting and color balance.
 
 \section{Related Work}
-<<<<<<< HEAD
 Various publications such as \citeauthor{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Bhattacahrya:2010:FPA:1873951.1873990} and \citeauthor{Kopf:2008:DPM:1409060.1409069}\cite{Kopf:2008:DPM:1409060.1409069} have focused on improving the quality of an image thech is the second step of the Photographer's Process%.\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069};
-=======
-Various publications have focused on improving the quality of an image (the second step of the Photographer's Process)\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}; more deeply researched is assessing quality for the purposes of photograph retrieval\cite{Yeh:2010:PPR:1873951.1873963}\cite{vanZwol:2010:FEI:1772690.1772788}\cite{springerlink:10.1007/978-3-642-17187-1_57}\cite{Cui:2008:RTG:1459359.1459471}\cite{Chu2010256}.
->>>>>>> a0182f7b109dd2ec524e3af49c149a2b8b9a959b
 
 %Others deeply researched assessing quality for the purposes of photograph retrieval from a web or multi-contributor set \cite{Yeh:2010:PPR:1873951.1873963}\cite{vanZwol:2010:FEI:1772690.1772788}\cite{springerlink:10.1007/978-3-642-17187-1_57}\cite{Cui:2008:RTG:1459359.1459471}\cite{Chu2010256}. 
 
@@ -97,7 +93,12 @@ Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-
 
 \subsection{Similar-Image Clustering}
 To find similar images, we perform three steps of increasing complexity for high confidence.
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank images on a 0-9 scale based on time to allow for nonconsecutive images to be grouped together:
+\begin{figure}[t]
+  \centering
+    \includegraphics[scale=0.53,clip]{similarimage.eps}
+  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
+\end{figure}
+First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank images on a 0-9 scale based to allow for nonconsecutive images to be grouped together:
 \[
 T_{i,j}=\frac{G}{A_g}
 \]
@@ -112,7 +113,9 @@ A_g=\displaystyle\sum\limits_{a={i-w}}^{j+w}G_{a,i}
 We have empirically chosen a window size of \(w=8\).
 The calculated similarity index \(T_{i,j}\) is used as a weight for the next two steps.
 
-The first content-based step is simple 9-segment test. We divide the images into a 3x3 grid and compare the average color of each square. Because this is sensitive to exposure differences, subject movement, and camera reorientation, we then gather interest points using XX SOME ALGORITHM FROM NASA, OR THE AVERAGE COLOR OF THE ROI. We then compute a ranking based on the number of matched interest points.
+Next, the distribution of the red, green, and blue channel of the image is extracted into a 4x4 grid. To compare two images, we find the minimum difference out of the three channels for each square and iteratively subtract from a perfect score. XX THIS DOESN'T MAKE SENSE BROSKI
+
+Because this is sensitive to exposure differences, subject movement, and camera reorientation, we then gather interest points using XX SOME ALGORITHM FROM NASA, OR THE AVERAGE COLOR OF THE ROI. We then compute a ranking based on the number of matched interest points.
 
 The two content-based algorithms, weighted by the timestamp, cluster similar images with high accuracy.
 

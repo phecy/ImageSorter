@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  27 FEB 2011 17:56
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  27 FEB 2011 18:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -343,48 +343,92 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 49.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 67.
 
-Underfull \hbox (badness 3895) in paragraph at lines 67--68
-\OT1/ptm/m/n/10 qual-ity of an im-age (the sec-ond step of the Pho-
+
+Package natbib Warning: Author undefined for citation`Bhattacahrya:2010:FPA:187
+3951.1873990' 
+(natbib)                on page 1 on input line 67.
+
+
+Package natbib Warning: Author undefined for citation`Kopf:2008:DPM:1409060.140
+9069' 
+(natbib)                on page 1 on input line 67.
+
+
+Underfull \hbox (badness 1122) in paragraph at lines 67--68
+[]\OT1/ptm/m/n/10 Various pub-li-ca-tions such as [][][]\OT1/ptm/b/n/10 (au-tho
+r?)[][][]\OT1/ptm/m/n/10 [[]] and [][][]\OT1/ptm/b/n/10 (au-
  []
 
 
-Underfull \hbox (badness 6542) in paragraph at lines 67--68
-\OT1/ptm/m/n/10 tog-ra-pher's Process)[[]][[]]; more deeply re-searched
- []
+Package natbib Warning: Author undefined for citation`springerlink:10.1007/978-
+3-540-77409-9_26' 
+(natbib)                on page 1 on input line 73.
 
 
-Underfull \hbox (badness 3590) in paragraph at lines 67--68
-\OT1/ptm/m/n/10 is as-sess-ing qual-ity for the pur-poses of pho-to-graph
- []
+Package natbib Warning: Author undefined for citation`5540170' 
+(natbib)                on page 1 on input line 73.
 
 
-Underfull \hbox (badness 1152) in paragraph at lines 69--70
-\OT1/ptm/m/n/10 line search en-gines have pro-vided sets of sim-i-lar im-
- []
+Package natbib Warning: Author undefined for citation`COL:COL5080160410' 
+(natbib)                on page 1 on input line 73.
 
 
-Underfull \hbox (badness 2903) in paragraph at lines 69--70
-\OT1/ptm/m/n/10 ages to compare[[]][[]]. Sev-eral pa-pers have de-vel-
- []
+Package natbib Warning: Author undefined for citation`COL:COL10004' 
+(natbib)                on page 1 on input line 73.
 
 
-Underfull \hbox (badness 1184) in paragraph at lines 69--70
-\OT1/ptm/m/n/10 oped meth-ods for sep-a-rat-ing pro-fes-sional and am-a-teur
- []
+Package natbib Warning: Author undefined for citation`Chu2010256' 
+(natbib)                on page 1 on input line 73.
+
+
+Package natbib Warning: Author undefined for citation`springerlink:10.1007/978-
+3-540-30541-5_25' 
+(natbib)                on page 1 on input line 74.
+
+
+Package natbib Warning: Author undefined for citation`springerlink:10.1007/1174
+4078_23' 
+(natbib)                on page 1 on input line 74.
+
+
+Package natbib Warning: Author undefined for citation`1640788' 
+(natbib)                on page 1 on input line 74.
+
+
+Package natbib Warning: Author undefined for citation`springerlink:10.1007/978-
+3-540-88690-7_29' 
+(natbib)                on page 1 on input line 74.
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 80.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 86.
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 80.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 86.
 
+Underfull \hbox (badness 3895) in paragraph at lines 96--99
+\OT1/ptm/m/n/10 qual-ity of an im-age (the sec-ond step of the Pho-
+ []
+
+
+Underfull \hbox (badness 6542) in paragraph at lines 96--99
+\OT1/ptm/m/n/10 tog-ra-pher's Process)[[]][[]]; more deeply re-searched
+ []
+
+
+Underfull \hbox (badness 3590) in paragraph at lines 96--99
+\OT1/ptm/m/n/10 is as-sess-ing qual-ity for the pur-poses of pho-to-graph
+ []
+
+[2]
 
 ! LaTeX Error: Unknown graphics extension: .eps.
 
@@ -392,10 +436,9 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.117 ...ics[scale=0.53,clip]{imageluminosity.eps}
+l.125 ...ics[scale=0.53,clip]{imageluminosity.eps}
                                                   
 ? 
-[2]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
@@ -408,7 +451,6 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-
 
 ! LaTeX Error: Unknown graphics extension: .eps.
 
@@ -416,7 +458,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.145 ...aphics[scale=0.38,clip]{colorharmony.eps}
+l.153 ...aphics[scale=0.38,clip]{colorharmony.eps}
                                                   
 ? 
 [3]
@@ -427,7 +469,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.170 ...degraphics[scale=0.40,clip]{ke_vs_us.eps}
+l.178 ...degraphics[scale=0.40,clip]{ke_vs_us.eps}
                                                   
 ? 
 (./README_PAPER.bbl (./README_PAPER.brf)
@@ -439,12 +481,11 @@ Underfull \hbox (badness 2310) in paragraph at lines 15--15
 []\OT1/ptm/m/n/10 Subhabrata Bhat-tac-ahrya, Rahul Suk-thankar, and
  []
 
-
+[4]
 Underfull \hbox (badness 5022) in paragraph at lines 40--40
 []\OT1/ptm/m/n/10 Wei-Ta Chu and Chia-Hung Lin.  Con-sumer
  []
 
-[4]
 Missing character: There is no ≈ in font ptmr7t!
 Missing character: There is no ° in font ptmr7t!
 Missing character: There is no ‚ in font ptmri7t!
@@ -456,10 +497,11 @@ Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmri7t!
 Missing character: There is no Ä in font ptmri7t!
 Missing character: There is no ì in font ptmri7t!
+[5]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
- [5]
+
 Underfull \hbox (badness 2103) in paragraph at lines 166--166
 []\OT1/ptm/m/n/10 Roelof van Zwol, B[]orkur Sig-ur-b-jorns-son, Ramu
  []
@@ -478,13 +520,13 @@ Underfull \hbox (badness 6625) in paragraph at lines 166--166
 
 ] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
- 5969 strings out of 495061
- 85727 string characters out of 1182621
- 163049 words of memory out of 3000000
- 8976 multiletter control sequences out of 15000+50000
- 22487 words of font info for 56 fonts, out of 3000000 for 9000
+ 5972 strings out of 495061
+ 85762 string characters out of 1182621
+ 164055 words of memory out of 3000000
+ 8978 multiletter control sequences out of 15000+50000
+ 24113 words of font info for 58 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 38i,8n,28p,759b,478s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,8n,28p,759b,470s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}<
 /usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/
 texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texli
@@ -496,9 +538,9 @@ r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texm
 f-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type
 1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on README_PAPER.pdf (6 pages, 173494 bytes).
+Output written on README_PAPER.pdf (6 pages, 177946 bytes).
 PDF statistics:
- 203 PDF objects out of 1000 (max. 8388607)
+ 217 PDF objects out of 1000 (max. 8388607)
  54 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
