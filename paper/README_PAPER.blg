@@ -1,45 +1,45 @@
 This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: README_PAPER.aux
-The style file: plainnat.bst
+The style file: plain.bst
 Database file #1: README_BIB.bib
-You've used 23 entries,
-            2773 wiz_defined-function locations,
-            786 strings with 11055 characters,
-and the built_in function-call counts, 14892 in all, are:
-= -- 1437
-> -- 782
-< -- 31
-+ -- 260
-- -- 237
-* -- 1256
-:= -- 2170
-add.period$ -- 122
-call.type$ -- 23
-change.case$ -- 143
-chr.to.int$ -- 23
-cite$ -- 46
-duplicate$ -- 658
-empty$ -- 1161
-format.name$ -- 270
-if$ -- 3291
-int.to.chr$ -- 1
-int.to.str$ -- 1
-missing$ -- 22
-newline$ -- 168
-num.names$ -- 100
-pop$ -- 256
+You've used 21 entries,
+            2118 wiz_defined-function locations,
+            645 strings with 8616 characters,
+and the built_in function-call counts, 9957 in all, are:
+= -- 991
+> -- 424
+< -- 22
++ -- 163
+- -- 140
+* -- 733
+:= -- 1494
+add.period$ -- 74
+call.type$ -- 21
+change.case$ -- 126
+chr.to.int$ -- 0
+cite$ -- 21
+duplicate$ -- 403
+empty$ -- 798
+format.name$ -- 140
+if$ -- 2230
+int.to.chr$ -- 0
+int.to.str$ -- 21
+missing$ -- 20
+newline$ -- 112
+num.names$ -- 50
+pop$ -- 137
 preamble$ -- 1
-purify$ -- 121
+purify$ -- 106
 quote$ -- 0
-skip$ -- 536
+skip$ -- 321
 stack$ -- 0
-substring$ -- 780
-swap$ -- 184
-text.length$ -- 23
+substring$ -- 769
+swap$ -- 165
+text.length$ -- 22
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 253
+type$ -- 84
 warning$ -- 0
-while$ -- 117
-width$ -- 0
-write$ -- 419
+while$ -- 85
+width$ -- 23
+write$ -- 261

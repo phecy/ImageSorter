@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  27 FEB 2011 21:42
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  28 FEB 2011 12:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -147,13 +147,6 @@ Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
-(/usr/share/texmf-texlive/tex/latex/natbib/natbib.sty
-Package: natbib 2009/07/16 8.31 (PWD, AO)
-\bibhang=\skip48
-\bibsep=\skip49
-LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count104
-)
 (/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2009/10/09 v6.79a Hypertext links for LaTeX
 
@@ -176,8 +169,8 @@ O)
 Package: xcolor-patch 2009/10/02 xcolor patch
 ))
 \@linkdim=\dimen119
-\Hy@linkcounter=\count105
-\Hy@pagecounter=\count106
+\Hy@linkcounter=\count104
+\Hy@pagecounter=\count105
 
 (/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
@@ -248,7 +241,7 @@ Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 )))
-\Fld@menulength=\count107
+\Fld@menulength=\count106
 \Field@Width=\dimen120
 \Fld@charsize=\dimen121
 \Field@toks=\toks20
@@ -263,9 +256,9 @@ Package hyperref Info: PDF/A mode OFF on input line 4407.
 (/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
 Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
 )
-\Hy@abspage=\count108
-\c@Item=\count109
-\c@Hfootnote=\count110
+\Hy@abspage=\count107
+\c@Item=\count108
+\c@Hfootnote=\count109
 )
 *hyperref using default driver hdvips*
 (/usr/share/texmf-texlive/tex/latex/hyperref/hdvips.def
@@ -283,25 +276,25 @@ Package hyperref Warning: You have enabled option `breaklinks'.
 \pdf@box=\box30
 \pdf@toks=\toks22
 \pdf@defaulttoks=\toks23
-\Fld@listcount=\count111
+\Fld@listcount=\count110
 )) (./README_PAPER.aux)
 \openout1 = `README_PAPER.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 46.
  (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
@@ -317,7 +310,7 @@ Package color Info: Driver file: dvips.def on input line 130.
 (/usr/share/texmf-texlive/tex/latex/graphics/dvipsnam.def
 File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
 ))
-Package hyperref Info: Link coloring ON on input line 47.
+Package hyperref Info: Link coloring ON on input line 46.
 
 (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
@@ -325,26 +318,25 @@ Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 (/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
 Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
-\c@section@level=\count112
+\c@section@level=\count111
 )
-LaTeX Info: Redefining \ref on input line 47.
-LaTeX Info: Redefining \pageref on input line 47.
-Package backref Info: ** backref set up for natbib ** on input line 47.
+LaTeX Info: Redefining \ref on input line 46.
+LaTeX Info: Redefining \pageref on input line 46.
 \AtBeginShipoutBox=\box31
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 49.
-LaTeX Font Info:    Try loading font information for U+msa on input line 49.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 48.
+LaTeX Font Info:    Try loading font information for U+msa on input line 48.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 49.
+LaTeX Font Info:    Try loading font information for U+msb on input line 48.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 49.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 48.
  [1
 
 
@@ -358,9 +350,15 @@ LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 93.
 File: similarimages.eps Graphic file (type eps)
  <similarimages.eps>
-[2]
+Underfull \hbox (badness 1087) in paragraph at lines 127--128
+\OT1/ptm/m/n/10 Sim-i-lar im-ages are clus-tered with a Quality-Threshold
+ []
+
 File: imageluminosity.eps Graphic file (type eps)
- <imageluminosity.eps>
+<imageluminosity.eps>
+Underfull \vbox (badness 1062) has occurred while \output is active []
+
+ [2]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
@@ -373,138 +371,18 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
- [3]
 File: colorharmony.eps Graphic file (type eps)
- <colorharmony.eps>
+
+<colorharmony.eps> [3]
 File: ke_vs_us.eps Graphic file (type eps)
- <ke_vs_us.eps> [4]
-(./README_PAPER.bbl (./README_PAPER.brf)
+ <ke_vs_us.eps> [4] (./README_PAPER.bbl
+(./README_PAPER.brf)
 \tf@brf=\write3
 \openout3 = `README_PAPER.brf'.
 
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 18.
 
-(/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Underfull \hbox (badness 2310) in paragraph at lines 18--18
-[]\OT1/ptm/m/n/10 Subhabrata Bhat-tac-ahrya, Rahul Suk-thankar, and
- []
-
-
-Underfull \hbox (badness 1558) in paragraph at lines 18--18
-\OT1/ptm/m/n/10 Mubarak Shah.  A frame-work for photo-quality
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 18--18
-\OT1/ptm/m/n/10 as-sess-ment and en-hance-ment based on vi-sual
- []
-
-
-Underfull \hbox (badness 2221) in paragraph at lines 18--18
-\OT1/ptm/m/n/10 aes-thet-ics.  In \OT1/ptm/m/it/10 Pro-ceed-ings of the in-ter-
-na-tional
- []
-
-
-Underfull \hbox (badness 1142) in paragraph at lines 18--18
-\OT1/ptm/m/it/10 con-fer-ence on Mul-ti-me-dia\OT1/ptm/m/n/10 , MM '10, pages 2
-71--
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 18--18
-\OT1/ptm/m/n/10 978-1-60558-933-6.  doi: $http : / / doi . acm . org .
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 18--18
-\OT1/ptm/m/n/10 oca . ucsc . edu / 10 . 1145 / 1873951 . 1873990$.  URL
- []
-
-
-Overfull \hbox (117.02397pt too wide) in paragraph at lines 18--18
-[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org . oca . ucsc . edu / 10 . 114
-5 / 1873951 . 1873990$[][][][]\OT1/ptm/m/n/10 .
- []
-
-
-Underfull \hbox (badness 1237) in paragraph at lines 36--36
-[]\OT1/ptm/m/n/10 Kenneth E. Burchett.  Color har-mony at-tributes.
- []
-
-
-Overfull \hbox (27.02397pt too wide) in paragraph at lines 36--36
-[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1002 / col . 5080160410
-$[][][][]\OT1/ptm/m/n/10 .
- []
-
-
-Underfull \hbox (badness 1990) in paragraph at lines 45--45
-[]\OT1/ptm/m/n/10 Kenneth E. Burchett.  Color har-mony.  \OT1/ptm/m/it/10 Color
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
-\OT1/ptm/m/it/10 Re-search & Ap-pli-ca-tion\OT1/ptm/m/n/10 , 27(1):28--31, 2002
-.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
-[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1002 / col . 10004$[][]
-[][]\OT1/ptm/m/n/10 .
- []
-
-
-Underfull \hbox (badness 5022) in paragraph at lines 57--57
+Underfull \hbox (badness 5022) in paragraph at lines 27--27
 []\OT1/ptm/m/n/10 Wei-Ta Chu and Chia-Hung Lin.  Con-sumer
- []
-
-
-Underfull \hbox (badness 5077) in paragraph at lines 57--57
-\OT1/ptm/m/n/10 photo man-age-ment and brows-ing fa-cil-i-tated by
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 57--57
-\OT1/ptm/m/n/10 near-duplicate de-tec-tion with fea-ture fil-ter-ing.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 57--57
-\OT1/ptm/m/it/10 Jour-nal of Vi-sual Com-mu-ni-ca-tion and Im-age
- []
-
-
-Overfull \hbox (358.02397pt too wide) in paragraph at lines 57--57
-[][][]$\OT1/pcr/m/n/10 http : / / www . sciencedirect . com / science / article
- / B6WMK-[]4Y70C6C-[]3 / 2 / 2a989be326ea821696ae379259e3f960$[][][][]\OT1/ptm/
-m/n/10 .
- []
-
-
-Underfull \hbox (badness 1371) in paragraph at lines 67--67
-[]\OT1/ptm/m/n/10 Daniel Cohen-Or, Olga Sorkine, Ran Gal, Tom-
- []
-
-
-Underfull \hbox (badness 2310) in paragraph at lines 67--67
-\OT1/ptm/m/n/10 mer Ley-vand, and Ying-Qing Xu.  Color har-
- []
-
-
-Underfull \hbox (badness 1558) in paragraph at lines 67--67
-\OT1/ptm/m/n/10 mo-niza-tion.  In \OT1/ptm/m/it/10 ACM SIG-GRAPH 2006 Pa-pers\O
-T1/ptm/m/n/10 ,
- []
-
-
-Overfull \hbox (39.02397pt too wide) in paragraph at lines 67--67
-[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org / 10 . 1145 / 1179352 . 11419
-33$[][][][]\OT1/ptm/m/n/10 .
  []
 
 Missing character: There is no ≈ in font ptmr7t!
@@ -512,204 +390,26 @@ Missing character: There is no ° in font ptmr7t!
 Missing character: There is no ‚ in font ptmri7t!
 Missing character: There is no Ä in font ptmri7t!
 Missing character: There is no ì in font ptmri7t!
-
-Underfull \hbox (badness 1609) in paragraph at lines 78--78
-[]\OT1/ptm/m/n/10 Ritendra Datta, Dhi-raj Joshi, Jia Li, and James
- []
-
-
-Underfull \hbox (badness 1533) in paragraph at lines 78--78
-\OT1/ptm/m/n/10 Wang.  Study-ing aes-thet-ics in pho-to-graphic im-
- []
-
-
-Underfull \hbox (badness 2573) in paragraph at lines 78--78
-\OT1/ptm/m/n/10 ages us-ing a com-pu-ta-tional ap-proach.  In Ale
- []
-
-
-Underfull \hbox (badness 3333) in paragraph at lines 78--78
-\OT1/ptm/m/n/10 Leonardis, Horst Bischof, and Axel Pinz, ed-i-
- []
-
-
-Underfull \hbox (badness 5460) in paragraph at lines 78--78
-\OT1/ptm/m/n/10 of \OT1/ptm/m/it/10 Lec-ture Notes in Com-puter Sci-ence\OT1/pt
-m/m/n/10 , pages
- []
-
-
-Overfull \hbox (9.02397pt too wide) in paragraph at lines 78--78
-[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1007 / 11744078 _ 23$[]
-[][][]\OT1/ptm/m/n/10 .
- []
-
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-
-Underfull \hbox (badness 2941) in paragraph at lines 107--107
-[]\OT1/ptm/m/n/10 Ping Hsu and Bing-Yu Chen.  Blurred im-age
- []
-
-
-Underfull \hbox (badness 1953) in paragraph at lines 107--107
-\OT1/ptm/m/n/10 de-tec-tion and clas-si-fi-ca-tion.  In Shinichi Satoh,
- []
-
-
-Underfull \hbox (badness 7944) in paragraph at lines 107--107
-\OT1/ptm/m/n/10 Frank Nack, and Mi-noru Etoh, ed-i-tors, \OT1/ptm/m/it/10 Ad-
- []
-
-
-Underfull \hbox (badness 6236) in paragraph at lines 107--107
-\OT1/ptm/m/it/10 vances in Mul-ti-me-dia Mod-el-ing\OT1/ptm/m/n/10 , vol-ume 49
-03
- []
-
-
-Underfull \hbox (badness 5460) in paragraph at lines 107--107
-\OT1/ptm/m/n/10 of \OT1/ptm/m/it/10 Lec-ture Notes in Com-puter Sci-ence\OT1/pt
-m/m/n/10 , pages
- []
-
-
-Overfull \hbox (65.02397pt too wide) in paragraph at lines 107--107
-[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1007 / 978-[]3-[]540-[]
-77409-[]9 _ 26$[][][][]\OT1/ptm/m/n/10 .
- []
-
-[5]
-Underfull \hbox (badness 2486) in paragraph at lines 124--124
-\OT1/ptm/m/n/10 Co-hen, Daniel Cohen-Or, Oliver Deussen, Matt
- []
-
-
-Underfull \hbox (badness 1308) in paragraph at lines 124--124
-\OT1/ptm/m/n/10 Uyt-ten-daele, and Dani Lischin-ski.  Deep photo:
- []
-
-
-Underfull \hbox (badness 5756) in paragraph at lines 124--124
-\OT1/ptm/m/it/10 ACM Trans. Graph.\OT1/ptm/m/n/10 , 27:116:1--116:10, De-cem-
- []
-
-
-Underfull \hbox (badness 1590) in paragraph at lines 124--124
-\OT1/ptm/m/n/10 org . oca . ucsc . edu / 10 . 1145 / 1409060 . 1409069$.  URL
- []
-
-
-Overfull \hbox (117.02397pt too wide) in paragraph at lines 124--124
-[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org . oca . ucsc . edu / 10 . 114
-5 / 1409060 . 1409069$[][][][]\OT1/ptm/m/n/10 .
- []
-
 Missing character: There is no ‚ in font ptmri7t!
 Missing character: There is no Ä in font ptmri7t!
 Missing character: There is no ì in font ptmri7t!
-
-Underfull \hbox (badness 2384) in paragraph at lines 142--142
-\OT1/ptm/m/n/10 ed-i-tors, \OT1/ptm/m/it/10 Com-puter Vi-sion  ECCV 2008\OT1/pt
-m/m/n/10 , vol-ume
- []
-
-
-Overfull \hbox (65.02397pt too wide) in paragraph at lines 142--142
-[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1007 / 978-[]3-[]540-[]
-88690-[]7 _ 29$[][][][]\OT1/ptm/m/n/10 .
- []
-
-
-Underfull \hbox (badness 2753) in paragraph at lines 151--151
-\OT1/ptm/m/n/10 at-ten-tion and surf de-scrip-tors.  In \OT1/ptm/m/it/10 Pro-ce
-ed-ings
- []
-
-
-Underfull \hbox (badness 4467) in paragraph at lines 151--151
-\OT1/ptm/m/it/10 of the 19th In-ter-na-tional Con-fer-ence on Com-
- []
-
-
-Overfull \hbox (285.02397pt too wide) in paragraph at lines 151--151
-[][][]$\OT1/pcr/m/n/10 http : / / citeseerx . ist . psu . edu / viewdoc / downl
-oad ? doi = 10 . 1 . 1 . 169 . 8375&rep = rep1&type = pdf$[][][][]\OT1/ptm/m/n/
-10 .
- []
-
-
-Underfull \hbox (badness 1590) in paragraph at lines 169--169
-\OT1/ptm/m/n/10 org . oca . ucsc . edu / 10 . 1145 / 1631272 . 1631351$.  URL
- []
-
-
-Overfull \hbox (117.02397pt too wide) in paragraph at lines 169--169
-[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org . oca . ucsc . edu / 10 . 114
-5 / 1631272 . 1631351$[][][][]\OT1/ptm/m/n/10 .
- []
-
+[5]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
+) [6
 
-Underfull \hbox (badness 1867) in paragraph at lines 188--188
-\OT1/ptm/m/n/10 users.  In Kiy-oharu Aizawa, Yuichi Naka-mura,
- []
-
-
-Overfull \hbox (65.02397pt too wide) in paragraph at lines 188--188
-[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1007 / 978-[]3-[]540-[]
-30541-[]5 _ 25$[][][][]\OT1/ptm/m/n/10 .
- []
-
-
-Underfull \hbox (badness 1590) in paragraph at lines 214--214
-[]\OT1/ptm/m/n/10 Che-Hua Yeh, Yuan-Chen Ho, Brian A. Barsky,
- []
-
-
-Underfull \hbox (badness 2426) in paragraph at lines 214--214
-\OT1/ptm/m/n/10 and Ming Ouhy-oung.  Per-son-al-ized pho-to-graph
- []
-
-
-Underfull \hbox (badness 2894) in paragraph at lines 214--214
-\OT1/ptm/m/n/10 rank-ing and se-lec-tion sys-tem.  In \OT1/ptm/m/it/10 Pro-ceed
--ings
- []
-
-
-Underfull \hbox (badness 5563) in paragraph at lines 214--214
-\OT1/ptm/m/it/10 of the in-ter-na-tional con-fer-ence on Mul-ti-me-dia\OT1/ptm/
-m/n/10 ,
- []
-
-
-Underfull \hbox (badness 1038) in paragraph at lines 214--214
-\OT1/ptm/m/n/10 MM '10, pages 211--220, New York, NY, USA,
- []
-
-
-Underfull \hbox (badness 2478) in paragraph at lines 214--214
-\OT1/ptm/m/n/10 2010. ACM.  ISBN 978-1-60558-933-6.  doi:
- []
-
-
-Overfull \hbox (39.02397pt too wide) in paragraph at lines 214--214
-[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org / 10 . 1145 / 1873951 . 18739
-63$[][][][]\OT1/ptm/m/n/10 .
- []
-
-) [6] (./README_PAPER.aux) ) 
+] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
- 5737 strings out of 495062
- 82269 string characters out of 1182644
- 159832 words of memory out of 3000000
- 8801 multiletter control sequences out of 15000+50000
- 15012 words of font info for 50 fonts, out of 3000000 for 9000
+ 5332 strings out of 495062
+ 76306 string characters out of 1182644
+ 154870 words of memory out of 3000000
+ 8404 multiletter control sequences out of 15000+50000
+ 14796 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 38i,8n,33p,759b,408s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,8n,34p,759b,388s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on README_PAPER.dvi (6 pages, 66548 bytes).
+Output written on README_PAPER.dvi (6 pages, 58028 bytes).

@@ -122,15 +122,9 @@ The calculated similarity index \(T_{i,j}\) is used as a weight for the next two
 
 Next, the distributions of the red, green, and blue channel of the image are extracted into a 4x4 grid. To compare two images, we find the minimum difference of the three channels for each square and deduct points if the most similar channel is above a difference threshold of 15\%.
 
-Because this is sensitive to subject and movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the color channel similarity algorithm with stricter threshold of 10\%.
+Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the color channel similarity algorithm with stricter threshold of 10\%.
 
-A final similarity index \(S\) is found by adding the scaled timestamp to the results of the color distribution algorithms:
-\[
-S_{i,j}=\frac{TW_TD_1}{R} + avg(D_1,D_2)
-\]
-Where \(T\) is the timestamp similarity index, \(W_T\) is the timestamp weight (empirically chosen to be 30\%), \(R\) is the range of possible ranks, \(D_1\) is the color distribution of the entire image, and \(D_2\) is the color distribution of the foreground.
-
-Similar images are clustered with a Quality-Threshold based clustering algorithm.
+A final similarity index is found by adding the scaled timestamp to the results of the color distribution algorithms. Similar images are clustered with a Quality-Threshold based clustering algorithm.
 
 \subsection{Blur Detection}
 Using the foreground bounding box, the blur detection algorithm quantifies the contrast between the edges and background. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the sharpness. To increase accuracy and reduce the adverse affects that acceptable background blur may have, we constrain detection to the bounding box.
@@ -140,7 +134,8 @@ Next, we compute the difference in pixel values between the original image and a
 \subsection{Exposure}
 \begin{figure}[t]
   \centering
-    \includegraphics[scale=0.53,clip]{imageluminosity.eps}
+    \includegraphics[scale=0.53,clip]{imageluminosity.eps}\
+    \label{exposurefigure}
   \caption{The Exposure process: This figure shows the inital segmentation of images by mean (values 0 to 255), then the further segmentation of images of medium and good quality (mean ranges 100-120, and 120-138 respectively).}
 \end{figure}
 Image exposure is a measure of how approproate the lighting is in a given image.  While traditionally measured in-camera with light meter over the area, our exposure algorithm evaluates how the lighting in the result image appears to a human observer.  Images are ranked according to various measures of their luminosity.  Luminosity is a measure of how bright the human visual system perceives a color. As the human eye is most sensitive to green and red ranges, those color portions are weighted more heavily to a color's overall perceived intensity. The calculation used by the exposure analyst is
@@ -163,7 +158,7 @@ Clipping is an indication of how much information loss there is in the image due
 
 The percentiles of the image are determined for both the bright and the dark sides of luminosity. For example, to calculate the lower 60th percentile, the value is found at which the sum of the number of pixels that are darker than the given value is equal to sixty percent of the pixels in the image. The upper percentiles are found by the summation of the pixels that are brighter than the given value. These four measures give a good indication of the spread of the luminosity, e.g., how sharp the transitions between the extreme and middle values are.
 
-The most extreme mean luminosity values are images of very poor quality, and are rated as such based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, though certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. After being subdivided into mean gategories, they are again subdivided into further categories (see figure XX) before analysis.
+The most extreme mean luminosity values are images of very poor quality, and are rated as such based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, though certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. After being subdivided into mean categories, they are again subdivided into further categories (see figure \ref{exposurefigure}) before analysis.
 
 \subsection{Color Harmony}   
 \begin{figure}[t]
@@ -204,7 +199,7 @@ XX INSERT DATA FOR OTHER DATA SET
 \subsection{Binary Classification} Using the same data as the Image Rating trials, we have found that our algorithm can distinguish between professional and non-professional images well. Barsky \cite{Yeh:2010:PPR:1873951.1873963} and Luo \emph{et. al}\cite{springerlink:10.1007/978-3-540-88690-7_29} obtained 96\% accuracy when classifying images into the two categories. When classifying "non-professional" as ratings below XX and "professional" as ratings above XX, our rating system matches a user's with XX\% accuracy.
 
 \section{Conclusion and Future Work}
-We propose a method of applying current research to automate another step of the Photographer's Process. By ranking an image's quality in relation to other images in the set, rather than an absolute scale, we obtain an accurate sorting of images. We improve upon past research which provides an absolute ranking by applying it to a relative scale. From this, we derive novel reference-based algorithms for exposure analysis, temporal closeness, and blur detection. To ensure robustness when there are no similar sets (and thus no references), images are sorted both relatively within the set of similar images and globally within the set of all input images.
+We propose a method of applying current research to automate another step of the Photographer's Process. By focusing on obtaining an ordering which is representative of all photographs taken, we obtain a diverse set of high quality images similar to what a user would have chosen manually. We derive a novel algorithm for analyzing exposure quality. We improve upon previous algorithms which find temporal gaps between images to obtain a metric for temporal nearness. The final ordering depends on both the quality ranking and the number of similar images which have already appeared.
 
 Our work focuses on a small portion of the Photographer's Process. In the future, we would like to see the idea of relative rankings applied to the second Retouching step. (It has already been extensively applied to the third Retrieval step.) Retouching can use relative processing to increase creativity between similar images or combine data from multiple images. With this, we would be able to automate the Photographic Process.
 \bibliographystyle{plain}
