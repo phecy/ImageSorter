@@ -511,6 +511,32 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
     else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9796.jpg") == 0) fgBox = boundingBox(point(6,4),point(193,262));
     else if(strcmp(vim->getFilename(), "/home/artoonie/Documents/School/2010-2011/ImageSorter/testimages/compare2/DSC_9797.jpg") == 0) fgBox = boundingBox(point(245,164),point(552,323));
 
+    // Ke
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/46_57854854_2f6dcdf3a1_b.jpg") == 0) fgBox = boundingBox(point(215,143),point(701,430));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/47_rose-2.jpg") == 0) fgBox = boundingBox(point(176,132),point(1362,473));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/48_44661953_96ccc6caf5_o.jpg") == 0) fgBox = boundingBox(point(190,148),point(596,294));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/49_Roseblanchelisererose800.jpg") == 0) fgBox = boundingBox(point(128,96),point(583,307));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/51_pickingapple044.jpg") == 0) fgBox = boundingBox(point(8,6),point(453,222));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/52_AppleEgremontRusset.jpg") == 0) fgBox = boundingBox(point(97,66),point(374,508));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/53_Apple6.jpg") == 0) fgBox = boundingBox(point(362,236),point(1722,522));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/54_CodlingMothBite7K.jpg") == 0) fgBox = boundingBox(point(295,247),point(714,517));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/58_00.07.eli.violin.jpg") == 0) fgBox = boundingBox(point(545,359),point(1581,754));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/59_3530244_a6924d938c_b.jpg") == 0) fgBox = boundingBox(point(163,122),point(587,493));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/60_VictoriaPlayingViolin.jpg") == 0) fgBox = boundingBox(point(575,431),point(1597,812));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/61_playingviolinedited.jpg") == 0) fgBox = boundingBox(point(199,266),point(450,894));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/62_01-ILikeThisBMW.jpg") == 0) fgBox = boundingBox(point(8,6),point(759,153));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/63_3-bmw318i-991.jpg") == 0) fgBox = boundingBox(point(53,34),point(570,233));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/64_BMWC1.jpg") == 0) fgBox = boundingBox(point(266,199),point(647,657));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/65_9744484_90e44a2890_o.jpg") == 0) fgBox = boundingBox(point(30,23),point(401,129));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/65_Statue of Liberty BZs.jpg") == 0) fgBox = boundingBox(point(201,268),point(604,879));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/66_statue-of-liberty 12.jpg") == 0) fgBox = boundingBox(point(116,101),point(257,281));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/67_1333234_7510a7b757_o.jpg") == 0) fgBox = boundingBox(point(132,198),point(310,505));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/67_Statue of Liberty (1).jpg") == 0) fgBox = boundingBox(point(61,46),point(555,368));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/68_DSC04343-cow.jpg") == 0) fgBox = boundingBox(point(287,215),point(540,595));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/68_statue-of-liberty 2.jpg") == 0) fgBox = boundingBox(point(416,312),point(1337,729));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/69_36370488_c5e200c8f6_o.jpg") == 0) fgBox = boundingBox(point(4,6),point(448,128));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/70_CowMoose.jpg") == 0) fgBox = boundingBox(point(8,5),point(567,183));
+
     return fgBox;
 }
 
