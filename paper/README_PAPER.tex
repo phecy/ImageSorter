@@ -1,5 +1,8 @@
 \documentclass[twocolumn]{article}
 \usepackage{graphicx}
+\usepackage[numbers]{natbib}
+\usepackage[numbers]{natbib}
+
 \title{
 Selective Removal of Extraneous Photographs
 }
@@ -28,7 +31,7 @@ davis@soe.ucsc.edu
 \begin{document}
 \maketitle
 \begin{abstract}
-In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. We then provide an ordering of the images which accounts for both quality and redundancy. Our goal is not to rank images based on aesthetic quality, but instead to help a photographer filter out technically flawed photographs and focus on high quality shots.
+In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy arising from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. We then provide an ordering of the images which accounts for both quality and redundancy. Our goal is not to rank images based on aesthetic quality, but instead to help a photographer filter out technically flawed photographs and focus on high quality shots.
 \end{abstract}
 
 \section{Introduction}
@@ -164,6 +167,6 @@ XX INSERT DATA FOR OTHER DATA SET
 We propose a method of applying current research to automate another step of the Photographer's Process. By ranking an image's quality in relation to other images in the set, rather than an absolute scale, we obtain an accurate sorting of images. We improve upon past research which provides an absolute ranking by applying it to a relative scale. From this, we derive novel reference-based algorithms for exposure analysis, temporal closeness, and blur detection. To ensure robustness when there are no similar sets (and thus no references), images are sorted both relatively within the set of similar images and globally within the set of all input images.
 
 Our work focuses on a small portion of the Photographer's Process. In the future, we would like to see the idea of relative rankings applied to the second Retouching step. (It has already been extensively applied to the third Retrieval step.) Retouching can use relative processing to increase creativity between similar images or combine data from multiple images. With this, we would be able to automate the Photographic Process.
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{README_BIB}
 \end{document}
