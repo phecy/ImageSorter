@@ -31,7 +31,7 @@ vector<VImage*> set_sort(vector<VImage*> imageInfo) {
         VImage* max; float maxVal = 0; vector<VImage*>::iterator max_i;
         vector<VImage*>::iterator image_i = imageInfo.begin();
         for(; image_i != imageInfo.end(); ++image_i) {
-            if((*image_i)->getAdjustedRank() > maxVal) {
+            if((*image_i)->getAdjustedRank() >= maxVal) {
                 max = *image_i;
                 maxVal = (*image_i)->getAdjustedRank();
                 max_i = image_i;
