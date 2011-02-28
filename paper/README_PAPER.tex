@@ -1,6 +1,23 @@
-\documentclass[twocolumn]{article}
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{iccv}
+\usepackage{times}
+\usepackage{epsfig}
 \usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage[numbers]{natbib}
+
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+
+\iccvfinalcopy % *** Uncomment this line for the final submission
+
+\def\iccvPaperID{****} % *** Enter the ICCV Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+\ificcvfinal\pagestyle{empty}\fi
+
 
 \title{
 Selective Removal of Extraneous Photographs
@@ -70,7 +87,7 @@ Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-
 
 \subsection{Similar-Image Clustering}
 To find similar images, we perform three steps of increasing complexity for high confidence.
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which finds gaps \cite{1292402}, which finds gaps in timestamps, we have derived a formula which finds temporal closeness between two images:
+First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank images on a 0-9 scale based on time to allow for nonconsecutive images to be grouped together:
 \[
 T_{i,j}=\frac{G}{A_g}
 \]
@@ -83,7 +100,7 @@ And \(A_g\) is the average gap within a window:
 A_g=\displaystyle\sum\limits_{a={i-w}}^{j+w}G_{a,i}
 \]
 We have empirically chosen a window size of \(w=8\).
-We use the calculated similarity index \(T_{i,j}\) as a weight for the next two steps.
+The calculated similarity index \(T_{i,j}\) is used as a weight for the next two steps.
 
 The first content-based step is simple 9-segment test. We divide the images into a 3x3 grid and compare the average color of each square. Because this is sensitive to exposure differences, subject movement, and camera reorientation, we then gather interest points using XX SOME ALGORITHM FROM NASA, OR THE AVERAGE COLOR OF THE ROI. We then compute a ranking based on the number of matched interest points.
 
