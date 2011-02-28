@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  27 FEB 2011 17:06
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  27 FEB 2011 17:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -47,50 +47,53 @@ File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
 ))
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
+)
+(/usr/share/texmf-texlive/tex/latex/natbib/natbib.sty
+Package: natbib 2009/07/16 8.31 (PWD, AO)
+\bibhang=\skip43
+\bibsep=\skip44
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count87
 ) (./README_PAPER.aux)
 \openout1 = `README_PAPER.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 29.
+(Font)              <12> on input line 31.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 29.
+(Font)              <8> on input line 31.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 29.
+(Font)              <6> on input line 31.
 
 [1
 
 
 ]
-Underfull \hbox (badness 1158) in paragraph at lines 48--49
+Underfull \hbox (badness 1158) in paragraph at lines 54--55
 \OT1/cmr/m/n/10 qual-ity im-port. As de-scribed in [[]], a pho-to-
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 54.
+(Font)              <7> on input line 58.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 54.
-
-Underfull \vbox (badness 2318) has occurred while \output is active []
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 59.
-
+(Font)              <5> on input line 58.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 63.
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 59.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 63.
  [2]
 File: imageluminosity.eps Graphic file (type eps)
  <imageluminosity.eps>
@@ -109,13 +112,13 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
 File: colorharmony.eps Graphic file (type eps)
- <colorharmony.eps> [4]
-File: ke_vs_us.eps Graphic file (type eps)
- <ke_vs_us.eps>
-Underfull \vbox (badness 4819) has occurred while \output is active []
+ <colorharmony.eps>
+Underfull \vbox (badness 1377) has occurred while \output is active []
 
- [5]
-(./README_PAPER.bbl
+ [4]
+File: ke_vs_us.eps Graphic file (type eps)
+
+<ke_vs_us.eps> [5] (./README_PAPER.bbl
 Missing character: There is no ≈ in font cmr10!
 Missing character: There is no ° in font cmr10!
 Missing character: There is no ‚ in font cmti10!
@@ -159,12 +162,12 @@ Underfull \hbox (badness 4108) in paragraph at lines 149--157
 
 ] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
- 598 strings out of 495062
- 7456 string characters out of 1182644
- 59543 words of memory out of 3000000
- 3821 multiletter control sequences out of 15000+50000
+ 984 strings out of 495062
+ 13084 string characters out of 1182644
+ 65057 words of memory out of 3000000
+ 4203 multiletter control sequences out of 15000+50000
  7933 words of font info for 28 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 25i,7n,19p,1038b,244s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 25i,7n,28p,759b,295s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on README_PAPER.dvi (8 pages, 36780 bytes).
+Output written on README_PAPER.dvi (8 pages, 36588 bytes).
