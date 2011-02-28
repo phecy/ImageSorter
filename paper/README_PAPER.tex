@@ -1,7 +1,6 @@
 \documentclass[twocolumn]{article}
 \usepackage{graphicx}
 \usepackage[numbers]{natbib}
-\usepackage[numbers]{natbib}
 
 \title{
 Selective Removal of Extraneous Photographs
@@ -71,7 +70,7 @@ Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-
 
 \subsection{Similar-Image Clustering}
 To find similar images, we perform three steps of increasing complexity for high confidence.
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on the algorithm explained in \cite{1292402}, which finds gaps in timestamps, we have derived a formula which finds temporal closeness between two images:
+First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which finds gaps \cite{1292402}, which finds gaps in timestamps, we have derived a formula which finds temporal closeness between two images:
 \[
 T_{i,j}=\frac{G}{A_g}
 \]
@@ -94,8 +93,6 @@ The two content-based algorithms, weighted by the timestamp, cluster similar ima
 Using the foreground bounding box, the blur detection algorithm quantifies the contrast between the edges and background. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the sharpness. To increase accuracy and reduce the adverse affects that acceptable background blur may have, we constrain detection to the bounding box.
 
 Next, we compute the difference in pixel values between the original image and a Gaussian blurred image. This provides little insight on no-reference images, but when looking at the bounding box of similar images, sharper edges results in a larger difference.
-
-XX NEED EMPIRICAL EVIDENCE. COMPARE ORIGINAL IMAGE TO 5mm*{1,2,3} REFOCUSED TO SHOW FOCUS BLUR, AND SOMETHING FOR MOTION BLUR (SIMULATED?).
 
 \subsection{Exposure}
 \begin{figure}[t]
