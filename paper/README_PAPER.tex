@@ -63,8 +63,6 @@ Where \(n\) is the number of modules, \(Q_i\) represents the rating of module \(
 \item \(W_{color}=10\%\)
 \end{itemize}
 
-XX EACH ITEM BELOW SHOULD HAVE AN IMAGE TO GO WITH IT
-
 \subsection{Content Recognition}
 Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
@@ -97,6 +95,11 @@ Next, we compute the difference in pixel values between the original image and a
 XX NEED EMPIRICAL EVIDENCE. COMPARE ORIGINAL IMAGE TO 5mm*{1,2,3} REFOCUSED TO SHOW FOCUS BLUR, AND SOMETHING FOR MOTION BLUR (SIMULATED?).
 
 \subsection{Exposure}
+\begin{figure}[t]
+  \centering
+    \includegraphics[scale=0.53,clip]{imageluminosity.eps}
+  \caption{Image luminosity scale.}
+\end{figure}
 Image exposure is a measure of how approproate the lighting is in a given image.  While traditionally measured in-camera with light meter over the area, our exposure algorithm evaluates how the lighting in the result image appears to a human observer.  Images are ranked according to various measures of their luminosity.  Luminosity is a measure of how bright the human visual system perceives a color. As the human eye is most sensitive to green and red ranges, those color portions are weighted more heavily to a color's overall perceived intensity. The calculation used by the exposure analyst is
 \[
 p=.59r+.3g+.11b
