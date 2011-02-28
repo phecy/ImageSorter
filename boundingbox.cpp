@@ -195,14 +195,14 @@ void BoundingBox::debugPrint(QImage* image, point start, point fin) {
         }
     }
 
-    for(int w=start.first; w<fin.first; w++) {
-        i.setPixel(w, start.second, qRgb(0,255,0));
-        i.setPixel(w, fin.second, qRgb(0,255,0));
-    }
-    for(int h=start.second; h<fin.second; h++) {
-        i.setPixel(start.first, h, qRgb(0,255,0));
-        i.setPixel(fin.first, h, qRgb(0,255,0));
-    }
+//    for(int w=start.first; w<fin.first; w++) {
+//        i.setPixel(w, start.second, qRgb(0,255,0));
+//        i.setPixel(w, fin.second, qRgb(0,255,0));
+//    }
+//    for(int h=start.second; h<fin.second; h++) {
+//        i.setPixel(start.first, h, qRgb(0,255,0));
+//        i.setPixel(fin.first, h, qRgb(0,255,0));
+//    }
 
     QLabel* imageLabel = new QLabel;
     imageLabel->setBackgroundRole(QPalette::Base);
