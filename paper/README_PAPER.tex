@@ -86,7 +86,7 @@ Compressed image quality assessment has been heavily researched\cite{477498}\cit
 \section{Quantifying Image Quality}
 Each selected factor will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
 \[
-\sqrt[n]{\displaystyle\sum\limits_{i=1}^n(\frac{W_iQ_i}{n})^n}
+\sqrt[4]{\displaystyle\sum\limits_{i=1}^n(\frac{W_iQ_i}{n})^4}
 \]
 Where \(n\) is the number of modules, \(Q_i\) represents the rating of module \(i\), and \(W_i\) represents the weight of that module. Weights are assigned as follows:
 \begin{itemize}
@@ -95,7 +95,7 @@ Where \(n\) is the number of modules, \(Q_i\) represents the rating of module \(
 \item \(W_{color}=10\%\)
 \end{itemize}
 
-\subsection{Content Recognition}
+\subsection{Content Recognition}\label{ContentRecognition}
 Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
@@ -105,7 +105,7 @@ To find similar images, we perform three steps of increasing complexity for high
     \includegraphics[scale=0.07,clip]{similarimages.eps}
   \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 \end{figure}
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank images on a 0-9 scale based to allow for nonconsecutive images to be grouped together:
+First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank pairs of images on a 0-9 scale to allow for nonconsecutive images to be grouped together:
 \[
 T_{i,j}=\frac{G}{A_g}
 \]
@@ -120,11 +120,17 @@ A_g=\displaystyle\sum\limits_{a={i-w}}^{j+w}G_{a,i}
 We have empirically chosen a window size of \(w=8\).
 The calculated similarity index \(T_{i,j}\) is used as a weight for the next two steps.
 
-Next, the distribution of the red, green, and blue channel of the image is extracted into a 4x4 grid. To compare two images, we find the minimum difference out of the three channels for each square and iteratively subtract from a perfect score. XX THIS DOESN'T MAKE SENSE BROSKI
+Next, the distributions of the red, green, and blue channel of the image are extracted into a 4x4 grid. To compare two images, we find the minimum difference of the three channels for each square and deduct points if the most similar channel is above a difference threshold of 15\%.
 
-Because this is sensitive to exposure differences, subject movement, and camera reorientation, we then gather interest points using XX SOME ALGORITHM FROM NASA, OR THE AVERAGE COLOR OF THE ROI. We then compute a ranking based on the number of matched interest points.
+Because this is sensitive to subject and movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the color channel similarity algorithm with stricter threshold of 10\%.
 
-The two content-based algorithms, weighted by the timestamp, cluster similar images with high accuracy.
+A final similarity index \(S\) is found by adding the scaled timestamp to the results of the color distribution algorithms:
+\[
+S_{i,j}=\frac{TW_TD_1}{R} + avg(D_1,D_2)
+\]
+Where \(T\) is the timestamp similarity index, \(W_T\) is the timestamp weight (empirically chosen to be 30\%), \(R\) is the range of possible ranks, \(D_1\) is the color distribution of the entire image, and \(D_2\) is the color distribution of the foreground.
+
+Similar images are clustered with a Quality-Threshold based clustering algorithm.
 
 \subsection{Blur Detection}
 Using the foreground bounding box, the blur detection algorithm quantifies the contrast between the edges and background. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the sharpness. To increase accuracy and reduce the adverse affects that acceptable background blur may have, we constrain detection to the bounding box.
