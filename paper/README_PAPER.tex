@@ -1,5 +1,7 @@
 \documentclass[twocolumn]{article}
 \usepackage{graphicx}
+\usepackage[numbers]{natbib}
+
 \title{
 Selective Removal of Extraneous Photographs
 }
@@ -28,10 +30,12 @@ davis@soe.ucsc.edu
 \begin{document}
 \maketitle
 \begin{abstract}
-In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. We then provide an ordering of the images which accounts for both quality and redundancy. Our goal is not to rank images based on aesthetic quality, but instead to help a photographer filter out technically flawed photographs and focus on high quality shots.
+In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy arising from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. We then provide an ordering of the images which accounts for both quality and redundancy. Our goal is not to rank images based on aesthetic quality, but instead to help a photographer filter out technically flawed photographs and focus on high quality shots.
 \end{abstract}
 
 \section{Introduction}
+The methods for image retrieval are not as useful for image removal because they assume a finalized photograph, rather than looking at the potential to be enhanced- or, more simply, they focus on aesthetic quality over technical quality. Removal of technically flawed photographs, as opposed to aesthetically unpleasing ones, is more readily automated without consideration of personal preference.
+
 To focus our research and determine which image qualities are relevant to technical image quality, we assume three general steps a photographer takes between shooting and using a picture, which we call the Photographer's Process:
 \begin{enumerate}
 \item Remove: Sort through the images being imported and select the ones most suited for retouching, removing the rest from consideration.
@@ -40,8 +44,14 @@ To focus our research and determine which image qualities are relevant to techni
 \end{enumerate}
 The need for automating the photographer's process will continue to grow as digital photography continues to become more accessible.  Eventually more photographs will be taken than any photographer has the time or energy to deal with.  Our research focuses on the first step of the Photographer's Process. By quantifying visual qualities which cause a photograph to be rejected, we have created an automated system which rejects over XX\% of the images a human would reject, based on XX data sets of XX images tested on XX users each. We are also accurate in rating images independently of their set, achieving XX\% of our no-reference ratings being within one standard deviation of the users' ratings.
 
+Our work assesses an image based on blur, exposure, and the relationship between colors. We focus on the quality of foreground, and provide a relative ranking within a set of contextually similar images. An absolute rank is also provided, providing robustness in cases where there are no similar photographs to compare to in the input set.  We consider color harmony a technical aspect because it can be indicative of probems with lighting and color balance.
+
 \section{Related Work}
+<<<<<<< HEAD
 Various publications such as \citeauthor{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Bhattacahrya:2010:FPA:1873951.1873990} and \citeauthor{Kopf:2008:DPM:1409060.1409069}\cite{Kopf:2008:DPM:1409060.1409069} have focused on improving the quality of an image thech is the second step of the Photographer's Process%.\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069};
+=======
+Various publications have focused on improving the quality of an image (the second step of the Photographer's Process)\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}; more deeply researched is assessing quality for the purposes of photograph retrieval\cite{Yeh:2010:PPR:1873951.1873963}\cite{vanZwol:2010:FEI:1772690.1772788}\cite{springerlink:10.1007/978-3-642-17187-1_57}\cite{Cui:2008:RTG:1459359.1459471}\cite{Chu2010256}.
+>>>>>>> a0182f7b109dd2ec524e3af49c149a2b8b9a959b
 
 %Others deeply researched assessing quality for the purposes of photograph retrieval from a web or multi-contributor set \cite{Yeh:2010:PPR:1873951.1873963}\cite{vanZwol:2010:FEI:1772690.1772788}\cite{springerlink:10.1007/978-3-642-17187-1_57}\cite{Cui:2008:RTG:1459359.1459471}\cite{Chu2010256}. 
 
@@ -52,8 +62,6 @@ Several papers have developed methods for separating professional and amateur ph
 The methods for image retrieval are not as useful for image removal because they assume a finalized photograph, rather than looking at the potential to be enhanced- or, more simply, they focus on aesthetic quality over technical quality. Removal of technically flawed photographs, as opposed to aesthetically unpleasing ones, is more readily automated without consideration of personal preference. We consider color harmony a technical aspect because it can be indicative of probems with lighting and color blanace.
 
 Compressed image quality assessment has been heavily researched\cite{477498}\cite{1038064}\cite{1284395}, but we assume a high quality import. As described in \cite{1315222}, a photograph's EXIF data can be used to robustly classify images into various semantic categories. Various aesthetic-based assessments focus on exploring human visual attention and sensitivity to photograph content\cite{Sun:2009:PAB:1631272.1631351}\cite{1518955}\cite{Pimenov_fastimage}, demonstrating the viability of content segmentation for image assessment.
-
-Our work assesses an image based on blur, exposure, and the relationship between colors. We focus on the quality of foreground, and provide a relative ranking within a set of contextually similar images. An absolute rank is also provided, providing robustness in cases where there are no similar photographs to compare to in the input set.
 
 \section{Quantifying Image Quality}
 Each selected factor will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
@@ -67,14 +75,12 @@ Where \(n\) is the number of modules, \(Q_i\) represents the rating of module \(
 \item \(W_{color}=10\%\)
 \end{itemize}
 
-XX EACH ITEM BELOW SHOULD HAVE AN IMAGE TO GO WITH IT
-
 \subsection{Content Recognition}
 Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
 To find similar images, we perform three steps of increasing complexity for high confidence.
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on the algorithm explained in \cite{1292402}, which finds gaps in timestamps, we have derived a formula which finds temporal closeness between two images:
+First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which finds gaps \cite{1292402}, which finds gaps in timestamps, we have derived a formula which finds temporal closeness between two images:
 \[
 T_{i,j}=\frac{G}{A_g}
 \]
@@ -98,9 +104,12 @@ Using the foreground bounding box, the blur detection algorithm quantifies the c
 
 Next, we compute the difference in pixel values between the original image and a Gaussian blurred image. This provides little insight on no-reference images, but when looking at the bounding box of similar images, sharper edges results in a larger difference.
 
-XX NEED EMPIRICAL EVIDENCE. COMPARE ORIGINAL IMAGE TO 5mm*{1,2,3} REFOCUSED TO SHOW FOCUS BLUR, AND SOMETHING FOR MOTION BLUR (SIMULATED?).
-
 \subsection{Exposure}
+\begin{figure}[t]
+  \centering
+    \includegraphics[scale=0.53,clip]{imageluminosity.eps}
+  \caption{The Exposure process: This figure shows the inital segmentation of images by mean (values 0 to 255), then the further segmentation of images of medium and good quality (mean ranges 100-120, and 120-138 respectively).}
+\end{figure}
 Image exposure is a measure of how approproate the lighting is in a given image.  While traditionally measured in-camera with light meter over the area, our exposure algorithm evaluates how the lighting in the result image appears to a human observer.  Images are ranked according to various measures of their luminosity.  Luminosity is a measure of how bright the human visual system perceives a color. As the human eye is most sensitive to green and red ranges, those color portions are weighted more heavily to a color's overall perceived intensity. The calculation used by the exposure analyst is
 \[
 p=.59r+.3g+.11b
@@ -109,7 +118,7 @@ where \(p\) is the perceived intensity, and \(r\), \(g\), and \(b\) are the red,
 
 Based on the idea that the the mean value of image luminosity is an approximate indication of how well-exposed an image is, images are first segmented based on their average luminosity value.
 
-The categories of mean luminosity value \(“mean”\) correspond roughly to a parabolic mapping of exposure values, with well exposed photographs having a mean of \(130<p<140\): the further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. Within each category, different measures indicate either a positive or negative overall impact on image quality, which impact depends upon the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
+The categories of mean luminosity value (“mean”) correspond roughly to a parabolic mapping of exposure values, with well exposed photographs having a mean of \(130<p<140\): the further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. Within each category, different measures indicate either a positive or negative overall impact on image quality, which impact depends upon the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
 
 The other measures of image quality are also based on luminosity, and were determined by taking various measurements on a deliberately chosen pool of images that had a wide variety of exposure problems. The measures are as follows: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures are calculated on both the foreground and the background of the image, relative to the area over which they are calculated.
 
@@ -136,7 +145,7 @@ For each harmony type, the hue is found with the most occurrences of supporting 
 
 The first harmony checked is the average and great image's I type. If there is a large amount of I harmony, the difference between I and Y harmonies is checked. Because I and Y overlap, you need to check how much of an increase if between the two. If it is very significant, Y harmony is most likely. When the difference is slight, you have a good I harmony (and thus high rating). If there is a medium difference, the I harmony is weak. Rating of the images can be determined on medium to great harmony. A similar check is done in X versus Y harmony. A last pass is done to check the L type on the great images, and a pass checking the v and i harmonies is done on the average images.
 
-The poor images are less well-defined but, the X harmony was the best place to start, and then a pass was done with i. XX ALLISON REWRITE THIS PARAGRAPH
+The poor images follow a similar path, starting with analysis by the X harmony, and ending with a pass done with i harmony.
 
 \section{Results}
 We have run our algorithm on several publicly available datasets as well as our own. We used Amazon Mechanical Turk and gathered a total of 454 (XX  ADD QUALITY FILTER) users rankings across trials.
@@ -165,6 +174,6 @@ XX INSERT DATA FOR OTHER DATA SET
 We propose a method of applying current research to automate another step of the Photographer's Process. By ranking an image's quality in relation to other images in the set, rather than an absolute scale, we obtain an accurate sorting of images. We improve upon past research which provides an absolute ranking by applying it to a relative scale. From this, we derive novel reference-based algorithms for exposure analysis, temporal closeness, and blur detection. To ensure robustness when there are no similar sets (and thus no references), images are sorted both relatively within the set of similar images and globally within the set of all input images.
 
 Our work focuses on a small portion of the Photographer's Process. In the future, we would like to see the idea of relative rankings applied to the second Retouching step. (It has already been extensively applied to the third Retrieval step.) Retouching can use relative processing to increase creativity between similar images or combine data from multiple images. With this, we would be able to automate the Photographic Process.
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{README_BIB}
 \end{document}
