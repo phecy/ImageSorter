@@ -1,186 +1,215 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{23}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem{Berg:EECS-2007-13}
-Tamara~Lee Berg and David Forsyth.
-\newblock Automatic ranking of iconic images.
-\newblock Technical Report UCB/EECS-2007-13, EECS Department, University of
-  California, Berkeley, Jan 2007.
-
-\bibitem{Bhattacahrya:2010:FPA:1873951.1873990}
+\bibitem[Bhattacahrya et~al.(2010)Bhattacahrya, Sukthankar, and
+  Shah]{Bhattacahrya:2010:FPA:1873951.1873990}
 Subhabrata Bhattacahrya, Rahul Sukthankar, and Mubarak Shah.
 \newblock A framework for photo-quality assessment and enhancement based on
   visual aesthetics.
-\newblock In {\em Proceedings of the international conference on Multimedia},
+\newblock In \emph{Proceedings of the international conference on Multimedia},
   MM '10, pages 271--280, New York, NY, USA, 2010. ACM.
+\newblock ISBN 978-1-60558-933-6.
+\newblock \doi{http://doi.acm.org.oca.ucsc.edu/10.1145/1873951.1873990}.
+\newblock URL \url{http://doi.acm.org.oca.ucsc.edu/10.1145/1873951.1873990}.
 
-\bibitem{1315222}
+\bibitem[Boutell and Luo(2004)]{1315222}
 M.~Boutell and J.~Luo.
 \newblock Bayesian fusion of camera metadata cues in semantic scene
   classification.
-\newblock In {\em Computer Vision and Pattern Recognition, 2004. CVPR 2004.
+\newblock In \emph{Computer Vision and Pattern Recognition, 2004. CVPR 2004.
   Proceedings of the 2004 IEEE Computer Society Conference on}, volume~2, pages
   II--623 -- II--630 Vol.2, 2004.
+\newblock \doi{10.1109/CVPR.2004.1315222}.
 
-\bibitem{COL:COL5080160410}
+\bibitem[Burchett(1991)]{COL:COL5080160410}
 Kenneth~E. Burchett.
 \newblock Color harmony attributes.
-\newblock {\em Color Research \& Application}, 16(4):275--278, 1991.
+\newblock \emph{Color Research \& Application}, 16\penalty0 (4):\penalty0
+  275--278, 1991.
+\newblock ISSN 1520-6378.
+\newblock \doi{10.1002/col.5080160410}.
+\newblock URL \url{http://dx.doi.org/10.1002/col.5080160410}.
 
-\bibitem{COL:COL10004}
+\bibitem[Burchett(2002)]{COL:COL10004}
 Kenneth~E. Burchett.
 \newblock Color harmony.
-\newblock {\em Color Research \& Application}, 27(1):28--31, 2002.
+\newblock \emph{Color Research \& Application}, 27\penalty0 (1):\penalty0
+  28--31, 2002.
+\newblock ISSN 1520-6378.
+\newblock \doi{10.1002/col.10004}.
+\newblock URL \url{http://dx.doi.org/10.1002/col.10004}.
 
-\bibitem{Chu2010256}
+\bibitem[Chu and Lin(2010)]{Chu2010256}
 Wei-Ta Chu and Chia-Hung Lin.
 \newblock Consumer photo management and browsing facilitated by near-duplicate
   detection with feature filtering.
-\newblock {\em Journal of Visual Communication and Image Representation},
-  21(3):256 -- 268, 2010.
+\newblock \emph{Journal of Visual Communication and Image Representation},
+  21\penalty0 (3):\penalty0 256 -- 268, 2010.
+\newblock ISSN 1047-3203.
+\newblock \doi{DOI: 10.1016/j.jvcir.2010.01.006}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/B6WMK-4Y70C6C-3/2/2a989be3%
+26ea821696ae379259e3f960}.
 
-\bibitem{Cohen-Or:2006:CH:1179352.1141933}
+\bibitem[Cohen-Or et~al.(2006)Cohen-Or, Sorkine, Gal, Leyvand, and
+  Xu]{Cohen-Or:2006:CH:1179352.1141933}
 Daniel Cohen-Or, Olga Sorkine, Ran Gal, Tommer Leyvand, and Ying-Qing Xu.
 \newblock Color harmonization.
-\newblock In {\em ACM SIGGRAPH 2006 Papers}, SIGGRAPH '06, pages 624--630, New
+\newblock In \emph{ACM SIGGRAPH 2006 Papers}, SIGGRAPH '06, pages 624--630, New
   York, NY, USA, 2006. ACM.
+\newblock ISBN 1-59593-364-6.
+\newblock \doi{http://doi.acm.org/10.1145/1179352.1141933}.
+\newblock URL \url{http://doi.acm.org/10.1145/1179352.1141933}.
 
-\bibitem{Cui:2008:RTG:1459359.1459471}
-Jingyu Cui, Fang Wen, and Xiaoou Tang.
-\newblock Real time google and live image search re-ranking.
-\newblock In {\em Proceeding of the 16th ACM international conference on
-  Multimedia}, MM '08, pages 729--732, New York, NY, USA, 2008. ACM.
-
-\bibitem{springerlink:10.1007/11744078_23}
+\bibitem[Datta et~al.(2006)Datta, Joshi, Li, and
+  Wang]{springerlink:10.1007/11744078_23}
 Ritendra Datta, Dhiraj Joshi, Jia Li, and James Wang.
 \newblock Studying aesthetics in photographic images using a computational
   approach.
-\newblock In Aleš Leonardis, Horst Bischof, and Axel Pinz, editors, {\em
-  Computer Vision – ECCV 2006}, volume 3953 of {\em Lecture Notes in Computer
-  Science}, pages 288--301. Springer Berlin / Heidelberg, 2006.
+\newblock In Aleš Leonardis, Horst Bischof, and Axel Pinz, editors,
+  \emph{Computer Vision – ECCV 2006}, volume 3953 of \emph{Lecture Notes in
+  Computer Science}, pages 288--301. Springer Berlin / Heidelberg, 2006.
+\newblock URL \url{http://dx.doi.org/10.1007/11744078\_23}.
 \newblock 10.1007/11744078\_23.
 
-\bibitem{477498}
+\bibitem[Eskicioglu and Fisher(1995)]{477498}
 A.M. Eskicioglu and P.S. Fisher.
 \newblock Image quality measures and their performance.
-\newblock {\em Communications, IEEE Transactions on}, 43(12):2959 --2965,
-  December 1995.
+\newblock \emph{Communications, IEEE Transactions on}, 43\penalty0
+  (12):\penalty0 2959 --2965, December 1995.
+\newblock ISSN 0090-6778.
+\newblock \doi{10.1109/26.477498}.
 
-\bibitem{5540170}
+\bibitem[Guo et~al.(2010)Guo, Cheng, Zhuo, and Sim]{5540170}
 Dong Guo, Yuan Cheng, Shaojie Zhuo, and T.~Sim.
 \newblock Correcting over-exposure in photographs.
-\newblock In {\em Computer Vision and Pattern Recognition (CVPR), 2010 IEEE
+\newblock In \emph{Computer Vision and Pattern Recognition (CVPR), 2010 IEEE
   Conference on}, pages 515 --521, June 2010.
+\newblock \doi{10.1109/CVPR.2010.5540170}.
 
-\bibitem{vision-workbench}
+\bibitem[Hancher et~al.(2006)Hancher, Broxton, and Edwards]{vision-workbench}
 M.D. Hancher, M.J. Broxton, and L.J. Edwards.
-\newblock {\em A User's Guide to the NASA Vision Workbench.}
+\newblock \emph{A User's Guide to the NASA Vision Workbench.}
 \newblock NASA Ames Research Center, Intelligent Systems Division, 2006.
 
-\bibitem{springerlink:10.1007/978-3-540-77409-9_26}
+\bibitem[Hsu and Chen(2008)]{springerlink:10.1007/978-3-540-77409-9_26}
 Ping Hsu and Bing-Yu Chen.
 \newblock Blurred image detection and classification.
-\newblock In Shin’ichi Satoh, Frank Nack, and Minoru Etoh, editors, {\em
-  Advances in Multimedia Modeling}, volume 4903 of {\em Lecture Notes in
+\newblock In Shin’ichi Satoh, Frank Nack, and Minoru Etoh, editors,
+  \emph{Advances in Multimedia Modeling}, volume 4903 of \emph{Lecture Notes in
   Computer Science}, pages 277--286. Springer Berlin / Heidelberg, 2008.
+\newblock URL \url{http://dx.doi.org/10.1007/978-3-540-77409-9\_26}.
 \newblock 10.1007/978-3-540-77409-9\_26.
 
-\bibitem{springerlink:10.1007/978-3-642-17187-1_57}
-Shao-Hang Kao, Wei-Yen Day, and Pu-Jen Cheng.
-\newblock An aesthetic-based approach to re-ranking web images.
-\newblock In Pu-Jen Cheng, Min-Yen Kan, Wai Lam, and Preslav Nakov, editors,
-  {\em Information Retrieval Technology}, volume 6458 of {\em Lecture Notes in
-  Computer Science}, pages 610--623. Springer Berlin / Heidelberg, 2010.
-\newblock 10.1007/978-3-642-17187-1\_57.
-
-\bibitem{1640788}
+\bibitem[Ke et~al.(2006)Ke, Tang, and Jing]{1640788}
 Yan Ke, Xiaoou Tang, and Feng Jing.
 \newblock The design of high-level features for photo quality assessment.
-\newblock In {\em Computer Vision and Pattern Recognition, 2006 IEEE Computer
+\newblock In \emph{Computer Vision and Pattern Recognition, 2006 IEEE Computer
   Society Conference on}, volume~1, pages 419 -- 426, June 2006.
+\newblock \doi{10.1109/CVPR.2006.303}.
 
-\bibitem{Kopf:2008:DPM:1409060.1409069}
+\bibitem[Kopf et~al.(2008)Kopf, Neubert, Chen, Cohen, Cohen-Or, Deussen,
+  Uyttendaele, and Lischinski]{Kopf:2008:DPM:1409060.1409069}
 Johannes Kopf, Boris Neubert, Billy Chen, Michael Cohen, Daniel Cohen-Or,
   Oliver Deussen, Matt Uyttendaele, and Dani Lischinski.
 \newblock Deep photo: model-based photograph enhancement and viewing.
-\newblock {\em ACM Trans. Graph.}, 27:116:1--116:10, December 2008.
+\newblock \emph{ACM Trans. Graph.}, 27:\penalty0 116:1--116:10, December 2008.
+\newblock ISSN 0730-0301.
+\newblock \doi{http://doi.acm.org.oca.ucsc.edu/10.1145/1409060.1409069}.
+\newblock URL \url{http://doi.acm.org.oca.ucsc.edu/10.1145/1409060.1409069}.
 
-\bibitem{1518955}
+\bibitem[Lu et~al.(2005)Lu, Lin, Yang, Ong, and Yao]{1518955}
 Zhongkang Lu, W.~Lin, X.~Yang, EePing Ong, and Susu Yao.
 \newblock Modeling visual attention's modulatory aftereffects on visual
   sensitivity and quality evaluation.
-\newblock {\em Image Processing, IEEE Transactions on}, 14(11):1928 --1942,
-  November 2005.
+\newblock \emph{Image Processing, IEEE Transactions on}, 14\penalty0
+  (11):\penalty0 1928 --1942, November 2005.
+\newblock ISSN 1057-7149.
+\newblock \doi{10.1109/TIP.2005.854478}.
 
-\bibitem{springerlink:10.1007/978-3-540-88690-7_29}
+\bibitem[Luo and Tang(2008)]{springerlink:10.1007/978-3-540-88690-7_29}
 Yiwen Luo and Xiaoou Tang.
 \newblock Photo and video quality evaluation: Focusing on the subject.
-\newblock In David Forsyth, Philip Torr, and Andrew Zisserman, editors, {\em
-  Computer Vision – ECCV 2008}, volume 5304 of {\em Lecture Notes in Computer
-  Science}, pages 386--399. Springer Berlin / Heidelberg, 2008.
+\newblock In David Forsyth, Philip Torr, and Andrew Zisserman, editors,
+  \emph{Computer Vision – ECCV 2008}, volume 5304 of \emph{Lecture Notes in
+  Computer Science}, pages 386--399. Springer Berlin / Heidelberg, 2008.
+\newblock URL \url{http://dx.doi.org/10.1007/978-3-540-88690-7\_29}.
 \newblock 10.1007/978-3-540-88690-7\_29.
 
-\bibitem{Pimenov_fastimage}
+\bibitem[Pimenov(2009)]{Pimenov_fastimage}
 Vitaly Pimenov.
 \newblock Fast image matching with visual attention and surf descriptors.
-\newblock In {\em Proceedings of the 19th International Conference on Computer
+\newblock In \emph{Proceedings of the 19th International Conference on Computer
   Graphics and Vision}, pages 49--56, 2009.
+\newblock URL
+  \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.169.8375&rep=r%
+ep1\&type=pdf}.
 
-\bibitem{1292402}
+\bibitem[Platt et~al.(2003)Platt, Czerwinski, and Field]{1292402}
 J.C. Platt, M.~Czerwinski, and B.A. Field.
 \newblock Phototoc: automatic clustering for browsing personal photographs.
-\newblock In {\em Information, Communications and Signal Processing, 2003 and
+\newblock In \emph{Information, Communications and Signal Processing, 2003 and
   the Fourth Pacific Rim Conference on Multimedia. Proceedings of the 2003
   Joint Conference of the Fourth International Conference on}, volume~1, pages
   6 -- 10 Vol.1, December 2003.
+\newblock \doi{10.1109/ICICS.2003.1292402}.
 
-\bibitem{Sun:2009:PAB:1631272.1631351}
+\bibitem[Sun et~al.(2009)Sun, Yao, Ji, and Liu]{Sun:2009:PAB:1631272.1631351}
 Xiaoshuai Sun, Hongxun Yao, Rongrong Ji, and Shaohui Liu.
 \newblock Photo assessment based on computational visual attention model.
-\newblock In {\em Proceedings of the seventeen ACM international conference on
+\newblock In \emph{Proceedings of the seventeen ACM international conference on
   Multimedia}, MM '09, pages 541--544, New York, NY, USA, 2009. ACM.
+\newblock ISBN 978-1-60558-608-3.
+\newblock \doi{http://doi.acm.org.oca.ucsc.edu/10.1145/1631272.1631351}.
+\newblock URL \url{http://doi.acm.org.oca.ucsc.edu/10.1145/1631272.1631351}.
 
-\bibitem{5649226}
+\bibitem[Tang et~al.(2010)Tang, Miao, Wan, and Li]{5649226}
 Zhen Tang, Zhenjiang Miao, Yanli Wan, and Jia Li.
 \newblock Automatic foreground extraction for images and videos.
-\newblock In {\em Image Processing (ICIP), 2010 17th IEEE International
+\newblock In \emph{Image Processing (ICIP), 2010 17th IEEE International
   Conference on}, pages 2993 --2996, sept 2010.
+\newblock \doi{10.1109/ICIP.2010.5649226}.
 
-\bibitem{springerlink:10.1007/978-3-540-30541-5_25}
+\bibitem[Tong et~al.(2005)Tong, Li, Zhang, He, and
+  Zhang]{springerlink:10.1007/978-3-540-30541-5_25}
 Hanghang Tong, Mingjing Li, Hong-Jiang Zhang, Jingrui He, and Changshui Zhang.
 \newblock Classification of digital photos taken by photographers or home
   users.
 \newblock In Kiyoharu Aizawa, Yuichi Nakamura, and Shin’ichi Satoh, editors,
-  {\em Advances in Multimedia Information Processing - PCM 2004}, volume 3331
-  of {\em Lecture Notes in Computer Science}, pages 198--205. Springer Berlin /
-  Heidelberg, 2005.
+  \emph{Advances in Multimedia Information Processing - PCM 2004}, volume 3331
+  of \emph{Lecture Notes in Computer Science}, pages 198--205. Springer Berlin
+  / Heidelberg, 2005.
+\newblock URL \url{http://dx.doi.org/10.1007/978-3-540-30541-5\_25}.
 \newblock 10.1007/978-3-540-30541-5\_25.
 
-\bibitem{vanZwol:2010:FEI:1772690.1772788}
-Roelof van Zwol, B\"{o}rkur Sigurbjornsson, Ramu Adapala, Lluis Garcia~Pueyo,
-  Abhinav Katiyar, Kaushal Kurapati, Mridul Muralidharan, Sudar Muthu, Vanessa
-  Murdock, Polly Ng, Anand Ramani, Anuj Sahai, Sriram~Thiru Sathish, Hari
-  Vasudev, and Upendra Vuyyuru.
-\newblock Faceted exploration of image search results.
-\newblock In {\em Proceedings of the 19th international conference on World
-  wide web}, WWW '10, pages 961--970, New York, NY, USA, 2010. ACM.
+\bibitem[Wang et~al.(2002)Wang, Sheikh, and Bovik]{1038064}
+Zhou Wang, H.R. Sheikh, and A.C. Bovik.
+\newblock No-reference perceptual quality assessment of jpeg compressed images.
+\newblock In \emph{Image Processing. 2002. Proceedings. 2002 International
+  Conference on}, volume~1, pages I--477 -- I--480 vol.1, 2002.
+\newblock \doi{10.1109/ICIP.2002.1038064}.
 
-\bibitem{1284395}
+\bibitem[Wang et~al.(2004)Wang, Bovik, Sheikh, and Simoncelli]{1284395}
 Zhou Wang, A.C. Bovik, H.R. Sheikh, and E.P. Simoncelli.
 \newblock Image quality assessment: from error visibility to structural
   similarity.
-\newblock {\em Image Processing, IEEE Transactions on}, 13(4):600 --612, April
-  2004.
+\newblock \emph{Image Processing, IEEE Transactions on}, 13\penalty0
+  (4):\penalty0 600 --612, April 2004.
+\newblock ISSN 1057-7149.
+\newblock \doi{10.1109/TIP.2003.819861}.
 
-\bibitem{1038064}
-Zhou Wang, H.R. Sheikh, and A.C. Bovik.
-\newblock No-reference perceptual quality assessment of jpeg compressed images.
-\newblock In {\em Image Processing. 2002. Proceedings. 2002 International
-  Conference on}, volume~1, pages I--477 -- I--480 vol.1, 2002.
-
-\bibitem{Yeh:2010:PPR:1873951.1873963}
+\bibitem[Yeh et~al.(2010)Yeh, Ho, Barsky, and
+  Ouhyoung]{Yeh:2010:PPR:1873951.1873963}
 Che-Hua Yeh, Yuan-Chen Ho, Brian~A. Barsky, and Ming Ouhyoung.
 \newblock Personalized photograph ranking and selection system.
-\newblock In {\em Proceedings of the international conference on Multimedia},
+\newblock In \emph{Proceedings of the international conference on Multimedia},
   MM '10, pages 211--220, New York, NY, USA, 2010. ACM.
+\newblock ISBN 978-1-60558-933-6.
+\newblock \doi{http://doi.acm.org/10.1145/1873951.1873963}.
+\newblock URL \url{http://doi.acm.org/10.1145/1873951.1873963}.
 
 \end{thebibliography}

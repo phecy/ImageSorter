@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  27 FEB 2011 18:19
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  27 FEB 2011 21:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -68,11 +68,10 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 (/etc/texmf/tex/latex/config/graphics.cfg
 File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: pdftex.def on input line 91.
+Package graphics Info: Driver file: dvips.def on input line 91.
 
-(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
-\Gread@gobject=\count92
+(/usr/share/texmf-texlive/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
 ))
 \Gin@req@height=\dimen106
 \Gin@req@width=\dimen107
@@ -100,13 +99,13 @@ Package: amsbsy 1999/11/29 v1.2d
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count93
+\inf@bad=\count92
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count94
-\leftroot@=\count95
+\uproot@=\count93
+\leftroot@=\count94
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count96
-\DOTSCASE@=\count97
+\classnum@=\count95
+\DOTSCASE@=\count96
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
@@ -115,15 +114,15 @@ LaTeX Info: Redefining \cdots on input line 467.
 \big@size=\dimen112
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count98
-\c@MaxMatrixCols=\count99
+\macc@depth=\count97
+\c@MaxMatrixCols=\count98
 \dotsspace@=\muskip10
-\c@parentequation=\count100
-\dspbrk@lvl=\count101
+\c@parentequation=\count99
+\dspbrk@lvl=\count100
 \tag@help=\toks16
-\row@=\count102
-\column@=\count103
-\maxfields@=\count104
+\row@=\count101
+\column@=\count102
+\maxfields@=\count103
 \andhelp@=\toks17
 \eqnshift@=\dimen113
 \alignsep@=\dimen114
@@ -153,14 +152,14 @@ Package: natbib 2009/07/16 8.31 (PWD, AO)
 \bibhang=\skip48
 \bibsep=\skip49
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count105
+\c@NAT@ctr=\count104
 )
 (/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2009/10/09 v6.79a Hypertext links for LaTeX
 
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in pdf mode detected.
+Package ifpdf Info: pdfTeX in pdf mode not detected.
 )
 (/usr/share/texmf-texlive/tex/generic/oberdiek/ifvtex.sty
 Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
@@ -177,8 +176,8 @@ O)
 Package: xcolor-patch 2009/10/02 xcolor patch
 ))
 \@linkdim=\dimen119
-\Hy@linkcounter=\count106
-\Hy@pagecounter=\count107
+\Hy@linkcounter=\count105
+\Hy@pagecounter=\count106
 
 (/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
@@ -249,7 +248,7 @@ Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 )))
-\Fld@menulength=\count108
+\Fld@menulength=\count107
 \Field@Width=\dimen120
 \Fld@charsize=\dimen121
 \Field@toks=\toks20
@@ -264,15 +263,28 @@ Package hyperref Info: PDF/A mode OFF on input line 4407.
 (/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
 Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
 )
-\Hy@abspage=\count109
-\c@Item=\count110
-\c@Hfootnote=\count111
+\Hy@abspage=\count108
+\c@Item=\count109
+\c@Hfootnote=\count110
 )
-*hyperref using default driver hpdftex*
-(/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
-\Fld@listcount=\count112
-) (./README_PAPER.aux)
+*hyperref using default driver hdvips*
+(/usr/share/texmf-texlive/tex/latex/hyperref/hdvips.def
+File: hdvips.def 2009/10/09 v6.79a Hyperref driver for dvips
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/pdfmark.def
+File: pdfmark.def 2009/10/09 v6.79a Hyperref definitions for pdfmark specials
+
+
+Package hyperref Warning: You have enabled option `breaklinks'.
+(hyperref)                But driver `hdvips.def' does not suppport this.
+(hyperref)                Expect trouble with the link areas of broken links.
+
+\pdf@docset=\toks21
+\pdf@box=\box30
+\pdf@toks=\toks22
+\pdf@defaulttoks=\toks23
+\Fld@listcount=\count111
+)) (./README_PAPER.aux)
 \openout1 = `README_PAPER.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
@@ -290,8 +302,7 @@ LaTeX Font Info:    ... okay on input line 47.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
 LaTeX Font Info:    ... okay on input line 47.
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 47.
-
-(/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
+ (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 ABD: EveryShipout initializing macros
@@ -301,29 +312,20 @@ Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 (/etc/texmf/tex/latex/config/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: pdftex.def on input line 130.
-)
-(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count113
-\scratchdimen=\dimen122
-\scratchbox=\box30
-\nofMPsegments=\count114
-\nofMParguments=\count115
-\everyMPshowfont=\toks21
-\MPscratchCnt=\count116
-\MPscratchDim=\dimen123
-\MPnumerator=\count117
-\everyMPtoPDFconversion=\toks22
-)
+Package color Info: Driver file: dvips.def on input line 130.
+
+(/usr/share/texmf-texlive/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
 Package hyperref Info: Link coloring ON on input line 47.
- (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 
 (/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
 Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
-\c@section@level=\count118
+\c@section@level=\count112
 )
 LaTeX Info: Redefining \ref on input line 47.
 LaTeX Info: Redefining \pageref on input line 47.
@@ -343,102 +345,22 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 49.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 67.
-
-
-Package natbib Warning: Author undefined for citation`Bhattacahrya:2010:FPA:187
-3951.1873990' 
-(natbib)                on page 1 on input line 67.
-
-
-Package natbib Warning: Author undefined for citation`Kopf:2008:DPM:1409060.140
-9069' 
-(natbib)                on page 1 on input line 67.
-
-
-Underfull \hbox (badness 1122) in paragraph at lines 67--68
-[]\OT1/ptm/m/n/10 Various pub-li-ca-tions such as [][][]\OT1/ptm/b/n/10 (au-tho
-r?)[][][]\OT1/ptm/m/n/10 [[]] and [][][]\OT1/ptm/b/n/10 (au-
- []
-
-
-Package natbib Warning: Author undefined for citation`springerlink:10.1007/978-
-3-540-77409-9_26' 
-(natbib)                on page 1 on input line 73.
-
-
-Package natbib Warning: Author undefined for citation`5540170' 
-(natbib)                on page 1 on input line 73.
-
-
-Package natbib Warning: Author undefined for citation`COL:COL5080160410' 
-(natbib)                on page 1 on input line 73.
-
-
-Package natbib Warning: Author undefined for citation`COL:COL10004' 
-(natbib)                on page 1 on input line 73.
-
-
-Package natbib Warning: Author undefined for citation`Chu2010256' 
-(natbib)                on page 1 on input line 73.
-
-
-Package natbib Warning: Author undefined for citation`springerlink:10.1007/978-
-3-540-30541-5_25' 
-(natbib)                on page 1 on input line 74.
-
-
-Package natbib Warning: Author undefined for citation`springerlink:10.1007/1174
-4078_23' 
-(natbib)                on page 1 on input line 74.
-
-
-Package natbib Warning: Author undefined for citation`1640788' 
-(natbib)                on page 1 on input line 74.
-
-
-Package natbib Warning: Author undefined for citation`springerlink:10.1007/978-
-3-540-88690-7_29' 
-(natbib)                on page 1 on input line 74.
-
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+ [1
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 86.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 93.
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 86.
-
-Underfull \hbox (badness 3895) in paragraph at lines 96--99
-\OT1/ptm/m/n/10 qual-ity of an im-age (the sec-ond step of the Pho-
- []
-
-
-Underfull \hbox (badness 6542) in paragraph at lines 96--99
-\OT1/ptm/m/n/10 tog-ra-pher's Process)[[]][[]]; more deeply re-searched
- []
-
-
-Underfull \hbox (badness 3590) in paragraph at lines 96--99
-\OT1/ptm/m/n/10 is as-sess-ing qual-ity for the pur-poses of pho-to-graph
- []
-
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 93.
+File: similarimages.eps Graphic file (type eps)
+ <similarimages.eps>
 [2]
-
-! LaTeX Error: Unknown graphics extension: .eps.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.125 ...ics[scale=0.53,clip]{imageluminosity.eps}
-                                                  
-? 
+File: imageluminosity.eps Graphic file (type eps)
+ <imageluminosity.eps>
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
@@ -451,39 +373,138 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-
-! LaTeX Error: Unknown graphics extension: .eps.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.153 ...aphics[scale=0.38,clip]{colorharmony.eps}
-                                                  
-? 
-[3]
-
-! LaTeX Error: Unknown graphics extension: .eps.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.178 ...degraphics[scale=0.40,clip]{ke_vs_us.eps}
-                                                  
-? 
+ [3]
+File: colorharmony.eps Graphic file (type eps)
+ <colorharmony.eps>
+File: ke_vs_us.eps Graphic file (type eps)
+ <ke_vs_us.eps> [4]
 (./README_PAPER.bbl (./README_PAPER.brf)
 \tf@brf=\write3
 \openout3 = `README_PAPER.brf'.
 
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 18.
 
-Underfull \hbox (badness 2310) in paragraph at lines 15--15
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Underfull \hbox (badness 2310) in paragraph at lines 18--18
 []\OT1/ptm/m/n/10 Subhabrata Bhat-tac-ahrya, Rahul Suk-thankar, and
  []
 
-[4]
-Underfull \hbox (badness 5022) in paragraph at lines 40--40
+
+Underfull \hbox (badness 1558) in paragraph at lines 18--18
+\OT1/ptm/m/n/10 Mubarak Shah.  A frame-work for photo-quality
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+\OT1/ptm/m/n/10 as-sess-ment and en-hance-ment based on vi-sual
+ []
+
+
+Underfull \hbox (badness 2221) in paragraph at lines 18--18
+\OT1/ptm/m/n/10 aes-thet-ics.  In \OT1/ptm/m/it/10 Pro-ceed-ings of the in-ter-
+na-tional
+ []
+
+
+Underfull \hbox (badness 1142) in paragraph at lines 18--18
+\OT1/ptm/m/it/10 con-fer-ence on Mul-ti-me-dia\OT1/ptm/m/n/10 , MM '10, pages 2
+71--
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+\OT1/ptm/m/n/10 978-1-60558-933-6.  doi: $http : / / doi . acm . org .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+\OT1/ptm/m/n/10 oca . ucsc . edu / 10 . 1145 / 1873951 . 1873990$.  URL
+ []
+
+
+Overfull \hbox (117.02397pt too wide) in paragraph at lines 18--18
+[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org . oca . ucsc . edu / 10 . 114
+5 / 1873951 . 1873990$[][][][]\OT1/ptm/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 1237) in paragraph at lines 36--36
+[]\OT1/ptm/m/n/10 Kenneth E. Burchett.  Color har-mony at-tributes.
+ []
+
+
+Overfull \hbox (27.02397pt too wide) in paragraph at lines 36--36
+[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1002 / col . 5080160410
+$[][][][]\OT1/ptm/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 1990) in paragraph at lines 45--45
+[]\OT1/ptm/m/n/10 Kenneth E. Burchett.  Color har-mony.  \OT1/ptm/m/it/10 Color
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+\OT1/ptm/m/it/10 Re-search & Ap-pli-ca-tion\OT1/ptm/m/n/10 , 27(1):28--31, 2002
+.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1002 / col . 10004$[][]
+[][]\OT1/ptm/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 5022) in paragraph at lines 57--57
 []\OT1/ptm/m/n/10 Wei-Ta Chu and Chia-Hung Lin.  Con-sumer
+ []
+
+
+Underfull \hbox (badness 5077) in paragraph at lines 57--57
+\OT1/ptm/m/n/10 photo man-age-ment and brows-ing fa-cil-i-tated by
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--57
+\OT1/ptm/m/n/10 near-duplicate de-tec-tion with fea-ture fil-ter-ing.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--57
+\OT1/ptm/m/it/10 Jour-nal of Vi-sual Com-mu-ni-ca-tion and Im-age
+ []
+
+
+Overfull \hbox (358.02397pt too wide) in paragraph at lines 57--57
+[][][]$\OT1/pcr/m/n/10 http : / / www . sciencedirect . com / science / article
+ / B6WMK-[]4Y70C6C-[]3 / 2 / 2a989be326ea821696ae379259e3f960$[][][][]\OT1/ptm/
+m/n/10 .
+ []
+
+
+Underfull \hbox (badness 1371) in paragraph at lines 67--67
+[]\OT1/ptm/m/n/10 Daniel Cohen-Or, Olga Sorkine, Ran Gal, Tom-
+ []
+
+
+Underfull \hbox (badness 2310) in paragraph at lines 67--67
+\OT1/ptm/m/n/10 mer Ley-vand, and Ying-Qing Xu.  Color har-
+ []
+
+
+Underfull \hbox (badness 1558) in paragraph at lines 67--67
+\OT1/ptm/m/n/10 mo-niza-tion.  In \OT1/ptm/m/it/10 ACM SIG-GRAPH 2006 Pa-pers\O
+T1/ptm/m/n/10 ,
+ []
+
+
+Overfull \hbox (39.02397pt too wide) in paragraph at lines 67--67
+[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org / 10 . 1145 / 1179352 . 11419
+33$[][][][]\OT1/ptm/m/n/10 .
  []
 
 Missing character: There is no ≈ in font ptmr7t!
@@ -491,56 +512,204 @@ Missing character: There is no ° in font ptmr7t!
 Missing character: There is no ‚ in font ptmri7t!
 Missing character: There is no Ä in font ptmri7t!
 Missing character: There is no ì in font ptmri7t!
+
+Underfull \hbox (badness 1609) in paragraph at lines 78--78
+[]\OT1/ptm/m/n/10 Ritendra Datta, Dhi-raj Joshi, Jia Li, and James
+ []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 78--78
+\OT1/ptm/m/n/10 Wang.  Study-ing aes-thet-ics in pho-to-graphic im-
+ []
+
+
+Underfull \hbox (badness 2573) in paragraph at lines 78--78
+\OT1/ptm/m/n/10 ages us-ing a com-pu-ta-tional ap-proach.  In Ale
+ []
+
+
+Underfull \hbox (badness 3333) in paragraph at lines 78--78
+\OT1/ptm/m/n/10 Leonardis, Horst Bischof, and Axel Pinz, ed-i-
+ []
+
+
+Underfull \hbox (badness 5460) in paragraph at lines 78--78
+\OT1/ptm/m/n/10 of \OT1/ptm/m/it/10 Lec-ture Notes in Com-puter Sci-ence\OT1/pt
+m/m/n/10 , pages
+ []
+
+
+Overfull \hbox (9.02397pt too wide) in paragraph at lines 78--78
+[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1007 / 11744078 _ 23$[]
+[][][]\OT1/ptm/m/n/10 .
+ []
+
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
+
+Underfull \hbox (badness 2941) in paragraph at lines 107--107
+[]\OT1/ptm/m/n/10 Ping Hsu and Bing-Yu Chen.  Blurred im-age
+ []
+
+
+Underfull \hbox (badness 1953) in paragraph at lines 107--107
+\OT1/ptm/m/n/10 de-tec-tion and clas-si-fi-ca-tion.  In Shinichi Satoh,
+ []
+
+
+Underfull \hbox (badness 7944) in paragraph at lines 107--107
+\OT1/ptm/m/n/10 Frank Nack, and Mi-noru Etoh, ed-i-tors, \OT1/ptm/m/it/10 Ad-
+ []
+
+
+Underfull \hbox (badness 6236) in paragraph at lines 107--107
+\OT1/ptm/m/it/10 vances in Mul-ti-me-dia Mod-el-ing\OT1/ptm/m/n/10 , vol-ume 49
+03
+ []
+
+
+Underfull \hbox (badness 5460) in paragraph at lines 107--107
+\OT1/ptm/m/n/10 of \OT1/ptm/m/it/10 Lec-ture Notes in Com-puter Sci-ence\OT1/pt
+m/m/n/10 , pages
+ []
+
+
+Overfull \hbox (65.02397pt too wide) in paragraph at lines 107--107
+[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1007 / 978-[]3-[]540-[]
+77409-[]9 _ 26$[][][][]\OT1/ptm/m/n/10 .
+ []
+
+[5]
+Underfull \hbox (badness 2486) in paragraph at lines 124--124
+\OT1/ptm/m/n/10 Co-hen, Daniel Cohen-Or, Oliver Deussen, Matt
+ []
+
+
+Underfull \hbox (badness 1308) in paragraph at lines 124--124
+\OT1/ptm/m/n/10 Uyt-ten-daele, and Dani Lischin-ski.  Deep photo:
+ []
+
+
+Underfull \hbox (badness 5756) in paragraph at lines 124--124
+\OT1/ptm/m/it/10 ACM Trans. Graph.\OT1/ptm/m/n/10 , 27:116:1--116:10, De-cem-
+ []
+
+
+Underfull \hbox (badness 1590) in paragraph at lines 124--124
+\OT1/ptm/m/n/10 org . oca . ucsc . edu / 10 . 1145 / 1409060 . 1409069$.  URL
+ []
+
+
+Overfull \hbox (117.02397pt too wide) in paragraph at lines 124--124
+[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org . oca . ucsc . edu / 10 . 114
+5 / 1409060 . 1409069$[][][][]\OT1/ptm/m/n/10 .
+ []
+
 Missing character: There is no ‚ in font ptmri7t!
 Missing character: There is no Ä in font ptmri7t!
 Missing character: There is no ì in font ptmri7t!
-[5]
+
+Underfull \hbox (badness 2384) in paragraph at lines 142--142
+\OT1/ptm/m/n/10 ed-i-tors, \OT1/ptm/m/it/10 Com-puter Vi-sion  ECCV 2008\OT1/pt
+m/m/n/10 , vol-ume
+ []
+
+
+Overfull \hbox (65.02397pt too wide) in paragraph at lines 142--142
+[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1007 / 978-[]3-[]540-[]
+88690-[]7 _ 29$[][][][]\OT1/ptm/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 2753) in paragraph at lines 151--151
+\OT1/ptm/m/n/10 at-ten-tion and surf de-scrip-tors.  In \OT1/ptm/m/it/10 Pro-ce
+ed-ings
+ []
+
+
+Underfull \hbox (badness 4467) in paragraph at lines 151--151
+\OT1/ptm/m/it/10 of the 19th In-ter-na-tional Con-fer-ence on Com-
+ []
+
+
+Overfull \hbox (285.02397pt too wide) in paragraph at lines 151--151
+[][][]$\OT1/pcr/m/n/10 http : / / citeseerx . ist . psu . edu / viewdoc / downl
+oad ? doi = 10 . 1 . 1 . 169 . 8375&rep = rep1&type = pdf$[][][][]\OT1/ptm/m/n/
+10 .
+ []
+
+
+Underfull \hbox (badness 1590) in paragraph at lines 169--169
+\OT1/ptm/m/n/10 org . oca . ucsc . edu / 10 . 1145 / 1631272 . 1631351$.  URL
+ []
+
+
+Overfull \hbox (117.02397pt too wide) in paragraph at lines 169--169
+[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org . oca . ucsc . edu / 10 . 114
+5 / 1631272 . 1631351$[][][][]\OT1/ptm/m/n/10 .
+ []
+
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 
-Underfull \hbox (badness 2103) in paragraph at lines 166--166
-[]\OT1/ptm/m/n/10 Roelof van Zwol, B[]orkur Sig-ur-b-jorns-son, Ramu
+Underfull \hbox (badness 1867) in paragraph at lines 188--188
+\OT1/ptm/m/n/10 users.  In Kiy-oharu Aizawa, Yuichi Naka-mura,
  []
 
 
-Underfull \hbox (badness 3219) in paragraph at lines 166--166
-\OT1/ptm/m/n/10 Ada-pala, Lluis Gar-cia Pueyo, Ab-hi-nav Kati-yar,
+Overfull \hbox (65.02397pt too wide) in paragraph at lines 188--188
+[][][]$\OT1/pcr/m/n/10 http : / / dx . doi . org / 10 . 1007 / 978-[]3-[]540-[]
+30541-[]5 _ 25$[][][][]\OT1/ptm/m/n/10 .
  []
 
 
-Underfull \hbox (badness 6625) in paragraph at lines 166--166
-\OT1/ptm/m/n/10 Kaushal Ku-ra-p-ati, Mridul Mu-ralid-ha-ran, Su-dar
+Underfull \hbox (badness 1590) in paragraph at lines 214--214
+[]\OT1/ptm/m/n/10 Che-Hua Yeh, Yuan-Chen Ho, Brian A. Barsky,
  []
 
-) [6
 
-] (./README_PAPER.aux) ) 
+Underfull \hbox (badness 2426) in paragraph at lines 214--214
+\OT1/ptm/m/n/10 and Ming Ouhy-oung.  Per-son-al-ized pho-to-graph
+ []
+
+
+Underfull \hbox (badness 2894) in paragraph at lines 214--214
+\OT1/ptm/m/n/10 rank-ing and se-lec-tion sys-tem.  In \OT1/ptm/m/it/10 Pro-ceed
+-ings
+ []
+
+
+Underfull \hbox (badness 5563) in paragraph at lines 214--214
+\OT1/ptm/m/it/10 of the in-ter-na-tional con-fer-ence on Mul-ti-me-dia\OT1/ptm/
+m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 1038) in paragraph at lines 214--214
+\OT1/ptm/m/n/10 MM '10, pages 211--220, New York, NY, USA,
+ []
+
+
+Underfull \hbox (badness 2478) in paragraph at lines 214--214
+\OT1/ptm/m/n/10 2010. ACM.  ISBN 978-1-60558-933-6.  doi:
+ []
+
+
+Overfull \hbox (39.02397pt too wide) in paragraph at lines 214--214
+[][][]$\OT1/pcr/m/n/10 http : / / doi . acm . org / 10 . 1145 / 1873951 . 18739
+63$[][][][]\OT1/ptm/m/n/10 .
+ []
+
+) [6] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
- 5972 strings out of 495061
- 85762 string characters out of 1182621
- 164055 words of memory out of 3000000
- 8978 multiletter control sequences out of 15000+50000
- 24113 words of font info for 58 fonts, out of 3000000 for 9000
+ 5737 strings out of 495062
+ 82269 string characters out of 1182644
+ 159832 words of memory out of 3000000
+ 8801 multiletter control sequences out of 15000+50000
+ 15012 words of font info for 50 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 38i,8n,28p,759b,470s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}<
-/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/
-texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
-r7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
-r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texm
-f-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type
-1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.
-pfb>
-Output written on README_PAPER.pdf (6 pages, 177946 bytes).
-PDF statistics:
- 217 PDF objects out of 1000 (max. 8388607)
- 54 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 38i,8n,33p,759b,408s stack positions out of 5000i,500n,10000p,200000b,50000s
 
+Output written on README_PAPER.dvi (6 pages, 66548 bytes).
