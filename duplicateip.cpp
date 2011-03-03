@@ -537,6 +537,14 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
     else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/69_36370488_c5e200c8f6_o.jpg") == 0) fgBox = boundingBox(point(4,6),point(448,128));
     else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/ke/70_CowMoose.jpg") == 0) fgBox = boundingBox(point(8,5),point(567,183));
 
+    else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0081.jpg") == 0) fgBox = boundingBox(point(126,84),point(376,277));
+    else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0082.jpg") == 0) fgBox = boundingBox(point(126,84),point(356,294));
+    else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0083.jpg") == 0) fgBox = boundingBox(point(275,184),point(525,377));
+    else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0084.jpg") == 0) fgBox = boundingBox(point(245,164),point(452,399));
+    else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0085.jpg") == 0) fgBox = boundingBox(point(36,24),point(276,226));
+    else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0087.jpg") == 0) fgBox = boundingBox(point(96,64),point(398,224));
+    else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0088.jpg") == 0) fgBox = boundingBox(point(126,84),point(280,398));
+
     return fgBox;
 }
 
