@@ -1,53 +1,21 @@
-\documentclass[10pt,twocolumn,letterpaper]{article}
-
-\usepackage{iccv}
-\usepackage{times}
-\usepackage{epsfig}
+\documentclass{article}
+\usepackage{spconf,amsmath,epsfig}
 \usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{amssymb}
 
-\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
-
-\iccvfinalcopy % *** Uncomment this line for the final submission
-
-\def\iccvPaperID{****} % *** Enter the ICCV Paper ID here
-\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
-
-% Pages are numbered in submission mode, and unnumbered in camera-ready
-\ificcvfinal\pagestyle{empty}\fi
-
+\pagestyle{empty}
+\begin{document}\sloppy
 
 \title{
 Selective Removal of Extraneous Photographs
 }
-\author{
-K. Armin Samii\\
-Computer Science Undergraduate\\
-Univ. of Calif. at Santa Cruz\\
-ksamii@ucsc.edu
-\and
-Allison A. Carlisle\\
-Bioinformatics/Computer Science Undergraduate\\
-Univ. of Calif. at Santa Cruz\\
-acarlisl@ucsc.edu
-\and
-Uliana Popov\\
-Computer Science Graduate\\
-Univ. of Calif. at Santa Cruz\\
-uliana@soe.ucsc.edu
-\and
-James E. Davis\\
-Computer Science Professor\\
-Univ. of Calif. at Santa Cruz\\
-davis@soe.ucsc.edu
-}
-\date{\today}
-\begin{document}
-\maketitle
+
+\name{K. Armin Samii, Allison Carlisle, Uliana Popov, James Davis}
+\address{[ksamii,acarlisl]@ucsc.edu,[uliana,davis]@soe.ucsc.edu}
+
+\maketitle	
 \begin{abstract}
-In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy arising from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. Finally, we provide an ordering of the images which accounts for both quality and redundancy. Our goal is not to rank images based on aesthetic quality, but instead to help a photographer filter out technically flawed photographs and focus on high quality shots.
-\end{abstract}
+In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy arising from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. Finally, we provide an ordering of the images which accounts for both quality and redundancy. Our goal is not to rank images based on subjective aesthetic qualities, but instead to help a photographer filter out technically flawed photographs and focus on objectively high quality shots.
+\end{abstract}	
 
 \section{Introduction}
 With the ease of digital cameras, both amateur and professional photographers take more pictures than they will need. An organized user will delete excess photos and keep the most important ones.
@@ -95,7 +63,7 @@ Where \(n\) is the number of modules, \(Q_i\) represents the rating of module \(
 \item \(W_{color}=10\%\)
 \end{itemize}
 
-\subsection{Content Recognition}\label{ContentRecognition}
+\subsection{Subject Recognition}\label{ContentRecognition}
 Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
