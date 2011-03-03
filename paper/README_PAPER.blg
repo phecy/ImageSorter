@@ -4,42 +4,42 @@ The style file: plain.bst
 Database file #1: README_BIB.bib
 You've used 21 entries,
             2118 wiz_defined-function locations,
-            645 strings with 8616 characters,
-and the built_in function-call counts, 9957 in all, are:
-= -- 991
-> -- 424
-< -- 22
-+ -- 163
-- -- 140
-* -- 733
-:= -- 1494
-add.period$ -- 74
+            623 strings with 7135 characters,
+and the built_in function-call counts, 7558 in all, are:
+= -- 708
+> -- 380
+< -- 11
++ -- 151
+- -- 128
+* -- 545
+:= -- 1235
+add.period$ -- 70
 call.type$ -- 21
 change.case$ -- 126
 chr.to.int$ -- 0
 cite$ -- 21
-duplicate$ -- 403
-empty$ -- 798
-format.name$ -- 140
-if$ -- 2230
+duplicate$ -- 304
+empty$ -- 628
+format.name$ -- 128
+if$ -- 1614
 int.to.chr$ -- 0
 int.to.str$ -- 21
 missing$ -- 20
-newline$ -- 112
-num.names$ -- 50
-pop$ -- 137
+newline$ -- 108
+num.names$ -- 42
+pop$ -- 154
 preamble$ -- 1
 purify$ -- 106
 quote$ -- 0
-skip$ -- 321
+skip$ -- 185
 stack$ -- 0
-substring$ -- 769
-swap$ -- 165
-text.length$ -- 22
+substring$ -- 370
+swap$ -- 70
+text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 84
 warning$ -- 0
-while$ -- 85
+while$ -- 55
 width$ -- 23
-write$ -- 261
+write$ -- 238
