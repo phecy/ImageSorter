@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  3 MAR 2011 15:04
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  3 MAR 2011 23:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -141,13 +141,13 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 65.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 67.
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 65.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 67.
 File: similarimages.eps Graphic file (type eps)
  <similarimages.eps>
 File: imageluminosity.eps Graphic file (type eps)
@@ -167,9 +167,11 @@ Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
 File: colorharmony.eps Graphic file (type eps)
  <colorharmony.eps> [3]
+Underfull \vbox (badness 1117) has occurred while \output is active []
+
 File: ke_vs_us.eps Graphic file (type eps)
- <ke_vs_us.eps>
-(./README_PAPER.bbl [4]) [5] (./README_PAPER.aux) ) 
+
+<ke_vs_us.eps> [4] (./README_PAPER.bbl) [5] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
  1288 strings out of 495062
  15214 string characters out of 1182644
@@ -179,4 +181,4 @@ Here is how much of TeX's memory you used:
  28 hyphenation exceptions out of 8191
  32i,7n,21p,755b,251s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on README_PAPER.dvi (5 pages, 29808 bytes).
+Output written on README_PAPER.dvi (5 pages, 30688 bytes).

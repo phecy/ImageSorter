@@ -34,12 +34,12 @@ We thus propose a technique which ranks images based on their technical qualitie
 
 To focus our research and determine which image qualities are relevant to technical image quality, we assume three general steps a photographer takes between shooting and using a picture, which we call the Photographer's Process:
 \begin{enumerate}
-\item Remove: Sort through the images being imported and select the ones most suited for retouching, removing the rest from consideration.
+\item Remove: Sort through the imported images and remove the ones least suited for retouching.
 \item Retouch: Modify the raw files just selected to stylize and enhance them.
 \item Retrieve: Select the retouched images most suitable to a given task.
 \end{enumerate}
 
-A user study has shown 82\% accuracy in our absolute ranking of photographs and 90\% accuracy in determining which photographs belong to the same set.
+We implement three modules to assess technical quality. The blur detection looks at the gradient magnitude of edges. Exposure is measured by comparing average luminosities within an image. Color harmony is based on Cohen's model\cite{Cohen-Or:2006:CH:1179352.1141933}. Similar-images are clustered into groups using the color content and timestamps of an image. Finally, a reordering of the set is provided, with images most suited for removal at the back and high-quality images at the front. A user study has shown 82\% accuracy in our absolute ranking of photographs and 90\% accuracy in determining which photographs belong to the same set.
 
 \section{Related Work}
 %Various publications have focused on improving the quality of an image, which is the second step of the Photographer's Process\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}. 
@@ -56,7 +56,9 @@ Several papers have developed methods for separating professional and amateur ph
 Compressed image quality assessment has been heavily researched\cite{477498}\cite{1038064}\cite{1284395}, but we assume a high quality import. As described in \cite{1315222}, a photograph's EXIF data can be used to robustly classify images into various semantic categories. Various aesthetic-based assessments focus on exploring human visual attention and sensitivity to photograph content\cite{Sun:2009:PAB:1631272.1631351}\cite{1518955}\cite{Pimenov_fastimage}, demonstrating the viability of content segmentation for image assessment.
 
 \section{Quantifying Image Quality}
-Each selected factor will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
+First, we find a bounding box around the primary subject for use by the blur detection and exposure assessment. We then cluster images into groups. Finally, we perform the quality assessment.
+
+The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
 \[
 \sqrt[4]{\displaystyle\sum\limits_{i=1}^n(\frac{W_iQ_i}{n})^4}
 \]
