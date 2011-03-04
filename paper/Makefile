@@ -52,6 +52,7 @@ bib-visual: b
 
 bv: bib-visual
 
-commit:
+git:
 	git commit README*
+	git push
 
