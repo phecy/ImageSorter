@@ -252,7 +252,7 @@ int main(int argc, char *argv[])
 
     // Sort
     // insertion_sort(picValue, imageStrArray, size);
-    imageInfoArray = set_sort(imageInfoArray);
+    //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
     display *disp = new display();

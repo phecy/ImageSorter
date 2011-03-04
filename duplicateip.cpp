@@ -545,6 +545,13 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
     else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0087.jpg") == 0) fgBox = boundingBox(point(96,64),point(398,224));
     else if(strcmp(vim->getFilename(), "/media/94F8A417F8A3F620/Documents and Settings/Artoonie/Desktop/zoo_imagesorter/DSC_0088.jpg") == 0) fgBox = boundingBox(point(126,84),point(280,398));
 
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/mug/DSC_0543.JPG") == 0) fgBox = boundingBox(point(182,120),point(441,372));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/mug/DSC_0544.JPG") == 0) fgBox = boundingBox(point(216,144),point(509,388));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/mug/DSC_0545.JPG") == 0) fgBox = boundingBox(point(182,120),point(429,385));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/mug/DSC_0546.JPG") == 0) fgBox = boundingBox(point(147,97),point(348,421));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/Desktop/mug/DSC_0547.JPG") == 0) fgBox = boundingBox(point(112,74),point(510,317));
+
+
     return fgBox;
 }
 
