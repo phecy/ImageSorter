@@ -1,0 +1,29 @@
+# make with dot -Teps flowchart.graphviz > flowchart.eps
+digraph Main_Flowchart {
+rankdir= LR
+node  [  color=lightblue2, style=filled];
+graph [  fontname = "Helvetica-Oblique",
+         fontsize = 12,
+         size = "6,6" 
+         label  = "Reordering Images Based on Qualtiy and Uniqueness"
+         labelloc=T
+      ];
+
+"Camera\nOrder"->"Find\nInterest\nPoint"
+"Find\nInterest\nPoint"->"Quality\nAssessment"
+"Find\nInterest\nPoint"->"Similarity\nRanking"
+"Similarity\nRanking"->"Global\nColor"
+"Similarity\nRanking"->"Local\nColor"
+"Similarity\nRanking"->"Time"
+"Quality\nAssessment"->"Exposure"
+"Quality\nAssessment"->"Blur"
+"Quality\nAssessment"->"Colors"
+"Global\nColor"->"Similar\nImage\nClusters"
+"Local\nColor"->"Similar\nImage\nClusters"
+"Time"->"Similar\nImage\nClusters"
+"Exposure"->"Quality\nRating"
+"Blur"->"Quality\nRating"
+"Colors"->"Quality\nRating"
+"Similar\nImage\nClusters"->"Importance\nOrder"
+"Quality\nRating"->"Importance\nOrder"
+}
