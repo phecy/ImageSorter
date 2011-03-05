@@ -21,11 +21,13 @@ boundingBox BoundingBox::getBoundingBox(QImage* qim, InterestPointList ips) {
     // Get max bounding box
     densityBox maxDensityBox =
             densityBox(boundingBox(point(-1,-1),point(-1,-1)),-1);
-    for(double start = .01; start < 1-MIN_FOREGROUND_SIZE; start+=STEP_SIZE) {
-        densityBox currDensityBox = getMaxDensity(totalIpMap, start, start);
-        //qDebug("Density at %d\%=%f", (int)(start*100), currDensityBox.second);
-        if(currDensityBox.second > maxDensityBox.second)
-            maxDensityBox = currDensityBox;
+    for(double startx = .01; startx < 1-MIN_FOREGROUND_SIZE; startx+=STEP_SIZE) {
+        for(double starty = .01; starty < 1-MIN_FOREGROUND_SIZE; starty+=STEP_SIZE) {
+            densityBox currDensityBox = getMaxDensity(totalIpMap, startx, starty);
+            //qDebug("Density at %d\%=%f", (int)(start*100), currDensityBox.second);
+            if(currDensityBox.second >= maxDensityBox.second)
+                maxDensityBox = currDensityBox;
+        }
     }
     boundingBox box = maxDensityBox.first;
 
