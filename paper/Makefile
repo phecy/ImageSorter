@@ -14,6 +14,7 @@
 #
 # g      graphviz:
 #        create the main flowchart
+# gv     (visual - eps only)
 
 all:
 	latex README_PAPER
@@ -57,6 +58,9 @@ bv: bib-visual
 
 g:
 	dot -Teps flowchart.graphviz > flowchart.eps
+
+gv: g
+	gnome-open flowchart.eps
 
 commit:
 	git commit README*
