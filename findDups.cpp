@@ -59,13 +59,14 @@ dupGroup Duplicates::findDuplicates() {
     // Gather votes
     runModules();
 
-    qDebug("Creating a matrix of ranks");
+    //qDebug("Creating a matrix of ranks");
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
     //debugPrintRanks(ranks);
+    debugPrintPhpRanks(ranks); // For comparing against turk data
 
     // Successively merge groupst
-    qDebug("Merging groups together");
+    //qDebug("Merging groups together");
     while(true) {
        pair<int,int> maxPair = getMaxPair(ranks);
        if(maxPair.first == -1) break;
@@ -75,7 +76,7 @@ dupGroup Duplicates::findDuplicates() {
     }
 
     // Gather all imglists
-    qDebug("Gathering groups from live rows");
+    //qDebug("Gathering groups from live rows");
     for(int i=0; i<allImages->size(); ++i) {
         pair<vector<float>, imgList> thisPair = ranks->at(i);
         if(thisPair.second.size() > 0) { // Ignore "dead rows"
@@ -104,6 +105,19 @@ void Duplicates::debugPrintRanks(rankVector* ranks) {
             else cerr << setw(4) << setprecision(1) << rank;
         }
         cerr << endl;
+    }
+}
+
+void Duplicates::debugPrintPhpRanks(rankVector* ranks) {
+    cerr << setiosflags(ios::left);
+    cerr<<"\n<<<<<<<<<<<<  Printing PHP DEBUG OUTPUT >>>>>>>>>>>>>>>>>>\n" << endl;
+    for(unsigned int i=0; i<allImages->size(); ++i) {
+        cerr << "array(\"" << allImages->at(i)->getFilename() << "\", ";
+        for(unsigned int j=0; j<allImages->size(); ++j) {
+            cerr << ranks->at(i).first.at(j);
+            if(j != allImages->size()-1) cerr << ",";
+        }
+        cerr << "),\n";
     }
 }
 

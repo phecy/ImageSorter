@@ -73,8 +73,9 @@ private:
     // Get a 2d matrix of rankings. Destruct it when you're done.
     rankVector* getRankVector();
 
-    // Prints out the current rank vector
+    // Prints out the current rank vector + PHP
     void debugPrintRanks(rankVector* ranks);
+    void debugPrintPhpRanks(rankVector* ranks);
 
     // Get the max paired ranking in the rankVector
     pair<int,int> getMaxPair(rankVector* ranks);
