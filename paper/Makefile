@@ -24,7 +24,7 @@ complete-dvi:
 d: complete-dvi
 
 dvi-visual: complete-dvi
-	xdvi README_PAPER.dvi & disown
+	xdvi README_PAPER.dvi &
 
 dv: dvi-visual
 
@@ -48,7 +48,7 @@ bib-only:
 b: bib-only
 
 bib-visual: b
-	xdvi README_PAPER.dvi & disown
+	xdvi README_PAPER.dvi &
 
 bv: bib-visual
 
