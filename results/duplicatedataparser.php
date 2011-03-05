@@ -22,6 +22,28 @@ array(array("new1-DSC_0069.JPG","4","4","3","4","4"), array("new1-DSC_0097.JPG",
 
 $appoutput = array(
 array(
+   array("new1-DSC_0031.JPG", 1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0034.JPG", 0,0,0,0,0,1,1,1,0,1,0,0,1,1,0,0,0,0,0,0),
+   array("new1-DSC_0035.JPG", 0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0),
+   array("new1-DSC_0037.JPG", 0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0039.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0),
+   array("new1-DSC_0046.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1),
+   array("new1-DSC_0048.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0049.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0055.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0056.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0059.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0060.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0062.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0064.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0067.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0069.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0072.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0073.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0074.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+   array("new1-DSC_0075.JPG", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+), /*
+array(
    array("new1-DSC_0031.JPG", -1,5,5,7,6,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0),
    array("new1-DSC_0034.JPG", 5,-1,10,5,5,1,2,2,1,0,0,0,0,0,0,0,0,0,0,0),
    array("new1-DSC_0035.JPG", 5,10,-1,6,5,2,2,2,1,0,0,0,0,0,0,0,0,0,0,0),
@@ -42,7 +64,7 @@ array(
    array("new1-DSC_0073.JPG", 0,0,0,0,0,0,0,0,2,2,4,3,2,4,2,3,10,-1,2,4),
    array("new1-DSC_0074.JPG", 0,0,0,0,0,0,0,0,1,2,2,2,4,2,1,3,1,2,-1,3),
    array("new1-DSC_0075.JPG", 0,0,0,0,0,0,0,0,1,2,2,2,4,3,1,2,2,4,3,-1)
-),
+),*/
 
 array(
    array("new1-DSC_0075.JPG", -1,10,6,6,6,2,4,2,2,1,0,0,0,0,0,0,0,0,0,0),
@@ -279,7 +301,7 @@ for($set=0; $set<4; ++$set) {
 
 for($set=0; $set<4; ++$set) {
    print("Printing rank success on set $set\n\n<br><br>");
-   $max = 0;
+   $maxturk = $maxour = $maxno = 0;
    //$ourthreshold = 6; // Out of 10
    //$turkthreshold = 4; // Out of 5 users
    for($ourthreshold=1; $ourthreshold<=10; ++$ourthreshold) {
@@ -289,6 +311,10 @@ for($set=0; $set<4; ++$set) {
 
          $total_ourprio = 0; // Total pairs
          $success_ourprio = 0; // Num successes
+
+         $total_noprio = 0; // Total pairs
+         $success_noprio = 0; // Num successes
+
          for($row=0; $row<=19; ++$row) {
             $filename = $appoutput[$set][$row][0];
             for($rowi=$row; $rowi <= 19; ++$rowi) {
@@ -312,14 +338,21 @@ for($set=0; $set<4; ++$set) {
                      ++$success_turkprio;
                   ++$total_turkprio;
                }
+               if($ourvote == $turkvote)
+                  ++$success_noprio;
+               ++$total_noprio;
             }
          }
          $pct_ourprio = round($success_ourprio/$total_ourprio * 100, 1);
          $pct_turkprio = round($success_turkprio/$total_turkprio * 100, 1);
-         if($pct_turkprio > $max) $max = $pct_turkprio;
+         $pct_noprio = round($success_noprio/$total_noprio * 100, 1);
+         if($pct_turkprio > $maxturk) $maxturk = $pct_turkprio;
+         if($pct_ourprio > $maxour) $maxour = $pct_ourprio;
+         if($pct_noprio > $maxno) $maxno = $pct_noprio;
          print("Turk threshold=$turkthreshold, Our threshold=$ourthreshold:\n<br>");
          print("_____Ourprio: $success_ourprio/$total_ourprio=<b>$pct_ourprio%</b>.\n<br>");
-         print("_____Turkprio: $success_turkprio/$total_turkprio=<b>$pct_turkprio%</b>.\n<br>\n<br>");
+         print("_____Turkprio: $success_turkprio/$total_turkprio=<b>$pct_turkprio%</b>.\n<br>");
+         print("_____Noprio: $success_noprio/$total_noprio=<b>$pct_noprio%</b>.\n<br>\n<br>");
       }
    }
 
@@ -332,6 +365,9 @@ for($set=0; $set<4; ++$set) {
 
       $total_ourprio = 0; // Total pairs
       $success_ourprio = 0; // Num successes
+
+      $total_noprio = 0; // Total pairs
+      $success_noprio = 0; // Num successes
 
       for($row=0; $row<=19; ++$row) {
          $filename = $appgroups[$set][$row][0];
@@ -356,16 +392,27 @@ for($set=0; $set<4; ++$set) {
                   ++$success_turkprio;
                ++$total_turkprio;
             }
+            if($ourvote == $turkvote)
+               ++$success_noprio;
+            ++$total_noprio;
          }
       }
       $pct_ourprio = round($success_ourprio/$total_ourprio * 100, 1);
       $pct_turkprio = round($success_turkprio/$total_turkprio * 100, 1);
-      if($pct_turkprio > $max) $max = $pct_turkprio;
+      $pct_noprio = round($success_noprio/$total_noprio * 100, 1);
+      if($pct_turkprio > $maxturk) $maxturk = $pct_turkprio;
+      if($pct_ourprio > $maxour) $maxour = $pct_ourprio;
+      if($pct_noprio > $maxno) $maxno = $pct_noprio;
       print("Turk threshold=$turkthreshold:\n<br>");
       print("_____Ourprio: $success_ourprio/$total_ourprio=<b>$pct_ourprio%</b>.\n<br>");
-      print("_____Turkprio: $success_turkprio/$total_turkprio=<b>$pct_turkprio%</b>.\n<br>\n<br>");
+      print("_____Turkprio: $success_turkprio/$total_turkprio=<b>$pct_turkprio%</b>.\n<br>");
+      print("_____Noprio: $success_noprio/$total_noprio=<b>$pct_noprio%</b>.\n<br>\n<br>");
    }
 
-   print("<h1>MAX FOR SET $set IS $max%</h1>\n<br>");
+   print("<h1>SET $set RESULTS:</h1>\n<br>");
+   print("<h1>MAX, HOW MANY TURK=YES MATCH US=YES:  $maxturk%</h1>\n<br>");
+   print("<h1>MAX, HOW MANY US=YES MATCH TURK=YES:  $maxour%</h1>\n<br>");
+   print("<h1>MAX, HOW MANY US=TURK:  $maxno%</h1>\n<br>");
+  
 }
 ?>
