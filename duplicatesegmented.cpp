@@ -135,7 +135,7 @@ int DuplicateSegmented::getSimilarity(QImage* first, QImage* second,
             // Penalize average difference divided by allowed distance
             // Then, penalize less as the rating gets lower
             rating -=
-               (rating*(double)(min(min(rDist,gDist),bDist)) / allowedDist) /
+               (rating*(double)((rDist+bDist+gDist)/3) / allowedDist) /
                (.5*blocksAcross*MAX_RATING);
         }
     }
