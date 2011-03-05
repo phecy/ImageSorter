@@ -11,6 +11,9 @@
 # b      bib:
 #        silences everything except bib
 # bv     (visual)
+#
+# g      graphviz:
+#        create the main flowchart
 
 all:
 	latex README_PAPER
@@ -51,6 +54,9 @@ bib-visual: b
 	xdvi README_PAPER.dvi &
 
 bv: bib-visual
+
+g:
+	dot -Teps flowchart.graphviz > flowchart.eps
 
 commit:
 	git commit README*
