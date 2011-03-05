@@ -163,6 +163,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
     for(int i=0;i<size; ++i){
         char* fn = imageStrArray[i];
         VImage* currVIm = new VImage(fn);
+        currVIm->setIndex(i);
         currQIm = currVIm->getQImage();
         if(currQIm == NULL) {
             cout << "Image " << fn << " failed to load!\n";
@@ -177,12 +178,12 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         dupFinder.addImage(currVIm, &exifs[i]);
 
         // Calc ranks
-        exposeVals[i] = newExpose.expose(currVIm);
-        palletVals[i] = colorAnalysis(currQIm);
-        greyVals[i] = newGrey.calcGrey(currQIm);
-        blurVals[i] = newBlur->calculateBlur(currVIm);
-        sharpVals[i] = sharpDetect.rankOne(currVIm);
-        newBlur->show();
+//        exposeVals[i] = newExpose.expose(currVIm);
+//        palletVals[i] = colorAnalysis(currQIm);
+//        greyVals[i] = newGrey.calcGrey(currQIm);
+//        blurVals[i] = newBlur->calculateBlur(currVIm);
+//        sharpVals[i] = sharpDetect.rankOne(currVIm);
+//        newBlur->show();
     }
 
     // Sets the different methods' respective weights.
