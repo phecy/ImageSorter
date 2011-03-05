@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  3 MAR 2011 23:51
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  4 MAR 2011 16:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -136,23 +136,24 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 16.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/it' tried instead on input line 20.
- [1
+File: flowchart.eps Graphic file (type eps)
+ <flowchart.eps> [1
 
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 67.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 72.
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 67.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 72.
 File: similarimages.eps Graphic file (type eps)
  <similarimages.eps>
+[2]
 File: imageluminosity.eps Graphic file (type eps)
-
-<imageluminosity.eps> [2]
+ <imageluminosity.eps>
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
@@ -165,20 +166,21 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
+ [3]
 File: colorharmony.eps Graphic file (type eps)
- <colorharmony.eps> [3]
-Underfull \vbox (badness 1117) has occurred while \output is active []
-
+ <colorharmony.eps>
 File: ke_vs_us.eps Graphic file (type eps)
+ <ke_vs_us.eps> [4]
+(./README_PAPER.bbl [5]) [6
 
-<ke_vs_us.eps> [4] (./README_PAPER.bbl) [5] (./README_PAPER.aux) ) 
+] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
- 1288 strings out of 495062
- 15214 string characters out of 1182644
+ 1290 strings out of 495062
+ 15240 string characters out of 1182644
  72218 words of memory out of 3000000
- 4481 multiletter control sequences out of 15000+50000
+ 4482 multiletter control sequences out of 15000+50000
  11185 words of font info for 35 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 32i,7n,21p,755b,251s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,7n,21p,755b,257s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on README_PAPER.dvi (5 pages, 30688 bytes).
+Output written on README_PAPER.dvi (6 pages, 31320 bytes).

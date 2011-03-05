@@ -57,6 +57,11 @@ Compressed image quality assessment has been heavily researched\cite{477498}\cit
 
 \section{Quantifying Image Quality}
 First, we find a bounding box around the primary subject for use by the blur detection and exposure assessment. We then cluster images into groups. Finally, we perform the quality assessment.
+\begin{figure*}
+  \centering
+    \includegraphics[scale=1.0,clip]{flowchart.eps}
+  \caption{Interest points are used to find the subject. Blur detection, color harmony, and exposure algorithms calculate an image's quality rating. The color distribution of the local subject and global image, coupled with the timestamp, cluster images into groups. A reordering of the input results, allowing the user to remove images at the end of this ordering.}
+\end{figure*}
 
 The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
 \[
@@ -74,7 +79,7 @@ Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-
 
 \subsection{Similar-Image Clustering}
 To find similar images, we perform three steps of increasing complexity for high confidence.
-\begin{figure}[t]
+\begin{figure}
   \centering
     \includegraphics[scale=0.07,clip]{similarimages.eps}
   \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
@@ -106,7 +111,7 @@ Using the foreground bounding box, the blur detection algorithm quantifies the c
 Next, we compute the difference in pixel values between the original image and a Gaussian blurred image. This provides little insight on no-reference images, but when looking at the bounding box of similar images, sharper edges results in a larger difference.
 
 \subsection{Exposure}
-\begin{figure}[t]
+\begin{figure}
   \centering
     \includegraphics[scale=0.53,clip]{imageluminosity.eps}\
     \label{exposurefigure}
@@ -135,7 +140,7 @@ The percentiles of the image are determined for both the bright and the dark sid
 The most extreme mean luminosity values are images of very poor quality, and are rated as such based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, though certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. After being subdivided into mean categories, they are again subdivided into further categories (see figure \ref{exposurefigure}) before analysis.
 
 \subsection{Color Harmony}   
-\begin{figure}[t]
+\begin{figure}
   \centering
     \includegraphics[scale=0.38,clip]{colorharmony.eps}
   \caption{The harmonies described in \cite{COL:COL10004} are used to find the quality of the relationships between colors.}
