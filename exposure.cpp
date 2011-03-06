@@ -407,7 +407,7 @@ float exposure::expose(VImage *vim) {
           }
 
           if (fg_mean < 120) {
-              if ((fg_sumLumHighEdge>=0.0013)&&(fg_sumLumHighEdge<=0.06)) {
+              if ((fg_sumLumHighEdge>=0.013)&&(fg_sumLumHighEdge<=0.06)) {
                   if ((fg_sumLumLowEdge/fg_sumLumHighEdge)>0.05) {
                       if (bg_variance<70) {
                           // linear reationship.  rank=a(bgper60[1])+b
