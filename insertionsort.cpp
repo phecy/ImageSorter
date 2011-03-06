@@ -1,7 +1,7 @@
 #include "insertionsort.h"
 #include "vimage.h"
 
-#define ECLECTIC .5
+#define ECLECTIC .7
 
 void insertion_sort(float sortBy[], char* sortAlso[],int length)
 {

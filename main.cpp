@@ -178,11 +178,11 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         dupFinder.addImage(currVIm, &exifs[i]);
 
         // Calc ranks
-//        exposeVals[i] = newExpose.expose(currVIm);
-//        palletVals[i] = colorAnalysis(currQIm);
-//        greyVals[i] = newGrey.calcGrey(currQIm);
-//        blurVals[i] = newBlur->calculateBlur(currVIm);
-//        sharpVals[i] = sharpDetect.rankOne(currVIm);
+        exposeVals[i] = newExpose.expose(currVIm);
+        palletVals[i] = colorAnalysis(currQIm);
+        greyVals[i] = newGrey.calcGrey(currQIm);
+        blurVals[i] = newBlur->calculateBlur(currVIm);
+        sharpVals[i] = sharpDetect.rankOne(currVIm);
 //        newBlur->show();
     }
 
@@ -253,7 +253,7 @@ int main(int argc, char *argv[])
 
     // Sort
     // insertion_sort(picValue, imageStrArray, size);
-    //imageInfoArray = set_sort(imageInfoArray);
+    imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
     display *disp = new display();
