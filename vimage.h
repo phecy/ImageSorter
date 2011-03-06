@@ -39,6 +39,8 @@ public:
 
     // Information
     char* getFilename() { return filename; }
+    int getIndex() { return index; }
+    void setIndex(int i) { index=i; }
 
     // Ranks
     void setRank(float r) { rankTotal=r; adjustedRank=r; }
@@ -49,7 +51,7 @@ public:
     float getAdjustedRank() { return adjustedRank; }
 
 
-    // Foreground stuffRan
+    // Foreground stuff
     InterestPointList getIps() { return ipList; }
     void setIp(InterestPointList ip) { ipList = ip; }
 
@@ -67,6 +69,7 @@ private:
 
     // Information
     char* filename;
+    int index;
     int width;
     int height;
 

@@ -74,8 +74,9 @@ private:
     rankVector* getRankVector();
 
     // Prints out the current rank vector + PHP
-    void debugPrintRanks(rankVector* ranks);
-    void debugPrintPhpRanks(rankVector* ranks);
+    void debugPrintRanks(rankVector*);
+    void debugPrintPhpRanks(rankVector*);
+    void debugPrintPhpGroups(dupGroup*);
 
     // Get the max paired ranking in the rankVector
     pair<int,int> getMaxPair(rankVector* ranks);

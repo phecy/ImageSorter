@@ -24,7 +24,7 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 6.5
+#define SIMILARITY_RANK_THRESHHOLD 2.5
 
 // The minimum rating required to ensure that if one image ranks another
 // highly, that rating can't be weakened through averaging
@@ -83,6 +83,7 @@ dupGroup Duplicates::findDuplicates() {
             allGroups->push_back(thisPair.second);
         }
     }
+    debugPrintPhpGroups(allGroups); // For comparing against turk data
 
     delete ranks;
 
@@ -110,7 +111,8 @@ void Duplicates::debugPrintRanks(rankVector* ranks) {
 
 void Duplicates::debugPrintPhpRanks(rankVector* ranks) {
     cerr << setiosflags(ios::left);
-    cerr<<"\n<<<<<<<<<<<<  Printing PHP DEBUG OUTPUT >>>>>>>>>>>>>>>>>>\n" << endl;
+    cerr<<"\n<<<<<<<<<<<<  Printing PHP DEBUG RANK OUTPUT >>>>>>>>>>>>>>>>>>\n" << endl;
+    cerr << "array(";
     for(unsigned int i=0; i<allImages->size(); ++i) {
         cerr << "array(\"" << allImages->at(i)->getFilename() << "\", ";
         for(unsigned int j=0; j<allImages->size(); ++j) {
@@ -119,6 +121,31 @@ void Duplicates::debugPrintPhpRanks(rankVector* ranks) {
         }
         cerr << "),\n";
     }
+}
+
+void Duplicates::debugPrintPhpGroups(dupGroup* groups) {
+    cerr << setiosflags(ios::left);
+    cerr<<"\n<<<<<<<<<<<<  Printing PHP DEBUG GROUP OUTPUT >>>>>>>>>>>>>>>>>>\n" << endl;
+    int numPics = allImages->size();
+    vector<vector<bool> > isInGroupVector(numPics, vector<bool>(numPics, false));
+    for(unsigned int i=0; i<groups->size(); ++i) {
+        imgList thisGroup = groups->at(i);
+        int size = thisGroup.size();
+        for(unsigned int j=0; j<size; ++j) {
+            int currImageIndex = thisGroup.at(j)->getIndex();
+            isInGroupVector[i][currImageIndex] = true;
+        }
+    }
+    cerr << "array(";
+    for(unsigned int i=0; i<numPics; ++i) {
+        cerr << "array(\"" << allImages->at(i)->getFilename() << "\", ";
+        for(unsigned int j=0; j<numPics; ++j) {
+            cerr << isInGroupVector[i][j];
+            if(j != numPics-1) cerr << ",";
+        }
+        cerr << "),\n";
+    }
+    cerr << "),\n";
 }
 
 rankVector* Duplicates::getRankVector() {
