@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2010.11.24)  6 MAR 2011 12:05
+=======
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  5 MAR 2011 20:21
+>>>>>>> 18245be9337315d6b63a80bb271be7e61916c07c
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -171,16 +175,27 @@ File: colorharmony.eps Graphic file (type eps)
  <colorharmony.eps>
 File: ke_vs_us.eps Graphic file (type eps)
  <ke_vs_us.eps> [4]
+<<<<<<< HEAD
 (./README_PAPER.bbl) [5] [6
 
 ] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
  1284 strings out of 495062
  15173 string characters out of 1182643
+=======
+(./README_PAPER.bbl) [5] (./README_PAPER.aux) ) 
+Here is how much of TeX's memory you used:
+ 1284 strings out of 495062
+ 15173 string characters out of 1182644
+>>>>>>> 18245be9337315d6b63a80bb271be7e61916c07c
  72218 words of memory out of 3000000
  4476 multiletter control sequences out of 15000+50000
  11185 words of font info for 35 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  32i,7n,21p,807b,257s stack positions out of 5000i,500n,10000p,200000b,50000s
 
+<<<<<<< HEAD
 Output written on README_PAPER.dvi (6 pages, 30028 bytes).
+=======
+Output written on README_PAPER.dvi (5 pages, 29760 bytes).
+>>>>>>> 18245be9337315d6b63a80bb271be7e61916c07c

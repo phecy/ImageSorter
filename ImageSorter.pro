@@ -64,7 +64,8 @@ HEADERS += blurdetect.h \
            qualityexif.h \
            vimage.h \
            sharpdetect.h \
-    boundingbox.h
+    boundingbox.h \
+    boundingBoxPresets.h
 FORMS += display.ui
 SOURCES += blurdetect.cpp \
            color.cpp \
