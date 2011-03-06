@@ -16,7 +16,7 @@
 #        create the main flowchart
 # gv     (visual - eps only)
 
-all:
+basic:
 	latex README_PAPER
 
 complete-dvi:
@@ -32,8 +32,7 @@ dvi-visual: complete-dvi
 
 dv: dvi-visual
 
-complete-pdf:
-	latex README_PAPER
+complete-pdf: complete-dvi
 	dvipdf README_PAPER.dvi
 
 p: complete-pdf
