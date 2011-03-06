@@ -180,17 +180,11 @@ Separate trials were run to compare our algorithm to previously ranked images: 4
 
 We took a random sample of 100 images from Luo's and Tang's 11,981 images \cite{springerlink:10.1007/978-3-540-88690-7_29}. We asked 44 Turk users to rank 50 images each on a scale from one to ten.
 
-\begin{figure}
-  \centering
-    \includegraphics[scale=0.40,clip]{ke_vs_us.eps}
-  \caption{X-axis: ten-point scaled rating.  Y-axis: number of images with this rating. We see that Ke's ratings do not match our ground truth. XX INACCURACY ASIDE, WE SHOULD MAKE THIS WORK FOR B\&W AND MAYBE LABEL AXES ON ACTUAL CHART?}
-  \label{fig:ke_vs_us}
-\end{figure}
-When comparing Ke's data set, we see that their ground truth is based on different factors (Fig.~\ref{fig:ke_vs_us}). Whereas our work matches Amazon Mechanical Turk users' ratings with an accuracy of 80\%, Ke's only matches it with an accuracy of 45\%. Here, accuracy is defined as being within one standard deviation of the users' rankings.
+Using the 48 image data set from Ke, Tang, and Jing\cite{1640788}, and Amazon Turk ratings as a ground truth, we achieve an accuracy of 80\%, and the authors achieve an accuracy of 45\%. We assume "accuracy" is a rating that is within one standard deviation of the distribution of users ratings per image.
 
-XX INSERT DATA FOR OTHER DATA SET
+Similarly, with Luo and Tang\cite{springerlink:10.1007/978-3-540-88690-7_29}, we achieve an accuracy of XX\%, and the authors an accuracy of XX\%, showing we are comparable.
 
-\subsection{Binary Classification} Using the same data as the Image Rating trials, we have found that our algorithm can distinguish between professional and non-professional images well. Barsky \cite{Yeh:2010:PPR:1873951.1873963} and Luo \emph{et. al}\cite{springerlink:10.1007/978-3-540-88690-7_29} obtained 96\% accuracy when classifying images into the two categories. When classifying "non-professional" as ratings below XX and "professional" as ratings above XX, our rating system matches a user's with XX\% accuracy.
+\subsection{Binary Classification} Using the same data as the Image Rating trials, we have found that our algorithm can distinguish between professional and non-professional images well. Barsky \cite{Yeh:2010:PPR:1873951.1873963} and Luo \emph{et. al}\cite{springerlink:10.1007/978-3-540-88690-7_29} obtained 96\% accuracy when classifying images into the two categories. When classifying "non-professional" as Turk ratings below XX/9 and "professional" above XX/9, our rating system matches a user's with XX\% accuracy.
 
 \section{Conclusion and Future Work}
 We propose a method of applying current research to automate another step of the Photographer's Process. By focusing on obtaining an ordering which is representative of all photographs taken, we obtain a diverse set of high quality images similar to what a user would have chosen manually. We derive a novel algorithm for analyzing exposure quality. We improve upon previous algorithms which find temporal gaps between images to obtain a metric for temporal nearness. The final ordering depends on both the quality ranking and the number of similar images which have already appeared.

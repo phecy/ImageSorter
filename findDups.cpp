@@ -63,7 +63,7 @@ dupGroup Duplicates::findDuplicates() {
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
     //debugPrintRanks(ranks);
-    debugPrintPhpRanks(ranks); // For comparing against turk data
+    //debugPrintPhpRanks(ranks); // For comparing against turk data
 
     // Successively merge groupst
     //qDebug("Merging groups together");
@@ -83,7 +83,7 @@ dupGroup Duplicates::findDuplicates() {
             allGroups->push_back(thisPair.second);
         }
     }
-    debugPrintPhpGroups(allGroups); // For comparing against turk data
+    //debugPrintPhpGroups(allGroups); // For comparing against turk data
 
     delete ranks;
 
