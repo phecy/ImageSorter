@@ -48,8 +48,9 @@ using namespace std;
 #include "qualityexif.h"
 #include "vimage.h"
 
-#define NUM_MODULES 4
-#define RANGE 9
+#define NUM_MODULES 3
+#define RANGE 10
+#define RANK_THRESHOLD 1
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -85,9 +86,19 @@ double alog10(double num) {
     return exp(num * log(10));
 }
 
-// Compute x^4
-double pow4(double num) {
-    return num*num*num*num;
+// Compute x^(1/3)
+double root3(double num) {
+    return pow(num, 1.0/3.0);
+}
+
+// Compute x^3
+double pow3(double num) {
+    return num*num*num;
+}
+
+// Compute x^2
+double pow2(double num) {
+    return num*num;
 }
 
 // Compute fourth-root x
@@ -101,21 +112,25 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* picValue, int* exposeVals,
                  int* palletVals, int* greyVals, int* blurVals,
                  int* sharpVals, int numPics) {
-    float exposeScale = 0.5;
+    float exposeScale = 0.4;
     float palletScale = 0.1;
-    float blurScale = 0.2;
-    float greyScale = 0.2;
+    float blurScale = 0.4;
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
-        float rank = pow4(exposeVals[i]*exposeScale) / 4;
-        rank += pow4(palletVals[i]*palletScale) / 4;
-        rank += pow4(.4*blurVals[i]*blurScale + .6*sharpVals[i]*blurScale) / 4;
-        rank += pow4(greyVals[i]*greyScale) / 4;
-        rank = root4(rank);
-        rank *= 3.5;
-        if(rank > 9) rank = 9;
+        double combinedBlur = .6*sharpVals[i]+.4*(blurVals[i]+4);
+        double combinedExpose = .8*exposeVals[i]+.2*greyVals[i];
+
+        float rank = root3((pow2(combinedExpose+4)-RANK_THRESHOLD))*exposeScale;
+        rank += root3((pow2(palletVals[i]+4)-RANK_THRESHOLD))*palletScale;
+        rank += root3((pow2(combinedBlur+4)-RANK_THRESHOLD))*blurScale;
+        rank = pow3(rank);
+        rank /= RANGE;
+
+        if(rank > RANGE) rank = RANGE;
+        --rank; // 1...10 -> 0...9
+        if(rank < 0) rank = 0;
         picValue[i] =  rank;
 
         cout << "Image \"" << imageInfoArray[i]->getFilename() << "\"" << endl;
@@ -178,7 +193,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         dupFinder.addImage(currVIm, &exifs[i]);
 
         // Calc ranks
-        exposeVals[i] = newExpose.expose(currVIm);
+        exposeVals[i] = newExpose.expose(currVIm) - 1;
         palletVals[i] = colorAnalysis(currQIm);
         greyVals[i] = newGrey.calcGrey(currQIm);
         blurVals[i] = newBlur->calculateBlur(currVIm);
@@ -222,7 +237,6 @@ int main(int argc, char *argv[])
 
     // Initialize duplicate stuff
     Duplicates dupFinder(size);
-    int setNum[size];
     int numSets = 0; // <= size
 
     // Calculate everything. Gather duplicates.
