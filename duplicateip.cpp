@@ -52,8 +52,8 @@ void DuplicateIp::findForeground(VImage* vim) {
                         vim->getQImage(), vim->getIps());
     vim->setForeground(fgBox);
 
-    qDebug("else if(strcmp(vim->getFilename(), \"%s\") == 0) "
-           "fgBox = boundingBox(point(%d,%d),point(%d,%d));",
+    qDebug("else if(strcmp(vim->getFilename(), \"%s\") == 0)\n"
+           "      fgBox = boundingBox(point(%d,%d),point(%d,%d));",
            vim->getFilename(), fgBox.first.first,fgBox.first.second,fgBox.second.first,fgBox.second.second);
 
     // Debug output
