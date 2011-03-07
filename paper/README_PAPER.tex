@@ -24,7 +24,9 @@ image processing, quality screening, exposure, meta data, color content  %image 
 \section{Introduction}
 %With the ease of digital cameras, both amateur and professional photographers take more pictures than they will need. An organized user will delete excess photos and keep the most important ones. We need something like: The digitalization has led to an ever increasing size of personal photo collections. Today, consumers often take hundreds or even thousands of pictures of an event.
 
-Digitization of cameras has made photography accessable to a larger audience than ever before.  Photographic collections can easily become larger than any one photographer has time to handle because of the instantaneous transition from in-camera to computer library.  The first culling of photographs needs to eliminate those unworthy of human attention; the technically flawed and otherwise poor-quality images.  To automate this process, an aesthetics ranking technique can be implemented, but this method would discard many images with potential to be fixed through retouching.
+Digitization of cameras has made photography accessible to a larger audience than ever before.  Photographic collections can easily become larger than any one photographer has time to handle because of the instantaneous transition from in-camera to computer library.  The first culling of photographs needs to eliminate those unworthy of human attention; the technically flawed and otherwise poor-quality images.
+
+To automate this process, an aesthetics ranking technique can be implemented, but this method would discard many images with potential to be fixed through retouching.
 
 %So, a technical quality ranking technique can implemented, and the best images would be kept and the worst discarded. This method solves the previous problem, but does not take into account the redundancy of similar images, and the user would be left with a set which does not span their entire photo set.
 
@@ -78,9 +80,9 @@ First, we find a bounding box around the primary subject for use by the blur det
 
 The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
 \[
-\sqrt[4]{\displaystyle\sum\limits_{i=1}^n(\frac{W_iQ_i}{n})^4}
+\frac{1}{R}\left(\displaystyle\sum\limits_{i=1}^n\left(W_i\sqrt[3]{Q_i^2-t}\right)\right)^3
 \]
-Where \(n\) is the number of modules, \(Q_i\) represents the rating of module \(i\), and \(W_i\) represents the weight of that module. Weights are assigned as follows:
+Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(Q_i\) is that module's rating for the image, \(R\) is the range of possible ratings, and \(t\) is a chosen threshold, \(0<t<R\). Weights are assigned as follows:
 \begin{itemize}
 \item \(W_{exposure}=50\%\)
 \item \(W_{blur}=40\%\)
