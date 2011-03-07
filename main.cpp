@@ -47,6 +47,7 @@ using namespace std;
 #include "duplicatesegmented.h"
 #include "qualityexif.h"
 #include "vimage.h"
+#include "algorithmPresets.h"
 
 #define NUM_MODULES 3
 #define RANGE 10
@@ -133,14 +134,14 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         if(rank < 0) rank = 0;
         picValue[i] =  rank;
 
-        cout << "Image \"" << imageInfoArray[i]->getFilename() << "\"" << endl;
-        cout << "   Total rank: " << picValue[i] << endl;
-        cout << "-----------------------" << endl;
-        cout << "  *       exposure: " << exposeVals[i] << endl;
-        cout << "  *  color pallete: " << palletVals[i] << endl;
-        cout << "  *    middle gray: " << greyVals[i] << endl;
-        cout << "  *      sharpness: " << sharpVals[i] << endl;
-        cout << "  *           blur: " << blurVals[i] << endl << endl;
+        cout << "else if(strcmp(vim->getFilename(), \"" <<
+                imageInfoArray[i]->getFilename() << "\") == 0) {\n";
+        cout << "         exposeVals[i] = " << exposeVals[i] << ";\n";
+        cout << "         palletVals[i] = " << palletVals[i] << ";\n";
+        cout << "           greyVals[i] = " << greyVals[i] << ";\n";
+        cout << "           blurVals[i] = " << blurVals[i] << ";\n";
+        cout << "          sharpVals[i] = " << sharpVals[i] << ";\n";
+        cout << "}\n";
     }
     cout<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
@@ -169,7 +170,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         exposeVals[i] = 0;
         palletVals[i] = 0;
         greyVals[i] = 0;
-        blurVals[i] = 0;
+        blurVals[i] = -1;
         sharpVals[i] = 0;
     }
 
@@ -184,21 +185,23 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             cout << "Image " << fn << " failed to load!\n";
             return false;
         }
-        imageInfoArray[i] = currVIm;
 
-        // First get exif
-        loadExif(&exifs[i], fn);
+        imageInfoArray[i] = currVIm;
 
         // Find duplicates; use IPs to get foreground
         dupFinder.addImage(currVIm, &exifs[i]);
+        if(!loadPreset(currVIm, i, exposeVals, palletVals, greyVals, blurVals, sharpVals)) {
+            // First get exif
+            loadExif(&exifs[i], fn);
 
-        // Calc ranks
-        exposeVals[i] = newExpose.expose(currVIm) - 1;
-        palletVals[i] = colorAnalysis(currQIm);
-        greyVals[i] = newGrey.calcGrey(currQIm);
-        blurVals[i] = newBlur->calculateBlur(currVIm);
-        sharpVals[i] = sharpDetect.rankOne(currVIm);
-//        newBlur->show();
+            // Calc ranks
+            exposeVals[i] = newExpose.expose(currVIm) - 1;
+            palletVals[i] = colorAnalysis(currQIm);
+            greyVals[i] = newGrey.calcGrey(currQIm);
+            blurVals[i] = newBlur->calculateBlur(currVIm);
+            sharpVals[i] = sharpDetect.rankOne(currVIm);
+    //        newBlur->show();
+        }
     }
 
     // Sets the different methods' respective weights.
