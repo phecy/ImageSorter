@@ -112,18 +112,16 @@ And \(A_g\) is the average gap within a window:
 A_g=\displaystyle\sum\limits_{a={i-w}}^{j+w}G_{a,i}
 \]
 We have empirically chosen a window size of \(w=8\).
-The calculated similarity index \(T_{i,j}\) is used as a weight for the next two steps.
+The calculated similarity index \(T_{i,j}\) is used to weight the results of the next two steps.
 
-Next, the distributions of the red, green, and blue channel of the image are extracted into a 4x4 grid. To compare two images, we find the minimum difference of the three channels for each square and deduct points if the most similar channel is above a difference threshold of 15\%.
+Next, the image is divided into a 4x4 grid of average luminosity values. To compare two images, we find the luminosity difference of each square and deduct from the similarity score if the difference is greater than a threshold of 15\% luminosity. Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the luminosity difference algorithm with stricter threshold of 10\%.
 
-Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the color channel similarity algorithm with stricter threshold of 10\%.
-
-A final similarity index is found by adding the scaled timestamp to the results of the color distribution algorithms. Similar images are clustered with a Quality-Threshold based clustering algorithm.
+Clusters are formed by first putting each image into its own group, then iteratively merging the two most similar groups until a threshold is reached. In this way, a group votes for other similar groups, rather than each image voting for another, resulting in a noise-resistant clustering. This method is similar to a Quality-Threshold clustering algorithm. % Add panorama image?
 
 \subsection{Blur Detection}
 Using the foreground bounding box, the blur detection algorithm quantifies the contrast between the edges and background. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the sharpness. To increase accuracy and reduce the adverse affects that acceptable background blur may have, we constrain detection to the bounding box.
 
-Next, we compute the difference in pixel values between the original image and a Gaussian blurred image. This provides little insight on no-reference images, but when looking at the bounding box of similar images, sharper edges results in a larger difference.
+Next, we compute the difference in pixel values between the original image and a Gaussian blurred image. Though this provides little insight with independent images, it correlates well with blur amount when comparing the subject of similar images.
 
 \subsection{Exposure}
 \begin{figure}
