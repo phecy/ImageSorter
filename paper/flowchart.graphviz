@@ -1,15 +1,14 @@
 # make with dot -Teps flowchart.graphviz > flowchart.eps
 digraph Main_Flowchart {
-label  = "Reordering Images Based on Qualtiy and Uniqueness"
-labelfontsize=24
-labelloc=t
 concentrate=true
 rankdir= LR
+label  = "Reordering Images Based on Quality and Uniqueness"
 
 node  [  color=lightblue2, style=filled];
 graph [  fontname = "Helvetica-Oblique",
-         fontsize = 12,
+         fontsize = 24,
          size = "6,6" 
+         labelloc=t
       ];
 
 "Camera\nOrder"->"Find\nInterest\nPoint"
