@@ -1,7 +1,7 @@
 \begin{thebibliography}{10}
 
 \bibitem{COL:COL10004}
-Kenneth~E. Burchett.
+K.~E. Burchett.
 \newblock Color harmony.
 \newblock {\em Color Research \& Application}, 27(1):28--31, 2002.
 
@@ -17,7 +17,7 @@ R.~Datta, D.~Joshi, J.~Li, and J.~Wang.
   Berlin / Heidelberg, 2006.
 
 \bibitem{vision-workbench}
-M.D. Hancher, M.J. Broxton, and L.J. Edwards.
+M.~Hancher, M.~Broxton, and L.~Edwards.
 \newblock {\em A User's Guide to the NASA Vision Workbench.}
 \newblock NASA Ames, Intelligent Systems Division, 2006.
 
@@ -28,30 +28,29 @@ P.~Hsu and B.~Chen.
   Comp. Sci.} Springer Berlin / Heidelberg, 2008.
 
 \bibitem{4444209}
-Chul-Jin Jang, Ji-Yeon Lee, Jeong-Won Lee, and Hwan-Gue Cho.
+C.-J. Jang, J.-Y. Lee, J.-W. Lee, and H.-G. Cho.
 \newblock Smart management system for digital photographs using temporal and
   spatial features with exif metadata.
 \newblock In {\em Digital Information Management, 2007. ICDIM '07. 2nd
-  International Conference on}, volume~1, pages 110 --115, October 2007.
+  International Conference on}, volume~1, pages 110 --115, Oct. 2007.
 
 \bibitem{1640788}
-Yan Ke, Xiaoou Tang, and Feng Jing.
+Y.~Ke, X.~Tang, and F.~Jing.
 \newblock The design of high-level features for photo quality assessment.
 \newblock In {\em CVPR 2006}, volume~1, pages 419 -- 426, June 2006.
 
 \bibitem{springerlink:10.1007/978-3-642-10543-2_23}
-Daniel Kormann, Peter Dunker, and Ronny Paduschek.
+D.~Kormann, P.~Dunker, and R.~Paduschek.
 \newblock Automatic rating and selection of digital photographs.
 \newblock In {\em Semantic Multimedia}, volume 5887 of {\em Lecture Notes in
   Computer Science}, pages 192--195. Springer Berlin / Heidelberg, 2009.
 \newblock 10.1007/978-3-642-10543-2\_23.
 
 \bibitem{1223566}
-A.C. Loui and A.~Savakis.
+A.~Loui and A.~Savakis.
 \newblock Automated event clustering and quality screening of consumer pictures
   for digital albuming.
-\newblock {\em Multimedia, IEEE Transactions on}, 5(3):390 -- 402, September
-  2003.
+\newblock {\em Multimedia, IEEE Transactions on}, 5(3):390 -- 402, Sept. 2003.
 
 \bibitem{springerlink:10.1007/978-3-540-88690-7_29}
 Y.~Luo and X.~Tang.
@@ -60,7 +59,7 @@ Y.~Luo and X.~Tang.
   Heidelberg, 2008.
 
 \bibitem{1292402}
-J.C. Platt, M.~Czerwinski, and B.A. Field.
+J.~Platt, M.~Czerwinski, and B.~Field.
 \newblock Phototoc: automatic clustering for browsing personal photographs.
 \newblock In {\em ICICS and PCM}, volume~1, 2003.
 
@@ -75,7 +74,7 @@ Z.~Tang, Z.~Miao, Y.~Wan, and J.~Li.
 \newblock In {\em ICIP}, 2010.
 
 \bibitem{Yeh:2010:PPR:1873951.1873963}
-C.H. Yeh, Y.C. Ho, B.A. Barsky, and M.~Ouhyoung.
+C.~Yeh, Y.~Ho, B.~Barsky, and M.~Ouhyoung.
 \newblock Personalized photograph ranking and selection system.
 \newblock In {\em Proc. of the Int. Conf. on MM.}, MM '10. ACM, 2010.
 

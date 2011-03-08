@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{spconf,amsmath,epsfig}
 \usepackage{graphicx}
-\usepackage{subfig}
+\usepackage[caption=false]{subfig}
 
 \pagestyle{empty}
 \begin{document}\sloppy
@@ -82,9 +82,9 @@ First, we find a bounding box around the primary subject for use by the blur det
 
 The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
 \[
-\frac{1}{R}\left(\displaystyle\sum\limits_{i=1}^n\left(W_i\sqrt[3]{Q_i^2-t}\right)\right)^3
+\frac{1}{R}\left(\displaystyle\sum\limits_{i=1}^n\left(W_i\sqrt[3]{{Q_i*t}^2}\right)\right)^3
 \]
-Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(Q_i\) is that module's rating for the image, \(R\) is the range of possible ratings, and \(t\) is a chosen threshold, \(0<t<R\). Weights are assigned as follows:
+Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(Q_i\) is that module's rating for the image, \(R\) is the range of possible ratings, and \(t\) is a chosen threshold, \(0<t<R\), empircally chosen to be 5. Weights are assigned as follows:
 \begin{itemize}
 \item \(W_{exposure}=50\%\)
 \item \(W_{blur}=40\%\)
@@ -180,10 +180,28 @@ We asked Turk users to group together photographs within four sets of twenty ima
 \subsection{Image Rating}
 \begin{figure*}
 \centering
-\subfloat[]{\includegraphics[scale=.27]{example_expose.eps}}
-\subfloat[]{\includegraphics[scale=.27]{example_blur.eps}}
-\subfloat[]{\includegraphics[scale=.27]{example_good.eps}}
-\caption{Some example image ratings}
+\subfloat[
+Blur: 2.4 \(\mid\)
+Exposure: 6 \(\mid\)
+Color: 4]
+{
+	\includegraphics[scale=.25]{example_blur.eps}
+	\label{example_blur}
+}
+\subfloat[Blur: 6 \(\mid\)
+Exposure: 1.2 \(\mid\)
+Color: 1]{
+	\includegraphics[scale=.25]{example_expose.eps}	
+	\label{example_expose}
+}
+\subfloat[
+Blur: 9 \(\mid\)
+Exposure: 7.4 \(\mid\)
+Color: 7]{
+	\includegraphics[scale=.25]{example_good.eps}
+	\label{example_good}
+}
+\caption{Examples of \subref{example_blur},\subref{example_expose} low quality and \subref{example_good} high-quality images. The dots are interest points found; the square is the bounding box considered to be the subject. Despite the too-large box in \subref{example_expose}, each algorithm worked properly.}
 \label{fig:Examples}
 \end{figure*}
 
@@ -199,6 +217,9 @@ Using the 48 image data set from Ke, Tang, and Jing\cite{1640788}, and Amazon Tu
 We propose a method of applying current research to automate another step of the Photographer's Process. By focusing on obtaining an ordering which is representative of all photographs taken, we obtain a diverse set of high quality images similar to what a user would have chosen manually. We derive a novel algorithm for analyzing exposure quality. We improve upon previous algorithms which find temporal gaps between images to obtain a metric for temporal nearness. The final ordering depends on both the quality ranking and the number of similar images which have already appeared.
 
 Our work focuses on a small portion of the Photographer's Process. In the future, we would like to see the idea of relative rankings applied to the second Retouching step. (It has already been extensively applied to the third Retrieval step.) Retouching can use relative processing to increase creativity between similar images or combine data from multiple images. With this, we would be able to automate the Photographic Process.
-\bibliographystyle{plain}
-\bibliography{README_BIB}
+
+{\footnotesize
+ \bibliographystyle{abbrv}
+ \bibliography{README_BIB}
+}
 \end{document}

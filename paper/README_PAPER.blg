@@ -1,10 +1,10 @@
 This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: README_PAPER.aux
-The style file: plain.bst
+The style file: abbrv.bst
 Database file #1: README_BIB.bib
 You've used 14 entries,
             2118 wiz_defined-function locations,
-            584 strings with 6343 characters,
+            584 strings with 6059 characters,
 and the built_in function-call counts, 5366 in all, are:
 = -- 513
 > -- 261
