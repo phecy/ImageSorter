@@ -51,7 +51,7 @@ using namespace std;
 
 #define NUM_MODULES 3
 #define RANGE 10
-#define RANK_THRESHOLD 1
+#define RANK_THRESHOLD 4
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -113,21 +113,46 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* picValue, int* exposeVals,
                  int* palletVals, int* greyVals, int* blurVals,
                  int* sharpVals, int numPics) {
-    float exposeScale = 0.4;
-    float palletScale = 0.1;
-    float blurScale = 0.4;
+    float exposeScale = .3; // correlation: .27turk / .058ke
+    float palletScale = .05; // correlation: .01turk / -.3 ke
+    float blurScale = .65; // correlation: .26turk / .15ke
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
-        double combinedBlur = .6*sharpVals[i]+.4*(blurVals[i]+4);
-        double combinedExpose = .8*exposeVals[i]+.2*greyVals[i];
+        int combinedBlur = .6*sharpVals[i]+.4*blurVals[i];
+        int combinedExpose = .8*exposeVals[i]+.2*greyVals[i];
 
-        float rank = root3((pow2(combinedExpose+4)-RANK_THRESHOLD))*exposeScale;
-        rank += root3((pow2(palletVals[i]+4)-RANK_THRESHOLD))*palletScale;
-        rank += root3((pow2(combinedBlur+4)-RANK_THRESHOLD))*blurScale;
+        cout << "Blur: " << combinedBlur << endl;
+        cout << "Exposure: " << combinedExpose << endl;
+        cout << "Color: " << palletVals[i] << endl;
+
+        /*
+        double rank=0;
+        int xVals[3];
+        double yVals[3];
+        xVals[0]=combinedBlur;
+        yVals[0]=combinedBlur/100.0 + .1;
+        xVals[1]=combinedExpose;
+        yVals[1]=combinedExpose/100.0 + .1;
+        xVals[2]=palletVals[i];
+        yVals[2]=palletVals[i]/100.0 + .1;
+        for(int i=0; i<3; ++i) {
+            rank += xVals[i] / pow2(yVals[i]);
+        }
+        double d=0;
+        for(int i=0; i<3; ++i) {
+            d += (1 / pow2(yVals[i]));
+        }
+        rank/=d;
+        */
+
+        float rank = root3((pow2(combinedExpose+RANK_THRESHOLD)))*exposeScale;
+        rank += root3((pow2(palletVals[i]+RANK_THRESHOLD)))*palletScale;
+        rank += root3((pow2(combinedBlur+RANK_THRESHOLD)))*blurScale;
         rank = pow3(rank);
         rank /= RANGE;
+
 
         if(rank > RANGE) rank = RANGE;
         --rank; // 1...10 -> 0...9
@@ -141,6 +166,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         cout << "           greyVals[i] = " << greyVals[i] << ";\n";
         cout << "           blurVals[i] = " << blurVals[i] << ";\n";
         cout << "          sharpVals[i] = " << sharpVals[i] << ";\n";
+        cout << "//          picValue[i] = " << picValue[i] << ";\n";
         cout << "}\n";
     }
     cout<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
@@ -252,7 +278,7 @@ int main(int argc, char *argv[])
     numSets=dupList.size();
 
     // Debug output
-    dupFinder.printRanks();
+    //dupFinder.printRanks();
 
     for (int set_index = 0; set_index < numSets; ++set_index)
     {
