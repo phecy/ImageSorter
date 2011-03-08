@@ -48,14 +48,11 @@ We implement three modules to assess technical quality. The blur detection looks
 
 \section{Related Work}
 
-Previous works \cite{1640788}, \cite{springerlink:10.1007/11744078_23}, \cite{springerlink:10.1007/978-3-540-88690-7_29} assessed image quality to be able to tell whether the image was taken by a professional photographer or by an amatur user, and got very high accuracy in binarry classification of bad and good images. This allows to retrieve only high quality images from a collection of images, that were made by different users, which is extremely useful for web queries. Applying to similar data \cite {Sun:2009:PAB:1631272.1631351}, \cite {Yeh:2010:PPR:1873951.1873963} focused on exploring a personalized photo assessment. All those works focus on finalized images while our goal is to provide user a set which might be retouched and fixed. 
+Previous works have classified images based on a professional/amatur photographer binary with high accuracy\cite{1640788} \cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-540-88690-7_29}, which is useful for search engines' retrieval of high quality images. Others have focused on personalized aesthetic rankings of photographs\cite {Sun:2009:PAB:1631272.1631351}\cite {Yeh:2010:PPR:1873951.1873963}. Those works focus on finalized images, while we focus on images that are still raw and may be retouched afterward.
 
-Smart clustering and event classification were explored by \cite{1223566}, \cite{4444209} while we chose the best image from each scene. 
+Event classification has been explored in order to choose the best images from entire events\cite{1223566}\cite{4444209}, while we choose the best image from each scene within events- images which are contextually related rather than just temporally.
 
-\cite{springerlink:10.1007/978-3-642-10543-2_23} described a promissing method of automatically rating and ranking images based on image content and time-metadata, but they [reword it!!!] didn't provided any datasets and their user study showed that their results are better than random. Ha-ha, we are better!!!
-
- 
-
+Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} describe a promising method of automatically rating and ranking images based on image content and time-metadata, with results better than random. With our more accurate algorithms, we are well-correlated with image quality based on user ratings.
 
 %Various publications have focused on improving the quality of an image, which is the second step of the Photographer's Process\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}. 
 
@@ -82,12 +79,12 @@ First, we find a bounding box around the primary subject for use by the blur det
 
 The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
 \[
-\frac{1}{R}\left(\displaystyle\sum\limits_{i=1}^n\left(W_i\sqrt[3]{{Q_i*t}^2}\right)\right)^3
+\frac{1}{R}\left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^3
 \]
 Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(Q_i\) is that module's rating for the image, \(R\) is the range of possible ratings, and \(t\) is a chosen threshold, \(0<t<R\), empircally chosen to be 5. Weights are assigned as follows:
 \begin{itemize}
-\item \(W_{exposure}=50\%\)
-\item \(W_{blur}=40\%\)
+\item \(W_{exposure}=30\%\)
+\item \(W_{blur}=60\%\)
 \item \(W_{color}=10\%\)
 \end{itemize}
 
@@ -201,7 +198,7 @@ Color: 7]{
 	\includegraphics[scale=.25]{example_good.eps}
 	\label{example_good}
 }
-\caption{Examples of \subref{example_blur},\subref{example_expose} low quality and \subref{example_good} high-quality images. The dots are interest points found; the square is the bounding box considered to be the subject. Despite the too-large box in \subref{example_expose}, each algorithm worked properly.}
+\caption{Examples of \subref{example_blur}\subref{example_expose} low quality and \subref{example_good} high-quality images. The dots are interest points found; the square is the bounding box considered to be the subject. Despite the too-inclusive box in \subref{example_good}, each algorithm worked properly.}
 \label{fig:Examples}
 \end{figure*}
 
@@ -209,7 +206,7 @@ Separate trials were run to compare our algorithm to previously ranked images: 4
 
 We took a random sample of 100 images from Luo's and Tang's 11,981 images \cite{springerlink:10.1007/978-3-540-88690-7_29}. We asked 44 Turk users to rank 50 images each on a scale from one to ten.
 
-Using the 48 image data set from Ke, Tang, and Jing\cite{1640788}, and Amazon Turk ratings as a ground truth, we achieve a correlation coefficient of \(.266\), which is comparable to the authors' correlation coefficient of \(.495\). Similarly, with a sample from Luo and Tang's public data set\cite{springerlink:10.1007/978-3-540-88690-7_29}, we achieve a correlation coefficient of \(.209\). These numbers show that our algorithm provides positive absolute results when comparing independent, despite our goal of culling images within a set.
+Using the 48 image data set from Ke, Tang, and Jing\cite{1640788}, and Amazon Turk ratings as a ground truth, we achieve a correlation coefficient of \(.340\), which is comparable to the authors' correlation coefficient of \(.495\). Similarly, with a sample from Luo and Tang's public data set of high-quality images\cite{springerlink:10.1007/978-3-540-88690-7_29}, we achieve a correlation coefficient of \(.311\). These numbers show that our algorithm provides positive absolute results when comparing photographs independently, despite our goal of culling images within a set of related images.
 
 %\subsection{Binary Classification} Using the same data as the Image Rating trials, we have found that our algorithm can distinguish between professional and non-professional images well. Barsky \cite{Yeh:2010:PPR:1873951.1873963} and Luo \emph{et. al}\cite{springerlink:10.1007/978-3-540-88690-7_29} obtained 96\% accuracy when classifying images into the two categories. When classifying "non-professional" as Turk ratings below XX/9 and "professional" above XX/9, our rating system matches a user's with XX\% accuracy.
 

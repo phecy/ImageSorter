@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  7 MAR 2011 21:47
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  8 MAR 2011 10:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -168,21 +168,26 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 17.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/it' tried instead on input line 21.
+
+Underfull \hbox (badness 1019) in paragraph at lines 51--52
+\OT1/ptm/m/n/10 sional/amatur pho-tog-ra-pher bi-nary with high accuracy[[]]
+ []
+
 File: flowchart.eps Graphic file (type eps)
- <flowchart.eps> [1
+<flowchart.eps> [1
 
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 89.
-
-(/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 86.
+ (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 89.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 86.
 File: similarimages.eps Graphic file (type eps)
- <similarimages.eps>
+
+<similarimages.eps>
 Underfull \vbox (badness 1048) has occurred while \output is active []
 
  [2]
@@ -218,10 +223,10 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 Here is how much of TeX's memory you used:
  1965 strings out of 495062
  27329 string characters out of 1182644
- 87657 words of memory out of 3000000
+ 88657 words of memory out of 3000000
  5147 multiletter control sequences out of 15000+50000
  12211 words of font info for 37 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 36i,9n,45p,807b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,9n,45p,772b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on README_PAPER.dvi (5 pages, 29804 bytes).
+Output written on README_PAPER.dvi (5 pages, 29772 bytes).
