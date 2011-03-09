@@ -77,7 +77,7 @@ First, we find a bounding box around the primary subject for use by the blur det
   \caption{Interest points are used to find the subject. Blur detection, color harmony, and exposure algorithms calculate an image's quality rating. The color distribution of the local subject and global image, coupled with the timestamp, cluster images into groups. A reordering of the input results, allowing the user to remove images at the end of this ordering.}
 \end{figure*}
 
-The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have propose an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than rewarding high quality images for this overall ranking:
+The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have proposed an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than it rewards high quality images for this overall ranking:
 \[
 \frac{1}{R}\left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^3
 \]
@@ -89,15 +89,16 @@ Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(
 \end{itemize}
 
 \subsection{Subject Recognition}\label{ContentRecognition}
-Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
+Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. 
+%Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
 To find similar images, we perform three steps of increasing complexity for high confidence.
-\begin{figure}
-  \centering
-    \includegraphics[scale=0.07,clip]{similarimages.eps}
-  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
-\end{figure}
+%\begin{figure}
+%  \centering
+%    \includegraphics[scale=0.07,clip]{similarimages.eps}
+%  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
+%\end{figure}
 First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank pairs of images on a 0-9 scale to allow for nonconsecutive images to be grouped together:
 \[
 T_{i,j}=\frac{G}{A_g}
