@@ -1,10 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{COL:COL10004}
-K.~E. Burchett.
-\newblock Color harmony.
-\newblock {\em Color Research \& Application}, 27(1):28--31, 2002.
-
 \bibitem{Cohen-Or:2006:CH:1179352.1141933}
 D.~Cohen-Or, O.~Sorkine, R.~Gal, T.~Leyvand, and Y.~Xu.
 \newblock Color harmonization.
@@ -67,11 +62,6 @@ J.~Platt, M.~Czerwinski, and B.~Field.
 X.~Sun, H.~Yao, R.~Ji, and S.~Liu.
 \newblock Photo assessment based on computational visual attention model.
 \newblock In {\em Proc. ACM Multimedia}, MM '09. ACM, 2009.
-
-\bibitem{5649226}
-Z.~Tang, Z.~Miao, Y.~Wan, and J.~Li.
-\newblock Automatic foreground extraction for images and videos.
-\newblock In {\em ICIP}, 2010.
 
 \bibitem{Yeh:2010:PPR:1873951.1873963}
 C.~Yeh, Y.~Ho, B.~Barsky, and M.~Ouhyoung.
