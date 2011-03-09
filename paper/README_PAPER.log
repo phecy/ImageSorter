@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 12:54
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 13:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -274,18 +274,6 @@ Package epstopdf Info: Output file is already uptodate.
 File: imageluminosity-eps-converted-to.pdf Graphic file (type pdf)
 
 <use imageluminosity-eps-converted-to.pdf>
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
 Package epstopdf Info: Source file: <example_blur.eps>
 (epstopdf)                    date: 2011-03-07 19:38:57
 (epstopdf)                    size: 1569269 bytes
@@ -340,11 +328,11 @@ df> <./example_good-eps-converted-to.pdf>]
 Here is how much of TeX's memory you used:
  2685 strings out of 495061
  38896 string characters out of 1182621
- 101186 words of memory out of 3000000
+ 102186 words of memory out of 3000000
  5818 multiletter control sequences out of 15000+50000
  22134 words of font info for 46 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 41i,9n,45p,809b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,9n,45p,900b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</u
 sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/te
 xmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive
@@ -356,7 +344,7 @@ hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-t
 exlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
 rw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb
 ></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on README_PAPER.pdf (4 pages, 665910 bytes).
+Output written on README_PAPER.pdf (4 pages, 665668 bytes).
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
