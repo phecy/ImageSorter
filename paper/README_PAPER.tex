@@ -142,11 +142,12 @@ The categories of mean brightness value (“mean”) correspond roughly to a par
 
 The other measures of image quality are also based on brightness, and were determined by taking various measurements on a deliberately chosen pool of images that had a wide variety of exposure problems. The measures are as follows: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures are calculated on both the foreground and the background of the image, relative to the area over which they are calculated.
 
-Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image.
+
+%Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image.
 
 %Lowlights can be caused by underexposure, but they can also be a product of poor lighting (e.g., photographing a shadowed object in extremely bright conditions). Again, some lowlights are desirable for contrast in an image, but too much leads to an undecipherable image.
 
-Clipping is an indication of how much information loss there is in the image. %due to extreme shadows and bright spots, measured as a sum of the Highlights and Lowlights.
+%Clipping is an indication of how much information loss there is in the image. %due to extreme shadows and bright spots, measured as a sum of the Highlights and Lowlights.
 
 %The percentiles of the image are determined for both the bright and the dark sides of brightness. For example, to calculate the lower 60th percentile, the value is found at which the sum of the number of pixels that are darker than the given value is equal to sixty percent of the pixels in the image. The upper percentiles are found by the summation of the pixels that are brighter than the given value. These four measures give a good indication of the spread of the brightness, e.g., how sharp the transitions between the extreme and middle values are.
 
