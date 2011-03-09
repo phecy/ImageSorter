@@ -118,15 +118,15 @@ The image is then divided into a 4x4 grid of average color values. To compare tw
 Clusters are formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's color does not match the last image's. % Add panorama image?
 
 \subsection{Blur Detection}
-Using the foreground bounding box, the blur detection algorithm quantifies the contrast between the edges and background. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the sharpness. To increase accuracy and reduce the adverse affects that acceptable background blur may have, we constrain detection to the bounding box.
+Using the foreground bounding box, the blur detection algorithm first quantifies the spread of the subject's edges. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the blur.
 
-Next, we compute the difference in pixel values between the original image and a Gaussian blurred image. Though this provides little insight with independent images, it correlates well with blur amount when comparing the subject of similar images.
+Next, we compute a predicted blurred model of the foreground using a gaussian function. Sharpness is determined by an image's similarity to the predicted blur model, with sharp images being the least similar. These two values combine to determine the amount of blur, which is especially accurate when comparing the foregrounds of two similar images.
 
 \subsection{Exposure}
 \begin{figure}
   \centering
     \epsfig{file=imageluminosity.eps,width=8.5cm}
-    \caption{The exposure process: This figure shows the inital segmentation of images by mean luminosity, then the further segmentation of images of medium and high quality (mean ranges 100-120 and 120-138, respectively).}
+    \caption{The exposure process: This figure shows the inital segmentation of images by mean luminosity, then the further segmentation of images of medium and high quality (mean ranges 100-120 and 120-138 respectively).}
     \label{exposurefigure}
 \end{figure}
 Image exposure is a measure of how appropriate the lighting is in a given image.  While traditionally measured in-camera with light meter over the area, our exposure algorithm evaluates how the lighting in the result image appears to a human observer.  Images are ranked according to various measures of their brightness. %The calculation for brightness used is
@@ -149,7 +149,7 @@ Overexposure of an image can lead to large areas in the photo in which the human
 
 %The percentiles of the image are determined for both the bright and the dark sides of brightness. For example, to calculate the lower 60th percentile, the value is found at which the sum of the number of pixels that are darker than the given value is equal to sixty percent of the pixels in the image. The upper percentiles are found by the summation of the pixels that are brighter than the given value. These four measures give a good indication of the spread of the brightness, e.g., how sharp the transitions between the extreme and middle values are.
 
-The most extreme mean brightness values are images of very poor quality, and are rated as such based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, though certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. After being subdivided into mean categories, they are again subdivided into further categories (see figure \ref{exposurefigure}) before analysis.
+The most extreme mean brightness values are images of very poor quality, and are rated as such based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, thoumeangh certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. After being subdivided into mean categories, they are again subdivided into further categories (see figure \ref{exposurefigure}) before analysis.
 
 \subsection{Color Harmony}   
 %\begin{figure}
