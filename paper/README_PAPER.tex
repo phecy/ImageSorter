@@ -113,9 +113,9 @@ G_{i,j}=\log(|T_i-T_j|)
 \end{eqnarray}
 The calculated similarity index \(S_{i,j}\) is used to weight the results of the next two steps.
 
-The image is then divided into a 4x4 grid of average luminosity values. To compare two images, we find the luminosity difference of each square and deduct from the similarity score if the difference is greater than a threshold of 15\% luminosity. Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the luminosity difference algorithm with stricter threshold of 10\%.
+The image is then divided into a 4x4 grid of average color values. To compare two images, we find the color difference of each square (average difference of the red, green, and blue channels) and deduct from the similarity score if the difference is greater than a threshold of 15\%. Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the difference algorithm with stricter threshold of 10\%.
 
-Clusters are formed by first putting each image into its own group, then iteratively merging the two most similar groups until a threshold is reached. In this way, a group votes for other similar groups, rather than each image voting for another, resulting in a noise-resistant clustering. This method is similar to a Quality-Threshold clustering algorithm. % Add panorama image?
+Clusters are formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's color does not match the last image's. % Add panorama image?
 
 \subsection{Blur Detection}
 Using the foreground bounding box, the blur detection algorithm quantifies the contrast between the edges and background. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the sharpness. To increase accuracy and reduce the adverse affects that acceptable background blur may have, we constrain detection to the bounding box.
