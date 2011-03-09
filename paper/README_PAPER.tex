@@ -15,7 +15,7 @@ Selective Removal of Extraneous Photographs
 
 \maketitle	
 \begin{abstract}
-In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy arising from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. Finally, we provide an ordering of the images which accounts for both quality and redundancy. Our goal is not to rank images based on subjective aesthetic qualities, but instead to help a photographer filter out technically flawed photographs and focus on objectively high quality shots.
+In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy arising from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. Finally, we provide an ordering of the images which accounts for both quality and uniqueness. Our goal is not to rank images based on subjective aesthetic qualities, but instead to help a photographer filter out technically flawed photographs and focus on objectively high quality shots.
 \end{abstract}	
 
 \begin{keywords}
@@ -25,9 +25,7 @@ image processing, quality screening, exposure, meta data, color content  %image 
 \section{Introduction}
 %With the ease of digital cameras, both amateur and professional photographers take more pictures than they will need. An organized user will delete excess photos and keep the most important ones. We need something like: The digitalization has led to an ever increasing size of personal photo collections. Today, consumers often take hundreds or even thousands of pictures of an event.
 
-Digitization of cameras has made photography accessible to a larger audience than ever before.  Photographic collections can easily become larger than any one photographer has time to handle because of the instantaneous transition from in-camera to computer library.  The first culling of photographs needs to eliminate those unworthy of human attention; the technically flawed and otherwise poor-quality images.
-
-To automate this process, an aesthetics ranking technique can be implemented, but this method would discard many images with potential to be fixed through retouching.
+The ease of digital cameras allows for many photographs to be taken at any given event. This increase in photograph quantity leads to many unneeded photographs which need to be filtered by the user. To automate this process, an aesthetics ranking technique can be implemented, but this method would discard many images with potential to be fixed through retouching.
 
 %So, a technical quality ranking technique can implemented, and the best images would be kept and the worst discarded. This method solves the previous problem, but does not take into account the redundancy of similar images, and the user would be left with a set which does not span their entire photo set.
 
@@ -146,7 +144,7 @@ Overexposure of an image can lead to large areas in the photo in which the human
 
 %Lowlights can be caused by underexposure, but they can also be a product of poor lighting (e.g., photographing a shadowed object in extremely bright conditions). Again, some lowlights are desirable for contrast in an image, but too much leads to an undecipherable image.
 
-Clipping is an indication of how much information loss there is in the image. %due to extreme shadows and bright spots, measured as a sum of the Highlights and Lowlights.
+%Clipping is an indication of how much information loss there is in the image. %due to extreme shadows and bright spots, measured as a sum of the Highlights and Lowlights.
 
 %The percentiles of the image are determined for both the bright and the dark sides of brightness. For example, to calculate the lower 60th percentile, the value is found at which the sum of the number of pixels that are darker than the given value is equal to sixty percent of the pixels in the image. The upper percentiles are found by the summation of the pixels that are brighter than the given value. These four measures give a good indication of the spread of the brightness, e.g., how sharp the transitions between the extreme and middle values are.
 

@@ -6,10 +6,19 @@ label  = "Reordering Images Based on Quality and Uniqueness"
 
 node  [  color=lightblue2, style=filled];
 graph [  fontname = "Helvetica-Oblique",
-         fontsize = 24,
+         fontsize = 20,
          size = "6,6" 
          labelloc=t
       ];
+"Camera\nOrder"[shape=doubleoctagon]
+"Find\nInterest\nPoint"[shape=rectangle]
+"Exposure"[shape=rectangle,fontsize=10]
+"Blur"[shape=rectangle,fontsize=10]
+"Colors"[shape=rectangle,fontsize=10]
+"Global\nColor"[shape=rectangle,fontsize=10]
+"Local\nColor"[shape=rectangle,fontsize=10]
+"Time"[shape=rectangle,fontsize=10]
+"Importance\nOrder"[shape=doubleoctagon]
 
 "Camera\nOrder"->"Find\nInterest\nPoint"
 "Find\nInterest\nPoint"->"Quality\nAssessment"

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  8 MAR 2011 23:46
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  9 MAR 2011 00:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -174,13 +174,13 @@ File: flowchart.eps Graphic file (type eps)
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 86.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 84.
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 86.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 84.
  [2]
 File: imageluminosity.eps Graphic file (type eps)
 
@@ -197,17 +197,16 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
- [3]
 File: example_blur.eps Graphic file (type eps)
  <example_blur.eps>
 File: example_expose.eps Graphic file (type eps)
  <example_expose.eps>
 File: example_good.eps Graphic file (type eps)
 
-<example_good.eps> (./README_PAPER.bbl
+<example_good.eps> [3] (./README_PAPER.bbl
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
-) [4] [5] (./README_PAPER.aux) ) 
+) [4] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
  1959 strings out of 495062
  27240 string characters out of 1182644
@@ -217,4 +216,4 @@ Here is how much of TeX's memory you used:
  28 hyphenation exceptions out of 8191
  36i,9n,45p,772b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on README_PAPER.dvi (5 pages, 24972 bytes).
+Output written on README_PAPER.dvi (4 pages, 24528 bytes).

@@ -198,7 +198,7 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
       fgBox = boundingBox(point(460,66),point(699,519));
     else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/ourdata/new-DSC_0093.JPG") == 0) 
       fgBox = boundingBox(point(99,396),point(760,561));
-    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/ourdata/new-DSC_0094.JPG") == 0) 
+    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/ourdata/new-DSC_0094.JPG") == 0)
       fgBox = boundingBox(point(369,185),point(639,596));
     else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/ourdata/new-DSC_0095.JPG") == 0) 
       fgBox = boundingBox(point(505,66),point(710,598));
@@ -547,7 +547,7 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
       fgBox = boundingBox(point(234,185),point(606,483));
     else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/ourdata/new1-DSC_0093.JPG") == 0) 
       fgBox = boundingBox(point(369,126),point(614,568));
-    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/ourdata/new1-DSC_0094.JPG") == 0) 
+    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/ourdata/new1-DSC_0094.JPG") == 0)
       fgBox = boundingBox(point(369,6),point(567,571));
     else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/ourdata/new1-DSC_0096.JPG") == 0) 
       fgBox = boundingBox(point(9,6),point(486,247));

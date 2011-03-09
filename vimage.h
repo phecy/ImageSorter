@@ -48,6 +48,7 @@ public:
     void setSetNum(float s) { setNum = s; }
     int getSetNum() { return setNum; }
     void multiplyAdjustedRank(float k) { adjustedRank *= k; }
+    void subAdjustedRank(float k) { adjustedRank -= k; }
     float getAdjustedRank() { return adjustedRank; }
 
 
@@ -76,7 +77,7 @@ private:
     // Ranks
     float rankTotal;
     int setNum;
-    int adjustedRank; // Rank adjusted for sets
+    float adjustedRank; // Rank adjusted for sets
 
     // Foreground stuff
     InterestPointList ipList;

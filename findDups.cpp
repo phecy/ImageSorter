@@ -62,17 +62,17 @@ dupGroup Duplicates::findDuplicates() {
     //qDebug("Creating a matrix of ranks");
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
-    //debugPrintRanks(ranks);
+    debugPrintRanks(ranks);
     //debugPrintPhpRanks(ranks); // For comparing against turk data
 
     // Successively merge groupst
-    //qDebug("Merging groups together");
+    qDebug("Merging groups together");
     while(true) {
        pair<int,int> maxPair = getMaxPair(ranks);
        if(maxPair.first == -1) break;
        combineSets(maxPair.first, maxPair.second, ranks);
-       qDebug("Combined %d and %d:", (maxPair.first+1), (maxPair.second+1));
-       // debugPrintRanks(ranks);
+       //qDebug("Combined %d and %d:", (maxPair.first+1), (maxPair.second+1));
+       //debugPrintRanks(ranks);
     }
 
     // Gather all imglists
@@ -169,6 +169,32 @@ rankVector* Duplicates::getRankVector() {
     }
 
     return ranks;
+}
+
+void Duplicates::createSimilarityVector() {
+    int size = allImages->size();
+    vector<vector<double> >* ranks = new vector<vector<double> >();
+    for(int i=0; i<size; ++i) {
+        // Working on the row of *first
+        VImage *first = allImages->at(i);
+        vector<double> row;
+
+        // Add firsts rank of all other images
+        for(int j=0; j<size; ++j) {
+            // Comparing second to first
+            VImage *second = allImages->at(j);
+
+            int rank = rater->getRanking(first, second);
+            row.push_back(rank);
+        }
+        ranks->push_back(row);
+    }
+
+    similarityRanks = ranks;
+}
+
+vector<vector<double> >* Duplicates::getSimilarityVector() {
+    return similarityRanks;
 }
 
 int Duplicates::getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
