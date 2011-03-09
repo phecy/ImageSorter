@@ -93,7 +93,7 @@ Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(
 \end{itemize}
 
 \subsection{Subject Recognition}\label{ContentRecognition}
-Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images and calculating blur levels. 
+Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. 
 %Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
@@ -129,7 +129,7 @@ Next, we compute a predicted blurred model of the foreground using a gaussian fu
     \caption{The exposure process: This figure shows the inital segmentation of images by mean luminosity, then the further segmentation of images of medium and high quality (mean ranges 100-120 and 120-138 respectively).}
     \label{exposurefigure}
 \end{figure}
-Image exposure is a measure of how appropriate the lighting is in a given image.  While traditionally measured in-camera with light meter over the area, our exposure algorithm evaluates how the lighting in the result image appears to a human observer.  Images are ranked according to various measures of their brightness. %The calculation for brightness used is
+Image exposure is a measure of how appropriate the lighting is in a given image. While easily measured in-camera using a light meter, we must evaluate the lighting condition based on pixel intensity. Images are ranked according to various measures of their brightness. %The calculation for brightness used is
 %\[
 %p=.59r+.3g+.11b
 %\]
@@ -137,9 +137,9 @@ Image exposure is a measure of how appropriate the lighting is in a given image.
 
 Based on the idea that the mean value of image brightness is an approximate indication of how well-exposed an image is, images are first segmented based on their average brightness value.
 
-The categories of mean brightness value (“mean”) correspond roughly to a parabolic mapping of exposure values, with well exposed photographs having a mean of \(130<p<140\): the further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. %Within each category, different measures indicate either a positive or negative overall impact on image quality, which impact depends upon the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
+The categories of mean brightness value (“mean”) correspond roughly to a parabolic mapping of exposure values, with well exposed photographs having a mean value between 130 and 140: the further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. %Within each category, different measures indicate either a positive or negative overall impact on image quality, which impact depends upon the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
 
-The other measures of image quality are also based on brightness, and were determined by taking various measurements on a deliberately chosen pool of images that had a wide variety of exposure problems. The measures are as follows: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures are calculated on both the foreground and the background of the image, relative to the area over which they are calculated.
+We have determined eight more measures by taking various measurements on a deliberately chosen set of images with various exposure problems. The measures are as follows: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures is calculated on both the foreground and the background of the image, relative to the area over which it is calculated.
 
 Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image.
 
