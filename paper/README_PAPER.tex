@@ -81,11 +81,12 @@ Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} d
 
 To find the Importance Order of the user's photographs, we first use interest points to find the subject, which will be used for both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and color harmony modules. Groups of similar images match the color content and timestamp of every pair of images. We combine them to get the final ordering\ref{flowchart}.
 
-The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have proposed an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than it rewards high quality images for this overall ranking:
+The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have proposed an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. Thus the overall ranking:
 \begin{eqnarray}
 \left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^\frac{3}{2}
 \end{eqnarray}
-Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(Q_i\) is that module's rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows:
+
+\(n\) - number of modules, \(W_i\) - weight of module \(i\), \(Q_i\) is  module i rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows:
 \begin{itemize}
 \item \(W_{exposure}=30\%\)
 \item \(W_{blur}=60\%\)
@@ -93,11 +94,11 @@ Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(
 \end{itemize}
 
 \subsection{Subject Recognition}\label{ContentRecognition}
-Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images and calculating blur levels. 
+Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}) interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images and calculating blur levels. 
 %Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
-To find similar images, we perform three steps of increasing complexity for high confidence.
+To find similar images we perform three steps of increasing complexity for high confidence.
 %\begin{figure}
 %  \centering
 %    \epsfig[scale=0.07,clip]{similarimages.eps}
