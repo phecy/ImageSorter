@@ -93,7 +93,7 @@ Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(
 \end{itemize}
 
 \subsection{Subject Recognition}\label{ContentRecognition}
-Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images, determining exposure quality, and calculating blur levels. 
+Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}), interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images and calculating blur levels. 
 %Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
@@ -103,22 +103,17 @@ To find similar images, we perform three steps of increasing complexity for high
 %    \epsfig[scale=0.07,clip]{similarimages.eps}
 %  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 %\end{figure}
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank pairs of images on a 0-9 scale to allow for nonconsecutive images to be grouped together:
+First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale. This allows nonconsecutive images to be grouped together:
 \begin{eqnarray}
-T_{i,j}=\frac{G}{A_g}
+S_{i,j}=\frac{G_{i,j}}{A_{i,j}}
 \end{eqnarray}
-Where \(G\) is the log of the time gap between the two images:
+Where \(A_{i,j}\) is the average gap within a window size of 8 images before \(i\) and after \(j\), and  \(G_{i,j}\) is the log of the time gap between the two images taken at time \(T_i\) and \(T_j\):
 \begin{eqnarray}
 G_{i,j}=\log(|T_i-T_j|)
 \end{eqnarray}
-And \(A_g\) is the average gap within a window:
-\begin{eqnarray}
-A_g=\displaystyle\sum\limits_{a={i-w}}^{j+w}G_{a,i}
-\end{eqnarray}
-We have empirically chosen a window size of \(w=8\).
-The calculated similarity index \(T_{i,j}\) is used to weight the results of the next two steps.
+The calculated similarity index \(S_{i,j}\) is used to weight the results of the next two steps.
 
-Next, the image is divided into a 4x4 grid of average luminosity values. To compare two images, we find the luminosity difference of each square and deduct from the similarity score if the difference is greater than a threshold of 15\% luminosity. Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the luminosity difference algorithm with stricter threshold of 10\%.
+The image is then divided into a 4x4 grid of average luminosity values. To compare two images, we find the luminosity difference of each square and deduct from the similarity score if the difference is greater than a threshold of 15\% luminosity. Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the luminosity difference algorithm with stricter threshold of 10\%.
 
 Clusters are formed by first putting each image into its own group, then iteratively merging the two most similar groups until a threshold is reached. In this way, a group votes for other similar groups, rather than each image voting for another, resulting in a noise-resistant clustering. This method is similar to a Quality-Threshold clustering algorithm. % Add panorama image?
 

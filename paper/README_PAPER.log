@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 11:39
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 11:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -267,10 +267,10 @@ Package epstopdf Info: Source file: <imageluminosity.eps>
 (epstopdf)                    size: 141414 bytes
 (epstopdf)             Command: <epstopdf --outfile=imageluminosity-eps-convert
 ed-to.pdf imageluminosity.eps>
-(epstopdf)             \includegraphics on input line 133.
+(epstopdf)             \includegraphics on input line 128.
 Package epstopdf Info: Output file is already uptodate.
 
-<imageluminosity-eps-converted-to.pdf, id=26, 429.605pt x 229.85875pt>
+<imageluminosity-eps-converted-to.pdf, id=25, 429.605pt x 229.85875pt>
 File: imageluminosity-eps-converted-to.pdf Graphic file (type pdf)
 
 <use imageluminosity-eps-converted-to.pdf>
@@ -294,10 +294,10 @@ Package epstopdf Info: Source file: <example_blur.eps>
 (epstopdf)                    size: 114944 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_blur-eps-converted-
 to.pdf example_blur.eps>
-(epstopdf)             \includegraphics on input line 192.
+(epstopdf)             \includegraphics on input line 187.
 Package epstopdf Info: Output file is already uptodate.
 
-<example_blur-eps-converted-to.pdf, id=27, 601.24625pt x 398.48875pt>
+<example_blur-eps-converted-to.pdf, id=26, 601.24625pt x 398.48875pt>
 File: example_blur-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_blur-eps-converted-to.pdf>
@@ -309,10 +309,10 @@ Package epstopdf Info: Source file: <example_expose.eps>
 (epstopdf)                    size: 88600 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_expose-eps-converte
 d-to.pdf example_expose.eps>
-(epstopdf)             \includegraphics on input line 198.
+(epstopdf)             \includegraphics on input line 193.
 Package epstopdf Info: Output file is already uptodate.
 
-<example_expose-eps-converted-to.pdf, id=28, 601.24625pt x 399.4925pt>
+<example_expose-eps-converted-to.pdf, id=27, 601.24625pt x 399.4925pt>
 File: example_expose-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_expose-eps-converted-to.pdf>
@@ -324,10 +324,10 @@ Package epstopdf Info: Source file: <example_good.eps>
 (epstopdf)                    size: 171728 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_good-eps-converted-
 to.pdf example_good.eps>
-(epstopdf)             \includegraphics on input line 205.
+(epstopdf)             \includegraphics on input line 200.
 Package epstopdf Info: Output file is already uptodate.
 
-<example_good-eps-converted-to.pdf, id=29, 601.24625pt x 398.48875pt>
+<example_good-eps-converted-to.pdf, id=28, 601.24625pt x 398.48875pt>
 File: example_good-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_good-eps-converted-to.pdf> [3 <./imageluminosity-eps-converted-to.
@@ -352,14 +352,13 @@ xmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive
 /public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
 onts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.
 pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/s
-hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts
-/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utm
-bi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share
-/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on README_PAPER.pdf (4 pages, 674668 bytes).
+hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-t
+exlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
+rw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb
+></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on README_PAPER.pdf (4 pages, 666326 bytes).
 PDF statistics:
- 90 PDF objects out of 1000 (max. 8388607)
+ 86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
