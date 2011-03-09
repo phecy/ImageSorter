@@ -113,19 +113,19 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* picValue, int* exposeVals,
                  int* palletVals, int* greyVals, int* blurVals,
                  int* sharpVals, int numPics) {
-    float exposeScale = .3; // correlation: .27turk / .058ke
+    float exposeScale = .35; // correlation: .27turk / .058ke
+                            // Exposure: .26turk.051ke
+                            // Middle gray: .11turk / .10ke
     float palletScale = .05; // correlation: .01turk / -.3 ke
-    float blurScale = .65; // correlation: .26turk / .15ke
+    float blurScale = .6; // correlation: .26turk / .15ke
+                         // sharp: .45turk / .33ke
+                         // blur: shit.
 
     cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
-        int combinedBlur = .6*sharpVals[i]+.4*blurVals[i];
-        int combinedExpose = .8*exposeVals[i]+.2*greyVals[i];
-
-        cout << "Blur: " << combinedBlur << endl;
-        cout << "Exposure: " << combinedExpose << endl;
-        cout << "Color: " << palletVals[i] << endl;
+        int combinedBlur = 0*blurVals[i] + 1*sharpVals[i];
+        int combinedExpose = 1*exposeVals[i]+0*greyVals[i];
 
         /*
         double rank=0;
@@ -151,11 +151,12 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         rank += root3((pow2(palletVals[i]+RANK_THRESHOLD)))*palletScale;
         rank += root3((pow2(combinedBlur+RANK_THRESHOLD)))*blurScale;
         rank = pow3(rank);
-        rank /= RANGE;
+        rank = sqrt(rank);
+        rank-=RANK_THRESHOLD;
 
 
         if(rank > RANGE) rank = RANGE;
-        --rank; // 1...10 -> 0...9
+        --rank; // 1...10 -> 0...9similarity_sort
         if(rank < 0) rank = 0;
         picValue[i] =  rank;
 
@@ -167,6 +168,9 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         cout << "           blurVals[i] = " << blurVals[i] << ";\n";
         cout << "          sharpVals[i] = " << sharpVals[i] << ";\n";
         cout << "//          picValue[i] = " << picValue[i] << ";\n";
+        cout << "//   Blur: " << combinedBlur << endl;
+        cout << "//   Exposure: " << combinedExpose << endl;
+        cout << "//   Color: " << palletVals[i] << endl;
         cout << "}\n";
     }
     cout<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
@@ -214,12 +218,13 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
 
         imageInfoArray[i] = currVIm;
 
+        // First get exif
+        loadExif(&exifs[i], fn);
+
         // Find duplicates; use IPs to get foreground
         dupFinder.addImage(currVIm, &exifs[i]);
-        if(!loadPreset(currVIm, i, exposeVals, palletVals, greyVals, blurVals, sharpVals)) {
-            // First get exif
-            loadExif(&exifs[i], fn);
 
+        if(!loadPreset(currVIm, i, exposeVals, palletVals, greyVals, blurVals, sharpVals)) {
             // Calc ranks
             exposeVals[i] = newExpose.expose(currVIm) - 1;
             palletVals[i] = colorAnalysis(currQIm);
@@ -274,6 +279,7 @@ int main(int argc, char *argv[])
     /*DEBUG return app.exec(); */
 
     //Finds and combines duplicates.
+    dupFinder.createSimilarityVector();
     vector<vector<VImage*> > dupList = dupFinder.findDuplicates();
     numSets=dupList.size();
 
@@ -296,6 +302,7 @@ int main(int argc, char *argv[])
 
     // Sort
     // insertion_sort(picValue, imageStrArray, size);
+    //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
     //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI

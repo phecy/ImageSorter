@@ -44,6 +44,14 @@ public:
 
     dupGroup findDuplicates();
 
+    // Get a 2d matrix of rankings. Destruct it when you're done.
+    rankVector* getRankVector();
+
+    // A simpler version of above
+    void createSimilarityVector();
+    vector<vector<double> >* getSimilarityVector();
+
+
     // Debugging output
     void printRanks();
 private:
@@ -70,8 +78,6 @@ private:
     /*
      * Clustering
      */
-    // Get a 2d matrix of rankings. Destruct it when you're done.
-    rankVector* getRankVector();
 
     // Prints out the current rank vector + PHP
     void debugPrintRanks(rankVector*);
@@ -98,6 +104,9 @@ private:
 
     // Maps an image to its set number (index in allGroups)
     map<VImage*, int>* setFinder;
+
+    // Similarities of each
+    vector<vector<double> >* similarityRanks;
 
 
     /*

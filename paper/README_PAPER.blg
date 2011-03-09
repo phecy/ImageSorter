@@ -1,45 +1,45 @@
 This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: README_PAPER.aux
-The style file: abbrv.bst
+The style file: IEEEbib.bst
 Database file #1: README_BIB.bib
 You've used 12 entries,
-            2118 wiz_defined-function locations,
-            571 strings with 5834 characters,
-and the built_in function-call counts, 4753 in all, are:
-= -- 456
-> -- 231
+            1838 wiz_defined-function locations,
+            529 strings with 5640 characters,
+and the built_in function-call counts, 3369 in all, are:
+= -- 294
+> -- 141
 < -- 11
-+ -- 92
-- -- 78
-* -- 331
-:= -- 750
-add.period$ -- 44
++ -- 51
+- -- 39
+* -- 253
+:= -- 489
+add.period$ -- 19
 call.type$ -- 12
-change.case$ -- 74
+change.case$ -- 11
 chr.to.int$ -- 0
 cite$ -- 12
-duplicate$ -- 207
-empty$ -- 388
-format.name$ -- 78
-if$ -- 1048
+duplicate$ -- 182
+empty$ -- 351
+format.name$ -- 39
+if$ -- 810
 int.to.chr$ -- 0
 int.to.str$ -- 12
 missing$ -- 11
 newline$ -- 64
-num.names$ -- 24
-pop$ -- 95
+num.names$ -- 12
+pop$ -- 56
 preamble$ -- 1
-purify$ -- 63
+purify$ -- 0
 quote$ -- 0
-skip$ -- 137
+skip$ -- 87
 stack$ -- 0
-substring$ -- 214
+substring$ -- 152
 swap$ -- 69
 text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 48
+type$ -- 0
 warning$ -- 0
-while$ -- 33
+while$ -- 21
 width$ -- 14
 write$ -- 145

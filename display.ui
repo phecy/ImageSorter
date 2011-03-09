@@ -70,9 +70,9 @@
   <widget class="QLabel" name="rankText">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>140</x>
      <y>420</y>
-     <width>311</width>
+     <width>361</width>
      <height>20</height>
     </rect>
    </property>

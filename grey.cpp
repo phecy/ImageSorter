@@ -26,7 +26,7 @@ grey::grey()
 }
 int grey::calcGrey(QImage* im)
 {
-    int middle_gray = 85;
+    int middle_gray = 175;
     float average = 0.0;
 
     QImage image = *im;
