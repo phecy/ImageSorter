@@ -103,7 +103,7 @@ To find similar images, we perform three steps of increasing complexity for high
 %    \epsfig[scale=0.07,clip]{similarimages.eps}
 %  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 %\end{figure}
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale. This allows nonconsecutive images to be grouped together:
+First, we use the timestamp to obtain a similarity index between all pairs of images. Based on a formula which groups photos by finding large timestamp gaps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale. This allows nonconsecutive images to be grouped together:
 \begin{eqnarray}
 S_{i,j}=\frac{G_{i,j}}{A_{i,j}}
 \end{eqnarray}
