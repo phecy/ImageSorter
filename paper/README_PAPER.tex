@@ -126,7 +126,7 @@ Next, we compute the difference in pixel values between the original image and a
 \begin{figure}
   \centering
     \epsfig{file=imageluminosity.eps,width=8.5cm}
-    \caption{The Exposure process: This figure shows the inital segmentation of images by mean (values 0 to 255), then the further segmentation of images of medium and good quality (mean ranges 100-120, and 120-138 respectively).}
+    \caption{The exposure process: This figure shows the inital segmentation of images by mean luminosity, then the further segmentation of images of medium and high quality (mean ranges 100-120 and 120-138, respectively).}
     \label{exposurefigure}
 \end{figure}
 Image exposure is a measure of how appropriate the lighting is in a given image.  While traditionally measured in-camera with light meter over the area, our exposure algorithm evaluates how the lighting in the result image appears to a human observer.  Images are ranked according to various measures of their brightness. %The calculation for brightness used is
