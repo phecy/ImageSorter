@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{spconf,amsmath,epsfig}
-\usepackage{graphicx}
 \usepackage[caption=false]{subfig}
+\usepackage{epstopdf}
 
 \pagestyle{empty}
 \begin{document}\sloppy
@@ -28,17 +28,17 @@ image processing, quality screening, exposure, meta data, color content  %image 
 \label{sec:intro}
 %With the ease of digital cameras, both amateur and professional photographers take more pictures than they will need. An organized user will delete excess photos and keep the most important ones. We need something like: The digitalization has led to an ever increasing size of personal photo collections. Today, consumers often take hundreds or even thousands of pictures of an event.
 
-The ease of using digital cameras allows for many photographs to be taken at any given event. This increase in photograph quantity can lead to many unneeded low-quality photographs which need to be filtered by the user, which can be time-consuming and repetitive.
+The ease of using digital cameras allows for a large number of photographs to be taken at any given event. This increase in photograph quantity can lead to many unneeded low-quality photographs which need to be filtered by the user, which can be time-consuming and repetitive.
 
-To automate this process, an aesthetics ranking technique can be implemented to find the appeal each image has, but this method would discard many images with potential to be fixed through retouching.
+To automate this process, an aesthetics ranking technique could be implemented to find the appeal each image has, but this method would discard many images with potential to be fixed through retouching.
 
 %So, a technical quality ranking technique can implemented, and the best images would be kept and the worst discarded. This method solves the previous problem, but does not take into account the redundancy of similar images, and the user would be left with a set which does not span their entire photo set.
 
 Implementing a technical quality ranking technique will keep the photographs suited for retouching, but does not take into account redundancy of similar images, and the user would be left with a set which does not span the entire event.
 
-To fix this, a similar image detector could be implemented giving the user the best image from every subset of similar images. This is still not ideal because it would leave the user with too many low-quality photographs that, although unique in the set, are not worth keeping.
+%To fix this, a similar image detector could be implemented giving the user the best image from every subset of similar images. This is still not ideal because it would leave the user with too many low-quality photographs that, although unique in the set, are not worth keeping.
 
-We thus propose a technique which ranks images based on their technical qualities with a bias for unique images, but without forcing uniqueness by selecting the best from each set.
+We thus propose a technique which ranks images based on their technical qualities with a bias for unique images.%, but without forcing uniqueness by selecting the best from each set.
 
 To focus our research and determine which image qualities are relevant to technical image quality, we assume three general steps a photographer takes between shooting and using a picture, which we call the Photographer's Process:
 \begin{enumerate}
@@ -47,15 +47,15 @@ To focus our research and determine which image qualities are relevant to techni
 \item Retrieve: Select the retouched images most suitable to a given task.
 \end{enumerate}
 
-We implement three modules to assess technical quality. The blur detection looks at the gradient magnitude of edges. Exposure is measured by comparing average luminosities within an image. Color harmony is based on Cohen's model\cite{Cohen-Or:2006:CH:1179352.1141933}. Similar-images are clustered into groups using the color content and timestamps of an image. Finally, a reordering of the set is provided, with images most suited for removal at the back and high-quality images at the front. A user study has shown 86\% accuracy in our absolute ranking of photographs and 78\% accuracy in determining which photographs belong to the same set. % 86% comes from our average difference to turk ratings on Ke's set = 1.35
+We implement three modules to assess technical quality. The blur detection looks at the gradient magnitude of edges and the similarity to a predicted out-of-focus image. Exposure is measured by finding the balance in brightness throghout the image. Color harmony is based on Cohen's model\cite{Cohen-Or:2006:CH:1179352.1141933}. Similar-images are clustered into groups using the color content and timestamps of an image. Finally, a reordering of the set is provided based on how suited they are for removal (the "Importance Order"). A user study has shown 86\% accuracy in our absolute ranking of photographs and 78\% accuracy in determining which photographs belong to the same set. % 86% comes from our average difference to turk ratings on Ke's set = 1.35
 
 \section{Related Work}
 
-Previous works have classified images based on a professional vs. amatur photographer binary with high accuracy\cite{1640788} \cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-540-88690-7_29}, which is useful for search engines' retrieval of high quality images. Others have focused on personalized aesthetic rankings of photographs\cite {Sun:2009:PAB:1631272.1631351}\cite {Yeh:2010:PPR:1873951.1873963}. Those works focus on finalized images, while we focus on images that are still raw and may be retouched afterward.
+Previous works have classified images based on a professional vs. amatur photographer binary with high accuracy\cite{1640788}\cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-540-88690-7_29}, which is useful for search engines' retrieval of high quality images. Others have focused on personalized aesthetic rankings of photographs\cite {Sun:2009:PAB:1631272.1631351}\cite {Yeh:2010:PPR:1873951.1873963}. These works focus on finalized images, while we focus on images that are still raw and may be retouched afterward.
 
-Event classification has been explored in order to choose the best images from entire event\cite{1223566}\cite{4444209}, while we choose the best image from each scene within event - images which are contextually related rather than just temporally.
+Event classification has been explored in order to choose the best images from an entire event\cite{1223566}\cite{4444209}, while we choose the best images from each scene within event- images with the same subject content related rather than the same event context.
 
-Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} describe a promising method of automatically rating and ranking images based on image content and time-metadata, with results better than random. With our more accurate algorithms, we are well-correlated with image quality based on user ratings.
+Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} describe a promising method of automatically rating and ranking images based on image content and time-metadata, with results better than random. We improve upon their work with more accurate algorithms.
 
 %Various publications have focused on improving the quality of an image, which is the second step of the Photographer's Process\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}. 
 
@@ -72,13 +72,14 @@ Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} d
 %%Compressed image quality assessment has been heavily researched\cite{477498}\cite{1038064}\cite{1284395}, but we assume a high quality import. As described in \cite{1315222}, a photograph's EXIF data can be used to robustly classify images into various semantic categories. Various aesthetic-based assessments focus on exploring human visual attention and sensitivity to photograph content\cite{Sun:2009:PAB:1631272.1631351}\cite{1518955}\cite{Pimenov_fastimage}, demonstrating the viability of content segmentation for image assessment.
 
 \section{Quantifying Image Quality}
-
-First, we find a bounding box around the primary subject for use by the blur detection and exposure assessment. We then cluster images into groups. Finally, we perform the quality assessment.
 \begin{figure*}
   \centering
-    \includegraphics[scale=1.0,clip]{flowchart.eps}
+    \epsfig{file=flowchart.eps,width=16cm}
   \caption{Interest points are used to find the subject. Blur detection, color harmony, and exposure algorithms calculate an image's quality rating. The color distribution of the local subject and global image, coupled with the timestamp, cluster images into groups. A reordering of the input results, allowing the user to remove images at the end of this ordering.}
+  \label{flowchart}
 \end{figure*}
+
+To find the Importance Order of the user's photographs, we first use interest points to find the subject, which will be used for both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and color harmony modules. Groups of similar images match the color content and timestamp of every pair of images. We combine them to get the final ordering\ref{flowchart}.
 
 The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have proposed an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than it rewards high quality images for this overall ranking:
 \begin{eqnarray}
@@ -99,7 +100,7 @@ Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-
 To find similar images, we perform three steps of increasing complexity for high confidence.
 %\begin{figure}
 %  \centering
-%    \includegraphics[scale=0.07,clip]{similarimages.eps}
+%    \epsfig[scale=0.07,clip]{similarimages.eps}
 %  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 %\end{figure}
 First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank pairs of images on a 0-9 scale to allow for nonconsecutive images to be grouped together:
@@ -129,7 +130,7 @@ Next, we compute the difference in pixel values between the original image and a
 \subsection{Exposure}
 \begin{figure}
   \centering
-    \includegraphics[scale=0.53,clip]{imageluminosity.eps}
+    \epsfig{file=imageluminosity.eps,width=8.5cm}
     \caption{The Exposure process: This figure shows the inital segmentation of images by mean (values 0 to 255), then the further segmentation of images of medium and good quality (mean ranges 100-120, and 120-138 respectively).}
     \label{exposurefigure}
 \end{figure}
@@ -158,7 +159,7 @@ The most extreme mean brightness values are images of very poor quality, and are
 \subsection{Color Harmony}   
 %\begin{figure}
 %  \centering
-%    \includegraphics[scale=0.38,clip]{colorharmony.eps}
+%    \epsfig[scale=0.38,clip]{colorharmony.eps}
 %  \caption{The harmonies described in \cite{COL:COL10004} are used to find the quality of the relationships between colors.}
 %\end{figure}
 
@@ -186,20 +187,20 @@ Blur: 2.4 \(\mid\)
 Exposure: 6 \(\mid\)
 Color: 4]
 {
-	\includegraphics[scale=.25]{example_blur.eps}
+	\epsfig{file=example_blur.eps,width=5cm}
 	\label{example_blur}
 }
 \subfloat[Blur: 6 \(\mid\)
 Exposure: 1.2 \(\mid\)
 Color: 1]{
-	\includegraphics[scale=.25]{example_expose.eps}	
+	\epsfig{file=example_expose.eps,width=5cm}
 	\label{example_expose}
 }
 \subfloat[
 Blur: 9 \(\mid\)
 Exposure: 7.4 \(\mid\)
 Color: 7]{
-	\includegraphics[scale=.25]{example_good.eps}
+	\epsfig{file=example_good.eps,width=5cm}
 	\label{example_good}
 }
 \caption{Examples of \subref{example_blur}\subref{example_expose} low quality and \subref{example_good} high-quality images. The dots are interest points found; the square is the bounding box considered to be the subject. Despite the too-inclusive box in \subref{example_good}, each algorithm worked properly.}
