@@ -86,7 +86,7 @@ The blur, exposure, and color assessment modules will provide a ranking between 
 \left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^\frac{3}{2}
 \end{eqnarray}
 
-\(n\) - number of modules, \(W_i\) - weight of module \(i\), \(Q_i\) is  module i rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows:
+\(W_i\) - weight of module \(i\), \(n\) - number of modules, \(Q_i\) is  module i rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows:
 \begin{itemize}
 \item \(W_{exposure}=30\%\)
 \item \(W_{blur}=60\%\)
