@@ -160,7 +160,7 @@ We use the mean value, categories, subcategories, and the eight measures to dete
 
 To determine the quality of a photograph's color content, we use Cohen's seven types of color harmony\cite{Cohen-Or:2006:CH:1179352.1141933} to determine which, if any, is contained in the photograph. For each image, we find the hue which is most represented across the seven types, as well as the percent of pixels which match any of the harmonies.
 
-We then separate the pixels by their saturation content, using user-study data from Amazon Mechanical Turk to determine the boundaries of each saturation bin. We then look for the most closely matched harmony type within each bin, ranking the bin based on how far it is from the closest type. We combine the bins' rankings for a final quality ranking.
+We separate the pixels into bins based on their saturation values, using user-study data from Amazon Mechanical Turk to determine the boundaries of each bin. We then look for the most closely matched harmony type within each bin, ranking the bin based on how far it is from the closest type. We combine the bins' rankings for a final quality ranking.
 
 %The first harmony checked is the average and great image's I type. If there is a large amount of I harmony, the difference between I and Y harmonies is checked. Because I and Y overlap, you need to check how much of an increase if between the two. If it is very significant, Y harmony is most likely. When the difference is slight, you have a good I harmony (and thus high rating). If there is a medium difference, the I harmony is weak. Rating of the images can be determined on medium to great harmony. A similar check is done in X versus Y harmony. A last pass is done to check the L type on the great images, and a pass checking the v and i harmonies is done on the average images.
 
@@ -172,7 +172,7 @@ We have run our algorithm on several publicly available datasets as well as our 
 Enumerated below are the results and comparisons to similar works.
 
 \subsection{Similar Image Detection}
-We asked Turk users to group together photographs within four sets of twenty images. Our similarity ranking module agreed with Turk users with 78\% accuracy.
+We asked Turk users to group together photographs within four sets of twenty images based on their own personal measure of "similarity." Our similarity ranking module agreed with Turk users with 78\% accuracy. We then grouped together photographs with the same subject in focus and achieved an 85\% accuracy on the same dataset. % JAMES SHOULD THIS LAST MEASURE BE HERE?
 
 \subsection{Image Rating}
 \begin{figure*}[t]

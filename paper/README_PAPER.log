@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 13:15
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 13:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -328,7 +328,7 @@ df> <./example_good-eps-converted-to.pdf>]
 Here is how much of TeX's memory you used:
  2685 strings out of 495061
  38896 string characters out of 1182621
- 102186 words of memory out of 3000000
+ 101186 words of memory out of 3000000
  5818 multiletter control sequences out of 15000+50000
  22134 words of font info for 46 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
@@ -344,7 +344,7 @@ hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-t
 exlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
 rw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb
 ></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on README_PAPER.pdf (4 pages, 665668 bytes).
+Output written on README_PAPER.pdf (4 pages, 665834 bytes).
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
