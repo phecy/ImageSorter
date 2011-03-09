@@ -5,6 +5,8 @@
 
 \pagestyle{empty}
 \begin{document}\sloppy
+\topmargin=0mm			
+
 
 \title{
 Selective Removal of Extraneous Photographs
@@ -26,15 +28,17 @@ image processing, quality screening, exposure, meta data, color content  %image 
 \label{sec:intro}
 %With the ease of digital cameras, both amateur and professional photographers take more pictures than they will need. An organized user will delete excess photos and keep the most important ones. We need something like: The digitalization has led to an ever increasing size of personal photo collections. Today, consumers often take hundreds or even thousands of pictures of an event.
 
-The ease of digital cameras allows for many photographs to be taken at any given event. This increase in photograph quantity leads to many unneeded photographs which need to be filtered by the user. To automate this process, an aesthetics ranking technique can be implemented, but this method would discard many images with potential to be fixed through retouching.	
+The ease of using digital cameras allows for many photographs to be taken at any given event. This increase in photograph quantity can lead to many unneeded low-quality photographs which need to be filtered by the user, which can be time-consuming and repetitive.
+
+To automate this process, an aesthetics ranking technique can be implemented to find the appeal each image has, but this method would discard many images with potential to be fixed through retouching.
 
 %So, a technical quality ranking technique can implemented, and the best images would be kept and the worst discarded. This method solves the previous problem, but does not take into account the redundancy of similar images, and the user would be left with a set which does not span their entire photo set.
 
-Implementing a technical quality ranking technique will keep the photographs suited for retouching, but does not take into account redundancy of similar images, and the user would be left with a set which does not span their entire photo set.
+Implementing a technical quality ranking technique will keep the photographs suited for retouching, but does not take into account redundancy of similar images, and the user would be left with a set which does not span the entire event.
 
 To fix this, a similar image detector could be implemented giving the user the best image from every subset of similar images. This is still not ideal because it would leave the user with too many low-quality photographs that, although unique in the set, are not worth keeping.
 
-We thus propose a technique which ranks images based on their technical qualities with a bias for unique images in the set.
+We thus propose a technique which ranks images based on their technical qualities with a bias for unique images, but without forcing uniqueness by selecting the best from each set.
 
 To focus our research and determine which image qualities are relevant to technical image quality, we assume three general steps a photographer takes between shooting and using a picture, which we call the Photographer's Process:
 \begin{enumerate}
@@ -43,7 +47,7 @@ To focus our research and determine which image qualities are relevant to techni
 \item Retrieve: Select the retouched images most suitable to a given task.
 \end{enumerate}
 
-We implement three modules to assess technical quality. The blur detection looks at the gradient magnitude of edges. Exposure is measured by comparing average luminosities within an image. Color harmony is based on Cohen's model\cite{Cohen-Or:2006:CH:1179352.1141933}. Similar-images are clustered into groups using the color content and timestamps of an image. Finally, a reordering of the set is provided, with images most suited for removal at the back and high-quality images at the front. A user study has shown 82\% accuracy in our absolute ranking of photographs and 78\% accuracy in determining which photographs belong to the same set.
+We implement three modules to assess technical quality. The blur detection looks at the gradient magnitude of edges. Exposure is measured by comparing average luminosities within an image. Color harmony is based on Cohen's model\cite{Cohen-Or:2006:CH:1179352.1141933}. Similar-images are clustered into groups using the color content and timestamps of an image. Finally, a reordering of the set is provided, with images most suited for removal at the back and high-quality images at the front. A user study has shown 86\% accuracy in our absolute ranking of photographs and 78\% accuracy in determining which photographs belong to the same set. % 86% comes from our average difference to turk ratings on Ke's set = 1.35
 
 \section{Related Work}
 
@@ -77,9 +81,9 @@ First, we find a bounding box around the primary subject for use by the blur det
 \end{figure*}
 
 The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have proposed an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. We use a scale which penalizes low quality images more than it rewards high quality images for this overall ranking:
-\[
+\begin{eqnarray}
 \frac{1}{R}\left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^3
-\]
+\end{eqnarray}
 Where there are \(n\) modules, \(W_i\) represents the weight of module \(i\), \(Q_i\) is that module's rating for the image, \(R\) is the range of possible ratings, and \(t\) is a chosen threshold, \(0<t<R\), empircally chosen to be 5. Weights are assigned as follows:
 \begin{itemize}
 \item \(W_{exposure}=30\%\)
@@ -99,17 +103,17 @@ To find similar images, we perform three steps of increasing complexity for high
 %  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 %\end{figure}
 First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we rank pairs of images on a 0-9 scale to allow for nonconsecutive images to be grouped together:
-\[
+\begin{eqnarray}
 T_{i,j}=\frac{G}{A_g}
-\]
+\end{eqnarray}
 Where \(G\) is the log of the time gap between the two images:
-\[
+\begin{eqnarray}
 G_{i,j}=\log(|T_i-T_j|)
-\]
+\end{eqnarray}
 And \(A_g\) is the average gap within a window:
-\[
+\begin{eqnarray}
 A_g=\displaystyle\sum\limits_{a={i-w}}^{j+w}G_{a,i}
-\]
+\end{eqnarray}
 We have empirically chosen a window size of \(w=8\).
 The calculated similarity index \(T_{i,j}\) is used to weight the results of the next two steps.
 
@@ -141,8 +145,7 @@ The categories of mean brightness value (“mean”) correspond roughly to a par
 
 The other measures of image quality are also based on brightness, and were determined by taking various measurements on a deliberately chosen pool of images that had a wide variety of exposure problems. The measures are as follows: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures are calculated on both the foreground and the background of the image, relative to the area over which they are calculated.
 
-
-%Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image.
+Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image.
 
 %Lowlights can be caused by underexposure, but they can also be a product of poor lighting (e.g., photographing a shadowed object in extremely bright conditions). Again, some lowlights are desirable for contrast in an image, but too much leads to an undecipherable image.
 

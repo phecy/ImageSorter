@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  9 MAR 2011 00:54
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.1.13)  9 MAR 2011 02:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -163,24 +163,24 @@ Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
 LaTeX Info: Redefining \subref on input line 7.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 16.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 18.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 17.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 19.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 21.
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 23.
 File: flowchart.eps Graphic file (type eps)
  <flowchart.eps> [1
 
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 84.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 89.
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 84.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 89.
  [2]
 File: imageluminosity.eps Graphic file (type eps)
 
@@ -208,12 +208,12 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
 ) [4] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
- 1959 strings out of 495062
- 27240 string characters out of 1182644
- 87657 words of memory out of 3000000
- 5143 multiletter control sequences out of 15000+50000
+ 1960 strings out of 495062
+ 27251 string characters out of 1182644
+ 88657 words of memory out of 3000000
+ 5144 multiletter control sequences out of 15000+50000
  12211 words of font info for 37 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  36i,9n,45p,772b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on README_PAPER.dvi (4 pages, 24528 bytes).
+Output written on README_PAPER.dvi (4 pages, 24952 bytes).
