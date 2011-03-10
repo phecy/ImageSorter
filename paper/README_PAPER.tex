@@ -17,7 +17,7 @@ Selective Removal of Extraneous Photographs
 
 \maketitle	
 \begin{abstract}
-In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To prevent redundancy arising from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. Finally, we provide an ordering of the images which accounts for both quality and uniqueness. Our goal is not to rank images based on subjective aesthetic qualities, but instead to help a photographer filter out technically flawed photographs and focus on objectively high quality shots.
+In this paper, we propose a method for selecting the most representative high-quality images from a set of user photographs. To avoid redundancy arising from many similar images, we find all sets of near-duplicates. We then rank images based on three technical qualities: exposure, blur, and color harmony. Finally, we provide an ordering of the images which accounts for both quality and uniqueness. Our goal is not to rank images based on subjective aesthetic qualities, but instead to help a photographer filter out technically flawed photographs and focus on objectively high quality shots.
 \end{abstract}	
 
 \begin{keywords}
@@ -28,7 +28,7 @@ image processing, quality screening, exposure, meta data, color content  %image 
 \label{sec:intro}
 %With the ease of digital cameras, both amateur and professional photographers take more pictures than they will need. An organized user will delete excess photos and keep the most important ones. We need something like: The digitalization has led to an ever increasing size of personal photo collections. Today, consumers often take hundreds or even thousands of pictures of an event.
 
-The ease of using digital cameras allows for a large number of photographs to be taken at any given event. This increase in photograph quantity can lead to many unneeded low-quality photographs which need to be filtered by the user, which can be time-consuming and repetitive.
+The ease of using digital cameras allows for a large number of photographs to be taken at any given event. This increase in photograph quantity can lead to many unneeded low-quality photographs that need to be filtered by the user, which can be time-consuming and repetitive.
 
 To automate this process, an aesthetics ranking technique could be implemented to find the appeal each image has, but this method would discard many images with potential to be fixed through retouching.
 
@@ -53,7 +53,7 @@ We implement three modules to assess technical quality. The blur detection looks
 
 Previous works have classified images based on a professional vs. amatur photographer binary with high accuracy\cite{1640788}\cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-540-88690-7_29}, which is useful for search engines' retrieval of high quality images. Others have focused on personalized aesthetic rankings of photographs\cite {Sun:2009:PAB:1631272.1631351}\cite {Yeh:2010:PPR:1873951.1873963}. These works focus on finalized images, while we focus on images that are still raw and may be retouched afterward.
 
-Event classification has been explored in order to choose the best images from an entire event\cite{1223566}\cite{4444209}, while we choose the best images from each scene within event- images with the same subject content related rather than the same event context.
+Event classification has been explored in order to choose the best images from an entire event\cite{1223566}\cite{4444209}, while we choose the best images from each scene within each event: images with the same subject content rather than the same event context.
 
 Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} describe a promising method of automatically rating and ranking images based on image content and time-metadata, with results better than random. We improve upon their work with more accurate algorithms.
 
@@ -79,9 +79,9 @@ Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} d
   \label{flowchart}
 \end{figure*}
 
-To find the Importance Order of the user's photographs, we first use interest points to find the subject, which will be used for both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and color harmony modules. Groups of similar images match the color content and timestamp of every pair of images. We combine them to get the final ordering\ref{flowchart}.
+To find the Importance Order of the user's photographs, we first use interest points to find the subject, which will be used for both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and color harmony modules. Groups of similar images match the color content and timestamp of every pair of images. We combine them to get the final ordering (Fig. \ref{flowchart}).
 
-The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which ranks low on any part would be considered poor, we have proposed an algorithm which penalizes low scores more than it rewards high scores, because our primarily goal is to weed out poor images. Thus the overall ranking:
+The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which is flawed in any of the three factors would be considered poor, we propose a formula which penalizes low scores more than it rewards high scores:
 \begin{eqnarray}
 \left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^\frac{3}{2}
 \end{eqnarray}
@@ -104,7 +104,7 @@ To find similar images we perform three steps of increasing complexity for high 
 %    \epsfig[scale=0.07,clip]{similarimages.eps}
 %  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 %\end{figure}
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on an algorithm which segments a set based on gaps in the timestamps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale. This allows nonconsecutive images to be grouped together:
+First, we use the timestamp to obtain a similarity index between all pairs of images. Based on a formula which groups photos by finding large timestamp gaps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale. This allows nonconsecutive images to be grouped together:
 \begin{eqnarray}
 S_{i,j}=\frac{G_{i,j}}{A_{i,j}}
 \end{eqnarray}
@@ -114,35 +114,33 @@ G_{i,j}=\log(|T_i-T_j|)
 \end{eqnarray}
 The calculated similarity index \(S_{i,j}\) is used to weight the results of the next two steps.
 
-The image is then divided into a 4x4 grid of average luminosity values. To compare two images, we find the luminosity difference of each square and deduct from the similarity score if the difference is greater than a threshold of 15\% luminosity. Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the luminosity difference algorithm with stricter threshold of 10\%.
+The image is then divided into a 4x4 grid of average color values. To compare two images, we find the color difference of each square (average difference of the red, green, and blue channels) and deduct from the similarity score if the difference is greater than a threshold of 15\%. Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the difference algorithm with stricter threshold of 10\%.
 
-Clusters are formed by first putting each image into its own group, then iteratively merging the two most similar groups until a threshold is reached. In this way, a group votes for other similar groups, rather than each image voting for another, resulting in a noise-resistant clustering. This method is similar to a Quality-Threshold clustering algorithm. % Add panorama image?
+Clusters are formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's color does not match the last image's. % Add panorama image?
 
 \subsection{Blur Detection}
-Using the foreground bounding box, the blur detection algorithm quantifies the contrast between the edges and background. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the sharpness. To increase accuracy and reduce the adverse affects that acceptable background blur may have, we constrain detection to the bounding box.
+Using the foreground bounding box, the blur detection algorithm first quantifies the spread of the subject's edges. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the blur.
 
-Next, we compute the difference in pixel values between the original image and a Gaussian blurred image. Though this provides little insight with independent images, it correlates well with blur amount when comparing the subject of similar images.
+Next, we compute a predicted blurred model of the foreground using a gaussian function. Sharpness is determined by an image's similarity to the predicted blur model, with sharp images being the least similar. These two values combine to determine the amount of blur, which is especially accurate when comparing the foregrounds of two similar images.
 
 \subsection{Exposure}
 \begin{figure}
   \centering
     \epsfig{file=imageluminosity.eps,width=8.5cm}
-    \caption{The Exposure process: This figure shows the inital segmentation of images by mean (values 0 to 255), then the further segmentation of images of medium and good quality (mean ranges 100-120, and 120-138 respectively).}
+    \caption{The exposure process: This figure shows the inital segmentation of images by mean luminosity, then the further segmentation of images of medium and high quality (mean ranges 100-120 and 120-138 respectively).}
     \label{exposurefigure}
 \end{figure}
-Image exposure is a measure of how appropriate the lighting is in a given image.  While traditionally measured in-camera with light meter over the area, our exposure algorithm evaluates how the lighting in the result image appears to a human observer.  Images are ranked according to various measures of their brightness. %The calculation for brightness used is
+Image exposure is a measure of how appropriate the lighting is in a given image. While easily measured in-camera using a light meter, we must evaluate the lighting condition based on pixel intensity. Images are ranked according to various measures of their brightness. %The calculation for brightness used is
 %\[
 %p=.59r+.3g+.11b
 %\]
 %where \(p\) is the perceived intensity, and \(r\), \(g\), and \(b\) are the red, green, and blue components, respectively(XX THIS FORMULA NEEDS REFERENCE).
 
-Based on the idea that the mean value of image brightness is an approximate indication of how well-exposed an image is, images are first segmented based on their average brightness value.
+We have determined eight measures by examining a set of images with various exposure problems. The measures relevant to exposure quality are: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures is calculated on both the subject and the background of the image, relative to the area over which it is calculated.
 
-The categories of mean brightness value (“mean”) correspond roughly to a parabolic mapping of exposure values, with well exposed photographs having a mean of \(130<p<140\): the further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. %Within each category, different measures indicate either a positive or negative overall impact on image quality, which impact depends upon the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
+Based on the idea that the mean value of image brightness is an approximate indication of how well-exposed an image is, images are first segmented based on their mean brightness value ("mean"). The categories for the mean correspond roughly to a parabolic mapping of exposure values (Fig. \ref{exposurefigure}), with well exposed photographs having a mean value between 130 and 140. The further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. %Within each category, different measures indicate either a positive or negative overall impact on image quality, which impact depends upon the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
 
-The other measures of image quality are also based on brightness, and were determined by taking various measurements on a deliberately chosen pool of images that had a wide variety of exposure problems. The measures are as follows: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures are calculated on both the foreground and the background of the image, relative to the area over which they are calculated.
-
-Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image.
+%Overexposure of an image can lead to large areas in the photo in which the human eye cannot discern any form (note that this definition can also indicate areas of a solid white value that contains absolutely no data about the form present). However, as the program is primarily concerned about how humans perceive images, the number of pixels in the highest five perceived values are used to calculate the “highlights” present in the image.
 
 %Lowlights can be caused by underexposure, but they can also be a product of poor lighting (e.g., photographing a shadowed object in extremely bright conditions). Again, some lowlights are desirable for contrast in an image, but too much leads to an undecipherable image.
 
@@ -150,7 +148,9 @@ Overexposure of an image can lead to large areas in the photo in which the human
 
 %The percentiles of the image are determined for both the bright and the dark sides of brightness. For example, to calculate the lower 60th percentile, the value is found at which the sum of the number of pixels that are darker than the given value is equal to sixty percent of the pixels in the image. The upper percentiles are found by the summation of the pixels that are brighter than the given value. These four measures give a good indication of the spread of the brightness, e.g., how sharp the transitions between the extreme and middle values are.
 
-The most extreme mean brightness values are images of very poor quality, and are rated as such based solely on the mean value, although having a bright 98th high percentile can provide enough contrast to make a discernible image, though certainly nothing of quality. Means between 80 and 170 encompass nearly all images of medium through excellent exposure, and thus require the most analysis. After being subdivided into mean categories, they are again subdivided into further categories (see figure \ref{exposurefigure}) before analysis.
+The most extreme mean brightness values are images of very poor quality, and are rated as such based solely on the mean value. Means between 80 and 170 encompass nearly all images of acceptable to excellent exposure, and thus require the most the analysis. After being subdivided into mean categories, they are again subdivided into further categories before analysis.
+
+We use the mean value, categories, subcategories, and the eight measures to determine if the exposure is balanced throughout the image. An image with a dark mean should have bright pixels, and an image with a light mean should have dark pixels. An unbalanced image is rated poorly, even if it has an acceptable mean. Well-balanced images within the acceptable mean range are rated highly.
 
 \subsection{Color Harmony}   
 %\begin{figure}
@@ -161,7 +161,7 @@ The most extreme mean brightness values are images of very poor quality, and are
 
 To determine the quality of a photograph's color content, we use Cohen's seven types of color harmony\cite{Cohen-Or:2006:CH:1179352.1141933} to determine which, if any, is contained in the photograph. For each image, we find the hue which is most represented across the seven types, as well as the percent of pixels which match any of the harmonies.
 
-We then separate the pixels by their saturation content, using user-study data from Amazon Mechanical Turk to determine the boundaries of each saturation bin. We then look for the most closely matched harmony type within each bin, ranking the bin based on how far it is from the closest type. We combine the bins' rankings for a final quality ranking.
+We separate the pixels into bins based on their saturation values, using user-study data from Amazon Mechanical Turk to determine the boundaries of each bin. We then look for the most closely matched harmony type within each bin, ranking the bin based on how far it is from the closest type. We combine the bins' rankings for a final quality ranking.
 
 %The first harmony checked is the average and great image's I type. If there is a large amount of I harmony, the difference between I and Y harmonies is checked. Because I and Y overlap, you need to check how much of an increase if between the two. If it is very significant, Y harmony is most likely. When the difference is slight, you have a good I harmony (and thus high rating). If there is a medium difference, the I harmony is weak. Rating of the images can be determined on medium to great harmony. A similar check is done in X versus Y harmony. A last pass is done to check the L type on the great images, and a pass checking the v and i harmonies is done on the average images.
 
@@ -173,7 +173,7 @@ We have run our algorithm on several publicly available datasets as well as our 
 Enumerated below are the results and comparisons to similar works.
 
 \subsection{Similar Image Detection}
-We asked Turk users to group together photographs within four sets of twenty images. Our similarity ranking module agreed with Turk users with 78\% accuracy.
+We asked Turk users to group together photographs within four sets of twenty images based on their own personal measure of "similarity." Our similarity ranking module agreed with Turk users with 78\% accuracy. We then grouped together photographs with the same subject in focus and achieved an 85\% accuracy on the same dataset. % JAMES SHOULD THIS LAST MEASURE BE HERE?
 
 \subsection{Image Rating}
 \begin{figure*}[t]
@@ -203,11 +203,9 @@ Color: 7]{
 \label{fig:Examples}
 \end{figure*}
 
-Separate trials were run to compare our algorithm to previously ranked images: 48 from Ke, Tang, and Jing\cite{1640788}, and 100 from Luo and Tang\cite{springerlink:10.1007/978-3-540-88690-7_29}. We then compared 459 of our own images to Turk users. Here we compare against an absolute rating of each image without regard to uniqueness.
+Separate trials were run to compare our algorithm to previously ranked images: 48 from Ke, Tang, and Jing\cite{1640788}, and 100 from Luo and Tang\cite{springerlink:10.1007/978-3-540-88690-7_29}. We then compared 459 of our own images to Turk users. Here we compare against an absolute rating of each image without regard to the sets of similar images.
 
-We took a random sample of 100 images from Luo's and Tang's 11,981 images \cite{springerlink:10.1007/978-3-540-88690-7_29}. We asked 44 Turk users to rank 50 images each on a scale from one to ten.
-
-Using the 48 image data set from Ke, Tang, and Jing\cite{1640788}, and Amazon Turk ratings as a ground truth, we achieve a correlation coefficient of \(.340\), which is comparable to the authors' correlation coefficient of \(.495\). Similarly, with a sample from Luo and Tang's public data set of high-quality images\cite{springerlink:10.1007/978-3-540-88690-7_29}, we achieve a correlation coefficient of \(.311\). These numbers show that our algorithm provides positive absolute results when comparing photographs independently, despite our goal of culling images within a set of related images.
+Using the 48 image data set from Ke, Tang, and Jing\cite{1640788}, and Amazon Turk ratings as a ground truth, we achieve a correlation coefficient of \(.340\), which is comparable to the authors' correlation coefficient of \(.495\). Similarly, with a random sample of 100 images from Luo and Tang's public data set of high-quality images\cite{springerlink:10.1007/978-3-540-88690-7_29}, we achieve a correlation coefficient of \(.311\). These numbers show that our algorithm provides positive absolute results when comparing photographs independently, despite our focus on ranking images within a set of related images.
 
 %\subsection{Binary Classification} Using the same data as the Image Rating trials, we have found that our algorithm can distinguish between professional and non-professional images well. Barsky \cite{Yeh:2010:PPR:1873951.1873963} and Luo \emph{et. al}\cite{springerlink:10.1007/978-3-540-88690-7_29} obtained 96\% accuracy when classifying images into the two categories. When classifying "non-professional" as Turk ratings below XX/9 and "professional" above XX/9, our rating system matches a user's with XX\% accuracy.
 

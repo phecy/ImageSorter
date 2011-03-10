@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2010.11.24)  9 MAR 2011 15:27
+=======
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 15:47
+>>>>>>> 92a4374df44fe715f860a27b4e6b25b5a54ad22e
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -226,10 +230,29 @@ LaTeX Font Info:    Try loading font information for OMS+ptm on input line 91.
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
+<<<<<<< HEAD
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 91.
+=======
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 90.
+
+Underfull \vbox (badness 2277) has occurred while \output is active []
+
+ [2 <./flowchart-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <imageluminosity.eps>
+(epstopdf)                    date: 2011-02-27 18:15:19
+(epstopdf)                    size: 569210 bytes
+(epstopdf)             Output file: <imageluminosity-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 10:40:55
+(epstopdf)                    size: 141414 bytes
+(epstopdf)             Command: <epstopdf --outfile=imageluminosity-eps-convert
+ed-to.pdf imageluminosity.eps>
+(epstopdf)             \includegraphics on input line 128.
+Package epstopdf Info: Output file is already uptodate.
+>>>>>>> 92a4374df44fe715f860a27b4e6b25b5a54ad22e
 
 Underfull \vbox (badness 3713) has occurred while \output is active []
 
+<<<<<<< HEAD
  [2]
 File: imageluminosity.eps Graphic file (type eps)
 
@@ -251,12 +274,59 @@ File: example_blur.eps Graphic file (type eps)
 File: example_expose.eps Graphic file (type eps)
  <example_expose.eps>
 File: example_good.eps Graphic file (type eps)
+=======
+<use imageluminosity-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <example_blur.eps>
+(epstopdf)                    date: 2011-03-07 19:38:57
+(epstopdf)                    size: 1569269 bytes
+(epstopdf)             Output file: <example_blur-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 10:40:58
+(epstopdf)                    size: 114944 bytes
+(epstopdf)             Command: <epstopdf --outfile=example_blur-eps-converted-
+to.pdf example_blur.eps>
+(epstopdf)             \includegraphics on input line 187.
+Package epstopdf Info: Output file is already uptodate.
+
+<example_blur-eps-converted-to.pdf, id=26, 601.24625pt x 398.48875pt>
+File: example_blur-eps-converted-to.pdf Graphic file (type pdf)
+
+<use example_blur-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <example_expose.eps>
+(epstopdf)                    date: 2011-03-08 22:02:06
+(epstopdf)                    size: 645796 bytes
+(epstopdf)             Output file: <example_expose-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 10:40:59
+(epstopdf)                    size: 88600 bytes
+(epstopdf)             Command: <epstopdf --outfile=example_expose-eps-converte
+d-to.pdf example_expose.eps>
+(epstopdf)             \includegraphics on input line 193.
+Package epstopdf Info: Output file is already uptodate.
+
+<example_expose-eps-converted-to.pdf, id=27, 601.24625pt x 399.4925pt>
+File: example_expose-eps-converted-to.pdf Graphic file (type pdf)
+
+<use example_expose-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <example_good.eps>
+(epstopdf)                    date: 2011-03-07 19:39:44
+(epstopdf)                    size: 1611241 bytes
+(epstopdf)             Output file: <example_good-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 10:41:01
+(epstopdf)                    size: 171728 bytes
+(epstopdf)             Command: <epstopdf --outfile=example_good-eps-converted-
+to.pdf example_good.eps>
+(epstopdf)             \includegraphics on input line 200.
+Package epstopdf Info: Output file is already uptodate.
+
+<example_good-eps-converted-to.pdf, id=28, 601.24625pt x 398.48875pt>
+File: example_good-eps-converted-to.pdf Graphic file (type pdf)
+>>>>>>> 92a4374df44fe715f860a27b4e6b25b5a54ad22e
 
 <example_good.eps> [3] (./README_PAPER.bbl
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
 ) [4] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
  2220 strings out of 495062
  32007 string characters out of 1182643
  94922 words of memory out of 3000000
@@ -264,5 +334,30 @@ Here is how much of TeX's memory you used:
  12211 words of font info for 37 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  41i,9n,45p,809b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
+=======
+ 2685 strings out of 495061
+ 38896 string characters out of 1182621
+ 102186 words of memory out of 3000000
+ 5818 multiletter control sequences out of 15000+50000
+ 22134 words of font info for 46 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 41i,9n,45p,900b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</u
+sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/te
+xmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive
+/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
+onts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.
+pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/s
+hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-t
+exlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
+rw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb
+></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on README_PAPER.pdf (4 pages, 665696 bytes).
+PDF statistics:
+ 86 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+>>>>>>> 92a4374df44fe715f860a27b4e6b25b5a54ad22e
 
 Output written on README_PAPER.dvi (4 pages, 24452 bytes).
