@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 16:59
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 23:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -194,19 +194,19 @@ File: epstopdf-sys.cfg 2009/10/26 v1.1 Configuration of epstopdf for TeX Live
 (./README_PAPER.aux)
 \openout1 = `README_PAPER.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 7.
  (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
@@ -225,14 +225,14 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
-LaTeX Info: Redefining \subref on input line 14.
+LaTeX Info: Redefining \subref on input line 7.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 25.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 18.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 26.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 19.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 30.
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 23.
 Package epstopdf Info: Source file: <flowchart.eps>
 (epstopdf)                    date: 2011-03-09 01:48:41
 (epstopdf)                    size: 16877 bytes
@@ -241,7 +241,7 @@ Package epstopdf Info: Source file: <flowchart.eps>
 (epstopdf)                    size: 9680 bytes
 (epstopdf)             Command: <epstopdf --outfile=flowchart-eps-converted-to.
 pdf flowchart.eps>
-(epstopdf)             \includegraphics on input line 84.
+(epstopdf)             \includegraphics on input line 77.
 Package epstopdf Info: Output file is already uptodate.
  <flowchart-eps-converted-to.pdf, id=1, 433.62pt x 162.6075pt>
 File: flowchart-eps-converted-to.pdf Graphic file (type pdf)
@@ -252,13 +252,11 @@ pdftex.map}
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 97.
- (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
-File: omsptm.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 97.
- [2 <./flowchart-eps-converted-to.pdf>]
+Underfull \hbox (badness 1152) in paragraph at lines 94--96
+\OT1/ptm/m/n/10 use a Har-ris In-ter-est Op-er-a-tor (uti-liz-ing NASA's Vi-sio
+n
+ []
+
 Package epstopdf Info: Source file: <imageluminosity.eps>
 (epstopdf)                    date: 2011-02-27 18:15:19
 (epstopdf)                    size: 569210 bytes
@@ -267,13 +265,47 @@ Package epstopdf Info: Source file: <imageluminosity.eps>
 (epstopdf)                    size: 141414 bytes
 (epstopdf)             Command: <epstopdf --outfile=imageluminosity-eps-convert
 ed-to.pdf imageluminosity.eps>
-(epstopdf)             \includegraphics on input line 142.
+(epstopdf)             \includegraphics on input line 101.
 Package epstopdf Info: Output file is already uptodate.
-
-<imageluminosity-eps-converted-to.pdf, id=25, 429.605pt x 229.85875pt>
+<imageluminosity-eps-converted-to.pdf, id=10, 429.605pt x 229.85875pt>
 File: imageluminosity-eps-converted-to.pdf Graphic file (type pdf)
 
-<use imageluminosity-eps-converted-to.pdf>
+<use imageluminosity-eps-converted-to.pdf> [2 <./flowchart-eps-converted-to.pdf
+> <./imageluminosity-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <result_unsorted.eps>
+(epstopdf)                    date: 2011-03-09 21:08:53
+(epstopdf)                    size: 319464 bytes
+(epstopdf)             Output file: <result_unsorted-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 21:14:39
+(epstopdf)                    size: 67001 bytes
+(epstopdf)             Command: <epstopdf --outfile=result_unsorted-eps-convert
+ed-to.pdf result_unsorted.eps>
+(epstopdf)             \includegraphics on input line 185.
+Package epstopdf Info: Output file is already uptodate.
+
+<result_unsorted-eps-converted-to.pdf, id=28, 440.64626pt x 238.8925pt>
+File: result_unsorted-eps-converted-to.pdf Graphic file (type pdf)
+
+<use result_unsorted-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <result_sorted.eps>
+(epstopdf)                    date: 2011-03-09 21:15:54
+(epstopdf)                    size: 314071 bytes
+(epstopdf)             Output file: <result_sorted-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 21:16:03
+(epstopdf)                    size: 51873 bytes
+(epstopdf)             Command: <epstopdf --outfile=result_sorted-eps-converted
+-to.pdf result_sorted.eps>
+(epstopdf)             \includegraphics on input line 189.
+Package epstopdf Info: Output file is already uptodate.
+
+<result_sorted-eps-converted-to.pdf, id=29, 440.64626pt x 238.8925pt>
+File: result_sorted-eps-converted-to.pdf Graphic file (type pdf)
+
+<use result_sorted-eps-converted-to.pdf>
+Overfull \hbox (0.83777pt too wide) in paragraph at lines 185--190
+ [][][] 
+ []
+
 Package epstopdf Info: Source file: <example_blur.eps>
 (epstopdf)                    date: 2011-03-07 19:38:57
 (epstopdf)                    size: 1569269 bytes
@@ -282,10 +314,9 @@ Package epstopdf Info: Source file: <example_blur.eps>
 (epstopdf)                    size: 114944 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_blur-eps-converted-
 to.pdf example_blur.eps>
-(epstopdf)             \includegraphics on input line 202.
+(epstopdf)             \includegraphics on input line 203.
 Package epstopdf Info: Output file is already uptodate.
-
-<example_blur-eps-converted-to.pdf, id=26, 601.24625pt x 398.48875pt>
+<example_blur-eps-converted-to.pdf, id=30, 601.24625pt x 398.48875pt>
 File: example_blur-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_blur-eps-converted-to.pdf>
@@ -297,10 +328,10 @@ Package epstopdf Info: Source file: <example_expose.eps>
 (epstopdf)                    size: 88600 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_expose-eps-converte
 d-to.pdf example_expose.eps>
-(epstopdf)             \includegraphics on input line 208.
+(epstopdf)             \includegraphics on input line 209.
 Package epstopdf Info: Output file is already uptodate.
 
-<example_expose-eps-converted-to.pdf, id=27, 601.24625pt x 399.4925pt>
+<example_expose-eps-converted-to.pdf, id=31, 601.24625pt x 399.4925pt>
 File: example_expose-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_expose-eps-converted-to.pdf>
@@ -312,46 +343,41 @@ Package epstopdf Info: Source file: <example_good.eps>
 (epstopdf)                    size: 171728 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_good-eps-converted-
 to.pdf example_good.eps>
-(epstopdf)             \includegraphics on input line 215.
+(epstopdf)             \includegraphics on input line 216.
 Package epstopdf Info: Output file is already uptodate.
 
-<example_good-eps-converted-to.pdf, id=28, 601.24625pt x 398.48875pt>
+<example_good-eps-converted-to.pdf, id=32, 601.24625pt x 398.48875pt>
 File: example_good-eps-converted-to.pdf Graphic file (type pdf)
 
-<use example_good-eps-converted-to.pdf> [3 <./imageluminosity-eps-converted-to.
-pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 232--233
-\OT1/ptm/m/n/10 Our code and data set is avail-able at
- []
-
-(./README_PAPER.bbl
+<use example_good-eps-converted-to.pdf> [3] (./README_PAPER.bbl
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
-) [4 <./example_blur-eps-converted-to.pdf> <./example_expose-eps-converted-to.p
-df> <./example_good-eps-converted-to.pdf>]
-(./README_PAPER.aux) ) 
+) [4 <./result_unsorted-eps-converted-to.pdf> <./result_sorted-eps-converted-to
+.pdf> <./example_blur-eps-converted-to.pdf> <./example_expose-eps-converted-to.
+pdf> <./example_good-eps-converted-to.pdf>] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
- 2687 strings out of 495061
- 38921 string characters out of 1182621
- 101242 words of memory out of 3000000
- 5820 multiletter control sequences out of 15000+50000
- 22134 words of font info for 46 fonts, out of 3000000 for 9000
+ 2685 strings out of 495061
+ 39077 string characters out of 1182621
+ 104232 words of memory out of 3000000
+ 5818 multiletter control sequences out of 15000+50000
+ 23818 words of font info for 48 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 41i,9n,45p,900b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</u
-sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/te
-xmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive
-/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1
-/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
-onts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.
-pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/s
-hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-t
-exlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
-rw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb
-></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on README_PAPER.pdf (4 pages, 665772 bytes).
+ 41i,9n,45p,1090b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/t
+exmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texlive/fonts/type1/
+public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
+onts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmm
+i7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
+/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texmf-
+texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a
+.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmbi8a.pfb></usr/share/te
+xmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/urw/times/utmri8a.pfb>
+Output written on README_PAPER.pdf (4 pages, 776061 bytes).
 PDF statistics:
- 86 PDF objects out of 1000 (max. 8388607)
+ 94 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

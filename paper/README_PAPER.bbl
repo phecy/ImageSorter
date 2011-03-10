@@ -59,15 +59,15 @@ M.D. Hancher, M.J. Broxton, and L.J. Edwards,
 \newblock {\em A User's Guide to the NASA Vision Workbench.},
 \newblock NASA Ames, Intelligent Systems Division, 2006.
 
-\bibitem{1292402}
-J.C. Platt, M.~Czerwinski, and B.A. Field,
-\newblock ``Phototoc: automatic clustering for browsing personal photographs,''
-\newblock in {\em ICICS and PCM}, 2003, vol.~1.
-
 \bibitem{springerlink:10.1007/978-3-540-77409-9_26}
 P.~Hsu and B.~Chen,
 \newblock ``Blurred image detection and classification,''
 \newblock in {\em Adv. in Mult. Model.}, vol. 4903 of {\em Lec. Notes in Comp.
   Sci.} Springer Berlin / Heidelberg, 2008.
+
+\bibitem{1292402}
+J.C. Platt, M.~Czerwinski, and B.A. Field,
+\newblock ``Phototoc: automatic clustering for browsing personal photographs,''
+\newblock in {\em ICICS and PCM}, 2003, vol.~1.
 
 \end{thebibliography}
