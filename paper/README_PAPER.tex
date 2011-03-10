@@ -3,13 +3,6 @@
 \usepackage[caption=false]{subfig}
 \usepackage{epstopdf}
 
-\newenvironment{packed_enum}{
-\begin{itemize}
-  \setlength{\itemsep}{1pt}
-  \setlength{\parskip}{0pt}
-  \setlength{\parsep}{0pt}
-}{\end{itemize}}
-
 \pagestyle{empty}
 \begin{document}\sloppy
 \topmargin=0mm			
@@ -41,7 +34,7 @@ To automate this process, an aesthetics ranking technique could be implemented t
 
 %So, a technical quality ranking technique can implemented, and the best images would be kept and the worst discarded. This method solves the previous problem, but does not take into account the redundancy of similar images, and the user would be left with a set which does not span their entire photo set.
 
-Implementing a technical quality ranking technique will keep the photographs suited for retouching, but does not take into account redundancy of similar images, and the user would be left with a set which does not span the entire event.
+Implementing a technical quality ranking technique will keep the photographs suited for retouching, but does not take into account redundancy of similar images, and the user would be left with a set which either includes many duplicates or does not span the entire event.
 
 %To fix this, a similar image detector could be implemented giving the user the best image from every subset of similar images. This is still not ideal because it would leave the user with too many low-quality photographs that, although unique in the set, are not worth keeping.
 
@@ -54,25 +47,25 @@ To focus our research and determine which image qualities are relevant to techni
 \item Retrieve: Select the retouched images most suitable to a given task.
 \end{enumerate}
 
-We implement three modules to assess technical quality. The blur detection looks at the gradient magnitude of edges and the similarity to a predicted out-of-focus image. Exposure is measured by finding the balance in brightness throghout the image. Color harmony is based on Cohen's model\cite{Cohen-Or:2006:CH:1179352.1141933}. Similar-images are clustered into groups using the color content and timestamps of an image. Finally, a reordering of the set is provided based on how suited they are for removal (the "Importance Order"). A user study has shown 86\% accuracy in our absolute ranking of photographs and 78\% accuracy in determining which photographs belong to the same set. % 86% comes from our average difference to turk ratings on Ke's set = 1.35
+This work focuses on the removal stage and contains both quality assessment and similarity ranking. We implement technical quality assessment using three modules: blur detection, exposure, and color harmony. The blur detection looks at the gradient magnitude of edges and the similarity to a predicted out-of-focus image. Exposure is measured by finding the balance in brightness throughout the image. Color harmony is based on Cohen's model\cite{Cohen-Or:2006:CH:1179352.1141933}. We implement similarity ranking using global color similarity, foreground color similarity, and timestamps.  These modules are combined to obtain a reordering of the set representing how suited they are for removal (the "Importance Order"). A user study has shown 86\% accuracy in our absolute ranking of photographs. The similarity ranking was evaluated separately and found to have 78\% accuracy. % 86% comes from our average difference to turk ratings on Ke's set = 1.35
 
 \section{Related Work}
 
-Previous works have classified images based on a professional vs. amatur photographer binary with high accuracy\cite{1640788}\cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-540-88690-7_29}, which is useful for search engines' retrieval of high quality images. Others have focused on personalized aesthetic rankings of photographs\cite {Sun:2009:PAB:1631272.1631351}\cite {Yeh:2010:PPR:1873951.1873963}. These works focus on finalized images, while we focus on images that are still raw and may be retouched afterward.
+Previous works have classified images as professional vs. amateur with high accuracy\cite{1640788}\cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-540-88690-7_29}, which is useful for search engines' retrieval of high quality images. Others have focused on personalized \emph{aesthetic} rankings of photographs\cite {Sun:2009:PAB:1631272.1631351}\cite {Yeh:2010:PPR:1873951.1873963}. All of these works focus on finalized images, while we focus on images that are still raw and may be retouched afterward.
 
 Event classification has been explored in order to choose the best images from an entire event\cite{1223566}\cite{4444209}, while we choose the best images from each scene within each event: images with the same subject content rather than the same event context.
 
-Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} describe a promising method of automatically rating and ranking images based on image content and time-metadata, with results better than random. We improve upon their work with more accurate algorithms.
+Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} describe a method of automatically rating and ranking images based on image content and time-metadata, but do not report numerical results, only that their results are better than random. 
 
-%Various publications have focused on improving the quality of an image, which is the second step of the Photographer's Process\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}. 
+%Various publications have focused on improving the quality of an image, which is the second step of the Photographer's Process\cite{Bhattacahrya:2010:FPA:1873951.1873990}\cite{Kopf:2008:DPM:1409060.1409069}.
 
-%Others deeply researched assessing quality for the purposes of photograph retrieval from a web or multi-contributor set \cite{Yeh:2010:PPR:1873951.1873963}\cite{vanZwol:2010:FEI:1772690.1772788}\cite{springerlink:10.1007/978-3-642-17187-1_57}\cite{Cui:2008:RTG:1459359.1459471}\cite{Chu2010256}. 
+%Others deeply researched assessing quality for the purposes of photograph retrieval from a web or multi-contributor set \cite{Yeh:2010:PPR:1873951.1873963}\cite{vanZwol:2010:FEI:1772690.1772788}\cite{springerlink:10.1007/978-3-642-17187-1_57}\cite{Cui:2008:RTG:1459359.1459471}\cite{Chu2010256}.
 
-%Previous works in image quality assessment have ranked image quality based on relevancy and quality 
-%%blur \cite{springerlink:10.1007/978-3-540-77409-9_26}, exposure \cite{5540170}, color harmony \cite{COL:COL5080160410}\cite{COL:COL10004}, and duplicate detection \cite{Chu2010256}. %User tags on Flickr and online search engines have provided sets of similar images to compare\cite{Berg:EECS-2007-13}\cite{Chu2010256}. 
+%Previous works in image quality assessment have ranked image quality based on relevancy and quality
+%%blur \cite{springerlink:10.1007/978-3-540-77409-9_26}, exposure \cite{5540170}, color harmony \cite{COL:COL5080160410}\cite{COL:COL10004}, and duplicate detection \cite{Chu2010256}. %User tags on Flickr and online search engines have provided sets of similar images to compare\cite{Berg:EECS-2007-13}\cite{Chu2010256}.
 % Duplicate detection isn't quality assessment though?
 
-%%Several papers have developed methods for separating professional and amateur photographs \cite{springerlink:10.1007/978-3-540-30541-5_25}\cite{springerlink:10.1007/11744078_23}\cite{1640788}\cite{springerlink:10.1007/978-3-540-88690-7_29}. %Unlike our work, these assume a finalized image. 
+%%Several papers have developed methods for separating professional and amateur photographs \cite{springerlink:10.1007/978-3-540-30541-5_25}\cite{springerlink:10.1007/11744078_23}\cite{1640788}\cite{springerlink:10.1007/978-3-540-88690-7_29}. %Unlike our work, these assume a finalized image.
 
 %The methods for image retrieval are not as useful for image removal because they assume a finalized photograph, rather than looking at the potential to be enhanced- or, more simply, they focus on aesthetic quality over technical quality. Removal of technically flawed photographs, as opposed to aesthetically unpleasing ones, is more readily automated without consideration of personal preference. We consider color harmony a technical aspect because it can be indicative of probems with lighting and color balance.
 
@@ -82,59 +75,54 @@ Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} d
 \begin{figure*}
   \centering
     \epsfig{file=flowchart.eps,width=16cm}
-  \caption{Interest points are used to find the subject. Blur detection, color harmony, and exposure algorithms calculate an image's quality rating. The color distribution of the local subject and global image, coupled with the timestamp, cluster images into groups. A reordering of the input results, allowing the user to remove images at the end of this ordering.}
+  \caption{Interest points are used to find the foreground subject. Blur detection, color harmony, and exposure algorithms calculate an image's quality rating. The color distribution of the local foreground subject, and global image, coupled with the timestamp, cluster images into groups. A reordering of the input results, allowing the user to remove images at the end of this ordering.}
   \label{flowchart}
 \end{figure*}
 
-To find the Importance Order of the user's photographs, we first use interest points to find the subject, which will be used for both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and color harmony modules. Groups of similar images match the color content and timestamp of every pair of images. We combine them to get the final ordering (Fig. \ref{flowchart}).
+To find the Importance Order of the user's photographs, we use both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and color harmony modules. Similarity of images is determined by matching the color content and timestamp of every pair of images. Both modules make use of a foreground region detection module based on interest points. We combine these measures to get the final ordering (Fig. \ref{flowchart}).
 
-The blur, exposure, and color assessment modules will provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which is flawed in any of the three factors would be considered poor, we propose a formula which penalizes low scores more than it rewards high scores:
+The quality modules (blur, exposure, and color assessment) provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which is flawed in any of the three factors would be considered poor, we propose a formula which penalizes low scores more than it rewards high scores:
 \begin{eqnarray}
 \left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^\frac{3}{2}
 \end{eqnarray}
-Where:
-\begin{packed_enum}
-\item \textbf{\(n\)}: Number of modules
-\item \textbf{\(W_i\)}: Weight of module \(i\)
-\item \textbf{\(Q_i\)}: Rating produced by module \(i\)
-\item \textbf{\(t\)}: A leniency threshold to balance each module's output
-\end{packed_enum}
-And weights assigned as follows:
-\begin{packed_enum}
-\item \(W_{exposure}=30\%\)
-\item \(W_{blur}=60\%\)
-\item \(W_{color}=10\%\)
-\end{packed_enum}
 
-\subsection{Subject Recognition}\label{ContentRecognition}
-Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}) interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images and calculating blur levels. 
+\(W_i\) - weight of module \(i\), \(n\) - number of modules, \(Q_i\) is  module i rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows: \(W_{exposure}=30\%\)
+\(W_{blur}=60\%\)
+\(W_{color}=10\%\)
+
+% Hope I didnt completely kill it. I was removing itemization and just putting in the text I hope. - JED
+
+\subsection{Foreground detection}\label{ContentRecognition}
+Several modules make use of foreground detection. We use a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}). Interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary foreground subject.
 %Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 \subsection{Similar-Image Clustering}
-To find similar images we perform three steps of increasing complexity for high confidence.
+To find similar images we use three measures: time similarity, global color similarity, and foreground color similarity.
 %\begin{figure}
 %  \centering
 %    \epsfig[scale=0.07,clip]{similarimages.eps}
 %  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 %\end{figure}
-First, we use the timestamp to obtain a similarity index between all pairs of images. Based on a formula which groups photos by finding large timestamp gaps\cite{1292402}, we have derived a formula which finds temporal closeness between every pair of images. So, instead of finding gaps in sets, we find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale. This allows nonconsecutive images to be grouped together:
+
+
+First, we use the timestamp to obtain a time similarity index between all pairs of images. Prior work focused on finding large timestamp gaps\cite{1292402}. We want to allow nonconsecutive images to be grouped together, so we have derived a formula which finds temporal closeness between every pair of images. We find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale:
 \begin{eqnarray}
 S_{i,j}=\frac{G_{i,j}}{A_{i,j}}
 \end{eqnarray}
-Where \(A_{i,j}\) is the average gap within a window size of 8 images before \(i\) and after \(j\), and  \(G_{i,j}\) is the log of the time gap between the two images taken at time \(T_i\) and \(T_j\):
+Where \(A_{i,j}\) is the average gap of the 8 images directly before \(i\) and after \(j\), and  \(G_{i,j}\) is the log of the time gap between the two images taken at time \(T_i\) and \(T_j\):
 \begin{eqnarray}
 G_{i,j}=\log(|T_i-T_j|)
 \end{eqnarray}
 The calculated similarity index \(S_{i,j}\) is used to weight the results of the next two steps.
 
-The image is then divided into a 4x4 grid of average color values. To compare two images, we find the color difference of each square (average difference of the red, green, and blue channels) and deduct from the similarity score if the difference is greater than a threshold of 15\% of color spectrum. Because this is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and rerun the difference algorithm with stricter threshold of 10\%.
+Global color similarity is evaluated by dividing the image into a 4x4 grid of average color values. To compare two images, we find the color difference of each square (average difference of the red, green, and blue channels) and deduct from the similarity score if the difference is greater than a threshold of 15\%. Because global color similarity is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and perform the same algorithm on the foreground region, using a threshold of 10\%.
 
 Clusters are formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's color does not match the last image's. % Add panorama image?
 
 \subsection{Blur Detection}
-Using the foreground bounding box the blur detection algorithm first quantifies the spread of the subject's edges. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26} we obtain a value for the blur.
+Using the foreground bounding box, the blur detection algorithm first quantifies the spread of the subject's edges. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the blur.
 
-Next, we compute a predicted blurred model of the foreground using a gaussian function. Sharpness is determined by an image's similarity to the predicted blur model, with sharp images being the least similar. These two values are combined to determine the amount of blur, which is especially accurate when comparing the foregrounds of two similar images.
+Next, we compute a predicted blurred model of the foreground using a gaussian function. Sharpness is determined by an image's similarity to the predicted blur model, with sharp images being the least similar. These two values combine to determine the amount of blur, which is especially accurate when comparing the foregrounds of two similar images.
 
 \subsection{Exposure}
 \begin{figure}
@@ -149,8 +137,7 @@ Exposure is a measure of how appropriate the lighting is in a given image. While
 %\]
 %where \(p\) is the perceived intensity, and \(r\), \(g\), and \(b\) are the red, green, and blue components, respectively(XX THIS FORMULA NEEDS REFERENCE).
 
-%We have determined eight measures by examining a set of images with various exposure problems.
-The measures relevant to exposure quality are: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures is calculated on both the subject and the background of the image, relative to the area over which it is calculated.
+We have determined eight measures by examining a set of images with various exposure problems. The measures relevant to exposure quality are: clipping, highlights, lowlights, the upper 60th and 98th percentiles, the lower 60th and 98th percentiles, and variance. Each of these measures is calculated on both the subject and the background of the image, relative to the area over which it is calculated.
 
 Based on the idea that the mean value of image brightness is an approximate indication of how well-exposed an image is, images are first segmented based on their mean brightness value ("mean"). The categories for the mean correspond roughly to a parabolic mapping of exposure values (Fig. \ref{exposurefigure}), with well exposed photographs having a mean value between 130 and 140. The further towards the extreme high and low means, the worse quality the image is. These divisions are used as the starting point of analysis. %Within each category, different measures indicate either a positive or negative overall impact on image quality, which impact depends upon the various categories. For example, in an overall dark mean, having more extreme bright areas makes the image more balanced, while in a bright image they usually indicate that it has been overexposed.
 
@@ -162,11 +149,11 @@ Based on the idea that the mean value of image brightness is an approximate indi
 
 %The percentiles of the image are determined for both the bright and the dark sides of brightness. For example, to calculate the lower 60th percentile, the value is found at which the sum of the number of pixels that are darker than the given value is equal to sixty percent of the pixels in the image. The upper percentiles are found by the summation of the pixels that are brighter than the given value. These four measures give a good indication of the spread of the brightness, e.g., how sharp the transitions between the extreme and middle values are.
 
-The most extreme mean brightness values are images of very poor quality, and are rated as such based solely on the mean value. Means between 80 and 170 encompass nearly all images of acceptable to excellent exposure, and thus require more analysis. They first are divided into bins according to their mean value and then further subdivided by the saturation value.
+The most extreme mean brightness values are images of very poor quality, and are rated as such based solely on the mean value. Means between 80 and 170 encompass nearly all images of acceptable to excellent exposure, and thus require more analysis. They first are divided into bins according to their mean value, then again divided by the saturation value.
 
 We use the mean value, categories, subcategories, and the eight measures to determine if the exposure is balanced throughout the image. An image with a dark mean should have bright pixels and vice versa. An unbalanced image is rated poorly, even if it has an acceptable mean. Well-balanced images within the acceptable mean range are rated highly.
 
-\subsection{Color Harmony}   
+\subsection{Color Harmony}
 %\begin{figure}
 %  \centering
 %    \epsfig[scale=0.38,clip]{colorharmony.eps}
