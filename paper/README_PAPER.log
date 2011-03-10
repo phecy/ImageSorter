@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 16:37
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 16:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -252,12 +252,12 @@ pdftex.map}
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 97.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 99.
  (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 97.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 99.
  [2 <./flowchart-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <imageluminosity.eps>
 (epstopdf)                    date: 2011-02-27 18:15:19
@@ -267,7 +267,7 @@ Package epstopdf Info: Source file: <imageluminosity.eps>
 (epstopdf)                    size: 141414 bytes
 (epstopdf)             Command: <epstopdf --outfile=imageluminosity-eps-convert
 ed-to.pdf imageluminosity.eps>
-(epstopdf)             \includegraphics on input line 142.
+(epstopdf)             \includegraphics on input line 144.
 Package epstopdf Info: Output file is already uptodate.
 
 <imageluminosity-eps-converted-to.pdf, id=25, 429.605pt x 229.85875pt>
@@ -282,7 +282,7 @@ Package epstopdf Info: Source file: <example_blur.eps>
 (epstopdf)                    size: 114944 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_blur-eps-converted-
 to.pdf example_blur.eps>
-(epstopdf)             \includegraphics on input line 201.
+(epstopdf)             \includegraphics on input line 203.
 Package epstopdf Info: Output file is already uptodate.
 
 <example_blur-eps-converted-to.pdf, id=26, 601.24625pt x 398.48875pt>
@@ -297,7 +297,7 @@ Package epstopdf Info: Source file: <example_expose.eps>
 (epstopdf)                    size: 88600 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_expose-eps-converte
 d-to.pdf example_expose.eps>
-(epstopdf)             \includegraphics on input line 207.
+(epstopdf)             \includegraphics on input line 209.
 Package epstopdf Info: Output file is already uptodate.
 
 <example_expose-eps-converted-to.pdf, id=27, 601.24625pt x 399.4925pt>
@@ -312,7 +312,7 @@ Package epstopdf Info: Source file: <example_good.eps>
 (epstopdf)                    size: 171728 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_good-eps-converted-
 to.pdf example_good.eps>
-(epstopdf)             \includegraphics on input line 214.
+(epstopdf)             \includegraphics on input line 216.
 Package epstopdf Info: Output file is already uptodate.
 
 <example_good-eps-converted-to.pdf, id=28, 601.24625pt x 398.48875pt>
@@ -332,7 +332,7 @@ Here is how much of TeX's memory you used:
  5820 multiletter control sequences out of 15000+50000
  22134 words of font info for 46 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 41i,9n,45p,900b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,9n,45p,900b,329s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</u
 sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/te
 xmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive
@@ -344,7 +344,7 @@ hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-t
 exlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
 rw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb
 ></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on README_PAPER.pdf (4 pages, 665547 bytes).
+Output written on README_PAPER.pdf (4 pages, 665536 bytes).
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
