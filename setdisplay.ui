@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>347</width>
-    <height>353</height>
+    <width>463</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="widget_3" native="true">
@@ -27,8 +30,8 @@
    <widget class="QWidget" name="widget_4" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>90</y>
+      <x>340</x>
+      <y>10</y>
       <width>100</width>
       <height>75</height>
      </rect>
@@ -37,18 +40,18 @@
    <widget class="QWidget" name="widget_12" native="true">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>250</y>
+      <x>340</x>
+      <y>170</y>
       <width>100</width>
       <height>75</height>
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="widget_9" native="true">
+   <widget class="QWidget" name="widget_7" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>170</y>
+      <x>230</x>
+      <y>90</y>
       <width>100</width>
       <height>75</height>
      </rect>
@@ -73,7 +76,7 @@
    <widget class="QWidget" name="widget_5" native="true">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>10</x>
       <y>90</y>
       <width>100</width>
       <height>75</height>
@@ -90,37 +93,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="widget_10" native="true">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>250</y>
-      <width>100</width>
-      <height>75</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QWidget" name="widget_11" native="true">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>170</y>
-      <width>100</width>
-      <height>75</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="widget_6" native="true">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>90</y>
-      <width>100</width>
-      <height>75</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="widget_7" native="true">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -133,8 +106,38 @@
    <widget class="QWidget" name="widget_8" native="true">
     <property name="geometry">
      <rect>
+      <x>340</x>
+      <y>90</y>
+      <width>100</width>
+      <height>75</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_6" native="true">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>90</y>
+      <width>100</width>
+      <height>75</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_9" native="true">
+    <property name="geometry">
+     <rect>
       <x>10</x>
-      <y>250</y>
+      <y>170</y>
+      <width>100</width>
+      <height>75</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_10" native="true">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>170</y>
       <width>100</width>
       <height>75</height>
      </rect>

@@ -301,19 +301,23 @@ int main(int argc, char *argv[])
        }
     }
 
+    SetDisplay *setdisp_unsorted = new SetDisplay();
+    setdisp_unsorted->display(imageInfoArray);
+    setdisp_unsorted->setWindowTitle("Unsorted");
+
     // Sort
     // insertion_sort(picValue, imageStrArray, size);
     //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
     imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
-    display *disp = new display();
-    disp->setImageData(imageInfoArray, numSets, size);
-    disp->init();
+//    display *disp = new display();
+//    disp->setImageData(imageInfoArray, numSets, size);
+//    disp->init();
 
-    SetDisplay *setdisp = new SetDisplay();
-    setdisp->display(imageInfoArray);
-    disp->init();
+    SetDisplay *setdisp_sorted = new SetDisplay();
+    setdisp_sorted->display(imageInfoArray);
+    setdisp_sorted->setWindowTitle("Sorted");
 
     return app.exec();
 }
