@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2010.11.24)  9 MAR 2011 15:27
-=======
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.1.13)  9 MAR 2011 15:47
->>>>>>> 92a4374df44fe715f860a27b4e6b25b5a54ad22e
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.11.24)  9 MAR 2011 16:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -105,10 +101,11 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 (/etc/texmf/tex/latex/config/graphics.cfg
 File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: dvips.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/share/texmf-texlive/tex/latex/graphics/dvips.def
-File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2009/08/25 v0.04m Graphics/color for pdfTeX
+\Gread@gobject=\count99
 ))
 \Gin@req@height=\dimen112
 \Gin@req@width=\dimen113
@@ -130,17 +127,17 @@ Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used on input line 1068.
 )
-\c@KVtest=\count99
+\c@KVtest=\count100
 \sf@farskip=\skip46
 \sf@captopadj=\dimen122
 \sf@capskip=\skip47
 \sf@nearskip=\skip48
-\c@subfigure=\count100
-\c@subfigure@save=\count101
-\c@lofdepth=\count102
-\c@subtable=\count103
-\c@subtable@save=\count104
-\c@lotdepth=\count105
+\c@subfigure=\count101
+\c@subfigure@save=\count102
+\c@lofdepth=\count103
+\c@subtable=\count104
+\c@subtable@save=\count105
+\c@lotdepth=\count106
 \sf@top=\skip49
 \sf@bottom=\skip50
 )
@@ -186,10 +183,15 @@ Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 )
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 433.
 
-Package epstopdf Warning: Other drivers than `pdftex.def' are not supported.
-
-)) (./README_PAPER.aux)
+(/usr/share/texmf-texlive/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2009/10/26 v1.1 Configuration of epstopdf for TeX Live
+)))
+(./README_PAPER.aux)
 \openout1 = `README_PAPER.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
@@ -208,6 +210,19 @@ LaTeX Font Info:    Try loading font information for OT1+ptm on input line 7.
  (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count107
+\scratchdimen=\dimen123
+\scratchbox=\box28
+\nofMPsegments=\count108
+\nofMParguments=\count109
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count110
+\MPscratchDim=\dimen124
+\MPnumerator=\count111
+\everyMPtoPDFconversion=\toks21
+)
 Package caption Info: Begin \AtBeginDocument code.
 Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
 LaTeX Info: Redefining \subref on input line 7.
@@ -218,9 +233,24 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 19.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/it' tried instead on input line 23.
-File: flowchart.eps Graphic file (type eps)
+Package epstopdf Info: Source file: <flowchart.eps>
+(epstopdf)                    date: 2011-03-09 15:59:32
+(epstopdf)                    size: 16877 bytes
+(epstopdf)             Output file: <flowchart-eps-converted-to.pdf>
+(epstopdf)             Command: <epstopdf --outfile=flowchart-eps-converted-to.
+pdf flowchart.eps>
+(epstopdf)             \includegraphics on input line 77.
+runsystem(epstopdf --outfile=flowchart-eps-converted-to.pdf flowchart.eps)...ex
+ecuted (allowed).
 
-<flowchart.eps> [1
+Package epstopdf Info: Result file: <flowchart-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 16:08:38
+(epstopdf)                    size: 9680 bytes.
+ <flowchart-eps-converted-to.pdf, id=1, 433.62pt x 162.6075pt>
+File: flowchart-eps-converted-to.pdf Graphic file (type pdf)
+
+<use flowchart-eps-converted-to.pdf> [1{/var/lib/texmf/fonts/map/pdftex/updmap/
+pdftex.map}
 
 
 
@@ -230,115 +260,91 @@ LaTeX Font Info:    Try loading font information for OMS+ptm on input line 91.
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-<<<<<<< HEAD
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 91.
-=======
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 90.
-
-Underfull \vbox (badness 2277) has occurred while \output is active []
-
  [2 <./flowchart-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <imageluminosity.eps>
-(epstopdf)                    date: 2011-02-27 18:15:19
+(epstopdf)                    date: 2011-02-28 07:25:25
 (epstopdf)                    size: 569210 bytes
 (epstopdf)             Output file: <imageluminosity-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-03-09 10:40:55
-(epstopdf)                    size: 141414 bytes
 (epstopdf)             Command: <epstopdf --outfile=imageluminosity-eps-convert
 ed-to.pdf imageluminosity.eps>
-(epstopdf)             \includegraphics on input line 128.
-Package epstopdf Info: Output file is already uptodate.
->>>>>>> 92a4374df44fe715f860a27b4e6b25b5a54ad22e
+(epstopdf)             \includegraphics on input line 129.
+runsystem(epstopdf --outfile=imageluminosity-eps-converted-to.pdf imageluminosi
+ty.eps)...executed (allowed).
 
-Underfull \vbox (badness 3713) has occurred while \output is active []
+Package epstopdf Info: Result file: <imageluminosity-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 16:08:39
+(epstopdf)                    size: 141414 bytes.
 
-<<<<<<< HEAD
- [2]
-File: imageluminosity.eps Graphic file (type eps)
+<imageluminosity-eps-converted-to.pdf, id=25, 429.605pt x 229.85875pt>
+File: imageluminosity-eps-converted-to.pdf Graphic file (type pdf)
 
-<imageluminosity.eps>
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-File: example_blur.eps Graphic file (type eps)
- <example_blur.eps>
-File: example_expose.eps Graphic file (type eps)
- <example_expose.eps>
-File: example_good.eps Graphic file (type eps)
-=======
 <use imageluminosity-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <example_blur.eps>
-(epstopdf)                    date: 2011-03-07 19:38:57
+(epstopdf)                    date: 2011-03-08 20:57:41
 (epstopdf)                    size: 1569269 bytes
 (epstopdf)             Output file: <example_blur-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-03-09 10:40:58
-(epstopdf)                    size: 114944 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_blur-eps-converted-
 to.pdf example_blur.eps>
-(epstopdf)             \includegraphics on input line 187.
-Package epstopdf Info: Output file is already uptodate.
+(epstopdf)             \includegraphics on input line 188.
+runsystem(epstopdf --outfile=example_blur-eps-converted-to.pdf example_blur.eps
+)...executed (allowed).
+
+Package epstopdf Info: Result file: <example_blur-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 16:08:41
+(epstopdf)                    size: 114944 bytes.
 
 <example_blur-eps-converted-to.pdf, id=26, 601.24625pt x 398.48875pt>
 File: example_blur-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_blur-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <example_expose.eps>
-(epstopdf)                    date: 2011-03-08 22:02:06
+(epstopdf)                    date: 2011-03-09 12:20:15
 (epstopdf)                    size: 645796 bytes
 (epstopdf)             Output file: <example_expose-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-03-09 10:40:59
-(epstopdf)                    size: 88600 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_expose-eps-converte
 d-to.pdf example_expose.eps>
-(epstopdf)             \includegraphics on input line 193.
-Package epstopdf Info: Output file is already uptodate.
+(epstopdf)             \includegraphics on input line 194.
+runsystem(epstopdf --outfile=example_expose-eps-converted-to.pdf example_expose
+.eps)...executed (allowed).
+
+Package epstopdf Info: Result file: <example_expose-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 16:08:42
+(epstopdf)                    size: 88600 bytes.
 
 <example_expose-eps-converted-to.pdf, id=27, 601.24625pt x 399.4925pt>
 File: example_expose-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_expose-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <example_good.eps>
-(epstopdf)                    date: 2011-03-07 19:39:44
+(epstopdf)                    date: 2011-03-08 20:57:41
 (epstopdf)                    size: 1611241 bytes
 (epstopdf)             Output file: <example_good-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-03-09 10:41:01
-(epstopdf)                    size: 171728 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_good-eps-converted-
 to.pdf example_good.eps>
-(epstopdf)             \includegraphics on input line 200.
-Package epstopdf Info: Output file is already uptodate.
+(epstopdf)             \includegraphics on input line 201.
+runsystem(epstopdf --outfile=example_good-eps-converted-to.pdf example_good.eps
+)...executed (allowed).
+
+Package epstopdf Info: Result file: <example_good-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 16:08:43
+(epstopdf)                    size: 171728 bytes.
 
 <example_good-eps-converted-to.pdf, id=28, 601.24625pt x 398.48875pt>
 File: example_good-eps-converted-to.pdf Graphic file (type pdf)
->>>>>>> 92a4374df44fe715f860a27b4e6b25b5a54ad22e
 
-<example_good.eps> [3] (./README_PAPER.bbl
+<use example_good-eps-converted-to.pdf> [3 <./imageluminosity-eps-converted-to.
+pdf>] (./README_PAPER.bbl
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
-) [4] (./README_PAPER.aux) ) 
+) [4 <./example_blur-eps-converted-to.pdf> <./example_expose-eps-converted-to.p
+df> <./example_good-eps-converted-to.pdf>]
+(./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
-<<<<<<< HEAD
- 2220 strings out of 495062
- 32007 string characters out of 1182643
- 94922 words of memory out of 3000000
- 5372 multiletter control sequences out of 15000+50000
- 12211 words of font info for 37 fonts, out of 3000000 for 9000
- 28 hyphenation exceptions out of 8191
- 41i,9n,45p,809b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
-=======
- 2685 strings out of 495061
- 38896 string characters out of 1182621
- 102186 words of memory out of 3000000
- 5818 multiletter control sequences out of 15000+50000
+ 2682 strings out of 495061
+ 38843 string characters out of 1182620
+ 101917 words of memory out of 3000000
+ 5815 multiletter control sequences out of 15000+50000
  22134 words of font info for 46 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  41i,9n,45p,900b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -353,11 +359,9 @@ hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-t
 exlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
 rw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb
 ></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on README_PAPER.pdf (4 pages, 665696 bytes).
+Output written on README_PAPER.pdf (4 pages, 665608 bytes).
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
->>>>>>> 92a4374df44fe715f860a27b4e6b25b5a54ad22e
 
-Output written on README_PAPER.dvi (4 pages, 24452 bytes).
