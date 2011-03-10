@@ -48,6 +48,7 @@ using namespace std;
 #include "qualityexif.h"
 #include "vimage.h"
 #include "algorithmPresets.h"
+#include "setdisplay.h"
 
 #define NUM_MODULES 3
 #define RANGE 10
@@ -308,6 +309,10 @@ int main(int argc, char *argv[])
     // GUI
     display *disp = new display();
     disp->setImageData(imageInfoArray, numSets, size);
+    disp->init();
+
+    SetDisplay *setdisp = new SetDisplay();
+    setdisp->display(imageInfoArray);
     disp->init();
 
     return app.exec();
