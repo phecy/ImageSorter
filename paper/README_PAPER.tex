@@ -3,6 +3,13 @@
 \usepackage[caption=false]{subfig}
 \usepackage{epstopdf}
 
+\newenvironment{packed_enum}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+
 \pagestyle{empty}
 \begin{document}\sloppy
 \topmargin=0mm			
@@ -85,13 +92,19 @@ The blur, exposure, and color assessment modules will provide a ranking between 
 \begin{eqnarray}
 \left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^\frac{3}{2}
 \end{eqnarray}
-
-\(W_i\) - weight of module \(i\), \(n\) - number of modules, \(Q_i\) is  module i rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows:
-\begin{itemize}
+Where:
+\begin{packed_enum}
+\item \textbf{\(n\)}: Number of modules
+\item \textbf{\(W_i\)}: Weight of module \(i\)
+\item \textbf{\(Q_i\)}: Rating produced by module \(i\)
+\item \textbf{\(t\)}: A leniency threshold to balance each module's output
+\end{packed_enum}
+And weights assigned as follows:
+\begin{packed_enum}
 \item \(W_{exposure}=30\%\)
 \item \(W_{blur}=60\%\)
 \item \(W_{color}=10\%\)
-\end{itemize}
+\end{packed_enum}
 
 \subsection{Subject Recognition}\label{ContentRecognition}
 Using a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}) interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary subject. It is used in detecting similar images and calculating blur levels. 
