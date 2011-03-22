@@ -11,27 +11,15 @@
 
 using namespace std;
 
-class RGB_set;
+// Difference between one block and every other block in image
+typedef vector<int> segOneBlockDiffs;
 
-// A NUMBLOCKS-by-NUMBLOCKS vector of the avg grayvals
-// unsigned long to hold total, then average it
-typedef vector<vector<RGB_set>* > segVector;
-typedef map<QImage*, segVector*> segMap; // Maps im* to segmented
-typedef pair<QImage*, segVector*> segPair; // A pair for segMap
+// Differences between every pair of blocks
+typedef vector<segOneBlockDiffs> segAllBlockDiffs;
 
-class RGB_set {
-public:
-    RGB_set();
-    void add_color(int, int, int);
-    QRgb get_avg();
-    void operator+=(QRgb);
-private:
-    // Floats to allow for precision in avg'ing
-    float r;
-    float g;
-    float b;
-    unsigned int numCounted;
-};
+// A NUMBLOCKS-by-NUMBLOCKS vector of the differences
+// between all pairs of blocks
+typedef map<QImage*, segAllBlockDiffs > segMap; // Maps im* to segmented
 
 class DuplicateSegmented
 {
@@ -39,7 +27,7 @@ public:
     DuplicateSegmented(DuplicateRater*);
     ~DuplicateSegmented();
 
-    // Segments an image and stores the hash'd values
+    // Segments an image and stores the hash'd values of color distribution
     void addImage(VImage*);
 
     // Adds a single ranking to the DuplicateRater
@@ -47,9 +35,6 @@ public:
     void rankOneForeground(VImage*, VImage*);
 
 private:
-    // Helper function for addImage
-    segPair* getSegpair(QImage* image, int numBlocks);
-
     // A list of QImages and their respective segmented grayval blocks
     segMap* allPics;
     segMap* allForegrounds;
@@ -57,8 +42,13 @@ private:
     // Returns a number 0-9 of how similar two images are
     int getSimilarity(QImage*, QImage*, bool isForeground);
 
+    // Compares each block of image to every other block,
+    // returns differences between each block and every other
+    // to show histogram-distribution
+    segAllBlockDiffs getDifferences(QImage* image, int blocksAcross);
+
     // Holds each modules ranking
     DuplicateRater* rater;
-} ;
+};
 
 #endif // DUPLICATESEGMENTED_H

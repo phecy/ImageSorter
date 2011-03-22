@@ -24,12 +24,12 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 6.5
+#define SIMILARITY_RANK_THRESHHOLD 6
 
 // The minimum rating required to ensure that if one image ranks another
 // highly, that rating can't be weakened through averaging
 // (or, to claim two images are the "exact" same.)
-#define MIN_EXACT_RATE 8
+#define MIN_EXACT_RATE 9
 
 using namespace std;
 

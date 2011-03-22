@@ -2,41 +2,19 @@
 #include <stdio.h>
 #include <QImage>
 #include <QRgb>
+#include <assert.h>
 #include "math.h"
-#include "assert.h"
 #include "duplicatesegmented.h"
 #include "duplicaterater.h"
 #include "vimage.h"
 
 #define BLOCKSACROSS_ALL 4 // How to place grid
-#define BLOCKSACROSS_FG 4
-#define DISTANCE_ALL 40 // Between color pixels
-#define DISTANCE_FG 30
+#define BLOCKSACROSS_FG 3
+#define DISTANCE_ALL 20 // Between color pixels
+#define DISTANCE_FG 10
 #define MAX_RATING 10
 
 using namespace std;
-RGB_set::RGB_set() {
-    numCounted = 0;
-    r=0;
-    g=0;
-    b=0;
-}
-
-void RGB_set::add_color(int R, int G, int B) {
-    double ratio = (double)numCounted / (++numCounted);
-    double numCounted_double = numCounted;
-    r = r*ratio + R/numCounted_double;
-    g = g*ratio + G/numCounted_double;
-    b = b*ratio + B/numCounted_double;
-}
-
-void RGB_set::operator+=(QRgb color) {
-    add_color(qRed(color), qBlue(color), qGreen(color));
-}
-
-QRgb RGB_set::get_avg() {
-    return qRgb(r, g, b);
-}
 
 DuplicateSegmented::DuplicateSegmented(DuplicateRater* rater) {
     allPics = new segMap();
@@ -53,41 +31,46 @@ void DuplicateSegmented::addImage(VImage* vim) {
     QImage* image = vim->getQImage();
     QImage* foreground = vim->getForeground();
 
-    segPair* imgpair = getSegpair(image, BLOCKSACROSS_ALL);
-    segPair* fgpair = getSegpair(foreground, BLOCKSACROSS_FG);
+    segAllBlockDiffs imgdiffs = getDifferences(image, BLOCKSACROSS_ALL);
+    segAllBlockDiffs fgdiffs = getDifferences(foreground, BLOCKSACROSS_FG);
 
-    allPics->insert(allPics->end(), *imgpair);
-    allForegrounds->insert(allForegrounds->end(), *fgpair);
+    allPics->insert(allPics->end(),
+       pair<QImage*, segAllBlockDiffs>(image, imgdiffs));
+    allForegrounds->insert(allForegrounds->end(),
+       pair<QImage*, segAllBlockDiffs>(foreground, fgdiffs));
 }
 
-segPair* DuplicateSegmented::getSegpair(QImage* image, int blocksAcross) {
-    int width = image->width();
-    int height = image->height();
-
-    int blockHeight = height / blocksAcross;
-    int blockWidth  =  width / blocksAcross;
-
-    // Initialize a numBlocksxnumBlocks array to 0
-
-    segVector* imagehash = new segVector(blocksAcross);
+segAllBlockDiffs DuplicateSegmented::getDifferences(QImage* image, int blocksAcross) {
+    // Resize to blocksAcross x blocksAcross
+    QImage resizedIm = image->scaled(blocksAcross, blocksAcross);
+    vector<QRgb> resized;
     for(int i=0; i<blocksAcross; ++i) {
-        imagehash->at(i) = new vector<RGB_set>(blocksAcross, RGB_set());
-    }
-
-    // Get total sum of grayvals in each block
-    for(int w=0; w < width; w++) {
-        int colNum = min(w / blockWidth, int(blocksAcross-1));
-
-        // Add everything
-        for(int h=0; h < height; h++) {
-            int rowNum = min(h / blockHeight, int(blocksAcross-1));
-            QRgb pix = image->pixel(w,h);
-            (*(*imagehash)[rowNum])[colNum] += pix;
+        for(int j=0; j<blocksAcross; ++j) {
+            resized.push_back(resizedIm.pixel(i,j));
         }
     }
 
-    // Add to allPics list
-    return new segPair(image, imagehash);
+    // Compare all pairs
+    //QRgb allColorAvg =
+    segAllBlockDiffs allBlocks;
+    //qDebug("Looking at image %p", image);
+    for(int main_i=0; main_i < blocksAcross*blocksAcross; ++main_i) {
+        segOneBlockDiffs currBlock;
+
+        QRgb mainColor = resized.at(main_i);
+        // Compare single block to every other block
+        for(int cmp_i=0; cmp_i<blocksAcross*blocksAcross; ++cmp_i) {
+            QRgb compareColor = resized.at(cmp_i);
+            int diff = qGray(mainColor) - qGray(compareColor);
+            //int compardToTotal = qGray(compareColor) / qGray(allColorAvg);
+            currBlock.push_back(diff);
+            //qDebug("Block %d vs %d has %d diff", main_i, cmp_i, diff);
+        }
+        assert(currBlock.size() == blocksAcross*blocksAcross);
+        allBlocks.push_back(currBlock);
+    }
+
+    return allBlocks;
 }
 
 void DuplicateSegmented::rankOne(VImage *first, VImage *second) {
@@ -116,27 +99,30 @@ int DuplicateSegmented::getSimilarity(QImage* first, QImage* second,
         blocksAcross = BLOCKSACROSS_ALL;
         allowedDist = DISTANCE_ALL;
     }
-    segVector* vFirst = map->find(first)->second;
-    segVector* vSecond = map->find(second)->second;
+    segAllBlockDiffs vFirst = map->find(first)->second;
+    segAllBlockDiffs vSecond = map->find(second)->second;
 
     double rating = 10.0;
 
     // Test every section. Return false if more than one is too far off.
-    for(int r=0; r<blocksAcross; ++r) {
-        for(int c=0; c<blocksAcross; ++c) {
+    int numBlocks = blocksAcross*blocksAcross;
+    //qDebug("Looking at images %p and %p", first, second);
+    for(int main_i=0; main_i<numBlocks; ++main_i) {
+        for(int cmp_i=0; cmp_i<numBlocks; ++cmp_i) {
             // Check if blocks are out of allowable distance
-            QRgb firstPix = vFirst->at(r)->at(c).get_avg();
-            QRgb secondPix = vSecond->at(r)->at(c).get_avg();
+            int firstImDiff = vFirst.at(main_i).at(cmp_i);
+            int secondImDiff= vSecond.at(main_i).at(cmp_i);
 
-            int rDist = abs(qRed(firstPix) - qRed(secondPix));
-            int gDist = abs(qGreen(firstPix) - qGreen(secondPix));
-            int bDist = abs(qBlue(firstPix) - qBlue(secondPix));
+            int distanceDifference = abs(firstImDiff - secondImDiff);
+
+//            qDebug("Distance difference between block %d and %d: %d-%d=%d",
+//                   main_i, cmp_i, firstImDiff, secondImDiff, distanceDifference);
 
             // Penalize average difference divided by allowed distance
             // Then, penalize less as the rating gets lower
             rating -=
-               (rating*(double)((rDist+bDist+gDist)/3) / allowedDist) /
-               (.5*blocksAcross*MAX_RATING);
+               ((double)(distanceDifference) / allowedDist) /
+               (blocksAcross*MAX_RATING*3);
         }
     }
 
