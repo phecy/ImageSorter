@@ -47,7 +47,7 @@ int BlurDetect::calculateBlur(VImage* vim) {
     assert(highpassRadius > edgeRadius);
 
     // Test # IPs
-    if(vim->getIps().size() < MIN_NUM_IPS)
+    if(vim->getIps().size() <= MIN_NUM_IPS)
         return 0;
 
     // Open image
