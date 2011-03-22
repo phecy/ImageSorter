@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
     numSets=dupList.size();
 
     // Debug output
-    //dupFinder.printRanks();
+    dupFinder.printRanks();
 
     for (int set_index = 0; set_index < numSets; ++set_index)
     {
@@ -301,23 +301,23 @@ int main(int argc, char *argv[])
        }
     }
 
-    SetDisplay *setdisp_unsorted = new SetDisplay();
-    setdisp_unsorted->display(imageInfoArray);
-    setdisp_unsorted->setWindowTitle("Unsorted");
+//    SetDisplay *setdisp_unsorted = new SetDisplay();
+//    setdisp_unsorted->display(imageInfoArray);
+//    setdisp_unsorted->setWindowTitle("Unsorted");
 
     // Sort
     // insertion_sort(picValue, imageStrArray, size);
     //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
-    imageInfoArray = set_sort(imageInfoArray);
+    //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
-//    display *disp = new display();
-//    disp->setImageData(imageInfoArray, numSets, size);
-//    disp->init();
+    display *disp = new display();
+    disp->setImageData(imageInfoArray, numSets, size);
+    disp->init();
 
-    SetDisplay *setdisp_sorted = new SetDisplay();
-    setdisp_sorted->display(imageInfoArray);
-    setdisp_sorted->setWindowTitle("Sorted");
+//    SetDisplay *setdisp_sorted = new SetDisplay();
+//    setdisp_sorted->display(imageInfoArray);
+//    setdisp_sorted->setWindowTitle("Sorted");
 
     return app.exec();
 }
