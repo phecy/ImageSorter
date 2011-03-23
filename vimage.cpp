@@ -9,8 +9,8 @@ using namespace vw;
 VImage::VImage(char* filename) {
     vimage = new VImage_t();
     read_image(*vimage, filename);
-    width = vimage->cols();
-    height = vimage->rows();
+    origwidth = vimage->cols();
+    origheight = vimage->rows();
     this->filename = filename;
     rankTotal = -1;
     adjustedRank = 0;
@@ -21,6 +21,8 @@ VImage::VImage(const VImage& that) {
     vimage = that.vimage;
     width = that.width;
     height = that.height;
+    origwidth = that.origwidth;
+    origheight = that.origheight;
     qimage = that.qimage;
     filename = that.filename;
 }
@@ -38,10 +40,15 @@ void VImage::makeQImage() {
     if(vimage == NULL) return;
 
     // *4: one per ARGB channel (yes, A is necessary)
-    uchar* data = (uchar*)malloc(sizeof(uchar) * width * height * 4);
+    uchar* data = (uchar*)malloc(sizeof(uchar) * origwidth * origheight * 4);
 
     qimage = new QImage(data,
-              width, height, QImage::Format_RGB32);
+              origwidth, origheight, QImage::Format_RGB32);
+    QImage* tmp = qimage;
+    qimage = new QImage(qimage->scaledToWidth(800));
+    delete tmp;
+    height = qimage->height();
+    width = qimage->width();
 
     for(int h=0; h<height; ++h) {
         for(int w=0; w<width; ++w) {

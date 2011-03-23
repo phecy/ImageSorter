@@ -47,6 +47,12 @@ void display::newPic(int picNum)
     QImage* i = vim->getQImage();
     point start = vim->getForegroundCoords().first;
     point fin = vim->getForegroundCoords().second;
+    float widthScale = (float)vim->getWidth() / vim->getOrigWidth();
+    float heightScale = (float)vim->getHeight() / vim->getOrigHeight();
+    start.first *= widthScale;
+    fin.first *= widthScale;
+    start.second *= heightScale;
+    fin.second *= heightScale;
 
     for(int w=start.first; w<fin.first; w++) {
         i->setPixel(w, start.second, qRgb(0,255,0));
@@ -58,7 +64,6 @@ void display::newPic(int picNum)
     }
 
     currPix = QPixmap::fromImage(*i);
-    currPix.scaledToWidth(600);
 
     label->setPixmap(currPix);
     show();

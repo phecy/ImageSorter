@@ -41,6 +41,10 @@ public:
     char* getFilename() { return filename; }
     int getIndex() { return index; }
     void setIndex(int i) { index=i; }
+    int getWidth() { return width; }
+    int getHeight() { return height; }
+    int getOrigWidth() { return origwidth; }
+    int getOrigHeight() { return origheight; }
 
     // Ranks
     void setRank(float r) { rankTotal=r; adjustedRank=r; }
@@ -66,13 +70,13 @@ private:
 
     // Data
     VImage_t* vimage;
-    QImage* qimage;
+    QImage* qimage; // Scaled to 800px wide
 
     // Information
     char* filename;
     int index;
-    int width;
-    int height;
+    int width, height; // Width scaled to 800px
+    int origwidth, origheight; // VImage_t width+height
 
     // Ranks
     float rankTotal;
