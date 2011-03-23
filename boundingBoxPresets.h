@@ -1205,7 +1205,16 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
           fgBox = boundingBox(point(92,219),point(441,330));
     else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/bad_test/32461.jpg") == 0)
           fgBox = boundingBox(point(46,6),point(132,658));
-
+    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/zoo_imagesorter/DSC_0081.jpg") == 0)
+          fgBox = boundingBox(point(88,85),point(361,400));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/zoo_imagesorter/DSC_0081copy.jpg") == 0)
+          fgBox = boundingBox(point(88,85),point(361,400));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/zoo_imagesorter/DSC_0084.jpg") == 0)
+          fgBox = boundingBox(point(8,192),point(444,399));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/zoo_imagesorter/DSC_0085.jpg") == 0)
+          fgBox = boundingBox(point(8,5),point(327,274));
+    else if(strcmp(vim->getFilename(), "/home/artoonie/I/results/data/zoo_imagesorter/DSC_0086.jpg") == 0)
+          fgBox = boundingBox(point(8,85),point(301,380));
     return fgBox;
 }
 
