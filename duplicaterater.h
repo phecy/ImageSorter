@@ -34,13 +34,13 @@ public:
     int getIndex(VImage*);
 
     // Retrieves similarity ranking between two images
-    int getRanking(VImage*, VImage*);
+    float getRanking(VImage*, VImage*);
 
     // For debugging purposes
     void printRanks();
 private:
     // Given each modules rank, determine similarity
-    int calcRank(vector1d moduleRanks);
+    float calcRank(vector1d moduleRanks);
 
     // Index [n][m] has a vector of size NUM_MODULES
     // each index in that vector tells the rating from

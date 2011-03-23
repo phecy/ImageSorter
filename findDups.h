@@ -49,7 +49,7 @@ public:
 
     // A simpler version of above
     void createSimilarityVector();
-    vector<vector<double> >* getSimilarityVector();
+    vector<vector<float> >* getSimilarityVector();
 
 
     // Debugging output
@@ -91,9 +91,9 @@ private:
     bool contains(imgList row, VImage* lookfor);
 
     // Updated rank of this index after firstRow & secondRow merge
-    int getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
-                       const pair<vector<float>, imgList> &secondRow,
-                       int index);
+    float getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
+                         const pair<vector<float>, imgList> &secondRow,
+                         int index);
 
     // Combine second row into first. Remove second row.
     // Return resulting duplicate group list
@@ -106,7 +106,7 @@ private:
     map<VImage*, int>* setFinder;
 
     // Similarities of each
-    vector<vector<double> >* similarityRanks;
+    vector<vector<float> >* similarityRanks;
 
 
     /*

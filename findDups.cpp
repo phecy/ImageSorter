@@ -162,7 +162,7 @@ rankVector* Duplicates::getRankVector() {
             // Comparing second to first
             VImage *second = allImages->at(j);
 
-            int rank = rater->getRanking(first, second);
+            float rank = rater->getRanking(first, second);
             row.first.push_back(rank);
         }
         ranks->push_back(row);
@@ -173,18 +173,18 @@ rankVector* Duplicates::getRankVector() {
 
 void Duplicates::createSimilarityVector() {
     int size = allImages->size();
-    vector<vector<double> >* ranks = new vector<vector<double> >();
+    vector<vector<float> >* ranks = new vector<vector<float> >();
     for(int i=0; i<size; ++i) {
         // Working on the row of *first
         VImage *first = allImages->at(i);
-        vector<double> row;
+        vector<float> row;
 
         // Add firsts rank of all other images
         for(int j=0; j<size; ++j) {
             // Comparing second to first
             VImage *second = allImages->at(j);
 
-            int rank = rater->getRanking(first, second);
+            float rank = rater->getRanking(first, second);
             row.push_back(rank);
         }
         ranks->push_back(row);
@@ -193,18 +193,18 @@ void Duplicates::createSimilarityVector() {
     similarityRanks = ranks;
 }
 
-vector<vector<double> >* Duplicates::getSimilarityVector() {
+vector<vector<float> >* Duplicates::getSimilarityVector() {
     return similarityRanks;
 }
 
-int Duplicates::getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
-                               const pair<vector<float>, imgList> &secondRow,
-                               int index) {
+float Duplicates::getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
+                                 const pair<vector<float>, imgList> &secondRow,
+                                 int index) {
     int firstNumVoters = firstRow.second.size();
     int secondNumVoters = secondRow.second.size();
 
-    int firstRank = firstRow.first.at(index);
-    int secondRank = secondNumVoters * secondRow.first.at(index);
+    float firstRank = firstRow.first.at(index);
+    float secondRank = secondNumVoters * secondRow.first.at(index);
 
     // See if auto-include:
     if(firstRank >= MIN_EXACT_RATE)
@@ -254,6 +254,7 @@ void Duplicates::combineSets(int first, int second, rankVector* ranks) {
 }
 
 // Returns (-1,-1) if the max ranking is below the threshold
+// Otherwise, returns indeces
 pair<int,int> Duplicates::getMaxPair(rankVector* ranks) {
     pair<int,int> maxPair;
     float max_rank = 0;

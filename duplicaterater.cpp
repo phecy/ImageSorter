@@ -48,7 +48,7 @@ int DuplicateRater::getIndex(VImage *im) {
     else return elem->second;
 }
 
-int DuplicateRater::getRanking(VImage *first, VImage *second) {
+float DuplicateRater::getRanking(VImage *first, VImage *second) {
     int firstIndex = getIndex(first);
     int secondIndex = getIndex(second);
 
@@ -56,7 +56,7 @@ int DuplicateRater::getRanking(VImage *first, VImage *second) {
     return calcRank((*ratings)[firstIndex][secondIndex]);
 }
 
-int DuplicateRater::calcRank(vector1d moduleRanks) {
+float DuplicateRater::calcRank(vector1d moduleRanks) {
     float rankCalc;
 
     int timeRating = moduleRanks[DUPLICATE_TIME];
@@ -76,7 +76,7 @@ int DuplicateRater::calcRank(vector1d moduleRanks) {
         return fgRating;
 
     // No auto-pass or auto-fail. Calculate.
-    double scaleBy = timeRating/MAX_RANK;
+    float scaleBy = timeRating/MAX_RANK;
     rankCalc = min(scaleBy*segRating*TIME_WEIGHT + (2*segRating+fgRating)/3, 10.0);
 
     return rankCalc;
