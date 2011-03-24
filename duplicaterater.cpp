@@ -7,8 +7,8 @@
 // Maxs: Above this value on any module, succeed
 #define MIN_SEGMENTED_THRESHHOLD 2
 #define MAX_SEGMENTED_THRESHHOLD 9
-#define MIN_FOREGROUND_THRESHHOLD 2
-#define MAX_FOREGROUND_THRESHHOLD 9
+#define MIN_FOREGROUND_THRESHHOLD -1 // Possibly failed fg find
+#define MAX_FOREGROUND_THRESHHOLD 8
 #define MIN_TIME_THRESHHOLD 2
 #define MAX_TIME_THRESHHOLD 10
 #define TIME_WEIGHT .3
@@ -77,7 +77,7 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
 
     // No auto-pass or auto-fail. Calculate.
     float scaleBy = timeRating/MAX_RANK;
-    rankCalc = min(scaleBy*segRating*TIME_WEIGHT + (2*segRating+fgRating)/3, 10.0);
+    rankCalc = min(scaleBy*segRating*TIME_WEIGHT + (4*segRating+fgRating)/5, 10.0);
 
     return rankCalc;
 }

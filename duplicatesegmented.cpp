@@ -9,9 +9,13 @@
 #include "vimage.h"
 
 #define BLOCKSACROSS_ALL 4 // How to place grid
-#define BLOCKSACROSS_FG 3
-#define DISTANCE_ALL 20 // Between color pixels
+#define BLOCKSACROSS_FG 2
+
+// About how much variation is acceptable?
+// More penalizes less
+#define DISTANCE_ALL 50
 #define DISTANCE_FG 10
+
 #define MAX_RATING 10
 
 using namespace std;
@@ -122,7 +126,7 @@ int DuplicateSegmented::getSimilarity(QImage* first, QImage* second,
             // Then, penalize less as the rating gets lower
             rating -=
                ((double)(distanceDifference) / allowedDist) /
-               (blocksAcross*MAX_RATING*3);
+               (blocksAcross*MAX_RATING);
         }
     }
 
