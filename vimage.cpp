@@ -44,18 +44,19 @@ void VImage::makeQImage() {
 
     qimage = new QImage(data,
               origwidth, origheight, QImage::Format_RGB32);
+
+    for(int h=0; h<origheight; ++h) {
+        for(int w=0; w<origwidth; ++w) {
+            PixelRGB<uint8> pix = (*vimage)(w,h);
+            qimage->setPixel(w,h,qRgb(pix.r(), pix.g(), pix.b()));
+        }
+    }
+
     QImage* tmp = qimage;
     qimage = new QImage(qimage->scaledToWidth(800));
     delete tmp;
     height = qimage->height();
     width = qimage->width();
-
-    for(int h=0; h<height; ++h) {
-        for(int w=0; w<width; ++w) {
-            PixelRGB<uint8> pix = (*vimage)(w,h);
-            qimage->setPixel(w,h,qRgb(pix.r(), pix.g(), pix.b()));
-        }
-    }
 
     /* DEBUG
     QLabel* imageLabel = new QLabel;
