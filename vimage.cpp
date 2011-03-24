@@ -75,3 +75,28 @@ void VImage::setForeground(boundingBox coords) {
             (this->qimage->copy(coords.first.first, coords.first.second,
                                coords.second.first, coords.second.second));
 }
+
+
+// For sharpdetect and duplicategaussian
+// Returns 0-9 based on similarity
+int VImage::avgPixelDiff(VImage_t one, VImage_t two) {
+    int width = one.cols();
+    int height = one.rows();
+    // Compare blurred vs normal
+    unsigned long long int total = 0;
+    for(int w=0; w<width; ++w) {
+        for(int h=0; h<height; ++h) {
+            // For now, just compare green channel2)
+            PixelRGB<unsigned char> pix1 = one(w,h);
+            PixelRGB<unsigned char> pix2 = two(w,h);
+            int val1 = (pix1.r() + pix1.g() + pix1.b())/3;
+            int val2 = (pix2.r() + pix2.g() + pix2.b())/3;
+            total += abs(val1 - val2);
+            // std::cout << "|" << abs(val1 - val2);
+        }
+    }
+    // Get avg diff per pixel
+    total /= width*height;
+
+    return total;
+}

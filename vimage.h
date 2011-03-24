@@ -64,6 +64,10 @@ public:
     QImage* getForeground() { return foreground; }
     void setForeground(boundingBox coords);
 
+    // For sharpdetect and duplicategaussian
+    // Returns avg pixel difference
+    static int avgPixelDiff(VImage_t one, VImage_t two);
+
 private:
     void setData(uchar* data);
     void makeQImage();

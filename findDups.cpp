@@ -21,6 +21,7 @@
 #include "duplicaterater.h"
 #include "duplicatesegmented.h"
 #include "duplicatetime.h"
+#include "duplicategaussian.h"
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
@@ -41,6 +42,7 @@ Duplicates::Duplicates(int numImages) {
     segmented = new DuplicateSegmented(rater);
     timed = new DuplicateTime(rater);
     interest = new DuplicateIp(rater, segmented);
+    gaussian = new DuplicateGaussian(rater);
 
     setFinder = new map<VImage*, int>();
     allImages = new imgList();
@@ -50,7 +52,9 @@ Duplicates::Duplicates(int numImages) {
 void Duplicates::addImage(VImage* vim, QualityExif* exif) {
     timed->addImage(vim, exif);
     interest->addImage(vim);
-    segmented->addImage(vim); // MUST BE AFTER INTEREST
+    segmented->addImage(vim); // NEEDS TO USE INTEREST POINTS,
+                              // keep after interest rater
+    gaussian->addImage(vim);
     allImages->insert(allImages->end(), vim);
 }
 
@@ -303,6 +307,7 @@ void Duplicates::runModules() {
             segmented->rankOne(*main_i, *after_i);
             timed->rankOne(*main_i, *after_i);
             interest->rankOne(*main_i, *after_i);
+            gaussian->rankOne(*main_i, *after_i);
         }
     }
 }

@@ -22,6 +22,7 @@ This file is part of ppm.
 #include "duplicatesegmented.h"
 #include "duplicatetime.h"
 #include "duplicateip.h"
+#include "duplicategaussian.h"
 #include "vimage.h"
 
 using namespace std;
@@ -51,9 +52,10 @@ public:
     void createSimilarityVector();
     vector<vector<float> >* getSimilarityVector();
 
-
     // Debugging output
     void printRanks();
+
+
 private:
     // Runs all of the modules, which should update rater.
     void runModules();
@@ -116,14 +118,11 @@ private:
     // Maintains state of duplicate detection
     DuplicateRater* rater;
 
-    // Segmentation-based module
+    // Duplicate detection modules
     DuplicateSegmented* segmented;
-
-    // Time-based module
     DuplicateTime* timed;
-
-    // Interestpoint-based module
     DuplicateIp* interest;
+    DuplicateGaussian* gaussian;
 
 
     /*

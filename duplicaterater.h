@@ -4,7 +4,7 @@
 #include <map>
 #include "vimage.h"
 
-#define NUM_MODULES 3 // add more as we go
+#define NUM_MODULES 4 // add more as we go
 
 using namespace std;
 
@@ -19,7 +19,8 @@ public:
     enum module_type {
            DUPLICATE_TIME = 0,
            DUPLICATE_SEGMENTED = 1,
-           DUPLICATE_FG = 2
+           DUPLICATE_FG = 2,
+           DUPLICATE_GAUSSIAN = 3
            //DUP_HISTOGRAM_DIST = 2
        };
 
