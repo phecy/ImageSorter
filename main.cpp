@@ -50,7 +50,6 @@ using namespace std;
 #include "algorithmPresets.h"
 #include "setdisplay.h"
 
-#define NUM_MODULES 3
 #define RANGE 10
 #define RANK_THRESHOLD 4
 
