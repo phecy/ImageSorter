@@ -81,7 +81,7 @@ dupGroup Duplicates::findDuplicates() {
 
     // Gather all imglists
     //qDebug("Gathering groups from live rows");
-    for(int i=0; i<allImages->size(); ++i) {
+    for(unsigned int i=0; i<allImages->size(); ++i) {
         pair<vector<float>, imgList> thisPair = ranks->at(i);
         if(thisPair.second.size() > 0) { // Ignore "dead rows"
             allGroups->push_back(thisPair.second);
@@ -97,13 +97,13 @@ dupGroup Duplicates::findDuplicates() {
 void Duplicates::debugPrintRanks(rankVector* ranks) {
     cerr << setiosflags(ios::left);
     cerr << "     ";
-    for(int i=0;i<ranks->size();++i) {
+    for(unsigned int i=0;i<ranks->size();++i) {
         cerr << setw(4) << (i+1);
     }
     cerr << endl;
-    for(int i=0;i<ranks->size();++i) {
+    for(unsigned int i=0;i<ranks->size();++i) {
         cerr << setw(4) << (i+1) << ": ";
-        for(int j=0;j<ranks->size();++j) {
+        for(unsigned int j=0;j<ranks->size();++j) {
             float rank = ranks->at(i).first.at(j);
             if(rank==-1) cerr << "/   ";
             else if(rank==10) cerr << "=   ";
@@ -263,8 +263,8 @@ pair<int,int> Duplicates::getMaxPair(rankVector* ranks) {
     pair<int,int> maxPair;
     float max_rank = 0;
 
-    for(int main_i = 0; main_i < ranks->size(); ++main_i) {
-        for(int after_i = main_i+1; after_i < ranks->size(); ++after_i) {
+    for(unsigned int main_i = 0; main_i < ranks->size(); ++main_i) {
+        for(unsigned int after_i = main_i+1; after_i < ranks->size(); ++after_i) {
             pair<vector<float>, imgList> thisRow = ranks->at(main_i);
 
             // Skip if after_i is already in main_i's list

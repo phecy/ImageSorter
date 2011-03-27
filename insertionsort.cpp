@@ -79,7 +79,7 @@ vector<VImage*> similarity_sort(vector<VImage*> imageInfo, Duplicates dups) {
 
         // Multiply all images by similarity and ECLECTICness
         int max_index = max->getIndex();
-        for(int i=0; i<imageInfo.size(); ++i) {
+        for(unsigned int i=0; i<imageInfo.size(); ++i) {
             float sim = ranks->at(max_index).first.at(i);
             float scale = 1/(1-(ranks->size() * 10.0/(sim+.00001)))+.5;
             imageInfo.at(i)->multiplyAdjustedRank(scale);
