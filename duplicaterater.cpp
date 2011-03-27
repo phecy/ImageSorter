@@ -11,7 +11,11 @@
 #define MAX_FOREGROUND_THRESHHOLD 8
 #define MIN_TIME_THRESHHOLD 2
 #define MAX_TIME_THRESHHOLD 10
+
 #define TIME_WEIGHT .3
+#define SEG_WEIGHT 4
+#define FG_WEIGHT 1
+#define GAUSS_WEIGHT 4
 
 #define MAX_RANK 10
 
@@ -62,6 +66,7 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
     int timeRating = moduleRanks[DUPLICATE_TIME];
     int segRating = moduleRanks[DUPLICATE_SEGMENTED];
     int fgRating = moduleRanks[DUPLICATE_FG];
+    int gaussRating = moduleRanks[DUPLICATE_GAUSSIAN];
 
     if(timeRating <= MIN_TIME_THRESHHOLD ||
        timeRating >= MAX_TIME_THRESHHOLD)
@@ -77,7 +82,13 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
 
     // No auto-pass or auto-fail. Calculate.
     float scaleBy = timeRating/MAX_RANK;
-    rankCalc = min(scaleBy*segRating*TIME_WEIGHT + (4*segRating+fgRating)/5, 10.0);
+    rankCalc = min(10.0,
+                scaleBy*segRating*TIME_WEIGHT
+                + ( SEG_WEIGHT*segRating
+                    + FG_WEIGHT*fgRating
+                    + GAUSS_WEIGHT*gaussRating
+                    ) / (SEG_WEIGHT+FG_WEIGHT+GAUSS_WEIGHT)
+               );
 
     return rankCalc;
 }
