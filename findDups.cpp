@@ -63,11 +63,11 @@ dupGroup Duplicates::findDuplicates() {
     // Gather votes
     runModules();
 
-    //qDebug("Creating a matrix of ranks");
+    qDebug("Creating a matrix of ranks");
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
     debugPrintRanks(ranks);
-    //debugPrintPhpRanks(ranks); // For comparing against turk data
+    debugPrintPhpRanks(ranks); // For comparing against turk data
 
     // Successively merge groupst
     qDebug("Merging groups together");
@@ -80,14 +80,14 @@ dupGroup Duplicates::findDuplicates() {
     }
 
     // Gather all imglists
-    //qDebug("Gathering groups from live rows");
+    qDebug("Gathering groups from live rows");
     for(unsigned int i=0; i<allImages->size(); ++i) {
         pair<vector<float>, imgList> thisPair = ranks->at(i);
         if(thisPair.second.size() > 0) { // Ignore "dead rows"
             allGroups->push_back(thisPair.second);
         }
     }
-    //debugPrintPhpGroups(allGroups); // For comparing against turk data
+    debugPrintPhpGroups(allGroups); // For comparing against turk data
 
     delete ranks;
 
