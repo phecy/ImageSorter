@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include <QLabel>
 #include <QPixmap>
 #include <QImage>
@@ -11,7 +13,10 @@ VImage::VImage(char* filename) {
     read_image(*vimage, filename);
     origwidth = vimage->cols();
     origheight = vimage->rows();
-    this->filename = filename;
+
+    this->fullpath = filename;
+    this->filename = strrchr(filename, '/')+1;
+
     rankTotal = -1;
     adjustedRank = 0;
     makeQImage();

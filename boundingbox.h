@@ -35,15 +35,15 @@ class BoundingBox: public QMainWindow
 {
 public:
     BoundingBox();
-    boundingBox getBoundingBox(QImage* qim, InterestPointList ips);
+    boundingBox getBoundingBox(VImage*);
 
     // Debug outputs
-    void debugPrint(QImage* image, point start, point fin);
+    void debugPrint(VImage* image, point start, point fin);
 
 private:
     // Get the boolean map of which points are IPs
     boolMap ipMap;
-    boolMap getIpMap(QImage* qim, InterestPointList& ips);
+    boolMap getIpMap(VImage*);
 
     // Each point is the density from that point to (0,0)
     densityMap getTotalIpMap(boolMap&);

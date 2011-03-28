@@ -35,7 +35,7 @@ void DuplicateIp::addImage(VImage* vim) {
         return;
     }
 
-    DiskImageView<PixelGray<float> > im(vim->getFilename());
+    DiskImageView<PixelGray<float> > im(vim->getFullpath());
 
     HarrisInterestOperator interest_op(1e-9, .15);
     ScaledInterestPointDetector<HarrisInterestOperator> detector(interest_op);
@@ -48,8 +48,7 @@ void DuplicateIp::addImage(VImage* vim) {
 
 void DuplicateIp::findForeground(VImage* vim) {
     // Find bounding box
-    boundingBox fgBox = foregroundDetect->getBoundingBox(
-                        vim->getQImage(), vim->getIps());
+    boundingBox fgBox = foregroundDetect->getBoundingBox(vim);
     vim->setForeground(fgBox);
 
     qDebug("else if(strcmp(vim->getFilename(), \"%s\") == 0)\n"
@@ -57,7 +56,7 @@ void DuplicateIp::findForeground(VImage* vim) {
            vim->getFilename(), fgBox.first.first,fgBox.first.second,fgBox.second.first,fgBox.second.second);
 
     // Debug output
-    foregroundDetect->debugPrint(vim->getQImage(), fgBox.first, fgBox.second);
+    foregroundDetect->debugPrint(vim, fgBox.first, fgBox.second);
     foregroundDetect->show();
 }
 

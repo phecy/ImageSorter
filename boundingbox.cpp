@@ -9,14 +9,14 @@ BoundingBox::BoundingBox()
 {
 }
 
-boundingBox BoundingBox::getBoundingBox(QImage* qim, InterestPointList ips) {
-    ipMap = getIpMap(qim, ips);
+boundingBox BoundingBox::getBoundingBox(VImage* vim) {
+    ipMap = getIpMap(vim);
     densityMap totalIpMap = getTotalIpMap(ipMap);
 
     // If no IPs, return center of image
-    if(ips.size()==0)
-        return boundingBox(point(.2*qim->width(), .2*qim->height()),
-                           point(.8*qim->width(), .8*qim->height()));
+    if(vim->getIps().size()==0)
+        return boundingBox(point(.2*vim->getOrigWidth(), .2*vim->getOrigHeight()),
+                           point(.8*vim->getOrigWidth(), .8*vim->getOrigHeight()));
 
     // Get max bounding box
     densityBox maxDensityBox =
@@ -38,8 +38,10 @@ boundingBox BoundingBox::getBoundingBox(QImage* qim, InterestPointList ips) {
     return box;
 }
 
-boolMap BoundingBox::getIpMap(QImage* qim, InterestPointList& ips) {
-    boolMap ipMap(qim->height(),vector<bool>(qim->width(), false));
+boolMap BoundingBox::getIpMap(VImage* vim) {
+    InterestPointList ips = vim->getIps();
+    boolMap ipMap(vim->getOrigHeight(),
+                  vector<bool>(vim->getOrigWidth(), false));
 
     InterestPointList::iterator ip = ips.begin();
     for(; ip != ips.end(); ++ip) {
@@ -177,20 +179,25 @@ densityBox BoundingBox::getMaxDensity(densityMap totalIpMap,
     return densityBox(maxDensityBox, maxDensityVal);
 }
 
-void BoundingBox::debugPrint(QImage* image, point start, point fin) {
+void BoundingBox::debugPrint(VImage* vim, point start, point fin) {
     int width = ipMap[0].size();
     int height = ipMap.size();
-    QImage i = QImage(width, height, QImage::Format_RGB32);
+    int owidth = vim->getWidth();
+    int oheight = vim->getHeight();
+    float scalex = (double)width / owidth;
+    float scaley = (double)height / oheight;
+
+    QImage i = QImage(*vim->getQImage());
 
     // IPs
     for(int w=4; w<width-4; w++) {
         for(int h=4; h<height-4; h++) {
-            if(!ipMap[h][w]) {
-                i.setPixel(w, h, image->pixel(w,h));
-            } else {
+            if(ipMap[h][w]) {
                 for(int x=-4; x<=4; ++x) {
                     for(int y=-4; y<=4; ++y) {
-                        i.setPixel(w-x, h-y, qRgb(0,255,0));
+                        i.setPixel(w-x,
+                                   h-y,
+                                   qRgb(0,255,0));
                     }
                 }
             }
@@ -214,9 +221,7 @@ void BoundingBox::debugPrint(QImage* image, point start, point fin) {
 
     setCentralWidget(imageLabel);
 
-    int w = width > 600 ? 600 : width;
-    int h = width > 600 ? (int)(600/(double)width * height) : height;
-    resize(w, h);
+    resize(width, height);
 
     imageLabel->show();
 }

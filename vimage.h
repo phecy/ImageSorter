@@ -39,6 +39,7 @@ public:
 
     // Information
     char* getFilename() { return filename; }
+    char* getFullpath() { return fullpath; }
     int getIndex() { return index; }
     void setIndex(int i) { index=i; }
     int getWidth() { return width; }
@@ -78,6 +79,7 @@ private:
 
     // Information
     char* filename;
+    char* fullpath;
     int index;
     int width, height; // Width scaled to 800px
     int origwidth, origheight; // VImage_t width+height
