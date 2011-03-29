@@ -69,9 +69,12 @@ public:
     // Returns avg pixel difference
     static int avgPixelDiff(VImage_t one, VImage_t two);
 
+    const float* getHistogram() { return histogram; }
+
 private:
     void setData(uchar* data);
     void makeQImage();
+    void makeHistogram();
 
     // Data
     VImage_t* vimage;
@@ -93,6 +96,8 @@ private:
     InterestPointList ipList;
     boundingBox foregroundCoords;
     QImage* foreground;
+
+    float histogram[256]; // % between 0 and 1
 };
 
 #endif // VIMAGE_H

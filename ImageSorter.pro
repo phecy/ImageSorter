@@ -68,7 +68,8 @@ HEADERS += blurdetect.h \
     boundingBoxPresets.h \
     algorithmPresets.h \
     setdisplay.h \
-    duplicategaussian.h
+    duplicategaussian.h \
+    duplicatehistogram.h
 FORMS += display.ui \
     setdisplay.ui
 SOURCES += blurdetect.cpp \
@@ -89,7 +90,8 @@ SOURCES += blurdetect.cpp \
            sharpdetect.cpp \
     boundingbox.cpp \
     setdisplay.cpp \
-    duplicategaussian.cpp
+    duplicategaussian.cpp \
+    duplicatehistogram.cpp
 
 
 LIBS +=  /usr/lib/libexif.a \

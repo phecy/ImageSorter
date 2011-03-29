@@ -20,6 +20,7 @@ VImage::VImage(char* filename) {
     rankTotal = -1;
     adjustedRank = 0;
     makeQImage();
+    makeHistogram();
 }
 
 VImage::VImage(const VImage& that) {
@@ -30,6 +31,7 @@ VImage::VImage(const VImage& that) {
     origheight = that.origheight;
     qimage = that.qimage;
     filename = that.filename;
+    memcpy(histogram, that.histogram, sizeof(histogram));
 }
 
 VImage::~VImage() {
@@ -72,6 +74,23 @@ void VImage::makeQImage() {
     setCentralWidget(imageLabel);
     this->show();
     */
+}
+
+void VImage::makeHistogram() {
+    for(int h=0; h<256; ++h) {
+        histogram[h]=0;
+    }
+
+    for(int h=0; h<height; ++h) {
+        for(int w=0; w<width; ++w) {
+            ++histogram[qimage->pixel(w, h)];
+        }
+    }
+
+    int area = width * height;
+    for(int h=0; h<256; ++h) {
+        histogram[h] /= area;
+    }
 }
 
 void VImage::setForeground(boundingBox coords) {
