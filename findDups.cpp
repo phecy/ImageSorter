@@ -25,12 +25,12 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 6
+#define SIMILARITY_RANK_THRESHHOLD 4.5
 
 // The minimum rating required to ensure that if one image ranks another
 // highly, that rating can't be weakened through averaging
 // (or, to claim two images are the "exact" same.)
-#define MIN_EXACT_RATE 9
+#define MIN_EXACT_RATE 10
 
 using namespace std;
 
@@ -208,7 +208,7 @@ float Duplicates::getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
     int secondNumVoters = secondRow.second.size();
 
     float firstRank = firstRow.first.at(index);
-    float secondRank = secondNumVoters * secondRow.first.at(index);
+    float secondRank = secondRow.first.at(index);
 
     // See if auto-include:
     if(firstRank >= MIN_EXACT_RATE)
@@ -286,8 +286,8 @@ pair<int,int> Duplicates::getMaxPair(rankVector* ranks) {
         return maxPair;
     }
 
-    //qDebug("Found max pair of rank %.2f at (%d, %d).", max_rank,
-    //       maxPair.first+1, maxPair.second+1);
+    qDebug("Found max pair of rank %.2f at (%d, %d).", max_rank,
+           maxPair.first+1, maxPair.second+1);
     return maxPair;
 }
 

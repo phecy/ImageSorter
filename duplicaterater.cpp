@@ -5,11 +5,11 @@
 
 // Mins: Below this value on any module, fail
 // Maxs: Above this value on any module, succeed
-#define MIN_SEGMENTED_THRESHHOLD 2
-#define MAX_SEGMENTED_THRESHHOLD 9
+#define MIN_SEGMENTED_THRESHHOLD -1
+#define MAX_SEGMENTED_THRESHHOLD 10
 #define MIN_FOREGROUND_THRESHHOLD -1 // Possibly failed fg find
-#define MAX_FOREGROUND_THRESHHOLD 9
-#define MIN_TIME_THRESHHOLD 2
+#define MAX_FOREGROUND_THRESHHOLD 11
+#define MIN_TIME_THRESHHOLD -1
 #define MAX_TIME_THRESHHOLD 10
 
 #define TIME_WEIGHT .3

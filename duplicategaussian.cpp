@@ -1,7 +1,7 @@
 #include "duplicategaussian.h"
 #include "display.h"
 
-#define GAUSS_DIVIDE_BY 8
+#define GAUSS_DIVIDE_BY 10
 
 DuplicateGaussian::DuplicateGaussian(DuplicateRater *rater) {
     this->rater = rater;
@@ -9,7 +9,7 @@ DuplicateGaussian::DuplicateGaussian(DuplicateRater *rater) {
 
 // Creates a small gaussian'd copy of the image
 void DuplicateGaussian::addImage(VImage* vim) {
-    VImage_t blurred = gaussian_filter(*vim->getVImage(), 2.0);
+    VImage_t blurred = gaussian_filter(*vim->getVImage(), 1.0);
     blurmap[vim] = blurred;
 
 
