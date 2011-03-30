@@ -83,7 +83,8 @@ void VImage::makeHistogram() {
 
     for(int h=0; h<height; ++h) {
         for(int w=0; w<width; ++w) {
-            ++histogram[qimage->pixel(w, h)];
+            int pixelgray = qGray(qimage->pixel(w, h));
+            ++histogram[pixelgray];
         }
     }
 

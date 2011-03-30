@@ -25,7 +25,7 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 4.5
+#define SIMILARITY_RANK_THRESHHOLD 6
 
 // The minimum rating required to ensure that if one image ranks another
 // highly, that rating can't be weakened through averaging
@@ -43,6 +43,7 @@ Duplicates::Duplicates(int numImages) {
     timed = new DuplicateTime(rater);
     interest = new DuplicateIp(rater, segmented);
     gaussian = new DuplicateGaussian(rater);
+    histogram = new DuplicateHistogram(rater);
 
     setFinder = new map<VImage*, int>();
     allImages = new imgList();
@@ -55,6 +56,7 @@ void Duplicates::addImage(VImage* vim, QualityExif* exif) {
     segmented->addImage(vim); // NEEDS TO USE INTEREST POINTS,
                               // keep after interest rater
     gaussian->addImage(vim);
+    histogram->addImage(vim);
     allImages->insert(allImages->end(), vim);
 }
 
@@ -308,6 +310,7 @@ void Duplicates::runModules() {
             timed->rankOne(*main_i, *after_i);
             interest->rankOne(*main_i, *after_i);
             gaussian->rankOne(*main_i, *after_i);
+            histogram->rankOne(*main_i, *after_i);
         }
     }
 }

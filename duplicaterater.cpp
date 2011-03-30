@@ -16,6 +16,7 @@
 #define SEG_WEIGHT 3
 #define FG_WEIGHT 1
 #define GAUSS_WEIGHT 4
+#define HIST_WEIGHT 5
 
 #define MAX_RANK 10
 
@@ -67,6 +68,7 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
     int segRating = moduleRanks[DUPLICATE_SEGMENTED];
     int fgRating = moduleRanks[DUPLICATE_FG];
     int gaussRating = moduleRanks[DUPLICATE_GAUSSIAN];
+    int histRating = moduleRanks[DUPLICATE_HISTOGRAM];
 
     if(timeRating <= MIN_TIME_THRESHHOLD ||
        timeRating >= MAX_TIME_THRESHHOLD)
@@ -87,6 +89,7 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
                 + ( SEG_WEIGHT*segRating
                     + FG_WEIGHT*fgRating
                     + GAUSS_WEIGHT*gaussRating
+                    + HIST_WEIGHT*histRating
                     ) / (SEG_WEIGHT+FG_WEIGHT+GAUSS_WEIGHT)
                );
 

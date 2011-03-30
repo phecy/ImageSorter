@@ -23,6 +23,7 @@ This file is part of ppm.
 #include "duplicatetime.h"
 #include "duplicateip.h"
 #include "duplicategaussian.h"
+#include "duplicatehistogram.h"
 #include "vimage.h"
 
 using namespace std;
@@ -123,6 +124,7 @@ private:
     DuplicateTime* timed;
     DuplicateIp* interest;
     DuplicateGaussian* gaussian;
+    DuplicateHistogram* histogram;
 
 
     /*

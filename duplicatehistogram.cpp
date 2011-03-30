@@ -1,14 +1,15 @@
 #include "duplicatehistogram.h"
 
+#define STRICTNESS 5 // more = less tolerant
+
 DuplicateHistogram::DuplicateHistogram(DuplicateRater *rater) {
     this->rater = rater;
 }
 
 void DuplicateHistogram::addImage(VImage* vim) {
     const float* histogram = vim->getHistogram();
-    int numbins = 256 / PIXELS_PER_BIN;
-    int histBins[numbins];
-    for(int bin=0; bin<numbins; ++bin) {
+    float* histBins = new float[NUM_BINS];
+    for(int bin=0; bin<NUM_BINS; ++bin) {
         histBins[bin] = 0;
 
         int startPixel = bin*PIXELS_PER_BIN;
@@ -23,7 +24,7 @@ void DuplicateHistogram::addImage(VImage* vim) {
         for(int pixval = startPixel - leftwindow;
                 pixval < endPixel + rightwindow;
                 ++pixval) {
-            histBins[bin] += histogram[pixval] * 10;
+            histBins[bin] += histogram[pixval];
         }
     }
     allHistBins[vim] = histBins;
@@ -31,15 +32,18 @@ void DuplicateHistogram::addImage(VImage* vim) {
 
 // Adds a single ranking to the DuplicateRater
 void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
-    int* one = allHistBins[first];
-    int* two = allHistBins[second];
+    float* one = allHistBins[first];
+    float* two = allHistBins[second];
 
-    int diff = 0;
-    int numbins = 256 / PIXELS_PER_BIN;
-    for(int bin=0; bin<numbins; ++bin) {
+    float diff = 0;
+    for(int bin=0; bin<NUM_BINS; ++bin) {
         //todo: adjust for midgray
-        diff += abs(one[bin] - two[bin]);
+        // also multiple channels
+        diff += fabs(one[bin] - two[bin]);
     }
+    //qDebug("Histogram diff: %f", diff);
 
-    //rater->addRanking(first, second, rating, DuplicateRater::DUPLICATE_GAUSSIAN);
+    int rating = 10 - STRICTNESS*diff;
+
+    rater->addRanking(first, second, rating, DuplicateRater::DUPLICATE_HISTOGRAM);
 }
