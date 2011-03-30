@@ -16,6 +16,11 @@
 #include "vw/InterestPoint.h"
 #include "vw/Image.h"
 
+#define HBLACK 0
+#define HRED 1
+#define HGREEN 2
+#define HBLUE 3
+
 using namespace std;
 using namespace vw;
 using namespace vw::ip;
@@ -69,7 +74,11 @@ public:
     // Returns avg pixel difference
     static int avgPixelDiff(VImage_t one, VImage_t two);
 
-    const float* getHistogram() { return histogram; }
+    const vector<vector<float> >& getHistogram() { return histograms; }
+    vector<float> getHistogramK() { return histograms[HBLACK]; }
+    vector<float> getHistogramR() { return histograms[HRED]; }
+    vector<float> getHistogramG() { return histograms[HGREEN]; }
+    vector<float> getHistogramB() { return histograms[HBLUE]; }
 
 private:
     void setData(uchar* data);
@@ -97,7 +106,8 @@ private:
     boundingBox foregroundCoords;
     QImage* foreground;
 
-    float histogram[256]; // % between 0 and 1
+    vector<vector<float> > histograms; // 4 channels, black+RGB
+                                       // % between 0 and 1
 };
 
 #endif // VIMAGE_H

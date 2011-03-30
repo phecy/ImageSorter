@@ -7,7 +7,10 @@ DuplicateHistogram::DuplicateHistogram(DuplicateRater *rater) {
 }
 
 void DuplicateHistogram::addImage(VImage* vim) {
-    const float* histogram = vim->getHistogram();
+    const vector<float> histogramK = vim->getHistogramK();
+    const vector<float> histogramR = vim->getHistogramR();
+    const vector<float> histogramG = vim->getHistogramG();
+    const vector<float> histogramB = vim->getHistogramB();
     float* histBins = new float[NUM_BINS];
     for(int bin=0; bin<NUM_BINS; ++bin) {
         histBins[bin] = 0;
@@ -24,7 +27,7 @@ void DuplicateHistogram::addImage(VImage* vim) {
         for(int pixval = startPixel - leftwindow;
                 pixval < endPixel + rightwindow;
                 ++pixval) {
-            histBins[bin] += histogram[pixval];
+            histBins[bin] += histogramK[pixval];
         }
     }
     allHistBins[vim] = histBins;

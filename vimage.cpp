@@ -31,7 +31,7 @@ VImage::VImage(const VImage& that) {
     origheight = that.origheight;
     qimage = that.qimage;
     filename = that.filename;
-    memcpy(histogram, that.histogram, sizeof(histogram));
+    histograms = that.histograms;
 }
 
 VImage::~VImage() {
@@ -77,20 +77,23 @@ void VImage::makeQImage() {
 }
 
 void VImage::makeHistogram() {
-    for(int h=0; h<256; ++h) {
-        histogram[h]=0;
-    }
+    histograms = vector<vector<float> >(4,
+                        vector<float>(256, 0.0));
 
     for(int h=0; h<height; ++h) {
         for(int w=0; w<width; ++w) {
-            int pixelgray = qGray(qimage->pixel(w, h));
-            ++histogram[pixelgray];
+            ++histograms[HBLACK][qGray(qimage->pixel(w, h))];
+            ++histograms[HRED][qRed(qimage->pixel(w, h))];
+            ++histograms[HGREEN][qGreen(qimage->pixel(w, h))];
+            ++histograms[HBLUE][qBlue(qimage->pixel(w, h))];
         }
     }
 
     int area = width * height;
     for(int h=0; h<256; ++h) {
-        histogram[h] /= area;
+        for(int i=0; i<4; ++i) {
+            histograms[i][h] /= area;
+        }
     }
 }
 
