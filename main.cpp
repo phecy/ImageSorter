@@ -233,7 +233,6 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             sharpVals[i] = sharpDetect.rankOne(currVIm);
     //        newBlur->show();
         }
-        blurVals[i] = newBlur->calculateBlur(currVIm);
     }
 
     // Sets the different methods' respective weights.
