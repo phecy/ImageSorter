@@ -68,12 +68,12 @@ void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
                       - STRICTNESS_G*diffs[HGREEN]
                       - STRICTNESS_B*diffs[HBLUE]);
 
-    qDebug("Histogram diff %d vs. %d: KRGB (%.1f,%.1f,%.1f,%.1f)=%d    adjustment: (%d, %d, %d, %d)",
-            first->getIndex()+1, second->getIndex()+1,
-            diffs[HBLACK], diffs[HRED], diffs[HGREEN], diffs[HBLUE], rating,
-            adjustments[HBLACK], adjustments[HRED],
-            adjustments[HGREEN], adjustments[HBLUE]
-            );
+//    qDebug("Histogram diff %d vs. %d: KRGB (%.1f,%.1f,%.1f,%.1f)=%d    adjustment: (%d, %d, %d, %d)",
+//            first->getIndex()+1, second->getIndex()+1,
+//            diffs[HBLACK], diffs[HRED], diffs[HGREEN], diffs[HBLUE], rating,
+//            adjustments[HBLACK], adjustments[HRED],
+//            adjustments[HGREEN], adjustments[HBLUE]
+//            );
 
     rating = max(0, rating);
 

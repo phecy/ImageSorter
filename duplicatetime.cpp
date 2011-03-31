@@ -3,7 +3,7 @@
 #include "qualityexif.h"
 #include "vimage.h"
 
-#define WINDOWSIZE 4
+#define WINDOWSIZE 8
 #define MAXRANK 10 // Subtract MAXRANK-logdiff so lower diff = better
 
 DuplicateTime::DuplicateTime(DuplicateRater *rater) {
@@ -12,7 +12,7 @@ DuplicateTime::DuplicateTime(DuplicateRater *rater) {
 
 void DuplicateTime::addImage(VImage *vim, QualityExif* exif) {
     QImage* im = vim->getQImage();
-    // To do: fix random time. Then get a real time.
+
     exifTime time = exif->getTime();
 
     // Add to map for quick indexing and time-retrieval
@@ -43,7 +43,8 @@ void DuplicateTime::rankOne(VImage* vim1, VImage* vim2) {
 
     // Get boundaries
     int minIndex = (firstIndex < WINDOWSIZE) ? 0 : firstIndex - WINDOWSIZE;
-    int maxIndex = ((numPics-1)-secondIndex < WINDOWSIZE) ? numPics-1 : secondIndex+ WINDOWSIZE;
+    int maxIndex = ((numPics-1)-secondIndex < WINDOWSIZE)
+                   ? numPics-1 : secondIndex+ WINDOWSIZE;
     int actualWindowSize = maxIndex - minIndex + 1;
 
     // Get the avg gap in the window (minIndex -> maxIndex)
