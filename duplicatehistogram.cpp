@@ -37,6 +37,8 @@ void DuplicateHistogram::addImage(VImage* vim) {
         }
     }
     allHistBins[vim] = histBins;
+
+    debugPrint(vim);
 }
 
 // Adds a single ranking to the DuplicateRater
@@ -68,14 +70,29 @@ void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
                       - STRICTNESS_G*diffs[HGREEN]
                       - STRICTNESS_B*diffs[HBLUE]);
 
-//    qDebug("Histogram diff %d vs. %d: KRGB (%.1f,%.1f,%.1f,%.1f)=%d    adjustment: (%d, %d, %d, %d)",
-//            first->getIndex()+1, second->getIndex()+1,
-//            diffs[HBLACK], diffs[HRED], diffs[HGREEN], diffs[HBLUE], rating,
-//            adjustments[HBLACK], adjustments[HRED],
-//            adjustments[HGREEN], adjustments[HBLUE]
-//            );
+    qDebug("Histogram diff %d vs. %d: KRGB (%.1f,%.1f,%.1f,%.1f)=%d    adjustment: (%d, %d, %d, %d)",
+            first->getIndex()+1, second->getIndex()+1,
+            diffs[HBLACK], diffs[HRED], diffs[HGREEN], diffs[HBLUE], rating,
+            adjustments[HBLACK], adjustments[HRED],
+            adjustments[HGREEN], adjustments[HBLUE]
+            );
 
     rating = max(0, rating);
 
     rater->addRanking(first, second, rating, DuplicateRater::DUPLICATE_HISTOGRAM);
+}
+
+void DuplicateHistogram::debugPrint(VImage* vim) {
+    int area = vim->getWidth() * vim->getHeight();
+    for(int col=0; col<HNUMCOLORS; ++col) {
+        cerr << "Printing color " << col << ":\n";
+        for(int bin=0; bin<NUM_BINS; ++bin) {
+            int size = allHistBins[vim][col][bin]*100;
+            cerr << setprecision(2) << bin << ": ";
+            for(int i=0; i<size; ++i) {
+                cerr << "=";
+            }
+            cerr << "\n";
+        }
+    }
 }

@@ -27,5 +27,7 @@ private:
     DuplicateRater* rater;
 
     map<VImage*, vector<vector<float> > > allHistBins;
+
+    void debugPrint(VImage* vim);
 };
 #endif // DUPLICATEHISTOGRAM_H
