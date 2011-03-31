@@ -5,6 +5,7 @@
 #include <QImage>
 
 #include "vimage.h"
+#include "limits.h"
 
 using namespace vw;
 
@@ -77,21 +78,43 @@ void VImage::makeQImage() {
 }
 
 void VImage::makeHistogram() {
-    histograms = vector<vector<float> >(4,
+    histograms = vector<vector<float> >(HNUMCOLORS,
                         vector<float>(256, 0.0));
+    medianColors = vector<int>(HNUMCOLORS, 0);
 
+    // Make histogram
     for(int h=0; h<height; ++h) {
         for(int w=0; w<width; ++w) {
-            ++histograms[HBLACK][qGray(qimage->pixel(w, h))];
-            ++histograms[HRED][qRed(qimage->pixel(w, h))];
-            ++histograms[HGREEN][qGreen(qimage->pixel(w, h))];
-            ++histograms[HBLUE][qBlue(qimage->pixel(w, h))];
+            QRgb color = qimage->pixel(w, h);
+            int gray = qGray(color);
+            int red = qRed(color);
+            int green = qGreen(color);
+            int blue = qBlue(color);
+
+            ++histograms[HBLACK][gray];
+            ++histograms[HRED][red];
+            ++histograms[HGREEN][green];
+            ++histograms[HBLUE][blue];
         }
     }
 
+    // Get median colors
     int area = width * height;
+    int mid = area / 2;
+    int colorCounts[HNUMCOLORS] = {0, 0, 0, 0};
     for(int h=0; h<256; ++h) {
-        for(int i=0; i<4; ++i) {
+        for(int i=0; i<HNUMCOLORS; ++i) {
+            colorCounts[i] += histograms[i][h];
+            if(colorCounts[i] >= mid && colorCounts[i] <= area) {
+                medianColors[i] = h;
+                colorCounts[i] = area+1; // ignore from now on
+            }
+        }
+    }
+
+    // Scale hist to get %
+    for(int h=0; h<256; ++h) {
+        for(int i=0; i<HNUMCOLORS; ++i) {
             histograms[i][h] /= area;
         }
     }

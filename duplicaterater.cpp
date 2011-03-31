@@ -12,7 +12,7 @@
 #define MIN_TIME_THRESHHOLD -1
 #define MAX_TIME_THRESHHOLD 10
 
-#define TIME_WEIGHT .3
+#define TIME_WEIGHT .7
 #define SEG_WEIGHT 3
 #define FG_WEIGHT 1
 #define GAUSS_WEIGHT 4

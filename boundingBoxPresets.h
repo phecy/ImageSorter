@@ -481,6 +481,8 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
 
     else if(strcmp(vim->getFilename(), "new1-DSC_0031.JPG") == 0)
       fgBox = boundingBox(point(234,66),point(443,584));
+    else if(strcmp(vim->getFilename(), "new1-DSC_0031_b.JPG") == 0)
+          fgBox = boundingBox(point(234,66),point(443,584));
     else if(strcmp(vim->getFilename(), "new1-DSC_0034.JPG") == 0)
       fgBox = boundingBox(point(234,96),point(490,519));
     else if(strcmp(vim->getFilename(), "new1-DSC_0035.JPG") == 0)

@@ -1,20 +1,22 @@
 #include "duplicatehistogram.h"
 
-#define STRICTNESS 5 // more = less tolerant
+#define STRICTNESS_K .005 // more = less tolerant
+#define STRICTNESS_R .005
+#define STRICTNESS_G .01
+#define STRICTNESS_B .005
 
 DuplicateHistogram::DuplicateHistogram(DuplicateRater *rater) {
     this->rater = rater;
 }
 
 void DuplicateHistogram::addImage(VImage* vim) {
-    const vector<float> histogramK = vim->getHistogramK();
-    const vector<float> histogramR = vim->getHistogramR();
-    const vector<float> histogramG = vim->getHistogramG();
-    const vector<float> histogramB = vim->getHistogramB();
-    float* histBins = new float[NUM_BINS];
-    for(int bin=0; bin<NUM_BINS; ++bin) {
-        histBins[bin] = 0;
+    const vector<vector<float> > histograms = vim->getHistogram();
+    vector<vector<float> > histBins =
+                           vector<vector<float> >(HNUMCOLORS,
+                           vector<float>(NUM_BINS, 0.0));
 
+    // For every bin,
+    for(int bin=0; bin<NUM_BINS; ++bin) {
         int startPixel = bin*PIXELS_PER_BIN;
         int endPixel = startPixel+PIXELS_PER_BIN;
         int leftwindow = startPixel < WINDOW_SIZE ? startPixel : WINDOW_SIZE;
@@ -24,10 +26,14 @@ void DuplicateHistogram::addImage(VImage* vim) {
         leftwindow += WINDOW_SIZE - rightwindow;
         rightwindow += WINDOW_SIZE - leftwindow;
 
+        // For every pixel in the bin
         for(int pixval = startPixel - leftwindow;
                 pixval < endPixel + rightwindow;
                 ++pixval) {
-            histBins[bin] += histogramK[pixval];
+            // Add each color channel
+            for(int c=0; c<HNUMCOLORS; ++c) {
+                histBins[c][bin] += histograms[c][pixval];
+            }
         }
     }
     allHistBins[vim] = histBins;
@@ -35,18 +41,41 @@ void DuplicateHistogram::addImage(VImage* vim) {
 
 // Adds a single ranking to the DuplicateRater
 void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
-    float* one = allHistBins[first];
-    float* two = allHistBins[second];
+    vector<vector<float> > one = allHistBins[first];
+    vector<vector<float> > two = allHistBins[second];
+    const vector<int> oneMeds = first->getMedians();
+    const vector<int> twoMeds = second->getMedians();
 
-    float diff = 0;
-    for(int bin=0; bin<NUM_BINS; ++bin) {
-        //todo: adjust for midgray
-        // also multiple channels
-        diff += fabs(one[bin] - two[bin]);
+    // Adjust based on exposure diffs
+    // Idea: just shift bins
+    int adjustments[HNUMCOLORS];
+    for(int c=0; c<HNUMCOLORS; ++c) {
+        adjustments[c] = oneMeds[c] - twoMeds[c];
     }
-    //qDebug("Histogram diff: %f", diff);
 
-    int rating = 10 - STRICTNESS*diff;
+    float diffs[HNUMCOLORS] = {0, 0, 0, 0};
+    // Ignore highlights/shadows
+    for(int bin=1; bin<NUM_BINS-1; ++bin) {
+        for(int c=0; c<HNUMCOLORS; ++c) {
+            diffs[c] += fabs(one[c][bin] - two[c][bin]
+                            - adjustments[c]*NUM_BINS);
+        }
+    }
+
+    int rating = floor(.5 +         // round
+                 10.0 - STRICTNESS_K*diffs[HBLACK]
+                      - STRICTNESS_R*diffs[HRED]
+                      - STRICTNESS_G*diffs[HGREEN]
+                      - STRICTNESS_B*diffs[HBLUE]);
+
+    qDebug("Histogram diff %d vs. %d: KRGB (%.1f,%.1f,%.1f,%.1f)=%d    adjustment: (%d, %d, %d, %d)",
+            first->getIndex()+1, second->getIndex()+1,
+            diffs[HBLACK], diffs[HRED], diffs[HGREEN], diffs[HBLUE], rating,
+            adjustments[HBLACK], adjustments[HRED],
+            adjustments[HGREEN], adjustments[HBLUE]
+            );
+
+    rating = max(0, rating);
 
     rater->addRanking(first, second, rating, DuplicateRater::DUPLICATE_HISTOGRAM);
 }

@@ -16,7 +16,8 @@ class DuplicateHistogram
 public:
     DuplicateHistogram(DuplicateRater *rater);
 
-    // Creates a histogram
+    // Throw groups of pixels into bins, with some pixels in
+    // multiple bins
     void addImage(VImage*);
 
     // Adds a single ranking to the DuplicateRater
@@ -25,6 +26,6 @@ public:
 private:
     DuplicateRater* rater;
 
-    map<VImage*, float*> allHistBins;
+    map<VImage*, vector<vector<float> > > allHistBins;
 };
 #endif // DUPLICATEHISTOGRAM_H

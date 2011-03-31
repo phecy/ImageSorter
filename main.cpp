@@ -305,7 +305,7 @@ int main(int argc, char *argv[])
 //    setdisp_unsorted->setWindowTitle("Unsorted");
 
     // Sort
-    // insertion_sort(picValue, imageStrArray, size);
+    insertion_sort(picValue, imageStrArray, size);
     //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
     //imageInfoArray = set_sort(imageInfoArray);
 

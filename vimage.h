@@ -16,6 +16,7 @@
 #include "vw/InterestPoint.h"
 #include "vw/Image.h"
 
+#define HNUMCOLORS 4
 #define HBLACK 0
 #define HRED 1
 #define HGREEN 2
@@ -74,11 +75,17 @@ public:
     // Returns avg pixel difference
     static int avgPixelDiff(VImage_t one, VImage_t two);
 
+    // Colors
     const vector<vector<float> >& getHistogram() { return histograms; }
     vector<float> getHistogramK() { return histograms[HBLACK]; }
     vector<float> getHistogramR() { return histograms[HRED]; }
     vector<float> getHistogramG() { return histograms[HGREEN]; }
     vector<float> getHistogramB() { return histograms[HBLUE]; }
+    const vector<int>& getMedians() { return medianColors; }
+    int getMedGray() { return medianColors[HBLACK]; }
+    int getMedRed() { return medianColors[HRED]; }
+    int getMedGreen() { return medianColors[HGREEN]; }
+    int getMedBlue() { return medianColors[HBLUE]; }
 
 private:
     void setData(uchar* data);
@@ -106,8 +113,10 @@ private:
     boundingBox foregroundCoords;
     QImage* foreground;
 
+    // Colors
     vector<vector<float> > histograms; // 4 channels, black+RGB
                                        // % between 0 and 1
+    vector<int> medianColors;
 };
 
 #endif // VIMAGE_H
