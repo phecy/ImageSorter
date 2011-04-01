@@ -4,8 +4,8 @@
 #include "duplicaterater.h"
 #include "vimage.h"
 
-#define PIXELS_PER_BIN 32 // divides 256
-#define NUM_BINS 256 / PIXELS_PER_BIN
+#define PIXELS_PER_BIN 16 // divides 256
+#define NUM_BINS (256 / PIXELS_PER_BIN)
 #define WINDOW_SIZE 10 // add how many pixels to
                        // each bin on either side
 

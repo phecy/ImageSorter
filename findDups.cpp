@@ -25,7 +25,7 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 6
+#define SIMILARITY_RANK_THRESHHOLD 7
 
 // The minimum rating required to ensure that if one image ranks another
 // highly, that rating can't be weakened through averaging
@@ -69,7 +69,7 @@ dupGroup Duplicates::findDuplicates() {
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
     debugPrintRanks(ranks);
-    debugPrintPhpRanks(ranks); // For comparing against turk data
+    //debugPrintPhpRanks(ranks); // For comparing against turk data
 
     // Successively merge groupst
     qDebug("Merging groups together");
@@ -89,7 +89,7 @@ dupGroup Duplicates::findDuplicates() {
             allGroups->push_back(thisPair.second);
         }
     }
-    debugPrintPhpGroups(allGroups); // For comparing against turk data
+    //debugPrintPhpGroups(allGroups); // For comparing against turk data
 
     delete ranks;
 

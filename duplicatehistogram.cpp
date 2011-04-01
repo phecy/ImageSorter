@@ -1,9 +1,10 @@
 #include "duplicatehistogram.h"
 
-#define STRICTNESS_K .005 // more = less tolerant
-#define STRICTNESS_R .005
-#define STRICTNESS_G .01
-#define STRICTNESS_B .005
+#define MULTIPLIER .0003 // more = less tolerant
+#define STRICTNESS_K 1.0 * MULTIPLIER
+#define STRICTNESS_R 1.0 * MULTIPLIER
+#define STRICTNESS_G 2.0 * MULTIPLIER
+#define STRICTNESS_B 1.0 * MULTIPLIER
 
 DuplicateHistogram::DuplicateHistogram(DuplicateRater *rater) {
     this->rater = rater;
@@ -38,7 +39,7 @@ void DuplicateHistogram::addImage(VImage* vim) {
     }
     allHistBins[vim] = histBins;
 
-    debugPrint(vim);
+    //debugPrint(vim);
 }
 
 // Adds a single ranking to the DuplicateRater
@@ -85,7 +86,13 @@ void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
 void DuplicateHistogram::debugPrint(VImage* vim) {
     int area = vim->getWidth() * vim->getHeight();
     for(int col=0; col<HNUMCOLORS; ++col) {
-        cerr << "Printing color " << col << ":\n";
+        cerr << "Printing " <<
+                (col==0 ? "black" :
+                 col==1 ? "red" :
+                 col==2 ? "green" :
+                          "blue")
+                 << " histogram for image "
+                 << vim->getIndex()+1 << endl;
         for(int bin=0; bin<NUM_BINS; ++bin) {
             int size = allHistBins[vim][col][bin]*100;
             cerr << setprecision(2) << bin << ": ";
