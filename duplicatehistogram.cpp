@@ -1,6 +1,6 @@
 #include "duplicatehistogram.h"
 
-#define MULTIPLIER .0003 // more = less tolerant
+#define MULTIPLIER .0002 // more = less tolerant
 #define STRICTNESS_K 1.0 * MULTIPLIER
 #define STRICTNESS_R 1.0 * MULTIPLIER
 #define STRICTNESS_G 2.0 * MULTIPLIER
@@ -39,7 +39,7 @@ void DuplicateHistogram::addImage(VImage* vim) {
     }
     allHistBins[vim] = histBins;
 
-    debugPrint(vim);
+    //debugPrint(vim);
 }
 
 // Adds a single ranking to the DuplicateRater

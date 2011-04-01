@@ -3,8 +3,9 @@
 #include "qualityexif.h"
 #include "vimage.h"
 
-#define WINDOWSIZE 8
+#define WINDOWSIZE 7
 #define MAXRANK 10 // Subtract MAXRANK-logdiff so lower diff = better
+#define STRICTNESS_TIME 4
 
 DuplicateTime::DuplicateTime(DuplicateRater *rater) {
     this->rater = rater;
@@ -24,7 +25,7 @@ void DuplicateTime::addImage(VImage *vim, QualityExif* exif) {
     // Then calculate gap
     if(currIndex > 0) {
         int gap = abs((int)(time - times[currIndex-1]))+1;
-        float logGap = log2(gap)*2;
+        float logGap = log2(gap)*STRICTNESS_TIME;
         sumGapLogs.push_back(logGap + sumGapLogs[currIndex-1]);
     } else {
         sumGapLogs.push_back(0);
