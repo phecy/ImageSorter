@@ -1,6 +1,6 @@
 #include "duplicatehistogram.h"
 
-#define MULTIPLIER .0002 // more = less tolerant
+#define MULTIPLIER .2 // more = less tolerant
 #define STRICTNESS_K 1.0 * MULTIPLIER
 #define STRICTNESS_R 1.0 * MULTIPLIER
 #define STRICTNESS_G 2.0 * MULTIPLIER
@@ -61,7 +61,7 @@ void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
     for(int bin=1; bin<NUM_BINS-1; ++bin) {
         for(int c=0; c<HNUMCOLORS; ++c) {
             diffs[c] += fabs(one[c][bin] - two[c][bin]
-                            - adjustments[c]*NUM_BINS);
+                            - adjustments[c]*NUM_BINS/256);
         }
     }
 
