@@ -6486,6 +6486,28 @@ bool loadPreset(VImage* vim, int i,
     //   Exposure: 4
     //   Color: 4
     }
+    else if(strcmp(vim->getFilename(), "faded.jpg") == 0) {
+             exposeVals[i] = 3;
+             palletVals[i] = 4;
+               greyVals[i] = 9;
+               blurVals[i] = 0;
+              sharpVals[i] = 0;
+    //          picValue[i] = 0.177101;
+    //   Blur: 0
+    //   Exposure: 3
+    //   Color: 4
+    }
+    else if(strcmp(vim->getFilename(), "main.jpg") == 0) {
+             exposeVals[i] = 5;
+             palletVals[i] = 4;
+               greyVals[i] = 8;
+               blurVals[i] = 9;
+              sharpVals[i] = 0;
+    //          picValue[i] = 0.794961;
+    //   Blur: 0
+    //   Exposure: 5
+    //   Color: 4
+    }
 
 
     else return false;
