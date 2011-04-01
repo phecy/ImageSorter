@@ -39,7 +39,7 @@ void DuplicateHistogram::addImage(VImage* vim) {
     }
     allHistBins[vim] = histBins;
 
-    //debugPrint(vim);
+    debugPrint(vim);
 }
 
 // Adds a single ranking to the DuplicateRater
