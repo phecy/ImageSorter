@@ -108,7 +108,7 @@ double root4(double num) {
 }
 
 // Calculates ranking for each image based on params. Puts into picValue.
-// Then prints all info to cout
+// Then prints all info to cerr
 void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* picValue, int* exposeVals,
                  int* palletVals, int* greyVals, int* blurVals,
@@ -121,7 +121,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                          // sharp: .45turk / .33ke
                          // blur: shit.
 
-    cout<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
+    cerr<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
         int combinedBlur = 0*blurVals[i] + 1*sharpVals[i];
@@ -160,22 +160,22 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         if(rank < 0) rank = 0;
         picValue[i] =  rank;
 
-        cout << "else if(strcmp(vim->getFilename(), \"" <<
+        cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
-        cout << "         exposeVals[i] = " << exposeVals[i] << ";\n";
-        cout << "         palletVals[i] = " << palletVals[i] << ";\n";
-        cout << "           greyVals[i] = " << greyVals[i] << ";\n";
-        cout << "           blurVals[i] = " << blurVals[i] << ";\n";
-        cout << "          sharpVals[i] = " << sharpVals[i] << ";\n";
-        cout << "//          picValue[i] = " << picValue[i] << ";\n";
-        cout << "//   Blur: " << combinedBlur << endl;
-        cout << "//   Exposure: " << combinedExpose << endl;
-        cout << "//   Color: " << palletVals[i] << endl;
-        cout << "}\n";
+        cerr << "         exposeVals[i] = " << exposeVals[i] << ";\n";
+        cerr << "         palletVals[i] = " << palletVals[i] << ";\n";
+        cerr << "           greyVals[i] = " << greyVals[i] << ";\n";
+        cerr << "           blurVals[i] = " << blurVals[i] << ";\n";
+        cerr << "          sharpVals[i] = " << sharpVals[i] << ";\n";
+        cerr << "//          picValue[i] = " << picValue[i] << ";\n";
+        cerr << "//   Blur: " << combinedBlur << endl;
+        cerr << "//   Exposure: " << combinedExpose << endl;
+        cerr << "//   Color: " << palletVals[i] << endl;
+        cerr << "}\n";
     }
-    cout<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
+    cerr<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
-        cout << picValue[i] << "," << imageInfoArray[i]->getFilename() << endl;
+        cerr << picValue[i] << "," << imageInfoArray[i]->getFilename() << endl;
     }
 }
 
@@ -212,7 +212,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         currVIm->setIndex(i);
         currQIm = currVIm->getQImage();
         if(currQIm == NULL) {
-            cout << "Image " << fn << " failed to load!\n";
+            cerr << "Image " << fn << " failed to load!\n";
             return false;
         }
 
