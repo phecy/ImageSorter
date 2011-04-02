@@ -35,7 +35,6 @@ class VImage/*DEBUG : public QMainWindow*/
 {
 public:
     VImage(char* filename);
-    VImage(const VImage&);
     ~VImage();
 
     // Data
@@ -54,6 +53,8 @@ public:
     int getOrigHeight() { return origheight; }
 
     // Ranks
+    // Rank = 0-10 rating.
+    // Adjusted rank = rank adjusted for set
     void setRank(float r) { rankTotal=r; adjustedRank=r; }
     float getRank() { return rankTotal; }
     void setSetNum(float s) { setNum = s; }
@@ -76,6 +77,9 @@ public:
     static int avgPixelDiff(VImage_t one, VImage_t two);
 
     // Colors
+        // Make histogram starting at QImage's (x,y)
+    static vector<vector<float> > makeHistograms
+                    (VImage* vim, int x, int y, int width, int height);
     const vector<vector<float> >& getHistogram() { return histograms; }
     vector<float> getHistogramK() { return histograms[HBLACK]; }
     vector<float> getHistogramR() { return histograms[HRED]; }
@@ -90,7 +94,7 @@ public:
 private:
     void setData(uchar* data);
     void makeQImage();
-    void makeHistogram();
+    void makeMedianColors();
 
     // Data
     VImage_t* vimage;
@@ -116,7 +120,7 @@ private:
     // Colors
     vector<vector<float> > histograms; // 4 channels, black+RGB
                                        // % between 0 and 1
-    vector<int> medianColors;
+    vector<int> medianColors; // Median of histogram
 };
 
 #endif // VIMAGE_H
