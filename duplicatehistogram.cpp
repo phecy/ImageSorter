@@ -1,6 +1,8 @@
 #include "duplicatehistogram.h"
 
-#define MULTIPLIER .2 // more = less tolerant
+#define HIST_SEGMENTS_SIDE 5
+
+#define MULTIPLIER .4 // more = less tolerant
 #define STRICTNESS_K 1.0 * MULTIPLIER
 #define STRICTNESS_R 1.0 * MULTIPLIER
 #define STRICTNESS_G 2.0 * MULTIPLIER
@@ -11,10 +13,25 @@ DuplicateHistogram::DuplicateHistogram(DuplicateRater *rater) {
 }
 
 void DuplicateHistogram::addImage(VImage* vim) {
-    const vector<vector<float> > histograms = vim->getHistogram();
-    vector<vector<float> > histBins =
-                           vector<vector<float> >(HNUMCOLORS,
-                           vector<float>(NUM_BINS, 0.0));
+    allHistBins[vim] = vector<histogramSet>();
+    int width = vim->getWidth() / HIST_SEGMENTS_SIDE;
+    int height = vim->getHeight() / HIST_SEGMENTS_SIDE;
+
+    for(int x = 0; x < width*HIST_SEGMENTS_SIDE; x+=width) {
+        for(int y = 0; y < height*HIST_SEGMENTS_SIDE; y+=height) {
+            histogramSet hist = VImage::makeHistograms
+                                (vim, x, y, width, height);
+            allHistBins[vim].push_back(makeBinFrom(hist));
+        }
+    }
+
+    //debugPrint(vim);
+}
+
+histogramSet DuplicateHistogram::makeBinFrom(const histogramSet& histograms) {
+    // Bins holding multiple pixels
+    histogramSet histBins = histogramSet(HNUMCOLORS,
+                            histogramChannel(NUM_BINS, 0.0));
 
     // For every bin,
     for(int bin=0; bin<NUM_BINS; ++bin) {
@@ -37,15 +54,24 @@ void DuplicateHistogram::addImage(VImage* vim) {
             }
         }
     }
-    allHistBins[vim] = histBins;
-
-    //debugPrint(vim);
+    return histBins;
 }
 
-// Adds a single ranking to the DuplicateRater
+// Averages similarity of each segment
 void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
-    vector<vector<float> > one = allHistBins[first];
-    vector<vector<float> > two = allHistBins[second];
+    int numSets = allHistBins[first].size();
+    int totalRanks = 0;
+    for(int i=0; i<numSets; ++i) {
+        totalRanks += compareHistograms(allHistBins[first][i],
+                                        allHistBins[second][i],
+                                        first, second);
+    }
+    int finalRank = totalRanks / numSets;
+    rater->addRanking(first, second, finalRank, DuplicateRater::DUPLICATE_HISTOGRAM);
+}
+
+int DuplicateHistogram::compareHistograms(histogramSet one, histogramSet two,
+                                         VImage* first, VImage* second) {
     const vector<int> oneMeds = first->getMedians();
     const vector<int> twoMeds = second->getMedians();
 
@@ -80,10 +106,10 @@ void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
 
     rating = max(0, rating);
 
-    rater->addRanking(first, second, rating, DuplicateRater::DUPLICATE_HISTOGRAM);
+    return rating;
 }
 
-void DuplicateHistogram::debugPrint(VImage* vim) {
+void DuplicateHistogram::debugPrint(VImage* vim, histogramSet hists) {
     int area = vim->getWidth() * vim->getHeight();
     for(int col=0; col<HNUMCOLORS; ++col) {
         cerr << "Printing " <<
@@ -94,7 +120,7 @@ void DuplicateHistogram::debugPrint(VImage* vim) {
                  << " histogram for image "
                  << vim->getIndex()+1 << endl;
         for(int bin=0; bin<NUM_BINS; ++bin) {
-            int size = allHistBins[vim][col][bin]*100;
+            int size = hists[col][bin]*100;
             cerr << setprecision(2) << bin << ": ";
             for(int i=0; i<size; ++i) {
                 cerr << "=";
