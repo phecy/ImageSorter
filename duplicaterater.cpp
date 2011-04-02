@@ -99,21 +99,21 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
 void DuplicateRater::printRanks() {
     cerr << "    ";
     for(unsigned int i=0; i<ratings->size(); ++i) {
-        cerr << "  " << i+1 << "     ";
+        cerr << "       " << i+1 << "              ";
     }
     cerr << endl;
 
     for(unsigned int i=0; i<ratings->size(); ++i) {
-        cerr << i+1 << ": ";
+        cerr << i+1 << "||| ";
         for(unsigned int j=0; j<ratings[0].size(); ++j) {
-            cerr << " {";
+            cerr << setw(2) << j << "{";
             for(int k=0; k<NUM_MODULES; ++k) {
                 int rank = (*ratings)[i][j][k];
                 cerr << ((rank<0) ? 0 : rank);
                 if(k != NUM_MODULES-1)
                     cerr << ", ";
             }
-            cerr << "} ";
+            cerr << "}   ";
         }
         cerr << endl;
     }
