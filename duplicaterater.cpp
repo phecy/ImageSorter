@@ -106,7 +106,7 @@ void DuplicateRater::printRanks() {
     for(unsigned int i=0; i<ratings->size(); ++i) {
         cerr << i+1 << "||| ";
         for(unsigned int j=0; j<ratings[0].size(); ++j) {
-            cerr << setw(2) << j << "{";
+            cerr << setw(2) << j+1 << "{";
             for(int k=0; k<NUM_MODULES; ++k) {
                 int rank = (*ratings)[i][j][k];
                 cerr << ((rank<0) ? 0 : rank);
