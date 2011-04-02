@@ -115,11 +115,10 @@ int VImage::avgPixelDiff(VImage_t one, VImage_t two) {
     return total;
 }
 
-vector<vector<float> > VImage::makeHistograms(VImage* vim,
+histogramSet VImage::makeHistograms(VImage* vim,
                        int x, int y, int width, int height) {
-    vector<vector<float> > histograms =
-                        vector<vector<float> >(HNUMCOLORS,
-                        vector<float>(256, 0.0));
+    histogramSet histograms = histogramSet(HNUMCOLORS,
+                              vector<float>(256, 0.0));
 
     if(x+width > vim->getWidth() ||
        y+height > vim->getHeight()) {

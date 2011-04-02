@@ -29,6 +29,8 @@ using namespace vw::ip;
 typedef ImageView<PixelRGB<uint8> > VImage_t;
 typedef pair<int,int> point;
 typedef pair<point,point> boundingBox;
+typedef vector<float> histogramChannel;
+typedef vector<histogramChannel> histogramSet;
 
 /*DEBUG class QMainWindow;*/
 class VImage/*DEBUG : public QMainWindow*/
@@ -78,13 +80,13 @@ public:
 
     // Colors
         // Make histogram starting at QImage's (x,y)
-    static vector<vector<float> > makeHistograms
+    static histogramSet makeHistograms
                     (VImage* vim, int x, int y, int width, int height);
-    const vector<vector<float> >& getHistogram() { return histograms; }
-    vector<float> getHistogramK() { return histograms[HBLACK]; }
-    vector<float> getHistogramR() { return histograms[HRED]; }
-    vector<float> getHistogramG() { return histograms[HGREEN]; }
-    vector<float> getHistogramB() { return histograms[HBLUE]; }
+    const histogramSet& getHistogram() { return histograms; }
+    histogramChannel getHistogramK() { return histograms[HBLACK]; }
+    histogramChannel getHistogramR() { return histograms[HRED]; }
+    histogramChannel getHistogramG() { return histograms[HGREEN]; }
+    histogramChannel getHistogramB() { return histograms[HBLUE]; }
     const vector<int>& getMedians() { return medianColors; }
     int getMedGray() { return medianColors[HBLACK]; }
     int getMedRed() { return medianColors[HRED]; }
@@ -118,7 +120,7 @@ private:
     QImage* foreground;
 
     // Colors
-    vector<vector<float> > histograms; // 4 channels, black+RGB
+    histogramSet histograms; // 4 channels, black+RGB
                                        // % between 0 and 1
     vector<int> medianColors; // Median of histogram
 };
