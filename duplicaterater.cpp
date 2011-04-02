@@ -115,6 +115,6 @@ void DuplicateRater::printRanks() {
             }
             cerr << "}   ";
         }
-        cerr << endl;
+        cerr << endl << endl;
     }
 }
