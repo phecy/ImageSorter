@@ -1,10 +1,12 @@
 #include "duplicatehistogram.h"
 
-#define HIST_SEGMENTS_SIDE 5
+#define HIST_SEGMENTS_SIDE 2
 
 #define EDGE_BINS_TO_IGNORE 2
 
-#define MULTIPLIER .5 // more = less tolerant
+#define HIST_FG_WEIGHT 20
+
+#define MULTIPLIER .05 // more = less tolerant
 #define STRICTNESS_K 1.0 * MULTIPLIER
 #define STRICTNESS_R 1.0 * MULTIPLIER
 #define STRICTNESS_G 2.0 * MULTIPLIER
@@ -30,6 +32,13 @@ void DuplicateHistogram::addImage(VImage* vim) {
                 histogramOneSegment(hist, box));
         }
     }
+
+    // And overall histogram
+    histogramSet fullhist = vim->getHistogram();
+    boundingBox fullbox(point(0,0),
+                        point(vim->getWidth()-1,vim->getHeight()-1));
+    allHistBins[vim].push_back(
+        histogramOneSegment(fullhist, fullbox));
 
     //debugPrint(vim);
 }
@@ -107,6 +116,7 @@ int DuplicateHistogram::compareHistograms(
             float weight = 1.0;
             weight += amountInForeground(vim1, box1) / (float)fgareaOne;
             weight += amountInForeground(vim2, box2) / (float)fgareaTwo;
+            weight *= HIST_FG_WEIGHT;
             float diff = hist1.first[c][bin] - hist2.first[c][bin];
 
             // Adjust for exposure diffs if it helps
@@ -122,12 +132,12 @@ int DuplicateHistogram::compareHistograms(
                       - STRICTNESS_G*diffs[HGREEN]
                       - STRICTNESS_B*diffs[HBLUE]);
 
-    qDebug("Histogram diff %d vs. %d: KRGB (%.1f,%.1f,%.1f,%.1f)=%d    adjustment: (%d, %d, %d, %d)",
-            vim1->getIndex()+1, vim2->getIndex()+1,
-            diffs[HBLACK], diffs[HRED], diffs[HGREEN], diffs[HBLUE], rating,
-            adjustments[HBLACK], adjustments[HRED],
-            adjustments[HGREEN], adjustments[HBLUE]
-            );
+//    qDebug("Histogram diff %d vs. %d: KRGB (%.1f,%.1f,%.1f,%.1f)=%d    adjustment: (%d, %d, %d, %d)",
+//            vim1->getIndex()+1, vim2->getIndex()+1,
+//            diffs[HBLACK], diffs[HRED], diffs[HGREEN], diffs[HBLUE], rating,
+//            adjustments[HBLACK], adjustments[HRED],
+//            adjustments[HGREEN], adjustments[HBLUE]
+//            );
 
     rating = max(0, rating);
 

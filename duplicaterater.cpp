@@ -2,7 +2,6 @@
 #include "duplicaterater.h"
 #include "vimage.h"
 
-
 // Mins: Below this value on any module, fail
 // Maxs: Above this value on any module, succeed
 #define MIN_SEGMENTED_THRESHHOLD -1
@@ -12,11 +11,11 @@
 #define MIN_TIME_THRESHHOLD -1
 #define MAX_TIME_THRESHHOLD 10
 
-#define TIME_WEIGHT 2.0
-#define SEG_WEIGHT 3
-#define FG_WEIGHT 1
-#define GAUSS_WEIGHT 4
-#define HIST_WEIGHT 10
+#define TIME_WEIGHT 10.0
+#define SEG_WEIGHT 1.0
+#define FG_WEIGHT 1.0
+#define GAUSS_WEIGHT 4.0
+#define HIST_WEIGHT 10.0
 
 #define MAX_RANK 10
 
