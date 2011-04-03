@@ -2,7 +2,9 @@
 
 #define HIST_SEGMENTS_SIDE 5
 
-#define MULTIPLIER .4 // more = less tolerant
+#define EDGE_BINS_TO_IGNORE 2
+
+#define MULTIPLIER .5 // more = less tolerant
 #define STRICTNESS_K 1.0 * MULTIPLIER
 #define STRICTNESS_R 1.0 * MULTIPLIER
 #define STRICTNESS_G 2.0 * MULTIPLIER
@@ -13,15 +15,19 @@ DuplicateHistogram::DuplicateHistogram(DuplicateRater *rater) {
 }
 
 void DuplicateHistogram::addImage(VImage* vim) {
-    allHistBins[vim] = vector<histogramSet>();
+    allHistBins[vim] = histogramSegments();
     int width = vim->getWidth() / HIST_SEGMENTS_SIDE;
     int height = vim->getHeight() / HIST_SEGMENTS_SIDE;
 
+    // For every segment, push back histogram
     for(int x = 0; x < width*HIST_SEGMENTS_SIDE; x+=width) {
         for(int y = 0; y < height*HIST_SEGMENTS_SIDE; y+=height) {
             histogramSet hist = VImage::makeHistograms
                                 (vim, x, y, width, height);
-            allHistBins[vim].push_back(makeBinFrom(hist));
+            hist = makeBinFrom(hist);
+            boundingBox box(point(x, y), point(x+width, y+height));
+            allHistBins[vim].push_back(
+                histogramOneSegment(hist, box));
         }
     }
 
@@ -62,32 +68,51 @@ void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
     int numSets = allHistBins[first].size();
     int totalRanks = 0;
     for(int i=0; i<numSets; ++i) {
-        totalRanks += compareHistograms(allHistBins[first][i],
-                                        allHistBins[second][i],
-                                        first, second);
+        totalRanks += compareHistograms
+                      (allHistBins[first][i], allHistBins[second][i],
+                       first, second);
     }
     int finalRank = totalRanks / numSets;
     rater->addRanking(first, second, finalRank, DuplicateRater::DUPLICATE_HISTOGRAM);
 }
 
-int DuplicateHistogram::compareHistograms(histogramSet one, histogramSet two,
-                                         VImage* first, VImage* second) {
-    const vector<int> oneMeds = first->getMedians();
-    const vector<int> twoMeds = second->getMedians();
+int DuplicateHistogram::compareHistograms(
+        histogramOneSegment hist1, histogramOneSegment hist2,
+        VImage* vim1, VImage* vim2) {
+    const vector<int> oneMeds = vim1->getMedians();
+    const vector<int> twoMeds = vim2->getMedians();
+
+    boundingBox box1 = hist1.second;
+    boundingBox box2 = hist2.second;
 
     // Adjust based on exposure diffs
-    // Idea: just shift bins
     int adjustments[HNUMCOLORS];
     for(int c=0; c<HNUMCOLORS; ++c) {
         adjustments[c] = oneMeds[c] - twoMeds[c];
     }
 
     float diffs[HNUMCOLORS] = {0, 0, 0, 0};
+    int area = vim1->getWidth() * vim2->getHeight() /
+               HIST_SEGMENTS_SIDE*HIST_SEGMENTS_SIDE;
+    int fgareaOne =
+         vim1->getForeground()->width() * vim1->getForeground()->height();
+    int fgareaTwo =
+         vim2->getForeground()->width() * vim2->getForeground()->height();
     // Ignore highlights/shadows
-    for(int bin=1; bin<NUM_BINS-1; ++bin) {
+    for(int bin=EDGE_BINS_TO_IGNORE;
+            bin<NUM_BINS-EDGE_BINS_TO_IGNORE;
+            ++bin) {
         for(int c=0; c<HNUMCOLORS; ++c) {
-            diffs[c] += fabs(one[c][bin] - two[c][bin]
-                            - adjustments[c]*NUM_BINS/256);
+            // More weight to fg
+            float weight = 1.0;
+            weight += amountInForeground(vim1, box1) / (float)fgareaOne;
+            weight += amountInForeground(vim2, box2) / (float)fgareaTwo;
+            float diff = hist1.first[c][bin] - hist2.first[c][bin];
+
+            // Adjust for exposure diffs if it helps
+            diffs[c] += fabs(min(diff,
+                                 diff-adjustments[c]/area))
+                        * weight;
         }
     }
 
@@ -98,7 +123,7 @@ int DuplicateHistogram::compareHistograms(histogramSet one, histogramSet two,
                       - STRICTNESS_B*diffs[HBLUE]);
 
     qDebug("Histogram diff %d vs. %d: KRGB (%.1f,%.1f,%.1f,%.1f)=%d    adjustment: (%d, %d, %d, %d)",
-            first->getIndex()+1, second->getIndex()+1,
+            vim1->getIndex()+1, vim2->getIndex()+1,
             diffs[HBLACK], diffs[HRED], diffs[HGREEN], diffs[HBLUE], rating,
             adjustments[HBLACK], adjustments[HRED],
             adjustments[HGREEN], adjustments[HBLUE]
@@ -107,6 +132,21 @@ int DuplicateHistogram::compareHistograms(histogramSet one, histogramSet two,
     rating = max(0, rating);
 
     return rating;
+}
+
+int DuplicateHistogram::amountInForeground(VImage* vim, boundingBox box) {
+    point fgstart = vim->getForegroundCoords().first;
+    point fgend = vim->getForegroundCoords().first;
+
+    if(box.first.first > fgend.first  ||
+       box.first.second > fgend.second ||
+       box.second.first  < fgstart.first   ||
+       box.second.second < fgstart.second)
+        return 0;
+
+    int xlen = box.second.first - fgstart.first;
+    int ylen = box.second.second - fgstart.second;
+    return xlen*ylen;
 }
 
 void DuplicateHistogram::debugPrint(VImage* vim, histogramSet hists) {

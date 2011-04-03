@@ -12,11 +12,11 @@
 #define MIN_TIME_THRESHHOLD -1
 #define MAX_TIME_THRESHHOLD 10
 
-#define TIME_WEIGHT 1.0
+#define TIME_WEIGHT 2.0
 #define SEG_WEIGHT 3
 #define FG_WEIGHT 1
 #define GAUSS_WEIGHT 4
-#define HIST_WEIGHT 5
+#define HIST_WEIGHT 10
 
 #define MAX_RANK 10
 
@@ -90,7 +90,7 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
                     + FG_WEIGHT*fgRating
                     + GAUSS_WEIGHT*gaussRating
                     + HIST_WEIGHT*histRating
-                    ) / (SEG_WEIGHT+FG_WEIGHT+GAUSS_WEIGHT)
+                    ) / (SEG_WEIGHT+FG_WEIGHT+GAUSS_WEIGHT+HIST_WEIGHT)
                );
 
     return rankCalc;

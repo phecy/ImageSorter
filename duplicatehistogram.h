@@ -11,7 +11,8 @@
 
 using namespace std;
 
-typedef vector<histogramSet> histogramSegments;
+typedef pair<histogramSet, boundingBox> histogramOneSegment;
+typedef vector<histogramOneSegment> histogramSegments;
 
 class DuplicateHistogram
 {
@@ -30,8 +31,12 @@ private:
     histogramSet makeBinFrom(const histogramSet& histograms);
 
     // Compares two partial histograms
-    int compareHistograms(histogramSet one, histogramSet two,
-                          VImage* first, VImage* second);
+    int compareHistograms
+        (histogramOneSegment one, histogramOneSegment two,
+         VImage* first, VImage* second);
+
+    // Return # pixels of box in vim's foreground
+    int amountInForeground(VImage*, boundingBox);
 
     DuplicateRater* rater;
 
