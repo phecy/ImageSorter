@@ -1221,6 +1221,36 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
           fgBox = boundingBox(point(128,80),point(512,320));
     else if(strcmp(vim->getFilename(), "main.jpg") == 0)
           fgBox = boundingBox(point(198,144),point(449,348));
+    else if(strcmp(vim->getFilename(), "rainbowbright.jpg") == 0)
+          fgBox = boundingBox(point(368,6),point(790,234));
+    else if(strcmp(vim->getFilename(), "rainbow.jpg") == 0)
+          fgBox = boundingBox(point(8,126),point(498,322));
+    else if(strcmp(vim->getFilename(), "rainbowblotch.jpg") == 0)
+          fgBox = boundingBox(point(408,36),point(793,287));
+    else if(strcmp(vim->getFilename(), "rainbowfade.jpg") == 0)
+          fgBox = boundingBox(point(88,66),point(495,315));
+    else if(strcmp(vim->getFilename(), "DSC_0087.jpg") == 0)
+          fgBox = boundingBox(point(96,44),point(380,216));
+    else if(strcmp(vim->getFilename(), "DSC_0088.jpg") == 0)
+          fgBox = boundingBox(point(96,124),point(271,400));
+    else if(strcmp(vim->getFilename(), "DSC_0089.jpg") == 0)
+          fgBox = boundingBox(point(96,104),point(422,252));
+    else if(strcmp(vim->getFilename(), "DSC_0090.jpg") == 0)
+          fgBox = boundingBox(point(336,4),point(597,189));
+    else if(strcmp(vim->getFilename(), "DSC_0091.jpg") == 0)
+          fgBox = boundingBox(point(426,4),point(599,283));
+    else if(strcmp(vim->getFilename(), "DSC_0092.jpg") == 0)
+          fgBox = boundingBox(point(276,4),point(576,165));
+    else if(strcmp(vim->getFilename(), "DSC_0093.jpg") == 0)
+          fgBox = boundingBox(point(336,4),point(597,189));
+    else if(strcmp(vim->getFilename(), "DSC_0094.jpg") == 0)
+          fgBox = boundingBox(point(96,205),point(345,399));
+    else if(strcmp(vim->getFilename(), "DSC_0095.jpg") == 0)
+          fgBox = boundingBox(point(276,4),point(595,157));
+    else if(strcmp(vim->getFilename(), "DSC_0096.jpg") == 0)
+          fgBox = boundingBox(point(96,4),point(329,228));
+    else if(strcmp(vim->getFilename(), "DSC_0097.jpg") == 0)
+          fgBox = boundingBox(point(6,44),point(549,133));
     return fgBox;
 }
 

@@ -6508,7 +6508,237 @@ bool loadPreset(VImage* vim, int i,
     //   Exposure: 5
     //   Color: 4
     }
-
+    else if(strcmp(vim->getFilename(), "rainbowbright.jpg") == 0) {
+             exposeVals[i] = 3;
+             palletVals[i] = 4;
+               greyVals[i] = 9;
+               blurVals[i] = 9;
+              sharpVals[i] = 7;
+    //          picValue[i] = 4.38225;
+    //   Blur: 7
+    //   Exposure: 3
+    //   Color: 4
+    }
+    else if(strcmp(vim->getFilename(), "rainbow.jpg") == 0) {
+             exposeVals[i] = 6;
+             palletVals[i] = 4;
+               greyVals[i] = 7;
+               blurVals[i] = 9;
+              sharpVals[i] = 6;
+    //          picValue[i] = 4.89651;
+    //   Blur: 6
+    //   Exposure: 6
+    //   Color: 4
+    }
+    else if(strcmp(vim->getFilename(), "rainbowblotch.jpg") == 0) {
+             exposeVals[i] = 6;
+             palletVals[i] = 4;
+               greyVals[i] = 7;
+               blurVals[i] = 9;
+              sharpVals[i] = 7;
+    //          picValue[i] = 5.49068;
+    //   Blur: 7
+    //   Exposure: 6
+    //   Color: 4
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0081.jpg") == 0) {
+             exposeVals[i] = 0;
+             palletVals[i] = 1;
+               greyVals[i] = 1;
+               blurVals[i] = 0;
+              sharpVals[i] = 2;
+    //          picValue[i] = 0.220338;
+    //   Blur: 2
+    //   Exposure: 0
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0081copy.jpg") == 0) {
+             exposeVals[i] = 0;
+             palletVals[i] = 1;
+               greyVals[i] = 1;
+               blurVals[i] = 0;
+              sharpVals[i] = 2;
+    //          picValue[i] = 0.220338;
+    //   Blur: 2
+    //   Exposure: 0
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0082.jpg") == 0) {
+             exposeVals[i] = 1;
+             palletVals[i] = 1;
+               greyVals[i] = 1;
+               blurVals[i] = 0;
+              sharpVals[i] = 2;
+    //          picValue[i] = 0.592728;
+    //   Blur: 2
+    //   Exposure: 1
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0083.jpg") == 0) {
+             exposeVals[i] = 0;
+             palletVals[i] = 1;
+               greyVals[i] = 1;
+               blurVals[i] = 0;
+              sharpVals[i] = 1;
+    //          picValue[i] = 0;
+    //   Blur: 1
+    //   Exposure: 0
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0084.jpg") == 0) {
+             exposeVals[i] = 8;
+             palletVals[i] = 7;
+               greyVals[i] = 3;
+               blurVals[i] = 0;
+              sharpVals[i] = 5;
+    //          picValue[i] = 5.11749;
+    //   Blur: 5
+    //   Exposure: 8
+    //   Color: 7
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0085.jpg") == 0) {
+             exposeVals[i] = 3;
+             palletVals[i] = 4;
+               greyVals[i] = 8;
+               blurVals[i] = 0;
+              sharpVals[i] = 6;
+    //          picValue[i] = 3.81023;
+    //   Blur: 6
+    //   Exposure: 3
+    //   Color: 4
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0086.jpg") == 0) {
+             exposeVals[i] = 0;
+             palletVals[i] = 1;
+               greyVals[i] = 2;
+               blurVals[i] = 0;
+              sharpVals[i] = 4;
+    //          picValue[i] = 1.3473;
+    //   Blur: 4
+    //   Exposure: 0
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0087.jpg") == 0) {
+             exposeVals[i] = 2;
+             palletVals[i] = 1;
+               greyVals[i] = 2;
+               blurVals[i] = 9;
+              sharpVals[i] = 4;
+    //          picValue[i] = 2.1225;
+    //   Blur: 4
+    //   Exposure: 2
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0088.jpg") == 0) {
+             exposeVals[i] = 1;
+             palletVals[i] = 1;
+               greyVals[i] = 1;
+               blurVals[i] = 9;
+              sharpVals[i] = 4;
+    //          picValue[i] = 1.7442;
+    //   Blur: 4
+    //   Exposure: 1
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0089.jpg") == 0) {
+             exposeVals[i] = 2;
+             palletVals[i] = 1;
+               greyVals[i] = 2;
+               blurVals[i] = 9;
+              sharpVals[i] = 4;
+    //          picValue[i] = 2.1225;
+    //   Blur: 4
+    //   Exposure: 2
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0090.jpg") == 0) {
+             exposeVals[i] = 2;
+             palletVals[i] = 1;
+               greyVals[i] = 3;
+               blurVals[i] = 9;
+              sharpVals[i] = 5;
+    //          picValue[i] = 2.69574;
+    //   Blur: 5
+    //   Exposure: 2
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0091.jpg") == 0) {
+             exposeVals[i] = 2;
+             palletVals[i] = 1;
+               greyVals[i] = 2;
+               blurVals[i] = 9;
+              sharpVals[i] = 6;
+    //          picValue[i] = 3.26189;
+    //   Blur: 6
+    //   Exposure: 2
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0092.jpg") == 0) {
+             exposeVals[i] = 2;
+             palletVals[i] = 1;
+               greyVals[i] = 2;
+               blurVals[i] = 9;
+              sharpVals[i] = 8;
+    //          picValue[i] = 4.37705;
+    //   Blur: 8
+    //   Exposure: 2
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0093.jpg") == 0) {
+             exposeVals[i] = 2;
+             palletVals[i] = 1;
+               greyVals[i] = 2;
+               blurVals[i] = 9;
+              sharpVals[i] = 7;
+    //          picValue[i] = 3.82206;
+    //   Blur: 7
+    //   Exposure: 2
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0094.jpg") == 0) {
+             exposeVals[i] = 0;
+             palletVals[i] = 1;
+               greyVals[i] = 0;
+               blurVals[i] = 9;
+              sharpVals[i] = 3;
+    //          picValue[i] = 0.788124;
+    //   Blur: 3
+    //   Exposure: 0
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0095.jpg") == 0) {
+             exposeVals[i] = 1;
+             palletVals[i] = 1;
+               greyVals[i] = 1;
+               blurVals[i] = 9;
+              sharpVals[i] = 2;
+    //          picValue[i] = 0.592728;
+    //   Blur: 2
+    //   Exposure: 1
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0096.jpg") == 0) {
+             exposeVals[i] = 0;
+             palletVals[i] = 1;
+               greyVals[i] = 0;
+               blurVals[i] = 9;
+              sharpVals[i] = 1;
+    //          picValue[i] = 0;
+    //   Blur: 1
+    //   Exposure: 0
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0097.jpg") == 0) {
+             exposeVals[i] = 5;
+             palletVals[i] = 1;
+               greyVals[i] = 3;
+               blurVals[i] = 9;
+              sharpVals[i] = 5;
+    //          picValue[i] = 3.78205;
+    //   Blur: 5
+    //   Exposure: 5
+    //   Color: 1
+    }
 
     else return false;
     return true;
