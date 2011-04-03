@@ -6739,7 +6739,39 @@ bool loadPreset(VImage* vim, int i,
     //   Exposure: 5
     //   Color: 1
     }
-
+    else if(strcmp(vim->getFilename(), "DSC_0098.jpg") == 0) {
+             exposeVals[i] = 6;
+             palletVals[i] = 7;
+               greyVals[i] = 4;
+               blurVals[i] = 9;
+              sharpVals[i] = 5;
+    //          picValue[i] = 4.44401;
+    //   Blur: 5
+    //   Exposure: 6
+    //   Color: 7
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0099.jpg") == 0) {
+             exposeVals[i] = 4;
+             palletVals[i] = 1;
+               greyVals[i] = 6;
+               blurVals[i] = 9;
+              sharpVals[i] = 4;
+    //          picValue[i] = 2.83915;
+    //   Blur: 4
+    //   Exposure: 4
+    //   Color: 1
+    }
+    else if(strcmp(vim->getFilename(), "DSC_0101.jpg") == 0) {
+             exposeVals[i] = 6;
+             palletVals[i] = 7;
+               greyVals[i] = 6;
+               blurVals[i] = 9;
+              sharpVals[i] = 9;
+    //          picValue[i] = 6.82065;
+    //   Blur: 9
+    //   Exposure: 6
+    //   Color: 7
+    }
     else return false;
     return true;
 

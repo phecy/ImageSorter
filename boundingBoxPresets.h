@@ -1251,6 +1251,12 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
           fgBox = boundingBox(point(96,4),point(329,228));
     else if(strcmp(vim->getFilename(), "DSC_0097.jpg") == 0)
           fgBox = boundingBox(point(6,44),point(549,133));
+    else if(strcmp(vim->getFilename(), "DSC_0098.jpg") == 0)
+          fgBox = boundingBox(point(6,4),point(422,120));
+    else if(strcmp(vim->getFilename(), "DSC_0099.jpg") == 0)
+          fgBox = boundingBox(point(276,124),point(469,374));
+    else if(strcmp(vim->getFilename(), "DSC_0101.jpg") == 0)
+          fgBox = boundingBox(point(276,245),point(589,400));
     return fgBox;
 }
 
