@@ -101,6 +101,7 @@ int DuplicateHistogram::compareHistograms(
         adjustments[c] = oneMeds[c] - twoMeds[c];
     }
 
+    // Initialize
     float diffs[HNUMCOLORS] = {0, 0, 0, 0};
     int area = vim1->getWidth() * vim2->getHeight() /
                HIST_SEGMENTS_SIDE*HIST_SEGMENTS_SIDE;
@@ -108,6 +109,7 @@ int DuplicateHistogram::compareHistograms(
          vim1->getForeground()->width() * vim1->getForeground()->height();
     int fgareaTwo =
          vim2->getForeground()->width() * vim2->getForeground()->height();
+
     // Ignore highlights/shadows
     for(int bin=EDGE_BINS_TO_IGNORE;
             bin<NUM_BINS-EDGE_BINS_TO_IGNORE;
@@ -115,8 +117,8 @@ int DuplicateHistogram::compareHistograms(
         for(int c=0; c<HNUMCOLORS; ++c) {
             // More weight to fg
             float weight = 1.0;
-            weight += amountInForeground(vim1, box1) / (float)fgareaOne;
-            weight += amountInForeground(vim2, box2) / (float)fgareaTwo;
+            weight += vim1->amountInForeground(box1) / (float)fgareaOne;
+            weight += vim2->amountInForeground(box2) / (float)fgareaTwo;
             weight *= HIST_FG_WEIGHT;
             if(hist1.second.second.first > .8*vim1->getWidth()) {
                 weight *= HIST_TOTAL_WEIGHT;
@@ -146,21 +148,6 @@ int DuplicateHistogram::compareHistograms(
     rating = max(0, rating);
 
     return rating;
-}
-
-int DuplicateHistogram::amountInForeground(VImage* vim, boundingBox box) {
-    point fgstart = vim->getForegroundCoords().first;
-    point fgend = vim->getForegroundCoords().first;
-
-    if(box.first.first > fgend.first  ||
-       box.first.second > fgend.second ||
-       box.second.first  < fgstart.first   ||
-       box.second.second < fgstart.second)
-        return 0;
-
-    int xlen = box.second.first - fgstart.first;
-    int ylen = box.second.second - fgstart.second;
-    return xlen*ylen;
 }
 
 void DuplicateHistogram::debugPrint(VImage* vim, histogramSet hists) {
