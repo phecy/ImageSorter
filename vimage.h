@@ -1,7 +1,7 @@
 /*
-    This class is a wrapper which helps combine a
-    QImage and a VImage (Vision Workbench image)
- */
+This class is a wrapper which helps combine a
+QImage and a VImage (Vision Workbench image)
+*/
 
 #ifndef VIMAGE_H
 #define VIMAGE_H
@@ -37,7 +37,6 @@ class VImage/*DEBUG : public QMainWindow*/
 {
 public:
     VImage(char* filename);
-    VImage(const VImage&);
     ~VImage();
 
     // Data
@@ -56,6 +55,8 @@ public:
     int getOrigHeight() { return origheight; }
 
     // Ranks
+    // Rank = 0-10 rating.
+    // Adjusted rank = rank adjusted for set
     void setRank(float r) { rankTotal=r; adjustedRank=r; }
     float getRank() { return rankTotal; }
     void setSetNum(float s) { setNum = s; }
@@ -81,11 +82,14 @@ public:
     int amountInForeground(boundingBox);
 
     // Colors
-    const vector<vector<float> >& getHistogram() { return histograms; }
-    vector<float> getHistogramK() { return histograms[HBLACK]; }
-    vector<float> getHistogramR() { return histograms[HRED]; }
-    vector<float> getHistogramG() { return histograms[HGREEN]; }
-    vector<float> getHistogramB() { return histograms[HBLUE]; }
+        // Make histogram starting at QImage's (x,y)
+    static histogramSet makeHistograms
+                    (VImage* vim, int x, int y, int width, int height);
+    const histogramSet& getHistogram() { return histograms; }
+    histogramChannel getHistogramK() { return histograms[HBLACK]; }
+    histogramChannel getHistogramR() { return histograms[HRED]; }
+    histogramChannel getHistogramG() { return histograms[HGREEN]; }
+    histogramChannel getHistogramB() { return histograms[HBLUE]; }
     const vector<int>& getMedians() { return medianColors; }
     int getMedGray() { return medianColors[HBLACK]; }
     int getMedRed() { return medianColors[HRED]; }
@@ -95,7 +99,7 @@ public:
 private:
     void setData(uchar* data);
     void makeQImage();
-    void makeHistogram();
+    void makeMedianColors();
 
     // Data
     VImage_t* vimage;
@@ -119,9 +123,9 @@ private:
     QImage* foreground;
 
     // Colors
-    vector<vector<float> > histograms; // 4 channels, black+RGB
+    histogramSet histograms; // 4 channels, black+RGB
                                        // % between 0 and 1
-    vector<int> medianColors;
+    vector<int> medianColors; // Median of histogram
 };
 
 #endif // VIMAGE_H
