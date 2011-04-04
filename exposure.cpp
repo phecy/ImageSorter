@@ -22,26 +22,6 @@ const int columns = 4;
 exposure::exposure(){
 }
 
-// r1 - piece
-// r2 - foreground
-double intersect(boundingBox r1, boundingBox r2)
-{
-    /*double area =  (double)(max(r1[0].first,r2[0].first) - min(r1[1].first,r2[1].first))*
-                   (double)(max(r1[0].second,r2[0].second) - min(r1[1].second,r2[1].second));
-    */
-
-    //double area = (double)(max(r1.first.first,r2.first.first));
-
-    double area =
-
-    if (area == 0) return 1.;
-
-    double r1_area = (r1.first.first-r1.second.first)*(r1.first.second-r1.second.second);
-
-    return (area)*3. + (area-r1_area)*1.;
-
-}
-
 float exposure::expose(VImage *vim) {
     QImage* im = vim->getQImage();
     char* imageName = vim->getFilename();
@@ -94,7 +74,6 @@ float exposure::expose(VImage *vim) {
     grey newGrey;
     double sum = 0;
     //QImage* foreground = vim->getForeground();
-    boundingBox foreground_coords = vim->getForegroundCoords();
 
     for (int i=0; i<rows; i++)
     {
@@ -105,10 +84,10 @@ float exposure::expose(VImage *vim) {
               //printf("%d %d\n", piece->width(),  piece->height());
              // printf("%d,%d:  grey val %d\n",i,j,grey_vals[i][j]);
             // if fully intersect, weight is tripled
-              boundingBox piece_coords = {i*100, j*150, (i+1)*100, (j+1)*150};
-              sum += (double)grey_vals[i][j]*intersect(piece_coords,foreground_coords);
+              boundingBox piece_coords(point(i*100, j*150), point((i+1)*100, (j+1)*150));
+              sum += (double)grey_vals[i][j]*vim->amountInForeground(piece_coords);
               printf("sum = %f        grey_vals = %d       coeff = %f\n",
-                     sum,grey_vals[i][j],intersect(piece_coords,foreground_coords));
+                     sum,grey_vals[i][j],vim->amountInForeground(piece_coords));
         }
     }
 

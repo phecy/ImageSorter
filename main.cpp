@@ -281,13 +281,7 @@ int main(int argc, char *argv[])
 
     // Calculate everything. Gather duplicates.
     bool succeeded = calcAllModules(imageInfoArray, imageStrArray, size, dupFinder, picValue);
-<<<<<<< HEAD
-    if(!succeeded)
-        return EXIT_FAILURE;
-    /*DEBUG return app.exec(); */
-=======
     if(!succeeded) return EXIT_FAILURE;
->>>>>>> c34599edd02b74368fbf5f1e51a85a8a292ddd37
 
 #ifndef IGNORE_SETS
     //Finds and combines duplicates.
