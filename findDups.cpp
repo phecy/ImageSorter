@@ -25,7 +25,10 @@
 #include "qualityexif.h"
 
 // Amount needed for two images to be considered similar on 0-10 scale
-#define SIMILARITY_RANK_THRESHHOLD 7
+
+#define SIMILARITY_RANK_THRESHHOLD 6.1
+// .1 because only images with rank 7 will accept, but its
+// resistant to lower group ratings while clustering
 
 // The minimum rating required to ensure that if one image ranks another
 // highly, that rating can't be weakened through averaging
