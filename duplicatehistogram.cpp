@@ -1,3 +1,5 @@
+#include <iostream>
+#include <iomanip>
 #include "duplicatehistogram.h"
 
 #define MULTIPLIER .2 // more = less tolerant

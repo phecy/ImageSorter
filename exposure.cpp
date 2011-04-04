@@ -12,10 +12,34 @@
 
 #include "exposure.h"
 #include "vimage.h"
+#include "grey.h"
 
 using namespace std;
 
+const int rows = 8;
+const int columns = 4;
+
 exposure::exposure(){
+}
+
+// r1 - piece
+// r2 - foreground
+double intersect(boundingBox r1, boundingBox r2)
+{
+    /*double area =  (double)(max(r1[0].first,r2[0].first) - min(r1[1].first,r2[1].first))*
+                   (double)(max(r1[0].second,r2[0].second) - min(r1[1].second,r2[1].second));
+    */
+
+    //double area = (double)(max(r1.first.first,r2.first.first));
+
+    double area =
+
+    if (area == 0) return 1.;
+
+    double r1_area = (r1.first.first-r1.second.first)*(r1.first.second-r1.second.second);
+
+    return (area)*3. + (area-r1_area)*1.;
+
 }
 
 float exposure::expose(VImage *vim) {
@@ -30,7 +54,7 @@ float exposure::expose(VImage *vim) {
     int width=0;
     int height=0;
     int pixels=0;
-    int per60[2] ={0,0};
+/*    int per60[2] ={0,0};
     int per98[2] ={0,0};
     // foreground
     int fg_per60[2] ={0,0};
@@ -38,7 +62,7 @@ float exposure::expose(VImage *vim) {
     // background
     int bg_per60[2] ={0,0};
     int bg_per98[2] ={0,0};
-
+*/
     width = im->width();
     height = im->height();
     pixels=width*height;
@@ -63,7 +87,35 @@ float exposure::expose(VImage *vim) {
        }
      }
 
+    // assumption: all images are resized to be 800x600
+    // => let's divide the image into 8x4=32 rectangles
+    // each rectamgle is 100x150 piexels
+    int grey_vals[rows][columns] = {0};
+    grey newGrey;
+    double sum = 0;
+    //QImage* foreground = vim->getForeground();
+    boundingBox foreground_coords = vim->getForegroundCoords();
 
+    for (int i=0; i<rows; i++)
+    {
+        for (int j=0; j<columns; j++)
+        {
+            QImage *piece = new QImage(im->copy(i*100, j*150, 100, 150));
+              grey_vals[i][j] = newGrey.calcGrey(piece);
+              //printf("%d %d\n", piece->width(),  piece->height());
+             // printf("%d,%d:  grey val %d\n",i,j,grey_vals[i][j]);
+            // if fully intersect, weight is tripled
+              boundingBox piece_coords = {i*100, j*150, (i+1)*100, (j+1)*150};
+              sum += (double)grey_vals[i][j]*intersect(piece_coords,foreground_coords);
+              printf("sum = %f        grey_vals = %d       coeff = %f\n",
+                     sum,grey_vals[i][j],intersect(piece_coords,foreground_coords));
+        }
+    }
+
+   printf("sum = %d, avg = %f\n", sum, (double)sum/(double)(rows*columns));
+
+    return (double)sum/(double)(rows*columns);
+/*
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
              int red = qRed (im->pixel (x, y));
@@ -581,9 +633,9 @@ float exposure::expose(VImage *vim) {
                                // That leaves just the average to pretty good values.
           */
 
-
+/*
   }
-
+*/
       /*resultsExpanded.open ("exposure_info.csv", ios_base::app); // put the stuff in a csv file at the end of the file
       resultsExpanded << imageName << ","; // first name the image
       resultsExpanded << rating_out[0]<<","<<rating_out[1]<<","<<rating_out[2]<<"," << fg_variance << "," << bg_variance << "," <<
@@ -623,6 +675,6 @@ float exposure::expose(VImage *vim) {
       resultsExpanded.close();
       */
 
-      return rating_out[0];
+//      return rating_out[0];
 
 }

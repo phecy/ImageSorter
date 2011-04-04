@@ -233,6 +233,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             sharpVals[i] = sharpDetect.rankOne(currVIm);
     //        newBlur->show();
         }
+        exposeVals[i] = newExpose.expose(currVIm);
     }
 
     // Sets the different methods' respective weights.
@@ -275,7 +276,8 @@ int main(int argc, char *argv[])
 
     // Calculate everything. Gather duplicates.
     bool succeeded = calcAllModules(imageInfoArray, imageStrArray, size, dupFinder, picValue);
-    if(!succeeded) return EXIT_FAILURE;
+    if(!succeeded)
+        return EXIT_FAILURE;
     /*DEBUG return app.exec(); */
 
     //Finds and combines duplicates.
