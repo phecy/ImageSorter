@@ -4,9 +4,10 @@
 
 #define EDGE_BINS_TO_IGNORE 2
 
-#define HIST_FG_WEIGHT 20
+#define HIST_FG_WEIGHT 3
+#define HIST_TOTAL_WEIGHT 20
 
-#define MULTIPLIER .05 // more = less tolerant
+#define MULTIPLIER .08 // more = less tolerant
 #define STRICTNESS_K 1.0 * MULTIPLIER
 #define STRICTNESS_R 1.0 * MULTIPLIER
 #define STRICTNESS_G 2.0 * MULTIPLIER
@@ -117,6 +118,9 @@ int DuplicateHistogram::compareHistograms(
             weight += amountInForeground(vim1, box1) / (float)fgareaOne;
             weight += amountInForeground(vim2, box2) / (float)fgareaTwo;
             weight *= HIST_FG_WEIGHT;
+            if(hist1.second.second.first > .8*vim1->getWidth()) {
+                weight *= HIST_TOTAL_WEIGHT;
+            }
             float diff = hist1.first[c][bin] - hist2.first[c][bin];
 
             // Adjust for exposure diffs if it helps

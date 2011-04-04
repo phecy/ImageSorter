@@ -11,13 +11,13 @@
 #define MIN_TIME_THRESHHOLD -1
 #define MAX_TIME_THRESHHOLD 10
 
-#define TIME_WEIGHT 10.0
+#define TIME_WEIGHT .7
 #define SEG_WEIGHT 1.0
 #define FG_WEIGHT 1.0
 #define GAUSS_WEIGHT 4.0
 #define HIST_WEIGHT 10.0
 
-#define MAX_RANK 10
+#define MAX_RANK 10.0
 
 using namespace std;
 
@@ -82,15 +82,14 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
         return fgRating;
 
     // No auto-pass or auto-fail. Calculate.
-    float scaleBy = timeRating/MAX_RANK;
-    rankCalc = min(10.0,
-                scaleBy*segRating*TIME_WEIGHT
-                + ( SEG_WEIGHT*segRating
-                    + FG_WEIGHT*fgRating
-                    + GAUSS_WEIGHT*gaussRating
-                    + HIST_WEIGHT*histRating
-                    ) / (SEG_WEIGHT+FG_WEIGHT+GAUSS_WEIGHT+HIST_WEIGHT)
-               );
+    rankCalc =  ( SEG_WEIGHT*segRating
+                + FG_WEIGHT*fgRating
+                + GAUSS_WEIGHT*gaussRating
+                + HIST_WEIGHT*histRating
+                )
+                / (SEG_WEIGHT+FG_WEIGHT+GAUSS_WEIGHT+HIST_WEIGHT);
+    rankCalc *= 1 + TIME_WEIGHT*timeRating/MAX_RANK;
+    rankCalc = min((float)10.0, rankCalc);
 
     return rankCalc;
 }
