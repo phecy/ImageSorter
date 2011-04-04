@@ -3,9 +3,9 @@
 #include "qualityexif.h"
 #include "vimage.h"
 
-#define WINDOWSIZE 7
+#define WINDOWSIZE 9
 #define MAXRANK 10 // Subtract MAXRANK-logdiff so lower diff = better
-#define STRICTNESS_TIME 20
+#define STRICTNESS_TIME 10
 
 DuplicateTime::DuplicateTime(DuplicateRater *rater) {
     this->rater = rater;

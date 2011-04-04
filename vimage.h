@@ -86,7 +86,6 @@ public:
     int getMedRed() { return medianColors[HRED]; }
     int getMedGreen() { return medianColors[HGREEN]; }
     int getMedBlue() { return medianColors[HBLUE]; }
-    boundingBox foregroundCoords;
 
 private:
     void setData(uchar* data);
@@ -111,6 +110,7 @@ private:
 
     // Foreground stuff
     InterestPointList ipList;
+    boundingBox foregroundCoords;
     QImage* foreground;
 
     // Colors

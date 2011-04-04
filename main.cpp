@@ -53,6 +53,9 @@ using namespace std;
 #define RANGE 10
 #define RANK_THRESHOLD 4
 
+// USE THIS TO IGNORE ALL SET COMPUTATIONS:
+#define IGNORE_SETS
+
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
 int findIndex(QImage *im, vector<VImage*> &imageInfoArray, int size){
@@ -222,7 +225,9 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         loadExif(&exifs[i], fn);
 
         // Find duplicates; use IPs to get foreground
+#ifndef IGNORE_SETS
         dupFinder.addImage(currVIm, &exifs[i]);
+#endif
 
         if(!loadPreset(currVIm, i, exposeVals, palletVals, greyVals, blurVals, sharpVals)) {
             // Calc ranks
@@ -276,10 +281,15 @@ int main(int argc, char *argv[])
 
     // Calculate everything. Gather duplicates.
     bool succeeded = calcAllModules(imageInfoArray, imageStrArray, size, dupFinder, picValue);
+<<<<<<< HEAD
     if(!succeeded)
         return EXIT_FAILURE;
     /*DEBUG return app.exec(); */
+=======
+    if(!succeeded) return EXIT_FAILURE;
+>>>>>>> c34599edd02b74368fbf5f1e51a85a8a292ddd37
 
+#ifndef IGNORE_SETS
     //Finds and combines duplicates.
     dupFinder.createSimilarityVector();
     vector<vector<VImage*> > dupList = dupFinder.findDuplicates();
@@ -288,6 +298,7 @@ int main(int argc, char *argv[])
     // Debug output
     dupFinder.printRanks();
 
+    // Fill in VImage info
     for (int set_index = 0; set_index < numSets; ++set_index)
     {
        int picsInSet = dupList[set_index].size();
@@ -301,6 +312,13 @@ int main(int argc, char *argv[])
            dupList[set_index][picset_index]->setRank(picValue[picIndex]);
        }
     }
+#else
+    numSets = 1;
+    for(int i=0; i<size; ++i) {
+        imageInfoArray[i]->setSetNum(0);
+        imageInfoArray[i]->setRank(picValue[i]);
+    }
+#endif
 
 //    SetDisplay *setdisp_unsorted = new SetDisplay();
 //    setdisp_unsorted->display(imageInfoArray);

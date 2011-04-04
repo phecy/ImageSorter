@@ -11,6 +11,9 @@
 
 using namespace std;
 
+typedef pair<histogramSet, boundingBox> histogramOneSegment;
+typedef vector<histogramOneSegment> histogramSegments;
+
 class DuplicateHistogram
 {
 public:
@@ -24,10 +27,21 @@ public:
     void rankOne(VImage*, VImage*);
 
 private:
+    // Pushes bin from param to allHistBins
+    histogramSet makeBinFrom(const histogramSet& histograms);
+
+    // Compares two partial histograms
+    int compareHistograms
+        (histogramOneSegment one, histogramOneSegment two,
+         VImage* first, VImage* second);
+
+    // Return # pixels of box in vim's foreground
+    int amountInForeground(VImage*, boundingBox);
+
     DuplicateRater* rater;
 
-    map<VImage*, vector<vector<float> > > allHistBins;
+    map<VImage*, histogramSegments> allHistBins;
 
-    void debugPrint(VImage* vim);
+    void debugPrint(VImage* vim, histogramSet);
 };
 #endif // DUPLICATEHISTOGRAM_H

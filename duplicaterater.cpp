@@ -2,7 +2,6 @@
 #include "duplicaterater.h"
 #include "vimage.h"
 
-
 // Mins: Below this value on any module, fail
 // Maxs: Above this value on any module, succeed
 #define MIN_SEGMENTED_THRESHHOLD -1
@@ -12,13 +11,13 @@
 #define MIN_TIME_THRESHHOLD -1
 #define MAX_TIME_THRESHHOLD 10
 
-#define TIME_WEIGHT 1.0
-#define SEG_WEIGHT 3
-#define FG_WEIGHT 1
-#define GAUSS_WEIGHT 4
-#define HIST_WEIGHT 5
+#define TIME_WEIGHT .7
+#define SEG_WEIGHT 1.0
+#define FG_WEIGHT 1.0
+#define GAUSS_WEIGHT 4.0
+#define HIST_WEIGHT 10.0
 
-#define MAX_RANK 10
+#define MAX_RANK 10.0
 
 using namespace std;
 
@@ -83,15 +82,14 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
         return fgRating;
 
     // No auto-pass or auto-fail. Calculate.
-    float scaleBy = timeRating/MAX_RANK;
-    rankCalc = min(10.0,
-                scaleBy*segRating*TIME_WEIGHT
-                + ( SEG_WEIGHT*segRating
-                    + FG_WEIGHT*fgRating
-                    + GAUSS_WEIGHT*gaussRating
-                    + HIST_WEIGHT*histRating
-                    ) / (SEG_WEIGHT+FG_WEIGHT+GAUSS_WEIGHT)
-               );
+    rankCalc =  ( SEG_WEIGHT*segRating
+                + FG_WEIGHT*fgRating
+                + GAUSS_WEIGHT*gaussRating
+                + HIST_WEIGHT*histRating
+                )
+                / (SEG_WEIGHT+FG_WEIGHT+GAUSS_WEIGHT+HIST_WEIGHT);
+    rankCalc *= 1 + TIME_WEIGHT*timeRating/MAX_RANK;
+    rankCalc = min((float)10.0, rankCalc);
 
     return rankCalc;
 }
@@ -99,22 +97,22 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
 void DuplicateRater::printRanks() {
     cerr << "    ";
     for(unsigned int i=0; i<ratings->size(); ++i) {
-        cerr << "  " << i+1 << "     ";
+        cerr << "       " << i+1 << "              ";
     }
     cerr << endl;
 
     for(unsigned int i=0; i<ratings->size(); ++i) {
-        cerr << i+1 << ": ";
+        cerr << i+1 << "||| ";
         for(unsigned int j=0; j<ratings[0].size(); ++j) {
-            cerr << " {";
+            cerr << setw(2) << j+1 << "{";
             for(int k=0; k<NUM_MODULES; ++k) {
                 int rank = (*ratings)[i][j][k];
                 cerr << ((rank<0) ? 0 : rank);
                 if(k != NUM_MODULES-1)
                     cerr << ", ";
             }
-            cerr << "} ";
+            cerr << "}   ";
         }
-        cerr << endl;
+        cerr << endl << endl;
     }
 }

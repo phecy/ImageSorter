@@ -21,18 +21,8 @@ VImage::VImage(char* filename) {
     rankTotal = -1;
     adjustedRank = 0;
     makeQImage();
-    makeHistogram();
-}
-
-VImage::VImage(const VImage& that) {
-    vimage = that.vimage;
-    width = that.width;
-    height = that.height;
-    origwidth = that.origwidth;
-    origheight = that.origheight;
-    qimage = that.qimage;
-    filename = that.filename;
-    histograms = that.histograms;
+    histograms = VImage::makeHistograms(this, 0, 0, width, height);
+    makeMedianColors();
 }
 
 VImage::~VImage() {
@@ -77,45 +67,18 @@ void VImage::makeQImage() {
     */
 }
 
-void VImage::makeHistogram() {
-    histograms = vector<vector<float> >(HNUMCOLORS,
-                        vector<float>(256, 0.0));
+void VImage::makeMedianColors() {
     medianColors = vector<int>(HNUMCOLORS, 0);
-
-    // Make histogram
-    for(int h=0; h<height; ++h) {
-        for(int w=0; w<width; ++w) {
-            QRgb color = qimage->pixel(w, h);
-            int gray = qGray(color);
-            int red = qRed(color);
-            int green = qGreen(color);
-            int blue = qBlue(color);
-
-            ++histograms[HBLACK][gray];
-            ++histograms[HRED][red];
-            ++histograms[HGREEN][green];
-            ++histograms[HBLUE][blue];
-        }
-    }
-
-    // Get median colors
     int area = width * height;
     int mid = area / 2;
     int colorCounts[HNUMCOLORS] = {0, 0, 0, 0};
     for(int h=0; h<256; ++h) {
         for(int i=0; i<HNUMCOLORS; ++i) {
-            colorCounts[i] += histograms[i][h];
+            colorCounts[i] += histograms[i][h] * area;
             if(colorCounts[i] >= mid && colorCounts[i] <= area) {
                 medianColors[i] = h;
                 colorCounts[i] = area+1; // ignore from now on
             }
-        }
-    }
-
-    // Scale hist to get %
-    for(int h=0; h<256; ++h) {
-        for(int i=0; i<HNUMCOLORS; ++i) {
-            histograms[i][h] /= area;
         }
     }
 }
@@ -150,4 +113,44 @@ int VImage::avgPixelDiff(VImage_t one, VImage_t two) {
     total /= width*height;
 
     return total;
+}
+
+histogramSet VImage::makeHistograms(VImage* vim,
+                       int x, int y, int width, int height) {
+    histogramSet histograms = histogramSet(HNUMCOLORS,
+                              vector<float>(256, 0.0));
+
+    if(x+width > vim->getWidth() ||
+       y+height > vim->getHeight()) {
+        qDebug("Invalid histogram dimension.");
+        return histograms;
+    }
+
+    QImage* qimage = vim->getQImage();
+
+    // Make histogram
+    for(int h=y; h<height+y; ++h) {
+        for(int w=x; w<width+x; ++w) {
+            QRgb color = qimage->pixel(w, h);
+            int gray = qGray(color);
+            int red = qRed(color);
+            int green = qGreen(color);
+            int blue = qBlue(color);
+
+            ++histograms[HBLACK][gray];
+            ++histograms[HRED][red];
+            ++histograms[HGREEN][green];
+            ++histograms[HBLUE][blue];
+        }
+    }
+
+    // Scale hist to get %
+    int area = width * height;
+    for(int h=0; h<256; ++h) {
+        for(int i=0; i<HNUMCOLORS; ++i) {
+            histograms[i][h] /= area;
+        }
+    }
+
+    return histograms;
 }
