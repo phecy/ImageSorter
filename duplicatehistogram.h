@@ -35,9 +35,6 @@ private:
         (histogramOneSegment one, histogramOneSegment two,
          VImage* first, VImage* second);
 
-    // Return # pixels of box in vim's foreground
-    int amountInForeground(VImage*, boundingBox);
-
     DuplicateRater* rater;
 
     map<VImage*, histogramSegments> allHistBins;

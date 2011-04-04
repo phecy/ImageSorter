@@ -75,6 +75,9 @@ public:
     // Returns avg pixel difference
     static int avgPixelDiff(VImage_t one, VImage_t two);
 
+    // Returns the area of the given box in the fg
+    int amountInForeground(boundingBox);
+
     // Colors
     const vector<vector<float> >& getHistogram() { return histograms; }
     vector<float> getHistogramK() { return histograms[HBLACK]; }
