@@ -29,6 +29,8 @@ using namespace vw::ip;
 typedef ImageView<PixelRGB<uint8> > VImage_t;
 typedef pair<int,int> point;
 typedef pair<point,point> boundingBox;
+typedef vector<float> histogramChannel;
+typedef vector<histogramChannel> histogramSet;
 
 /*DEBUG class QMainWindow;*/
 class VImage/*DEBUG : public QMainWindow*/
