@@ -159,9 +159,15 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
 
 
         if(rank > RANGE) rank = RANGE;
-        --rank; // 1...10 -> 0...9similarity_sort
+        --rank; // 1...10 -> 0...9
         if(rank < 0) rank = 0;
         picValue[i] =  rank;
+
+        vector<int> finalRank;
+        finalRank.push_back(combinedBlur);
+        finalRank.push_back(combinedExpose);
+        finalRank.push_back(palletVals[i]);
+        imageInfoArray[i]->setRanks(finalRank);
 
         cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
@@ -324,8 +330,10 @@ int main(int argc, char *argv[])
     //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
+    const char* ranktext[3] = {"Blur", "Exposure", "Color"};
     display *disp = new display();
     disp->setImageData(imageInfoArray, numSets, size);
+    disp->setRankText(ranktext);
     disp->init();
 
 //    SetDisplay *setdisp_sorted = new SetDisplay();
