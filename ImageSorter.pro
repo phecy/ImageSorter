@@ -96,7 +96,6 @@ SOURCES += blurdetect.cpp \
 
 LIBS +=  /usr/lib/libexif.a \
          /usr/lib/libboost*.a \
-        VisionWorkbench-2.1.0/src/vw/.libs/libvw.so \
-        /usr/lib/libblas-3.a \
+        /usr/local/lib/libvw.so \
         /usr/lib/liblapack.a \
         /usr/lib/liblapack.so
