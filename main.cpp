@@ -54,7 +54,7 @@ using namespace std;
 #define RANK_THRESHOLD 4
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
-#define IGNORE_SETS
+// #define IGNORE_SETS
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
