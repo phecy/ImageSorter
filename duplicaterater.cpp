@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include "duplicaterater.h"
 #include "vimage.h"

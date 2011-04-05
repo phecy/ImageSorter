@@ -1,3 +1,5 @@
+#include <iostream>
+#include <iomanip>
 #include "duplicatehistogram.h"
 
 #define HIST_SEGMENTS_SIDE 2

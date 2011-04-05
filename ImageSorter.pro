@@ -96,11 +96,6 @@ SOURCES += blurdetect.cpp \
 
 LIBS +=  /usr/lib/libexif.a \
          /usr/lib/libboost*.a \
-        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/.libs/libvw.so \
-        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/Image/tests/.libs/libgtest.a \
-        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/Math/tests/.libs/libgtest.a \
-        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/Core/tests/.libs/libgtest.a \
-        ~/Projects/ImageSorter/VisionWorkbench-2.1.0/src/vw/FileIO/tests/.libs/libgtest.a \
-        /usr/lib/libblas/libblas.a \
-        /usr/lib/lapack/liblapack.a \
-        /usr/lib/lapack/liblapack.so
+        /usr/local/lib/libvw.so \
+        /usr/lib/liblapack.a \
+        /usr/lib/liblapack.so

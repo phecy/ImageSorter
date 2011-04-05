@@ -1,7 +1,7 @@
 /*
-    This class is a wrapper which helps combine a
-    QImage and a VImage (Vision Workbench image)
- */
+This class is a wrapper which helps combine a
+QImage and a VImage (Vision Workbench image)
+*/
 
 #ifndef VIMAGE_H
 #define VIMAGE_H

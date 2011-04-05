@@ -238,6 +238,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             sharpVals[i] = sharpDetect.rankOne(currVIm);
     //        newBlur->show();
         }
+        exposeVals[i] = newExpose.expose(currVIm);
     }
 
     // Sets the different methods' respective weights.
