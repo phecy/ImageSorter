@@ -86,12 +86,12 @@ float exposure::expose(VImage *vim) {
             // if fully intersect, weight is tripled
               boundingBox piece_coords(point(i*100, j*150), point((i+1)*100, (j+1)*150));
               sum += (double)grey_vals[i][j]*vim->amountInForeground(piece_coords);
-              printf("sum = %f        grey_vals = %d       coeff = %f\n",
-                     sum,grey_vals[i][j],vim->amountInForeground(piece_coords));
+              printf("sum = %f        grey_vals = %d       coeff = %d ----------------\n",
+                     sum, grey_vals[i][j], vim->amountInForeground(piece_coords));
         }
     }
 
-   printf("sum = %d, avg = %f\n", sum, (double)sum/(double)(rows*columns));
+   printf("sum = %f, avg = %f\n", sum, ((double)sum/(double)(rows*columns)));
 
     return (double)sum/(double)(rows*columns);
 /*

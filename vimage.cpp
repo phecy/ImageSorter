@@ -157,7 +157,7 @@ histogramSet VImage::makeHistograms(VImage* vim,
 
 int VImage::amountInForeground(boundingBox box) {
     point fgstart = getForegroundCoords().first;
-    point fgend = getForegroundCoords().first;
+    point fgend = getForegroundCoords().second;
 
     if(box.first.first > fgend.first  ||
        box.first.second > fgend.second ||
