@@ -70,8 +70,9 @@ void display::newPic(int picNum)
 
     char text[512];
     // Ranks start at 1, not 0, for display; +1 to indeces
-    sprintf(text, "Image %d/%d: Ranked %1.02f/9 [%1.02f] || Set number %d/%d",
-            picNum+1, size, vim->getRank(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
+    sprintf(text, "Image %d/%d: Ranked Exposure %1.02f/9 [%1.02f] || Set number %d/%d",
+    //        picNum+1, size, vim->getRank(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
+              picNum+1, size, vim->getExposure(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
     ui->rankText->setText(text);
 }
 
