@@ -65,7 +65,8 @@ public:
     void multiplyAdjustedRank(float k) { adjustedRank *= k; }
     void subAdjustedRank(float k) { adjustedRank -= k; }
     float getAdjustedRank() { return adjustedRank; }
-
+    void setRanks(vector<int> r) { ranks = r; }
+    vector<int> getRanks() { return ranks; }
 
     // Foreground stuff
     vector<InterestPoint> getIps() { return ipList; }
@@ -118,6 +119,7 @@ private:
     float rankTotal;
     int setNum;
     float adjustedRank; // Rank adjusted for sets
+    vector<int> ranks; // Vals for each rank
 
     // Foreground stuff
     vector<InterestPoint> ipList;
