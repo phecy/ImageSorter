@@ -142,40 +142,65 @@ void BlurDetect::connectivity() {
     for(int w=0; w<width; w++) {
         angles[w] = (int*)calloc(height, sizeof(int)); // init to 0
         for(int h=1; h<height; h++) {
-            angles[w][h] = calcEdgeWidth(w,h);
+            calcEdgeWidthAndAngle(w,h);
         }
     }
     debugPrint(angles, true, 1, 3);
 }
 
-int BlurDetect::calcEdgeWidth(int w, int h) {
-    int maxX = 0; int maxY = 0; int maxGray = 255;
+void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
+    int brightest = 0; int darkest = 255;
+    point brightloc, darkloc;
+
     for(int x=w-radius; x<=w+radius; x++) {
         for(int y=h-radius; y<=h+radius; y++) {
+            // Check bounds and ensure its an edge
             if((x == w && y == h)  ||
                 x<0 || y<0         ||
                 x>=width || y>=height ||
-                highPass[x][y] == 255
-               ) continue;
-            if(highPass[x][y] < maxGray) {
-                maxX = x; maxY=y; maxGray = highPass[x][y];
+                highPass[x][y] == 255)
+            continue;
+
+            // Check if darkest point
+            if(originalImage[x][y] < darkest) {
+                darkest = originalImage[x][y];
+                darkloc = point(x, y);
+            }
+            // Check if brightest point
+            if(originalImage[x][y] > brightest) {
+                brightest = originalImage[x][y];
+                brightloc = point(x, y);
             }
         }
     }
-    if(maxGray == 255){
-        // This would be noise in the image I suppose. Don't let it get in the way.
-        return 0;
+    if(brightest == 255 || darkest == 0) {
+        // Not a real edge
+        return;
     }
 
     // Calc angle
-    int xLen = maxX - w;
-    int yLen = maxY - h;
+    int xLen = abs(brightloc.first - darkloc.first);
+    int yLen = abs(brightloc.second - darkloc.second);
 
-    if(highPass[w][h] == 255) return 0; // Ignore non-edges
+    int dirAngle;
+    if(yLen == 0)
+        dirAngle = 90;
+    else if(xLen == 0)
+        dirAngle = 0;
+    else {
+        dirAngle = (int)(atan((double)xLen / (double)yLen) * 180/PI);
+        if(dirAngle < 0) dirAngle += 360;
+    }
+    dirAngle = dirAngle % 360;
 
-    //qDebug("Edge distacne of %f",sqrt(xLen*xLen + yLen*yLen));
+    int dist = sqrt(xLen*xLen + yLen*yLen);
 
-    return (int)sqrt(xLen*xLen + yLen*yLen);
+    qDebug("Edge distance of %d, angle %d", dist, dirAngle);
+    sharpestAngles.push_back(dirAngle);
+    sharpestDists.push_back(dist);
+
+    //return dist;
+
 }
 
 int BlurDetect::calcAngle(int w, int h) {
@@ -234,6 +259,7 @@ int BlurDetect::calcAngle(int w, int h) {
 }
 
 int BlurDetect::resultCalc() {
+/*
     unsigned long total = 0;
     for(int w=0; w<width; w++) {
         for(int h=1; h<height; h++) {
@@ -246,6 +272,21 @@ int BlurDetect::resultCalc() {
     if(result > 90) result = 90;
     result = (int)round((double)result / 10);
     return (int)result;
+*/
+
+    unsigned long long avgDist = 0;
+    vector<int>::iterator distIter = sharpestDists.begin();
+    for(; distIter != sharpestDists.end(); ++distIter) {
+        avgDist += *distIter;
+    }
+    avgDist /= sharpestDists.size();
+
+    // Penalize more as it gets closer to the maximum dist,
+    // the LOOK_FOR_CONTRAST_RADIUS. (Returns 0 if avg=radius,
+    // 10 if avg=0
+    int distRate = 10-avgDist*(10.0/LOOK_FOR_CONTRAST_RADIUS);
+
+    return distRate;
 }
 
 void BlurDetect::debugPrint(int **image,
