@@ -45,6 +45,8 @@ void display::newPic(int picNum)
 
     VImage* vim = images[picNum];
     QImage* i = vim->getQImage();
+
+    // Gather bounding box info
     point start = vim->getForegroundCoords().first;
     point fin = vim->getForegroundCoords().second;
     float widthScale = (float)vim->getWidth() / vim->getOrigWidth();
@@ -54,6 +56,7 @@ void display::newPic(int picNum)
     start.second *= heightScale;
     fin.second *= heightScale;
 
+    // Draw bounding box
     for(int w=start.first; w<fin.first; w++) {
         i->setPixel(w, start.second, qRgb(0,255,0));
         i->setPixel(w, fin.second, qRgb(0,255,0));
