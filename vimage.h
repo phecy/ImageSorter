@@ -47,6 +47,7 @@ public:
     // Information
     char* getFilename() { return filename; }
     char* getFullpath() { return fullpath; }
+    string getIpFullpath() { return ip_fullpath; }
     int getIndex() { return index; }
     void setIndex(int i) { index=i; }
     int getWidth() { return width; }
@@ -67,8 +68,8 @@ public:
 
 
     // Foreground stuff
-    InterestPointList getIps() { return ipList; }
-    void setIp(InterestPointList ip) { ipList = ip; }
+    vector<InterestPoint> getIps() { return ipList; }
+    void setIp(vector<InterestPoint> ip) { ipList = ip; }
 
     boundingBox getForegroundCoords() { return foregroundCoords; }
     QImage* getForeground() { return foreground; }
@@ -108,6 +109,7 @@ private:
     // Information
     char* filename;
     char* fullpath;
+    string ip_fullpath;
     int index;
     int width, height; // Width scaled to 800px
     int origwidth, origheight; // VImage_t width+height
@@ -118,7 +120,7 @@ private:
     float adjustedRank; // Rank adjusted for sets
 
     // Foreground stuff
-    InterestPointList ipList;
+    vector<InterestPoint> ipList;
     boundingBox foregroundCoords;
     QImage* foreground;
 

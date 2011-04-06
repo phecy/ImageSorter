@@ -91,7 +91,8 @@ SOURCES += blurdetect.cpp \
     boundingbox.cpp \
     setdisplay.cpp \
     duplicategaussian.cpp \
-    duplicatehistogram.cpp
+    duplicatehistogram.cpp \
+    vw/InterestPoint/InterestData.cc
 
 
 LIBS +=  /usr/lib/libexif.a \

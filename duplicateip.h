@@ -18,8 +18,7 @@ using namespace vw::ip;
 class DuplicateIp
 {
 public:
-    DuplicateIp(DuplicateRater* rater,
-                DuplicateSegmented* segmented);
+    DuplicateIp(DuplicateRater* rater);
     void addImage(VImage*);
     void rankOne(VImage*, VImage*);
 
@@ -32,7 +31,6 @@ private:
     // Bounding Box finder and matcher
     boundingBox loadBox(VImage* vim); // pre-loaded images
     BoundingBox* foregroundDetect;
-    DuplicateSegmented* foregroundRec;
 };
 
 #endif // DUPLICATEIP_H

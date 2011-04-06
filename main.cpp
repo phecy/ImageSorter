@@ -190,6 +190,9 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
     SharpDetect sharpDetect;
+#ifdef IGNORE_SETS
+
+#endif
 
     // Initialize ranks from all modules
     int exposeVals[size];

@@ -84,9 +84,11 @@ void DuplicateSegmented::rankOne(VImage *first, VImage *second) {
 }
 
 void DuplicateSegmented::rankOneForeground(VImage *first, VImage *second) {
+    /* Currently unimplemented
     int rank = getSimilarity(first->getForeground(),second->getForeground(),
                              true);
     rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_FG);
+    */
 }
 
 int DuplicateSegmented::getSimilarity(QImage* first, QImage* second,

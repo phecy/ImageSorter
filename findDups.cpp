@@ -44,7 +44,7 @@ Duplicates::Duplicates(int numImages) {
     rater = new DuplicateRater(numImages);
     segmented = new DuplicateSegmented(rater);
     timed = new DuplicateTime(rater);
-    interest = new DuplicateIp(rater, segmented);
+    interest = new DuplicateIp(rater);
     gaussian = new DuplicateGaussian(rater);
     histogram = new DuplicateHistogram(rater);
 
