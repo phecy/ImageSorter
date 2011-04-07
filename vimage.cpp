@@ -17,6 +17,8 @@ VImage::VImage(char* filename) {
 
     this->fullpath = filename;
     this->filename = strrchr(filename, '/')+1;
+    this->ip_fullpath = filename;
+    ip_fullpath.append(".iplist");
 
     rankTotal = -1;
     adjustedRank = 0;
