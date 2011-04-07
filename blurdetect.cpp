@@ -25,11 +25,13 @@ This file is part of ppm.
 #define PI 3.142
 
 #define MIN_NUM_IPS 0
-#define LOOK_FOR_CONTRAST_RADIUS 6
+#define LOOK_FOR_CONTRAST_RADIUS 10
 #define SENSITIVITY_THRESHOLD 96
-#define EDGE_SIZE 2
-#define DIST_BETWEEN_EDGES 6
+#define EDGE_SIZE 5
+#define DIST_BETWEEN_EDGES 20
 #define ANGLE_CONSTITUTING_SHARPNESS 30
+
+#define UNSHARP_PENALTY 1.3
 
 BlurDetect::BlurDetect()
 {
@@ -43,7 +45,7 @@ BlurDetect::BlurDetect()
     sharpness = ANGLE_CONSTITUTING_SHARPNESS;
 }
 
-int BlurDetect::calculateBlur(VImage* vim) {
+float BlurDetect::calculateBlur(VImage* vim) {
     assert(highpassRadius > edgeRadius);
 
     // Test # IPs
@@ -86,7 +88,7 @@ int BlurDetect::calculateBlur(VImage* vim) {
     // Compute
     edgeDetect();
     connectivity();
-    int result = resultCalc();
+    float result = resultCalc();
 
     for(int w=0; w<width; w++) {
         delete[] angles[w];
@@ -205,7 +207,7 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
     }
     dirAngle = dirAngle % 360;
 
-    int dist = sqrt(xLen*xLen + yLen*yLen);
+    int dist = sqrt(xLen*xLen + yLen*yLen) * UNSHARP_PENALTY;
 
     if(dist == 0)
         dist = furthestDist; // No diff in pixels = very blur
@@ -273,7 +275,7 @@ int BlurDetect::calcAngle(int w, int h) {
     return closestAngleDiff;
 }
 
-int BlurDetect::resultCalc() {
+float BlurDetect::resultCalc() {
 /*
     unsigned long total = 0;
     for(int w=0; w<width; w++) {
@@ -305,7 +307,7 @@ int BlurDetect::resultCalc() {
     // Penalize more as it gets closer to the maximum dist,
     // the LOOK_FOR_CONTRAST_RADIUS. (Returns 0 if avg=radius,
     // 10 if avg=0
-    int distRate = 10-
+    float distRate = 10.0-
             avgDist*avgDist*
             (10.0/(furthestDist*furthestDist));
 

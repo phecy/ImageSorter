@@ -115,7 +115,7 @@ double root4(double num) {
 // Then prints all info to cerr
 void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* picValue, float* exposeVals,
-                 int* palletVals, int* greyVals, int* blurVals,
+                 int* palletVals, int* greyVals, float* blurVals,
                  int* sharpVals, int numPics) {
     float exposeScale = .35; // correlation: .27turk / .058ke
                             // Exposure: .26turk.051ke
@@ -128,7 +128,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
     //cerr<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
-        int combinedBlur = 1*blurVals[i] + 0*sharpVals[i];
+        float combinedBlur = 1*blurVals[i] + 0*sharpVals[i];
         float combinedExpose = 1*exposeVals[i]+0*greyVals[i];
 
         /*
@@ -207,7 +207,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
     float exposeVals[size];
     int palletVals[size];
     int greyVals[size];
-    int blurVals[size];
+    float blurVals[size];
     int sharpVals[size];
     QualityExif exifs[size];
     for(int i=0; i < size; ++i){

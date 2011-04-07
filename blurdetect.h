@@ -29,7 +29,7 @@ public:
     BlurDetect();
     // We assume filename is valid and abort everything if it isn't.
         // Be sure to check validity of file before calling.
-    int calculateBlur(VImage* im);
+    float calculateBlur(VImage* im);
 
     // Minimum threshhold for high pass: -100-100% of colors from average
     void setThreshhold(int t) { threshhold = t; }
@@ -85,7 +85,7 @@ protected:
 /*  Part 3: Calculate blur
     (Maximum angle differences is optimal:
      More sharp angles means more sharpness and less blur.) */
-    int resultCalc();
+    float resultCalc();
 
 private:
     int** originalImage; // The grayscale original image.

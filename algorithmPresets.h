@@ -5,7 +5,7 @@
 
 bool loadPreset(VImage* vim, int i,
                 float* exposeVals, int* palletVals, int* greyVals,
-                int* blurVals, int* sharpVals) {
+                float* blurVals, int* sharpVals) {
 
     if(strcmp(vim->getFilename(), "new1-DSC_0031.JPG") == 0) {
              exposeVals[i] = 3;
