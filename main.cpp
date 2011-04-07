@@ -128,7 +128,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
     //cerr<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
-        int combinedBlur = .5*blurVals[i] + .5*sharpVals[i];
+        int combinedBlur = 1*blurVals[i] + 0*sharpVals[i];
         float combinedExpose = 1*exposeVals[i]+0*greyVals[i];
 
         /*
