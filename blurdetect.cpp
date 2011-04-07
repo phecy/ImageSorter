@@ -25,7 +25,7 @@ This file is part of ppm.
 #define PI 3.142
 
 #define MIN_NUM_IPS 0
-#define LOOK_FOR_CONTRAST_RADIUS 4
+#define LOOK_FOR_CONTRAST_RADIUS 6
 #define SENSITIVITY_THRESHOLD 96
 #define EDGE_SIZE 2
 #define DIST_BETWEEN_EDGES 6
@@ -52,12 +52,15 @@ int BlurDetect::calculateBlur(VImage* vim) {
 
     // Open image
     // if(width == 0) { // If testing same file multiple times, don't reopen
-        QImage* image = vim->getForeground();
+        QImage* image = vim->getQImage();
         minColor = avgColor = maxColor = 0;
         assert(image != NULL);
         *image = image->scaledToWidth(600);
         width = image->width();
         height = image->height();
+
+        sharpestAngles = vector<int>();
+        sharpestDists = vector<int>();
 
         // Load image into grayscale int-map
         // And calculate average color
@@ -152,13 +155,21 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
     int brightest = 0; int darkest = 255;
     point brightloc, darkloc;
 
+    // Ensure its an edge
+    if(highPass[w][h] == 255)
+        return;
+
+    // Distance from bottom left to top right
+    int furthestDist = sqrt(2*
+                            2*radius*
+                            2*radius);
+
     for(int x=w-radius; x<=w+radius; x++) {
         for(int y=h-radius; y<=h+radius; y++) {
-            // Check bounds and ensure its an edge
+            // Check bounds
             if((x == w && y == h)  ||
                 x<0 || y<0         ||
-                x>=width || y>=height ||
-                highPass[x][y] == 255)
+                x>=width || y>=height)
             continue;
 
             // Check if darkest point
@@ -173,7 +184,8 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
             }
         }
     }
-    if(brightest == 255 || darkest == 0) {
+    if(brightest == 255 || darkest == 0 ||
+       brightest == 0 || darkest == 255 ) {
         // Not a real edge
         return;
     }
@@ -195,10 +207,13 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
 
     int dist = sqrt(xLen*xLen + yLen*yLen);
 
-    //qDebug("Edge distance of %d, angle %d", dist, dirAngle);
+    if(dist == 0)
+        dist = furthestDist; // No diff in pixels = very blur
+                    // also how is it an edge
+
+    qDebug("Edge distance of %d, angle %d", dist, dirAngle);
     sharpestAngles.push_back(dirAngle);
     sharpestDists.push_back(dist);
-
     //return dist;
 
 }
@@ -281,10 +296,18 @@ int BlurDetect::resultCalc() {
     }
     avgDist /= sharpestDists.size();
 
+
+    // Distance from bottom left to top right
+    int furthestDist = sqrt(2*
+                            2*radius*
+                            2*radius);
+
     // Penalize more as it gets closer to the maximum dist,
     // the LOOK_FOR_CONTRAST_RADIUS. (Returns 0 if avg=radius,
     // 10 if avg=0
-    int distRate = 10-avgDist*(10.0/LOOK_FOR_CONTRAST_RADIUS);
+    int distRate = 10-
+            avgDist*avgDist*
+            (10.0/(furthestDist*furthestDist));
 
     return distRate;
 }
