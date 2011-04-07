@@ -37,7 +37,7 @@ void DuplicateIp::addImage(VImage* vim) {
     }*/
 
     // Saved ip filename
-    string fn_ip = vim->getIpFullpath();
+    string fn_ip = string(vim->getIpFullpath());
 
     // Check if found ips yet
     ifstream ifile(fn_ip.c_str());
@@ -79,8 +79,8 @@ void DuplicateIp::findForeground(VImage* vim) {
            vim->getFilename(), fgBox.first.first,fgBox.first.second,fgBox.second.first,fgBox.second.second);
 
     // Debug output
-    foregroundDetect->debugPrint(vim, fgBox.first, fgBox.second);
-    foregroundDetect->show();
+//    foregroundDetect->debugPrint(vim, fgBox.first, fgBox.second);
+//    foregroundDetect->show();
 }
 
 void DuplicateIp::rankOne(VImage* one, VImage* two) {

@@ -16,8 +16,8 @@
 
 using namespace std;
 
-const int rows = 40;
-const int columns = 30;
+const int rows = 20;
+const int columns = 15;
 const int middle_grey = 175;
 const int delta = 30;
 

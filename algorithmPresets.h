@@ -4,7 +4,7 @@
 #include "vimage.h"
 
 bool loadPreset(VImage* vim, int i,
-                int* exposeVals, int* palletVals, int* greyVals,
+                float* exposeVals, int* palletVals, int* greyVals,
                 int* blurVals, int* sharpVals) {
 
     if(strcmp(vim->getFilename(), "new1-DSC_0031.JPG") == 0) {

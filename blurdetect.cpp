@@ -195,7 +195,7 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
 
     int dist = sqrt(xLen*xLen + yLen*yLen);
 
-    qDebug("Edge distance of %d, angle %d", dist, dirAngle);
+    //qDebug("Edge distance of %d, angle %d", dist, dirAngle);
     sharpestAngles.push_back(dirAngle);
     sharpestDists.push_back(dist);
 

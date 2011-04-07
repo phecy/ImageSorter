@@ -65,8 +65,8 @@ public:
     void multiplyAdjustedRank(float k) { adjustedRank *= k; }
     void subAdjustedRank(float k) { adjustedRank -= k; }
     float getAdjustedRank() { return adjustedRank; }
-    void setRanks(vector<int> r) { ranks = r; }
-    vector<int> getRanks() { return ranks; }
+    void setRanks(vector<float> r) { ranks = r; }
+    vector<float> getRanks() { return ranks; }
 
     // Foreground stuff
     vector<InterestPoint> getIps() { return ipList; }
@@ -97,11 +97,16 @@ public:
     int getMedRed() { return medianColors[HRED]; }
     int getMedGreen() { return medianColors[HGREEN]; }
     int getMedBlue() { return medianColors[HBLUE]; }
+    const vector<int>& getAvgs() { return avgColors; }
+    int getAvgGray() { return avgColors[HBLACK]; }
+    int getAvgRed() { return avgColors[HRED]; }
+    int getAvgGreen() { return avgColors[HGREEN]; }
+    int getAvgBlue() { return avgColors[HBLUE]; }
 
 private:
     void setData(uchar* data);
     void makeQImage();
-    void makeMedianColors();
+    void makeMedianAndAvgColors();
 
     // Data
     VImage_t* vimage;
@@ -119,7 +124,7 @@ private:
     float rankTotal;
     int setNum;
     float adjustedRank; // Rank adjusted for sets
-    vector<int> ranks; // Vals for each rank
+    vector<float> ranks; // Vals for each rank
 
     // Foreground stuff
     vector<InterestPoint> ipList;
@@ -130,6 +135,7 @@ private:
     histogramSet histograms; // 4 channels, black+RGB
                                        // % between 0 and 1
     vector<int> medianColors; // Median of histogram
+    vector<int> avgColors; // Average per channel
 };
 
 #endif // VIMAGE_H

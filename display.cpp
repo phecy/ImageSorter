@@ -71,14 +71,16 @@ void display::newPic(int picNum)
     label->setPixmap(currPix);
     show();
 
-    vector<int> indivRanks = vim->getRanks();
+    vector<float> indivRanks = vim->getRanks();
     char indivRankText[128];
     char text[512];
+
     // Ranks start at 1, not 0, for display; +1 to indeces
     sprintf(text, "Image %d/%d: Ranked %1.02f/9 [%1.02f] || Set number %d/%d",
             picNum+1, size, vim->getRank(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
-    sprintf(indivRankText, "%s: %d  || %s: %d  ||   %s: %d",
+    sprintf(indivRankText, "%s: %.1f  || %s: %.1f  ||   %s: %.1f",
             rankText[0], indivRanks[0], rankText[1], indivRanks[1], rankText[2], indivRanks[2]);
+
     ui->rankText->setText(text);
     ui->indivRanks->setText(indivRankText);
 }

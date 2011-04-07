@@ -17,14 +17,12 @@ VImage::VImage(char* filename) {
 
     this->fullpath = filename;
     this->filename = strrchr(filename, '/')+1;
-    this->ip_fullpath = filename;
-    ip_fullpath.append(".iplist");
 
     rankTotal = -1;
     adjustedRank = 0;
     makeQImage();
     histograms = VImage::makeHistograms(this, 0, 0, width, height);
-    makeMedianColors();
+    makeMedianAndAvgColors();
 }
 
 VImage::~VImage() {
@@ -69,11 +67,12 @@ void VImage::makeQImage() {
     */
 }
 
-void VImage::makeMedianColors() {
+void VImage::makeMedianAndAvgColors() {
     medianColors = vector<int>(HNUMCOLORS, 0);
     int area = width * height;
     int mid = area / 2;
     int colorCounts[HNUMCOLORS] = {0, 0, 0, 0};
+    unsigned long long int colorSums[HNUMCOLORS] = {0, 0, 0, 0};
     for(int h=0; h<256; ++h) {
         for(int i=0; i<HNUMCOLORS; ++i) {
             colorCounts[i] += histograms[i][h] * area;
@@ -81,7 +80,14 @@ void VImage::makeMedianColors() {
                 medianColors[i] = h;
                 colorCounts[i] = area+1; // ignore from now on
             }
+            colorSums[i] += histograms[i][h]*area * h;
         }
+    }
+
+    // Make avg
+    avgColors = vector<int>(HNUMCOLORS);
+    for(int i=0; i<HNUMCOLORS; ++i) {
+        avgColors[i] = colorSums[i] / area;
     }
 }
 
