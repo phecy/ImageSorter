@@ -79,18 +79,20 @@ protected:
     void connectivity();
     int calcAngle(int w, int h);
 
-/* Part 2: Calculate width of edges (not angles as above).
-   Sillly: still uses angles[] */
-    int calcEdgeWidth(int w, int h);
+/* Part 2: Calculate width of edges and angle and adds to vector */
+    void calcEdgeWidthAndAngle(int w, int h);
 
 /*  Part 3: Calculate blur
-    (Maximum angle differences is optimal: More sharp angles means more sharpness and less blur.) */
+    (Maximum angle differences is optimal:
+     More sharp angles means more sharpness and less blur.) */
     int resultCalc();
 
 private:
     int** originalImage; // The grayscale original image.
     int** highPass; // Stores gray vals of highest [threshhold] pixels
     int** angles;   // Stores differences in angles between [radius] pixels
+    vector<int> sharpestAngles; // Stack of all angles along sharp edges
+    vector<int> sharpestDists; // Stack of all euclidean dists along sharp edges
     int width, height;
 
     // User-set constants

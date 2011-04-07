@@ -45,6 +45,8 @@ void display::newPic(int picNum)
 
     VImage* vim = images[picNum];
     QImage* i = vim->getQImage();
+
+    // Gather bounding box info
     point start = vim->getForegroundCoords().first;
     point fin = vim->getForegroundCoords().second;
     float widthScale = (float)vim->getWidth() / vim->getOrigWidth();
@@ -54,6 +56,7 @@ void display::newPic(int picNum)
     start.second *= heightScale;
     fin.second *= heightScale;
 
+    // Draw bounding box
     for(int w=start.first; w<fin.first; w++) {
         i->setPixel(w, start.second, qRgb(0,255,0));
         i->setPixel(w, fin.second, qRgb(0,255,0));
@@ -68,12 +71,22 @@ void display::newPic(int picNum)
     label->setPixmap(currPix);
     show();
 
+    vector<int> indivRanks = vim->getRanks();
+    char indivRankText[128];
     char text[512];
     // Ranks start at 1, not 0, for display; +1 to indeces
+<<<<<<< HEAD
     sprintf(text, "Image %d/%d: Ranked Exposure %1.02f/9 [%1.02f] || Set number %d/%d",
     //        picNum+1, size, vim->getRank(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
               picNum+1, size, vim->getExposure(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
+=======
+    sprintf(text, "Image %d/%d: Ranked %1.02f/9 [%1.02f] || Set number %d/%d",
+            picNum+1, size, vim->getRank(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
+    sprintf(indivRankText, "%s: %d  || %s: %d  ||   %s: %d",
+            rankText[0], indivRanks[0], rankText[1], indivRanks[1], rankText[2], indivRanks[2]);
+>>>>>>> 30dcae5e93470f6ec083c176d21d41478917532e
     ui->rankText->setText(text);
+    ui->indivRanks->setText(indivRankText);
 }
 
 void display::nextImage() {

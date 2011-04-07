@@ -19,7 +19,7 @@ public:
     enum module_type {
            DUPLICATE_TIME = 0,
            DUPLICATE_SEGMENTED = 1,
-           DUPLICATE_FG = 2,
+           DUPLICATE_IP = 2,
            DUPLICATE_GAUSSIAN = 3,
            DUPLICATE_HISTOGRAM = 4
        };

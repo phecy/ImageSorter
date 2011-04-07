@@ -21,6 +21,7 @@ public:
     ~display();
     void setImageData(const vector<VImage*> &im,int ns, int sz)
         {images = im; size=sz; numsets=ns;}
+    void setRankText(const char** t) { rankText = t; }
     void init();
 
 private:
@@ -37,6 +38,8 @@ private:
     int size;
     int numsets;
     vector<VImage*> images;
+    const char** rankText; // Text description for each rank
+
     QLabel* label;
 
     QPixmap currPix;

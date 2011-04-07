@@ -39,11 +39,11 @@ boundingBox BoundingBox::getBoundingBox(VImage* vim) {
 }
 
 boolMap BoundingBox::getIpMap(VImage* vim) {
-    InterestPointList ips = vim->getIps();
+    vector<InterestPoint> ips = vim->getIps();
     boolMap ipMap(vim->getOrigHeight(),
                   vector<bool>(vim->getOrigWidth(), false));
 
-    InterestPointList::iterator ip = ips.begin();
+    vector<InterestPoint>::iterator ip = ips.begin();
     for(; ip != ips.end(); ++ip) {
         ipMap.at(ip->y).at(ip->x) = true;
     }

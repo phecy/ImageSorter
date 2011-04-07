@@ -54,7 +54,7 @@ using namespace std;
 #define RANK_THRESHOLD 4
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
-//#define IGNORE_SETS
+// #define IGNORE_SETS
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -159,11 +159,17 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
 
 
         if(rank > RANGE) rank = RANGE;
-        --rank; // 1...10 -> 0...9similarity_sort
+        --rank; // 1...10 -> 0...9
         if(rank < 0) rank = 0;
         picValue[i] =  rank;
 
-/*        cerr << "else if(strcmp(vim->getFilename(), \"" <<
+        vector<int> finalRank;
+        finalRank.push_back(combinedBlur);
+        finalRank.push_back(combinedExpose);
+        finalRank.push_back(palletVals[i]);
+        imageInfoArray[i]->setRanks(finalRank);
+/*
+        cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
         cerr << "         exposeVals[i] = " << exposeVals[i] << ";\n";
         cerr << "         palletVals[i] = " << palletVals[i] << ";\n";
@@ -191,6 +197,9 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
     SharpDetect sharpDetect;
+#ifdef IGNORE_SETS
+
+#endif
 
     // Initialize ranks from all modules
     int exposeVals[size];
@@ -327,8 +336,10 @@ int main(int argc, char *argv[])
     //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
+    const char* ranktext[3] = {"Blur", "Exposure", "Color"};
     display *disp = new display();
     disp->setImageData(imageInfoArray, numSets, size);
+    disp->setRankText(ranktext);
     disp->init();
 
 //    SetDisplay *setdisp_sorted = new SetDisplay();
