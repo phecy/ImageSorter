@@ -247,6 +247,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             sharpVals[i] = sharpDetect.rankOne(currVIm);
     //        newBlur->show();
         }
+        blurVals[i] = newBlur->calculateBlur(currVIm);
         exposeVals[i] = newExpose.expose(currVIm);
     }
 
@@ -330,7 +331,7 @@ int main(int argc, char *argv[])
     // Sort
     insertion_sort(picValue, imageStrArray, size);
     //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
-    //imageInfoArray = set_sort(imageInfoArray);
+    imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
     const char* ranktext[3] = {"Blur", "Exposure", "Color"};
