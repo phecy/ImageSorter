@@ -211,7 +211,7 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
         dist = furthestDist; // No diff in pixels = very blur
                     // also how is it an edge
 
-    qDebug("Edge distance of %d, angle %d", dist, dirAngle);
+    //qDebug("Edge distance of %d, angle %d", dist, dirAngle);
     sharpestAngles.push_back(dirAngle);
     sharpestDists.push_back(dist);
     //return dist;
