@@ -59,6 +59,8 @@ public:
     // Adjusted rank = rank adjusted for set
     void setRank(float r) { rankTotal=r; adjustedRank=r; }
     float getRank() { return rankTotal; }
+    void setExposure(float r) {exposure_val = r;}
+    float getExposure() {return exposure_val;}
     void setSetNum(float s) { setNum = s; }
     int getSetNum() { return setNum; }
     void multiplyAdjustedRank(float k) { adjustedRank *= k; }
@@ -114,6 +116,7 @@ private:
 
     // Ranks
     float rankTotal;
+    float exposure_val;
     int setNum;
     float adjustedRank; // Rank adjusted for sets
 

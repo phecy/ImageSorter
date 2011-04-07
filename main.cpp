@@ -163,7 +163,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         if(rank < 0) rank = 0;
         picValue[i] =  rank;
 
-        cerr << "else if(strcmp(vim->getFilename(), \"" <<
+/*        cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
         cerr << "         exposeVals[i] = " << exposeVals[i] << ";\n";
         cerr << "         palletVals[i] = " << palletVals[i] << ";\n";
@@ -175,10 +175,11 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         cerr << "//   Exposure: " << combinedExpose << endl;
         cerr << "//   Color: " << palletVals[i] << endl;
         cerr << "}\n";
-    }
-    cerr<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
+*/
+  }
+  //  cerr<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
-        cerr << picValue[i] << "," << imageInfoArray[i]->getFilename() << endl;
+  //      cerr << picValue[i] << "," << imageInfoArray[i]->getFilename() << endl;
     }
 }
 
@@ -238,7 +239,9 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             sharpVals[i] = sharpDetect.rankOne(currVIm);
     //        newBlur->show();
         }
-        exposeVals[i] = newExpose.expose(currVIm);
+        float exposure_val = newExpose.expose(currVIm);
+        exposeVals[i] = (int)exposure_val;
+        currVIm->setExposure(exposure_val);
     }
 
     // Sets the different methods' respective weights.
