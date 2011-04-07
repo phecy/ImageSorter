@@ -55,7 +55,7 @@ using namespace std;
 #define RANK_THRESHOLD 4
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
-#define IGNORE_SETS
+//#define IGNORE_SETS
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -125,7 +125,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                          // sharp: .45turk / .33ke
                          // blur: shit.
 
-    cerr<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
+    //cerr<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
         int combinedBlur = 0*blurVals[i] + 1*sharpVals[i];
@@ -241,16 +241,17 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         dupFinder.addImage(currVIm, &exifs[i]);
 #endif
 
-        if(!loadPreset(currVIm, i, exposeVals, palletVals, greyVals, blurVals, sharpVals)) {
+        if(!loadPreset(currVIm, i, exposeVals, palletVals,
+                       greyVals, blurVals, sharpVals)) {
             // Calc ranks
             exposeVals[i] = newExpose.expose(currVIm) - 1;
             palletVals[i] = colorAnalysis(currQIm);
             greyVals[i] = newGrey.calcGrey(currQIm);
             blurVals[i] = newBlur->calculateBlur(currVIm);
             sharpVals[i] = sharpDetect.rankOne(currVIm);
-    //        newBlur->show();
         }
         blurVals[i] = newBlur->calculateBlur(currVIm);
+        // newBlur->show();
         exposeVals[i] = newExpose.expose(currVIm);
         exposeVals[i] = contrastRater.RMS(currVIm);
     }
@@ -304,7 +305,7 @@ int main(int argc, char *argv[])
     numSets=dupList.size();
 
     // Debug output
-    dupFinder.printRanks();
+    //dupFinder.printRanks();
 
     // Fill in VImage info
     for (int set_index = 0; set_index < numSets; ++set_index)

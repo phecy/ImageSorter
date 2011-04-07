@@ -29,13 +29,6 @@ DuplicateIp::DuplicateIp(DuplicateRater* rater)
 }
 
 void DuplicateIp::addImage(VImage* vim) {
-    /* boundingBox.h presets
-    boundingBox fgBox = loadBox(vim);
-    if(fgBox.first.first != -1) {
-        vim->setForeground(fgBox);
-        return;
-    }*/
-
     // Saved ip filename
     string fn_ip = string(vim->getIpFullpath());
 
@@ -70,8 +63,13 @@ void DuplicateIp::addImage(VImage* vim) {
 }
 
 void DuplicateIp::findForeground(VImage* vim) {
-    // Find bounding box
-    boundingBox fgBox = foregroundDetect->getBoundingBox(vim);
+    // Load box preset
+    boundingBox fgBox = loadBox(vim);
+    if(fgBox.first.first != -1) {
+        vim->setForeground(fgBox);
+        return;
+    }
+    fgBox = foregroundDetect->getBoundingBox(vim);
     vim->setForeground(fgBox);
 
     qDebug("else if(strcmp(vim->getFilename(), \"%s\") == 0)\n"
@@ -112,8 +110,8 @@ void DuplicateIp::rankOne(VImage* one, VImage* two) {
     int rating = matched_ip1.size() * IP_LENIENCY
                 / (ip1_vec.size()+ip2_vec.size()+1);
 
-    qDebug("Img %d and %d have %d common ips --> %d rank", one->getIndex()+1,
-            two->getIndex()+1, matched_ip1.size(), rating);
+    //qDebug("Img %d and %d have %d common ips --> %d rank", one->getIndex()+1,
+    //        two->getIndex()+1, matched_ip1.size(), rating);
 
     rating = min(rating, 10);
 

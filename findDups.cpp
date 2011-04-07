@@ -64,18 +64,18 @@ void Duplicates::addImage(VImage* vim, QualityExif* exif) {
 }
 
 dupGroup Duplicates::findDuplicates() {
-    qDebug("Gathering duplicates....");
+    //qDebug("Gathering duplicates....");
     // Gather votes
     runModules();
 
-    qDebug("Creating a matrix of ranks");
+    //qDebug("Creating a matrix of ranks");
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
-    debugPrintRanks(ranks);
+    //debugPrintRanks(ranks);
     //debugPrintPhpRanks(ranks); // For comparing against turk data
 
     // Successively merge groupst
-    qDebug("Merging groups together");
+    //qDebug("Merging groups together");
     while(true) {
        pair<int,int> maxPair = getMaxPair(ranks);
        if(maxPair.first == -1) break;
@@ -85,7 +85,7 @@ dupGroup Duplicates::findDuplicates() {
     }
 
     // Gather all imglists
-    qDebug("Gathering groups from live rows");
+    //qDebug("Gathering groups from live rows");
     for(unsigned int i=0; i<allImages->size(); ++i) {
         pair<vector<float>, imgList> thisPair = ranks->at(i);
         if(thisPair.second.size() > 0) { // Ignore "dead rows"
@@ -291,8 +291,8 @@ pair<int,int> Duplicates::getMaxPair(rankVector* ranks) {
         return maxPair;
     }
 
-    qDebug("Found max pair of rank %.2f at (%d, %d).", max_rank,
-           maxPair.first+1, maxPair.second+1);
+    //qDebug("Found max pair of rank %.2f at (%d, %d).", max_rank,
+    //       maxPair.first+1, maxPair.second+1);
     return maxPair;
 }
 
