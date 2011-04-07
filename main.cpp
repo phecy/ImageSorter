@@ -128,7 +128,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
     //cerr<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
-        int combinedBlur = 0*blurVals[i] + 1*sharpVals[i];
+        int combinedBlur = .5*blurVals[i] + .5*sharpVals[i];
         float combinedExpose = 1*exposeVals[i]+0*greyVals[i];
 
         /*
@@ -169,7 +169,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         finalRank.push_back(combinedExpose);
         finalRank.push_back(palletVals[i]);
         imageInfoArray[i]->setRanks(finalRank);
-/*
+
         cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
         cerr << "         exposeVals[i] = " << exposeVals[i] << ";\n";
@@ -182,11 +182,11 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         cerr << "//   Exposure: " << combinedExpose << endl;
         cerr << "//   Color: " << palletVals[i] << endl;
         cerr << "}\n";
-*/
+
   }
-  //  cerr<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
+    cerr<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
-  //      cerr << picValue[i] << "," << imageInfoArray[i]->getFilename() << endl;
+        cerr << picValue[i] << "," << imageInfoArray[i]->getFilename() << endl;
     }
 }
 
@@ -336,7 +336,7 @@ int main(int argc, char *argv[])
     // Sort
     insertion_sort(picValue, imageStrArray, size);
     //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
-    imageInfoArray = set_sort(imageInfoArray);
+    //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
     const char* ranktext[3] = {"Blur", "Exposure", "Color"};
