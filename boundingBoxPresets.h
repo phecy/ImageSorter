@@ -1409,6 +1409,54 @@ boundingBox DuplicateIp::loadBox(VImage* vim) {
           fgBox = boundingBox(point(8,380),point(781,491));
     else if(strcmp(vim->getFilename(), "DSC_0480.jpg") == 0)
           fgBox = boundingBox(point(368,219),point(681,493));
+    else if(strcmp(vim->getFilename(), "DSC_0492.jpg") == 0)
+          fgBox = boundingBox(point(328,32),point(526,467));
+    else if(strcmp(vim->getFilename(), "DSC_0493.jpg") == 0)
+          fgBox = boundingBox(point(288,32),point(487,463));
+    else if(strcmp(vim->getFilename(), "DSC_0494.jpg") == 0)
+          fgBox = boundingBox(point(408,85),point(661,424));
+    else if(strcmp(vim->getFilename(), "DSC_0498.jpg") == 0)
+          fgBox = boundingBox(point(448,273),point(794,521));
+    else if(strcmp(vim->getFilename(), "DSC_0499.jpg") == 0)
+          fgBox = boundingBox(point(408,246),point(791,470));
+    else if(strcmp(vim->getFilename(), "DSC_0500.jpg") == 0)
+          fgBox = boundingBox(point(88,5),point(401,279));
+    else if(strcmp(vim->getFilename(), "DSC_0501.jpg") == 0)
+          fgBox = boundingBox(point(408,273),point(749,525));
+    else if(strcmp(vim->getFilename(), "DSC_0503.jpg") == 0)
+          fgBox = boundingBox(point(408,273),point(747,526));
+    else if(strcmp(vim->getFilename(), "DSC_0504.jpg") == 0)
+          fgBox = boundingBox(point(488,219),point(762,532));
+    else if(strcmp(vim->getFilename(), "DSC_0505.jpg") == 0)
+          fgBox = boundingBox(point(168,246),point(661,420));
+    else if(strcmp(vim->getFilename(), "DSC_0507.jpg") == 0)
+          fgBox = boundingBox(point(568,112),point(798,485));
+    else if(strcmp(vim->getFilename(), "DSC_0508.jpg") == 0)
+          fgBox = boundingBox(point(160,107),point(640,428));
+    else if(strcmp(vim->getFilename(), "DSC_0509.jpg") == 0)
+          fgBox = boundingBox(point(328,326),point(761,528));
+    else if(strcmp(vim->getFilename(), "DSC_0510.jpg") == 0)
+          fgBox = boundingBox(point(248,219),point(784,380));
+    else if(strcmp(vim->getFilename(), "DSC_0511.jpg") == 0)
+          fgBox = boundingBox(point(288,192),point(653,427));
+    else if(strcmp(vim->getFilename(), "DSC_0512.jpg") == 0)
+          fgBox = boundingBox(point(448,5),point(777,266));
+    else if(strcmp(vim->getFilename(), "DSC_0513.jpg") == 0)
+          fgBox = boundingBox(point(88,58),point(339,400));
+    else if(strcmp(vim->getFilename(), "DSC_0514.jpg") == 0)
+          fgBox = boundingBox(point(128,85),point(392,410));
+    else if(strcmp(vim->getFilename(), "DSC_0515.jpg") == 0)
+          fgBox = boundingBox(point(288,300),point(797,476));
+    else if(strcmp(vim->getFilename(), "DSC_0516.jpg") == 0)
+          fgBox = boundingBox(point(8,300),point(415,511));
+    else if(strcmp(vim->getFilename(), "DSC_0517.jpg") == 0)
+          fgBox = boundingBox(point(288,58),point(487,489));
+    else if(strcmp(vim->getFilename(), "DSC_0518.jpg") == 0)
+          fgBox = boundingBox(point(448,5),point(615,522));
+    else if(strcmp(vim->getFilename(), "DSC_0519.jpg") == 0)
+          fgBox = boundingBox(point(8,407),point(684,534));
+    else if(strcmp(vim->getFilename(), "DSC_0520.jpg") == 0)
+          fgBox = boundingBox(point(448,5),point(622,505));
     return fgBox;
 }
 
