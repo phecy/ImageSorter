@@ -113,7 +113,7 @@ double root4(double num) {
 // Calculates ranking for each image based on params. Puts into picValue.
 // Then prints all info to cerr
 void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
-                 float* picValue, int* exposeVals,
+                 float* picValue, float* exposeVals,
                  int* palletVals, int* greyVals, int* blurVals,
                  int* sharpVals, int numPics) {
     float exposeScale = .35; // correlation: .27turk / .058ke
@@ -128,7 +128,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
         int combinedBlur = 0*blurVals[i] + 1*sharpVals[i];
-        int combinedExpose = 1*exposeVals[i]+0*greyVals[i];
+        float combinedExpose = 1*exposeVals[i]+0*greyVals[i];
 
         /*
         double rank=0;
@@ -163,7 +163,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         if(rank < 0) rank = 0;
         picValue[i] =  rank;
 
-        vector<int> finalRank;
+        vector<float> finalRank;
         finalRank.push_back(combinedBlur);
         finalRank.push_back(combinedExpose);
         finalRank.push_back(palletVals[i]);
@@ -202,7 +202,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
 #endif
 
     // Initialize ranks from all modules
-    int exposeVals[size];
+    float exposeVals[size];
     int palletVals[size];
     int greyVals[size];
     int blurVals[size];
@@ -248,9 +248,8 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             sharpVals[i] = sharpDetect.rankOne(currVIm);
     //        newBlur->show();
         }
-        float exposure_val = newExpose.expose(currVIm);
-        exposeVals[i] = (int)exposure_val;
-        currVIm->setExposure(exposure_val);
+        blurVals[i] = newBlur->calculateBlur(currVIm);
+        exposeVals[i] = newExpose.expose(currVIm);
     }
 
     // Sets the different methods' respective weights.
