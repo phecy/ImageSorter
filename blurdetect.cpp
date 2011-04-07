@@ -113,7 +113,7 @@ void BlurDetect::edgeDetect() {
                 highPass[w][h] = 255;
         }
     }
-//    debugPrint(highPass);
+    debugPrint(highPass);
 }
 
 void BlurDetect::correctSpacing(int w, int h) {
@@ -145,7 +145,7 @@ void BlurDetect::connectivity() {
             calcEdgeWidthAndAngle(w,h);
         }
     }
-    debugPrint(angles, true, 1, 3);
+    //debugPrint(angles, true, 1, 3);
 }
 
 void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
