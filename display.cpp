@@ -49,8 +49,8 @@ void display::newPic(int picNum)
     // Gather bounding box info
     point start = vim->getForegroundCoords().first;
     point fin = vim->getForegroundCoords().second;
-    float widthScale = (float)vim->getWidth() / vim->getOrigWidth();
-    float heightScale = (float)vim->getHeight() / vim->getOrigHeight();
+    float widthScale = (float)i->width() / vim->getOrigWidth();
+    float heightScale = (float)i->height() / vim->getOrigHeight();
     start.first *= widthScale;
     fin.first *= widthScale;
     start.second *= heightScale;
