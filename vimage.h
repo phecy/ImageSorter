@@ -97,11 +97,16 @@ public:
     int getMedRed() { return medianColors[HRED]; }
     int getMedGreen() { return medianColors[HGREEN]; }
     int getMedBlue() { return medianColors[HBLUE]; }
+    const vector<int>& getAvgs() { return avgColors; }
+    int getAvgGray() { return avgColors[HBLACK]; }
+    int getAvgRed() { return avgColors[HRED]; }
+    int getAvgGreen() { return avgColors[HGREEN]; }
+    int getAvgBlue() { return avgColors[HBLUE]; }
 
 private:
     void setData(uchar* data);
     void makeQImage();
-    void makeMedianColors();
+    void makeMedianAndAvgColors();
 
     // Data
     VImage_t* vimage;
@@ -130,6 +135,7 @@ private:
     histogramSet histograms; // 4 channels, black+RGB
                                        // % between 0 and 1
     vector<int> medianColors; // Median of histogram
+    vector<int> avgColors; // Average per channel
 };
 
 #endif // VIMAGE_H

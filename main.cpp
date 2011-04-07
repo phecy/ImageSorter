@@ -39,6 +39,7 @@ using namespace std;
 #include "exposure.h"
 #include "color.h"
 #include "colorUtility.h"
+#include "contrast.h"
 #include "harmony.h"
 #include "findDups.h"
 #include "grey.h"
@@ -54,7 +55,7 @@ using namespace std;
 #define RANK_THRESHOLD 4
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
-// #define IGNORE_SETS
+#define IGNORE_SETS
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -197,6 +198,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
     SharpDetect sharpDetect;
+    contrast contrastRater;
 #ifdef IGNORE_SETS
 
 #endif
@@ -250,6 +252,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         }
         blurVals[i] = newBlur->calculateBlur(currVIm);
         exposeVals[i] = newExpose.expose(currVIm);
+        exposeVals[i] = contrastRater.RMS(currVIm);
     }
 
     // Sets the different methods' respective weights.
