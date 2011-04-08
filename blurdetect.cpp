@@ -32,6 +32,7 @@ This file is part of ppm.
 #define ANGLE_CONSTITUTING_SHARPNESS 30
 
 #define UNSHARP_PENALTY 1.3
+#define ANGLE_LENIENCY 500.0
 
 BlurDetect::BlurDetect()
 {
@@ -52,42 +53,39 @@ float BlurDetect::calculateBlur(VImage* vim) {
     if(vim->getIps().size() <= MIN_NUM_IPS)
         return 0;
 
-    // Open image
-    // if(width == 0) { // If testing same file multiple times, don't reopen
-        QImage* image = vim->getQImage();
-        minColor = avgColor = maxColor = 0;
-        assert(image != NULL);
-        *image = image->scaledToWidth(600);
-        width = image->width();
-        height = image->height();
+    QImage* image = vim->getQImage();
+    minColor = avgColor = maxColor = 0;
+    assert(image != NULL);
+    *image = image->scaledToWidth(600);
+    width = image->width();
+    height = image->height();
 
-        sharpestAngles = vector<int>();
-        sharpestDists = vector<int>();
+    sharpestAngles = vector<int>();
+    sharpestDists = vector<int>();
 
-        // Load image into grayscale int-map
-        // And calculate average color
-        originalImage = new int*[width];
-        unsigned long total = 0;
-        for(int w=0; w<width; w++) {
-            originalImage[w] = new int[height];
-            for(int h=0; h<height; h++) {
-                int grayVal = qGray(image->pixel(w,h));
-                originalImage[w][h] = grayVal;
+    // Load image into grayscale int-map
+    // And calculate average color
+    originalImage = new int*[width];
+    unsigned long total = 0;
+    for(int w=0; w<width; w++) {
+        originalImage[w] = new int[height];
+        for(int h=0; h<height; h++) {
+            int grayVal = qGray(image->pixel(w,h));
+            originalImage[w][h] = grayVal;
 
-                // Average, max, and min calcs
-                total += grayVal;
-                if(minColor < grayVal) minColor = grayVal;
-                if(maxColor > grayVal) maxColor = grayVal;
-            }
+            // Average, max, and min calcs
+            total += grayVal;
+            if(minColor < grayVal) minColor = grayVal;
+            if(maxColor > grayVal) maxColor = grayVal;
         }
-        avgColor = total /= (int)(height*width);
+    }
+    avgColor = total /= (int)(height*width);
 
-        // debugPrint(originalImage);
-    // }
+    // debugPrint(originalImage);
 
     // Compute
     edgeDetect();
-    connectivity();
+    followEdges();
     float result = resultCalc();
 
     for(int w=0; w<width; w++) {
@@ -142,12 +140,13 @@ void BlurDetect::correctSpacing(int w, int h) {
 }
 
 
-void BlurDetect::connectivity() {
+void BlurDetect::followEdges() {
     angles = new int*[width];
     for(int w=0; w<width; w++) {
         angles[w] = (int*)calloc(height, sizeof(int)); // init to 0
         for(int h=1; h<height; h++) {
-            calcEdgeWidthAndAngle(w,h);
+            if(highPass[w][h] != 255)
+                calcEdgeWidthAndAngle(w,h);
         }
     }
     //debugPrint(angles, true, 1, 3);
@@ -220,6 +219,7 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
 
 }
 
+/*
 int BlurDetect::calcAngle(int w, int h) {
     int maxX = 0; int maxY = 0; int maxGray = 255;
     for(int x=w-radius; x<=w+radius; x++) {
@@ -274,23 +274,71 @@ int BlurDetect::calcAngle(int w, int h) {
 
     return closestAngleDiff;
 }
-
-float BlurDetect::resultCalc() {
-/*
-    unsigned long total = 0;
-    for(int w=0; w<width; w++) {
-        for(int h=1; h<height; h++) {
-            if(angles[w][h] < sharpness)
-                total += angles[w][h];
-        }
-    }
-    double result = (total*threshhold*numColors) / (double)(180 * width * height);
-    // printf("Picture quality rating: %f\%\n", result);
-    if(result > 90) result = 90;
-    result = (int)round((double)result / 10);
-    return (int)result;
 */
 
+float BlurDetect::resultCalc() {
+    return 1.0*angleCalc() + .0*edgeCalc();
+}
+
+float BlurDetect::angleCalc() {
+    // Should be #define
+    int numAngleBins = 10;
+
+    // Angles separated into bins
+    vector<int> angleHist(numAngleBins, 0);
+
+    // Get info about angles
+    unsigned long totalDiffs = 0;
+    unsigned long totalAngs = 0;
+    int lastAngle = 0;
+    vector<int>::iterator angleIter = sharpestAngles.begin();
+    for(; angleIter != sharpestAngles.end(); ++angleIter) {
+        totalDiffs += abs(*angleIter-lastAngle % 180);
+        totalAngs += *angleIter;
+        lastAngle = *angleIter;
+        angleHist[*angleIter%180 / numAngleBins]++;
+        //qDebug("Curr diff =  %ld,   angle = %d", totalDiffs, lastAngle);
+    }
+    int avgAngle = totalAngs / sharpestAngles.size();
+
+    int maxBinSize = 0; // Size of bin with most angles
+    int maxBinAngle = 0; // The angle range containing ^
+    unsigned long totalBinSize = 0;
+    for(int i=0; i<angleHist.size(); ++i) {
+        int binNumElems = angleHist[i];
+        totalBinSize += binNumElems;
+
+        // Is this the biggest bin?
+        if(binNumElems > maxBinSize) {
+            maxBinSize = binNumElems;
+            maxBinAngle = i * numAngleBins;
+        }
+    }
+    int avgBinSize = totalBinSize / numAngleBins;
+
+    int distMaxBinFromAvg = maxBinSize - avgBinSize;
+// TODO: second to last vs max  bin size
+
+    float result = 10 -
+                   (distMaxBinFromAvg*distMaxBinFromAvg)
+                   / (ANGLE_LENIENCY*ANGLE_LENIENCY);
+
+    // Debug out angle
+    qDebug("Total diff =  %ld, avg = %d,   avg bin=%d,   dist=%d",
+             totalDiffs, avgAngle, avgBinSize, distMaxBinFromAvg);
+    for(int i=0; i<numAngleBins; ++i) {
+        cerr << i << "0: ";
+        for(int j=0; j<angleHist[i]; j+=50) {
+            cerr << "=";
+        }
+        cerr << endl;
+    }
+    cerr << endl << "---------------" << endl;
+
+    return result;
+}
+
+float BlurDetect::edgeCalc() {
     unsigned long long avgDist = 0;
     vector<int>::iterator distIter = sharpestDists.begin();
     for(; distIter != sharpestDists.end(); ++distIter) {
@@ -313,6 +361,8 @@ float BlurDetect::resultCalc() {
 
     return distRate;
 }
+
+
 
 void BlurDetect::debugPrint(int **image,
                             bool stepped, int step1, int step2) {

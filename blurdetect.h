@@ -73,19 +73,18 @@ protected:
     void edgeDetect();
     void correctSpacing(int w, int h);
 
-/*  Part 2: Calculate connectivity
-    Ideally, an unblurry image would have a lot of continuous edges,
-    and background blur will still be gradiented in a continuous direction. */
-    void connectivity();
-    int calcAngle(int w, int h);
-
 /* Part 2: Calculate width of edges and angle and adds to vector */
+    void followEdges();
     void calcEdgeWidthAndAngle(int w, int h);
 
+    //int calcAngle(int w, int h);
+
 /*  Part 3: Calculate blur
-    (Maximum angle differences is optimal:
-     More sharp angles means more sharpness and less blur.) */
+    Maximum angle differences is optimal:
+     More sharp angles means more sharpness and less blur. */
     float resultCalc();
+    float angleCalc();
+    float edgeCalc();
 
 private:
     int** originalImage; // The grayscale original image.
