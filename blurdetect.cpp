@@ -25,10 +25,10 @@ This file is part of ppm.
 #define PI 3.142
 
 #define MIN_NUM_IPS 0
-#define LOOK_FOR_CONTRAST_RADIUS 5
+#define LOOK_FOR_CONTRAST_RADIUS 10
 #define SENSITIVITY_THRESHOLD 96
-#define EDGE_SIZE 30
-#define DIST_BETWEEN_EDGES 40
+#define EDGE_SIZE 5
+#define DIST_BETWEEN_EDGES 20
 #define ANGLE_CONSTITUTING_SHARPNESS 30
 
 #define UNSHARP_PENALTY 1.6
@@ -280,6 +280,7 @@ float BlurDetect::resultCalc() {
     float angle = angleCalc();
     float edge = edgeCalc();
     cerr << angle << "," << edge << endl;
+
     return 1.0*angle + .0*edge;
 }
 
@@ -318,10 +319,9 @@ float BlurDetect::angleCalc() {
         }
     }
     int avgBinSize = totalBinSize / numAngleBins;
-    cerr << avgBinSize << ",";
 
     int distMaxBinFromAvg = maxBinSize - avgBinSize;
-    cerr << distMaxBinFromAvg << ",";
+    cerr << avgBinSize << "," << distMaxBinFromAvg << ",";
 // TODO: second to last vs max  bin size
 
     float result = 10 -
@@ -371,8 +371,6 @@ float BlurDetect::edgeCalc() {
     distRate = fmax(distRate, 0.0);
     return distRate;
 }
-
-
 
 void BlurDetect::debugPrint(int **image,
                             bool stepped, int step1, int step2) {
