@@ -25,14 +25,14 @@ This file is part of ppm.
 #define PI 3.142
 
 #define MIN_NUM_IPS 0
-#define LOOK_FOR_CONTRAST_RADIUS 10
+#define LOOK_FOR_CONTRAST_RADIUS 5
 #define SENSITIVITY_THRESHOLD 96
-#define EDGE_SIZE 5
-#define DIST_BETWEEN_EDGES 20
+#define EDGE_SIZE 30
+#define DIST_BETWEEN_EDGES 40
 #define ANGLE_CONSTITUTING_SHARPNESS 30
 
-#define UNSHARP_PENALTY 1.3
-#define ANGLE_LENIENCY 500.0
+#define UNSHARP_PENALTY 1.6
+#define ANGLE_LENIENCY 400.0
 
 BlurDetect::BlurDetect()
 {
@@ -50,8 +50,8 @@ float BlurDetect::calculateBlur(VImage* vim) {
     assert(highpassRadius > edgeRadius);
 
     // Test # IPs
-    if(vim->getIps().size() <= MIN_NUM_IPS)
-        return 0;
+    //if(vim->getIps().size() <= MIN_NUM_IPS)
+      //  return 0;
 
     QImage* image = vim->getQImage();
     minColor = avgColor = maxColor = 0;
@@ -277,7 +277,10 @@ int BlurDetect::calcAngle(int w, int h) {
 */
 
 float BlurDetect::resultCalc() {
-    return 1.0*angleCalc() + .0*edgeCalc();
+    float angle = angleCalc();
+    float edge = edgeCalc();
+    cerr << angle << "," << edge << endl;
+    return 1.0*angle + .0*edge;
 }
 
 float BlurDetect::angleCalc() {
@@ -315,8 +318,10 @@ float BlurDetect::angleCalc() {
         }
     }
     int avgBinSize = totalBinSize / numAngleBins;
+    cerr << avgBinSize << ",";
 
     int distMaxBinFromAvg = maxBinSize - avgBinSize;
+    cerr << distMaxBinFromAvg << ",";
 // TODO: second to last vs max  bin size
 
     float result = 10 -
@@ -324,6 +329,7 @@ float BlurDetect::angleCalc() {
                    / (ANGLE_LENIENCY*ANGLE_LENIENCY);
 
     // Debug out angle
+/*
     qDebug("Total diff =  %ld, avg = %d,   avg bin=%d,   dist=%d",
              totalDiffs, avgAngle, avgBinSize, distMaxBinFromAvg);
     for(int i=0; i<numAngleBins; ++i) {
@@ -334,7 +340,9 @@ float BlurDetect::angleCalc() {
         cerr << endl;
     }
     cerr << endl << "---------------" << endl;
-
+*/
+    result = fmin(result, 10.0);
+    result = fmax(result, 0.0);
     return result;
 }
 
@@ -359,6 +367,8 @@ float BlurDetect::edgeCalc() {
             avgDist*avgDist*
             (10.0/(furthestDist*furthestDist));
 
+    distRate = fmin(distRate, 10.0);
+    distRate = fmax(distRate, 0.0);
     return distRate;
 }
 
