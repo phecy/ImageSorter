@@ -255,8 +255,8 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         }
         blurVals[i] = newBlur->calculateBlur(currVIm);
         // newBlur->show();
-        exposeVals[i] = newExpose.expose(currVIm);
-        contrastVals[i] = contrastRater.RMS(currVIm);
+        //exposeVals[i] = newExpose.expose(currVIm);
+        //contrastVals[i] = contrastRater.RMS(currVIm);
     }
 
     // Sets the different methods' respective weights.
