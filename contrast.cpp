@@ -19,7 +19,7 @@ float Contrast::RMS(VImage *vim)
     }
 
     float rms = sqrt(sumOfSquareDiffs);
-    printf("  RMS %f   \n",        rms);
+    //printf("  RMS %f   \n",        rms);
 
     return rms;
 }
