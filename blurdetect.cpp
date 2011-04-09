@@ -25,15 +25,16 @@ This file is part of ppm.
 #define PI 3.142
 
 #define MIN_NUM_IPS 0
-#define LOOK_FOR_CONTRAST_RADIUS 20
+#define LOOK_FOR_CONTRAST_RADIUS 15
 #define SENSITIVITY_THRESHOLD 96
-#define EDGE_SIZE 10
-#define DIST_BETWEEN_EDGES 40
+#define EDGE_SIZE 5
+#define DIST_BETWEEN_EDGES 15
 #define ANGLE_CONSTITUTING_SHARPNESS 30
-#define GOAL_EDGE_WIDTH 5
+#define GOAL_EDGE_WIDTH 4
+#define EDGE_WIDTH_PENALTY 5.5
 
-#define UNSHARP_PENALTY 1.8
-#define ANGLE_LENIENCY 400.0
+#define UNSHARP_PENALTY 1.3
+#define ANGLE_LENIENCY 350.0
 
 BlurDetect::BlurDetect()
 {
@@ -175,10 +176,11 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
             continue;
 
             // Calculate the penalty as the width gets large, >=1
-            int distFromCenter = sqrt((x-w)*(x-w)*(y-h)*(y-h));
+            int distFromCenter = sqrt((x-w)*(x-w)+(y-h)*(y-h));
             float sizePenalty = distFromCenter - GOAL_EDGE_WIDTH;
-            sizePenalty = sqrt(sizePenalty);
+            sizePenalty *= EDGE_WIDTH_PENALTY;
             sizePenalty = fmax(sizePenalty, 1.0);
+
 
             // Check if darkest point
             if(originalImage[x][y]*sizePenalty < darkest) {
