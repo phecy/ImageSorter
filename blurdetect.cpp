@@ -286,7 +286,7 @@ int BlurDetect::calcAngle(int w, int h) {
 float BlurDetect::resultCalc() {
     float angle = angleCalc();
     float edge = edgeCalc();
-    cerr << angle << "," << edge << endl;
+//    cerr << angle << "," << edge << endl;
 
     return 1.0*angle + .0*edge;
 }
@@ -328,7 +328,7 @@ float BlurDetect::angleCalc() {
     int avgBinSize = totalBinSize / numAngleBins;
 
     int distMaxBinFromAvg = maxBinSize - avgBinSize;
-    cerr << avgBinSize << "," << distMaxBinFromAvg << ",";
+   // cerr << avgBinSize << "," << distMaxBinFromAvg << ",";
 // TODO: second to last vs max  bin size
 
     float result = 10 -
