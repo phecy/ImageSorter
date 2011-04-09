@@ -3,10 +3,10 @@
 
 #include "vimage.h"
 
-class contrast
+class Contrast
 {
 public:
-    contrast();
+    Contrast();
     float RMS(VImage *vim);
 };
 

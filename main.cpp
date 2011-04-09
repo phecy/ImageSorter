@@ -55,7 +55,7 @@ using namespace std;
 #define RANK_THRESHOLD 4
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
-//#define IGNORE_SETS
+#define IGNORE_SETS
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -114,7 +114,7 @@ double root4(double num) {
 // Calculates ranking for each image based on params. Puts into picValue.
 // Then prints all info to cerr
 void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
-                 float* picValue, float* exposeVals,
+                 float* picValue, float* exposeVals, float* contrastVals,
                  int* palletVals, int* greyVals, float* blurVals,
                  int* sharpVals, int numPics) {
     float exposeScale = .35; // correlation: .27turk / .058ke
@@ -130,6 +130,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         // Average of fourth-root of squared-squares
         float combinedBlur = 1*blurVals[i] + 0*sharpVals[i];
         float combinedExpose = 1*exposeVals[i]+0*greyVals[i];
+        float contrast = contrastVals[i];
 
         /*
         double rank=0;
@@ -167,7 +168,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         vector<float> finalRank;
         finalRank.push_back(combinedBlur);
         finalRank.push_back(combinedExpose);
-        finalRank.push_back(palletVals[i]);
+        finalRank.push_back(contrast);
         imageInfoArray[i]->setRanks(finalRank);
 
         cerr << "else if(strcmp(vim->getFilename(), \"" <<
@@ -198,13 +199,14 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
     grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
     SharpDetect sharpDetect;
-    contrast contrastRater;
+    Contrast contrastRater;
 #ifdef IGNORE_SETS
 
 #endif
 
     // Initialize ranks from all modules
     float exposeVals[size];
+    float contrastVals[size];
     int palletVals[size];
     int greyVals[size];
     float blurVals[size];
@@ -217,6 +219,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         greyVals[i] = 0;
         blurVals[i] = -1;
         sharpVals[i] = 0;
+        contrastVals[i] = 0;
     }
 
     //Call different calculation methods
@@ -253,12 +256,12 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         blurVals[i] = newBlur->calculateBlur(currVIm);
         // newBlur->show();
         exposeVals[i] = newExpose.expose(currVIm);
-        exposeVals[i] = contrastRater.RMS(currVIm);
+        contrastVals[i] = contrastRater.RMS(currVIm);
     }
 
     // Sets the different methods' respective weights.
     // Puts it into calcWeights.
-    calcAndPrintWeights(imageInfoArray, finalValue, exposeVals,
+    calcAndPrintWeights(imageInfoArray, finalValue, exposeVals, contrastVals,
                         palletVals, greyVals, blurVals, sharpVals, size);
 
     return true;
@@ -339,7 +342,7 @@ int main(int argc, char *argv[])
     //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
-    const char* ranktext[3] = {"Blur", "Exposure", "Color"};
+    const char* ranktext[3] = {"Blur", "Exposure", "Contrast"};
     display *disp = new display();
     disp->setImageData(imageInfoArray, numSets, size);
     disp->setRankText(ranktext);

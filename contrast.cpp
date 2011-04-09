@@ -1,26 +1,27 @@
 #include "contrast.h"
 #include "vimage.h"
 
-contrast::contrast()
+Contrast::Contrast()
 {
 }
 
-float contrast::RMS(VImage *vim)
+float Contrast::RMS(VImage *vim)
 {
     int avgGray = vim->getAvgGray();
     int area = vim->getWidth() * vim->getHeight();
     histogramChannel hist = vim->getHistogramK();
 
-    unsigned long long int sumOfSquareDiffs = 0;
-    for(int i=0; i<hist.size(); ++i) {
-        int diff = (hist[i]*(float)area) * (i - avgGray);
+    double sumOfSquareDiffs = 0;
+
+    for(int j=0; j<hist.size(); ++j) {
+        double diff = hist[j]*(j - avgGray);
         sumOfSquareDiffs += diff*diff;
     }
-    sumOfSquareDiffs /= area;
 
     float rms = sqrt(sumOfSquareDiffs);
-
-    int rank = rms;
+    printf("  RMS %f   \n",        rms);
 
     return rms;
 }
+
+// XXXX figure out how to scale to be from 0 to 10
