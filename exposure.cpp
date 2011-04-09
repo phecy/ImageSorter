@@ -93,12 +93,17 @@ float exposure::expose(VImage *vim) {
         }
     }
 
-   //printf("sum = %f, avg = %f\n", sum, ((double)sum/num_contributors));
 
+
+   //printf("sum = %f, avg = %f\n", sum, ((double)sum/num_contributors));
+/*
    if (middle > columns*rows/2)  // if there are more than half middle values"  --> low contrast, get one point of
    {
        printf("LOW CONTRAST!!!!!!!!!!!\n");
        return ((double)sum/num_contributors - 1.);
    }
-   else return (double)sum/num_contributors;
+   else
+       */
+    printf("%f,", (double)sum/num_contributors);
+       return (double)sum/num_contributors;
 }
