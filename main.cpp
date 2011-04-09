@@ -170,7 +170,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         finalRank.push_back(combinedExpose);
         finalRank.push_back(contrast);
         imageInfoArray[i]->setRanks(finalRank);
-
+/*
         cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
         cerr << "         exposeVals[i] = " << exposeVals[i] << ";\n";
@@ -182,7 +182,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         cerr << "//   Blur: " << combinedBlur << endl;
         cerr << "//   Exposure: " << combinedExpose << endl;
         cerr << "//   Color: " << palletVals[i] << endl;
-        cerr << "}\n";
+        cerr << "}\n";*/
 
   }
     cerr<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
@@ -248,10 +248,10 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
                        greyVals, blurVals, sharpVals)) {
             // Calc ranks
             exposeVals[i] = newExpose.expose(currVIm) - 1;
-            palletVals[i] = colorAnalysis(currQIm);
-            greyVals[i] = newGrey.calcGrey(currQIm);
-            blurVals[i] = newBlur->calculateBlur(currVIm);
-            sharpVals[i] = sharpDetect.rankOne(currVIm);
+            //palletVals[i] = colorAnalysis(currQIm);
+            //greyVals[i] = newGrey.calcGrey(currQIm);
+            //blurVals[i] = newBlur->calculateBlur(currVIm);
+            //sharpVals[i] = sharpDetect.rankOne(currVIm);
         }
         blurVals[i] = newBlur->calculateBlur(currVIm);
         // newBlur->show();
