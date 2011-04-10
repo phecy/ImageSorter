@@ -45,7 +45,7 @@ This file is part of ppm.
 #define BAD_CONTRAST_THRESHOLD 2.0
 #define GOOD_ANGLE_THRESHOLD 10.0 //ie none
 
-#define RESULT_TOO_SMALL_PENALTY 2.5
+#define RESULT_TOO_SMALL_PENALTY 1.5
 #define GOOD_RESULT_REWARD 2.5
 
 // What to do if it's inconclusive
@@ -114,7 +114,7 @@ float BlurDetect::calculateBlur(VImage* vim) {
         delete[] highPass[w];
     }
 
-    return result;
+    return fmin(result, 10.0);
 }
 
 void BlurDetect::edgeDetect() {
