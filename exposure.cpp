@@ -18,8 +18,8 @@ using namespace std;
 
 const int rows = 20;
 const int columns = 15;
-const int middle_grey = 175;
-const int delta = 30;
+const int middle_grey = 128;
+const int delta = 10;
 
 
 // r1 - piece
@@ -80,13 +80,15 @@ float exposure::expose(VImage *vim) {
               grey_vals[i][j] = newGrey.calcGrey(piece);
 
             // if fully intersect, weight is tripled
-              boundingBox piece_coords(point(i*piece_width, j*piece_height), point((i+1)*piece_width, (j+1)*piece_height));
-              sum += (double)grey_vals[i][j]*intersect(vim,piece_coords);
-              num_contributors += intersect(vim,piece_coords);
+              // WITHOUT THE BOUNDING BOX
 
-              if (grey_vals[i][j] - delta > middle_grey) high++;
-              else if (grey_vals[i][j] + delta < middle_grey) low++;
-              else middle++;
+              //boundingBox piece_coords(point(i*piece_width, j*piece_height), point((i+1)*piece_width, (j+1)*piece_height));
+              sum += (double)grey_vals[i][j];//*intersect(vim,piece_coords);
+              num_contributors++;//= intersect(vim,piece_coords);
+
+              if (grey_vals[i][j]  > middle_grey) high++;
+              if (grey_vals[i][j]  < middle_grey) low++;
+              if (grey_vals[i][j] == middle_grey) middle++;
 
  //             qDebug("%d,%d:  sum = %f        grey_vals = %d       coeff = %f   num_contributors = %f ----------------\n",
  //                    i,j, sum, grey_vals[i][j], intersect(vim,piece_coords), num_contributors);
@@ -104,6 +106,13 @@ float exposure::expose(VImage *vim) {
    }
    else
        */
-    printf("%f,", (double)sum/num_contributors);
-       return (double)sum/num_contributors;
+    float avg = (float)sum/num_contributors;
+
+    if (avg > 60. && avg < 100.)  avg =  10.;
+    else avg = 5.;
+
+    printf("%f,%d,%d,%d\n", avg, high, middle, low);
+
+    return avg;
+
 }
