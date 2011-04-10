@@ -118,11 +118,11 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* localContrastVals,
                  int* palletVals, int* greyVals, float* blurVals,
                  int* sharpVals, int numPics) {
-    float exposeScale = 1; // correlation: .27turk / .058ke
+    float exposeScale = .35; // correlation: .27turk / .058ke
                             // Exposure: .26turk.051ke
                             // Middle gray: .11turk / .10ke
     float palletScale = .0; // correlation: .01turk / -.3 ke
-    float blurScale = .0; // correlation: .26turk / .15ke
+    float blurScale = .65; // correlation: .26turk / .15ke
                          // sharp: .45turk / .33ke
                          // blur: shit.
 
