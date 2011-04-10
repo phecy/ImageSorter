@@ -25,16 +25,34 @@ This file is part of ppm.
 #define PI 3.142
 
 #define MIN_NUM_IPS 0
-#define LOOK_FOR_CONTRAST_RADIUS 15
+#define LOOK_FOR_CONTRAST_RADIUS 10
 #define SENSITIVITY_THRESHOLD 96
 #define EDGE_SIZE 5
-#define DIST_BETWEEN_EDGES 15
+#define DIST_BETWEEN_EDGES 20
 #define ANGLE_CONSTITUTING_SHARPNESS 30
-#define GOAL_EDGE_WIDTH 4
-#define EDGE_WIDTH_PENALTY 5.5
+#define GOAL_EDGE_WIDTH 3
+#define EDGE_WIDTH_PENALTY 1.2
 
-#define UNSHARP_PENALTY 1.3
-#define ANGLE_LENIENCY 350.0
+#define UNSHARP_PENALTY 1.6
+#define ANGLE_LENIENCY 400.0
+
+
+// Result calc thresholds
+#define BAD_ANGLE_THRESHOLD 4.0
+#define GOOD_EDGE_THRESHOLD 4.75
+#define BAD_EDGE_THRESHOLD 1.5
+#define GOOD_CONTRAST_THRESHOLD 6.5
+#define BAD_CONTRAST_THRESHOLD 2.0
+#define GOOD_ANGLE_THRESHOLD 10.0 //ie none
+
+#define RESULT_TOO_SMALL_PENALTY 2.5
+#define GOOD_RESULT_REWARD 2.5
+
+// What to do if it's inconclusive
+#define INCONCLUSIVE_CONTRAST_WEIGHT 1
+#define INCONCLUSIVE_ANGLE_WEIGHT 1
+#define INCONCLUSIVE_EDGE_WEIGHT 4
+#define INCONCLUSIVE_PENALTY 2
 
 BlurDetect::BlurDetect()
 {
@@ -64,6 +82,7 @@ float BlurDetect::calculateBlur(VImage* vim) {
 
     sharpestAngles = vector<int>();
     sharpestDists = vector<int>();
+    weightedContrast = vector<int>();
 
     // Load image into grayscale int-map
     // And calculate average color
@@ -89,9 +108,9 @@ float BlurDetect::calculateBlur(VImage* vim) {
     edgeDetect();
     followEdges();
     float result = resultCalc();
+    cerr << "," << result << endl;
 
     for(int w=0; w<width; w++) {
-        delete[] angles[w];
         delete[] highPass[w];
     }
 
@@ -143,9 +162,7 @@ void BlurDetect::correctSpacing(int w, int h) {
 
 
 void BlurDetect::followEdges() {
-    angles = new int*[width];
     for(int w=0; w<width; w++) {
-        angles[w] = (int*)calloc(height, sizeof(int)); // init to 0
         for(int h=1; h<height; h++) {
             if(highPass[w][h] != 255)
                 calcEdgeWidthAndAngle(w,h);
@@ -155,8 +172,10 @@ void BlurDetect::followEdges() {
 }
 
 void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
-    int brightest = 0; int darkest = 255;
-    point brightloc, darkloc;
+    int brightest_contr = 0; int darkest_contr = 255;
+    int brightest_dist = 0; int darkest_dist = 255;
+    //point brightloc_contr, darkloc_contr;
+    point brightloc_dist, darkloc_dist;
 
     // Ensure its an edge
     if(highPass[w][h] == 255)
@@ -181,28 +200,39 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
             sizePenalty *= EDGE_WIDTH_PENALTY;
             sizePenalty = fmax(sizePenalty, 1.0);
 
+            // Weighted-contrast brightest and darkest points
+            if(originalImage[x][y]*sizePenalty < darkest_contr) {
+                // Check if darkest point
+                darkest_contr = originalImage[x][y];
+                //darkloc_contr = point(x, y);
+            } else if(originalImage[x][y]/sizePenalty > brightest_contr) {
+                // Check if brightest point
+                brightest_contr = originalImage[x][y];
+                //brightloc_contr = point(x, y);
+            }
 
-            // Check if darkest point
-            if(originalImage[x][y]*sizePenalty < darkest) {
-                darkest = originalImage[x][y];
-                darkloc = point(x, y);
+            // Biggest distance penalty
+            if(originalImage[x][y] < darkest_dist) {
+                // Check if darkest point
+                darkest_dist = originalImage[x][y];
+                darkloc_dist = point(x, y);
+            } else if(originalImage[x][y] > brightest_dist) {
+                // Check if brightest point
+                brightest_dist = originalImage[x][y];
+                brightloc_dist = point(x, y);
             }
-            // Check if brightest point
-            if(originalImage[x][y]/sizePenalty > brightest) {
-                brightest = originalImage[x][y];
-                brightloc = point(x, y);
-            }
+
         }
     }
-    if(brightest == 255 || darkest == 0 ||
-       brightest == 0 || darkest == 255 ) {
+    if(brightest_dist == 255 || darkest_dist == 0 ||
+       brightest_dist == 0 || darkest_dist == 255 ) {
         // Not a real edge
         return;
     }
 
     // Calc angle
-    int xLen = abs(brightloc.first - darkloc.first);
-    int yLen = abs(brightloc.second - darkloc.second);
+    int xLen = abs(brightloc_dist.first - darkloc_dist.first);
+    int yLen = abs(brightloc_dist.second - darkloc_dist.second);
 
     int dirAngle;
     if(yLen == 0)
@@ -224,6 +254,8 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
     //qDebug("Edge distance of %d, angle %d", dist, dirAngle);
     sharpestAngles.push_back(dirAngle);
     sharpestDists.push_back(dist);
+    weightedContrast.push_back(brightest_contr - darkest_contr);
+
     //return dist;
 
 }
@@ -285,12 +317,49 @@ int BlurDetect::calcAngle(int w, int h) {
 }
 */
 
+// This function returns values prioritizing the most
+// conclusive results based on training data.
+// The order is not arbitrary.
 float BlurDetect::resultCalc() {
     float angle = angleCalc();
     float edge = edgeCalc();
-//    cerr << angle << "," << edge << endl;
+    float contr = contrastCalc();
 
-    return 1.0*angle + .0*edge;
+    cerr << contr << "," << angle << "," << edge;
+
+    // Too blurry: return small
+    if(angle < BAD_ANGLE_THRESHOLD) {
+        return angle / RESULT_TOO_SMALL_PENALTY;
+    }
+    if(edge < BAD_EDGE_THRESHOLD) {
+        return edge / RESULT_TOO_SMALL_PENALTY;
+    }
+
+    // Sharp: return high
+    if(edge > GOOD_EDGE_THRESHOLD) {
+        return edge * GOOD_RESULT_REWARD;
+    }
+    if(contr > GOOD_CONTRAST_THRESHOLD) {
+        return edge * GOOD_RESULT_REWARD;
+    }
+
+    // Inconclusive. Do our best.
+    if(angle > GOOD_ANGLE_THRESHOLD) {
+        return angle;
+    }
+    if(contr < BAD_CONTRAST_THRESHOLD) {
+        return contr;
+    }
+
+    // Nothing reasonable. Average the three.
+    return (INCONCLUSIVE_ANGLE_WEIGHT * angle
+           + INCONCLUSIVE_EDGE_WEIGHT * edge
+           + INCONCLUSIVE_CONTRAST_WEIGHT * contr)
+           /
+           (INCONCLUSIVE_ANGLE_WEIGHT +
+            INCONCLUSIVE_EDGE_WEIGHT +
+            INCONCLUSIVE_CONTRAST_WEIGHT +
+            INCONCLUSIVE_PENALTY);
 }
 
 float BlurDetect::angleCalc() {
@@ -330,7 +399,6 @@ float BlurDetect::angleCalc() {
     int avgBinSize = totalBinSize / numAngleBins;
 
     int distMaxBinFromAvg = maxBinSize - avgBinSize;
-   // cerr << avgBinSize << "," << distMaxBinFromAvg << ",";
 // TODO: second to last vs max  bin size
 
     float result = 10 -
@@ -379,6 +447,17 @@ float BlurDetect::edgeCalc() {
     distRate = fmin(distRate, 10.0);
     distRate = fmax(distRate, 0.0);
     return distRate;
+}
+
+float BlurDetect::contrastCalc() {
+    unsigned long long avgDist = 0;
+    vector<int>::iterator contrIter = weightedContrast.begin();
+    for(; contrIter != weightedContrast.end(); ++contrIter) {
+        avgDist += *contrIter;
+    }
+    avgDist /= weightedContrast.size();
+    return avgDist / 12.8; // 12.8: Max avg dist is 128 (256/2).
+                           // Scale to 0-10
 }
 
 void BlurDetect::debugPrint(int **image,
