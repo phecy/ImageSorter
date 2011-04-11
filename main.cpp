@@ -55,7 +55,7 @@ using namespace std;
 #define RANK_THRESHOLD 4
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
-#define IGNORE_SETS
+//#define IGNORE_SETS
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -118,12 +118,11 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* localContrastVals,
                  int* palletVals, int* greyVals, float* blurVals,
                  int* sharpVals, int numPics) {
-    float exposeScale = 1; // correlation: .27turk / .058ke
+    float exposeScale = .45; // correlation: .27turk / .058ke
                             // Exposure: .26turk.051ke
                             // Middle gray: .11turk / .10ke
-
-    float palletScale = 0; // correlation: .01turk / -.3 ke
-    float blurScale = 0; // correlation: .26turk / .15ke
+    float contrastScale = .20; // correlation: .01turk / -.3 ke
+    float blurScale = .45; // correlation: .26turk / .15ke
                          // sharp: .45turk / .33ke
                          // blur: shit.
 
@@ -134,6 +133,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         float combinedExpose = 1*exposeVals[i]+0*greyVals[i];
         float contrast = contrastVals[i];
         float local_contrast = localContrastVals[i];
+        float combinedContrast = .5*localContrastVals[i] + .5*contrastVals[i];
 
         /*
         double rank=0;
@@ -156,7 +156,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         */
 
         float rank = root3((pow2(combinedExpose+RANK_THRESHOLD)))*exposeScale;
-        rank += root3((pow2(palletVals[i]+RANK_THRESHOLD)))*palletScale;
+        rank += root3((pow2(combinedContrast+RANK_THRESHOLD)))*contrastScale;
         rank += root3((pow2(combinedBlur+RANK_THRESHOLD)))*blurScale;
         rank = pow3(rank);
         rank = sqrt(rank);
@@ -174,7 +174,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         finalRank.push_back(contrast);
         finalRank.push_back(local_contrast);
         imageInfoArray[i]->setRanks(finalRank);
-/*
+
         cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
         cerr << "         exposeVals[i] = " << exposeVals[i] << ";\n";
@@ -186,7 +186,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         cerr << "//   Blur: " << combinedBlur << endl;
         cerr << "//   Exposure: " << combinedExpose << endl;
         cerr << "//   Color: " << palletVals[i] << endl;
-        cerr << "}\n";*/
+        cerr << "}\n";
 
   }
     cerr<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
@@ -260,10 +260,11 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             //sharpVals[i] = sharpDetect.rankOne(currVIm);
         }
         blurVals[i] = newBlur->calculateBlur(currVIm);
+        sharpVals[i] = sharpDetect.rankOne(currVIm);
         // newBlur->show();
         exposeVals[i] = newExpose.expose(currVIm);
-        //contrastVals[i] = contrastRater.local_contrast(currVIm);
-        //localContrastVals[i] = contrastRater.RMS(currVIm);
+        contrastVals[i] = contrastRater.local_contrast(currVIm);
+        localContrastVals[i] = contrastRater.RMS(currVIm);
     }
 
     // Sets the different methods' respective weights.
