@@ -3,7 +3,7 @@
 #include "boundingbox.h"
 
 #define MIN_FOREGROUND_SIZE .2 // how much of image
-#define STEP_SIZE .05 // distance between starting points
+#define STEP_SIZE .15 // distance between starting points
 
 BoundingBox::BoundingBox()
 {

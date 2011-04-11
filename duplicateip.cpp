@@ -19,6 +19,8 @@
 
 #define IP_LENIENCY 600 // more = less strict
 
+#define MAX_DIST_TO_COMPARE 15
+
 using namespace vw;
 using namespace vw::ip;
 
@@ -40,7 +42,7 @@ void DuplicateIp::addImage(VImage* vim) {
         // Find and write
         DiskImageView<PixelGray<float> > im(vim->getFullpath());
 
-        HarrisInterestOperator interest_op(1e-9, .15);
+        HarrisInterestOperator interest_op;
         ScaledInterestPointDetector<HarrisInterestOperator> detector(interest_op);
         InterestPointList ips = detect_interest_points(im, detector);
 
@@ -82,6 +84,10 @@ void DuplicateIp::findForeground(VImage* vim) {
 }
 
 void DuplicateIp::rankOne(VImage* one, VImage* two) {
+    // For speed
+    if(one->getIndex() + MAX_DIST_TO_COMPARE < two->getIndex())
+        return;
+
     // Make filename
     string matched_fn = one->getFullpath();
     matched_fn.append("_");
