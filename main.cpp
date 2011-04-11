@@ -121,6 +121,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
     float exposeScale = 1; // correlation: .27turk / .058ke
                             // Exposure: .26turk.051ke
                             // Middle gray: .11turk / .10ke
+
     float palletScale = 0; // correlation: .01turk / -.3 ke
     float blurScale = 0; // correlation: .26turk / .15ke
                          // sharp: .45turk / .33ke
@@ -258,7 +259,7 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             //blurVals[i] = newBlur->calculateBlur(currVIm);
             //sharpVals[i] = sharpDetect.rankOne(currVIm);
         }
-        //blurVals[i] = newBlur->calculateBlur(currVIm);
+        blurVals[i] = newBlur->calculateBlur(currVIm);
         // newBlur->show();
         exposeVals[i] = newExpose.expose(currVIm);
         //contrastVals[i] = contrastRater.local_contrast(currVIm);

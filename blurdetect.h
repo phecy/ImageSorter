@@ -85,6 +85,7 @@ protected:
     float resultCalc();
     float angleCalc();
     float edgeCalc();
+    float contrastCalc();
 
 private:
     int** originalImage; // The grayscale original image.
@@ -92,6 +93,7 @@ private:
     int** angles;   // Stores differences in angles between [radius] pixels
     vector<int> sharpestAngles; // Stack of all angles along sharp edges
     vector<int> sharpestDists; // Stack of all euclidean dists along sharp edges
+    vector<int> weightedContrast; // Distance-weighted bright-to-dark diff
     int width, height;
 
     // User-set constants
