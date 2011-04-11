@@ -1,10 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{Cohen-Or:2006:CH:1179352.1141933}
-D.~Cohen-Or, O.~Sorkine, R.~Gal, T.~Leyvand, and Y.~Xu,
-\newblock ``Color harmonization,''
-\newblock in {\em Siggraph}. 2006, ACM.
-
 \bibitem{1640788}
 Yan Ke, Xiaoou Tang, and Feng Jing,
 \newblock ``The design of high-level features for photo quality assessment,''
@@ -64,6 +59,11 @@ P.~Hsu and B.~Chen,
 \newblock ``Blurred image detection and classification,''
 \newblock in {\em Adv. in Mult. Model.}, vol. 4903 of {\em Lec. Notes in Comp.
   Sci.} Springer Berlin / Heidelberg, 2008.
+
+\bibitem{Cohen-Or:2006:CH:1179352.1141933}
+D.~Cohen-Or, O.~Sorkine, R.~Gal, T.~Leyvand, and Y.~Xu,
+\newblock ``Color harmonization,''
+\newblock in {\em Siggraph}. 2006, ACM.
 
 \bibitem{1292402}
 J.C. Platt, M.~Czerwinski, and B.A. Field,
