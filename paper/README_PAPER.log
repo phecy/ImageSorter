@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.6)  11 APR 2011 03:14
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.6)  11 APR 2011 04:04
 entering extended mode
  %&-line parsing enabled.
 **README_PAPER.tex
@@ -267,7 +267,7 @@ Package epstopdf Info: Source file: <result_unsorted.eps>
 (epstopdf)                    size: 67001 bytes
 (epstopdf)             Command: <epstopdf --outfile=result_unsorted-eps-convert
 ed-to.pdf result_unsorted.eps>
-(epstopdf)             \includegraphics on input line 219.
+(epstopdf)             \includegraphics on input line 220.
 Package epstopdf Info: Output file is already uptodate.
 
 <result_unsorted-eps-converted-to.pdf, id=24, 440.64626pt x 238.8925pt>
@@ -282,14 +282,14 @@ Package epstopdf Info: Source file: <result_sorted.eps>
 (epstopdf)                    size: 51873 bytes
 (epstopdf)             Command: <epstopdf --outfile=result_sorted-eps-converted
 -to.pdf result_sorted.eps>
-(epstopdf)             \includegraphics on input line 223.
+(epstopdf)             \includegraphics on input line 224.
 Package epstopdf Info: Output file is already uptodate.
 
 <result_sorted-eps-converted-to.pdf, id=25, 440.64626pt x 238.8925pt>
 File: result_sorted-eps-converted-to.pdf Graphic file (type pdf)
 
 <use result_sorted-eps-converted-to.pdf>
-Overfull \hbox (0.83777pt too wide) in paragraph at lines 219--224
+Overfull \hbox (0.83777pt too wide) in paragraph at lines 220--225
  [][][] 
  []
 
@@ -301,7 +301,7 @@ Package epstopdf Info: Source file: <example_blur.eps>
 (epstopdf)                    size: 114944 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_blur-eps-converted-
 to.pdf example_blur.eps>
-(epstopdf)             \includegraphics on input line 237.
+(epstopdf)             \includegraphics on input line 238.
 Package epstopdf Info: Output file is already uptodate.
 <example_blur-eps-converted-to.pdf, id=26, 601.24625pt x 398.48875pt>
 File: example_blur-eps-converted-to.pdf Graphic file (type pdf)
@@ -315,7 +315,7 @@ Package epstopdf Info: Source file: <example_expose.eps>
 (epstopdf)                    size: 88600 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_expose-eps-converte
 d-to.pdf example_expose.eps>
-(epstopdf)             \includegraphics on input line 243.
+(epstopdf)             \includegraphics on input line 244.
 Package epstopdf Info: Output file is already uptodate.
 
 <example_expose-eps-converted-to.pdf, id=27, 601.24625pt x 399.4925pt>
@@ -330,18 +330,20 @@ Package epstopdf Info: Source file: <example_good.eps>
 (epstopdf)                    size: 171728 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_good-eps-converted-
 to.pdf example_good.eps>
-(epstopdf)             \includegraphics on input line 250.
+(epstopdf)             \includegraphics on input line 251.
 Package epstopdf Info: Output file is already uptodate.
 
 <example_good-eps-converted-to.pdf, id=28, 601.24625pt x 398.48875pt>
 File: example_good-eps-converted-to.pdf Graphic file (type pdf)
 
-<use example_good-eps-converted-to.pdf> (./README_PAPER.bbl
+<use example_good-eps-converted-to.pdf> [3] (./README_PAPER.bbl
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
- [3]) [4 <./result_unsorted-eps-converted-to.pdf> <./result_sorted-eps-converte
-d-to.pdf> <./example_blur-eps-converted-to.pdf> <./example_expose-eps-converted
--to.pdf> <./example_good-eps-converted-to.pdf>] (./README_PAPER.aux) ) 
+ [4 <./result_unsorted-eps-converted-to.pdf> <./result_sorted-eps-converted-to.
+pdf> <./example_blur-eps-converted-to.pdf> <./example_expose-eps-converted-to.p
+df> <./example_good-eps-converted-to.pdf>]) [5
+
+] (./README_PAPER.aux) ) 
 Here is how much of TeX's memory you used:
  2678 strings out of 495061
  38873 string characters out of 1182622
@@ -350,21 +352,20 @@ Here is how much of TeX's memory you used:
  22740 words of font info for 47 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  41i,9n,45p,1178b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/sha
-re/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
-/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb><
-/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/te
-xmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/
-public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/ut
-mb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmbi8a.pfb></usr/shar
-e/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/font
-s/type1/urw/times/utmri8a.pfb>
-Output written on README_PAPER.pdf (4 pages, 637861 bytes).
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}<
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/
+texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/am
+sfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
+7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
+/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf
+-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1
+/urw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.p
+fb></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on README_PAPER.pdf (5 pages, 636978 bytes).
 PDF statistics:
- 90 PDF objects out of 1000 (max. 8388607)
+ 93 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

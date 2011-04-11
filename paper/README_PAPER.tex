@@ -174,15 +174,15 @@ UUU
 
 %The poor images follow a similar path, starting with analysis by the X harmony, and ending with a pass done with i harmony.
 
-\subsection{Similar-Image Clustering}
-To find similar images we use three measures: time similarity, global color similarity, and foreground color similarity.
+\section{Similar-Image Clustering}
+To find similar images we use three measures: time nearness, histogram similarity, and a comparison between degraded versions of the photographs.
 %\begin{figure}
 %  \centering
 %    \epsfig[scale=0.07,clip]{similarimages.eps}
 %  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 %\end{figure}
 
-
+\subsection{Timestamp}
 First, we use the timestamp to obtain a time similarity index between all pairs of images. Prior work focused on finding large timestamp gaps\cite{1292402}. We want to allow nonconsecutive images to be grouped together, so we have derived a formula which finds temporal closeness between every pair of images. We find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale:
 \begin{eqnarray}
 S_{i,j}=\frac{G_{i,j}}{A_{i,j}}
@@ -193,15 +193,20 @@ G_{i,j}=\log(|T_i-T_j|)
 \end{eqnarray}
 The calculated similarity index \(S_{i,j}\) is used to weight the results of the next two steps.
 
-Global color similarity is evaluated by dividing the image into a 4x4 grid of average color values. To compare two images, we find the color difference of each square (average difference of the red, green, and blue channels) and deduct from the similarity score if the difference is greater than a threshold of 15\%. Because global color similarity is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and perform the same algorithm on the foreground region, using a threshold of 10\%.
 
-Clusters are formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's color does not match the last image's. % Add panorama image?
+\subsection{Histogram Similarity}
+The histogram similarity is evaluated by dividing the image into a 2x2 grid and finding their grayscale, red, green, and blue channel histograms. We use 20 histogram bins for each channel, each of which has overlapping values for resistance against minor exposure changes. We also find the median value of each channel. When comparing the histograms of two images, the bins are scaled so that all channels have the same median value. This provides resillience against larger exposure changes.
 
-UUU: To make it clear, how you choose, add a figure. 
-or example with panorama that you mention in the last paragraph, or just any
-other example with dog - low score, three cats - higher scores, and than two are 
-chosen. similar to the image that we wanted to have remember (?), with flowers and 
-something else.
+To calculate the similarity, the difference in the size of each bin for each channel is summed across the grids. Each grid is weighted by the amount of the foreground that it contains, and the weighted average is the similarity score, with smaller differences indicating high similarity.
+
+
+\subsection{Degraded-Image Comparison}
+We degrade an image to remove specific features in it while maintaining color and shape information. This in general will be similar to the histogram similarity comparison, but catches any false positives caused by similar histograms in dissimilar images.
+
+First, a strong gaussian blur filter is applied to the photograph to remove features. The image is then scaled to make the comparison have less differences in pixel values. When comparing two images, a small pixel-by-pixel difference indicates higher similarity.
+
+\subsection{Clustering}
+Clusters are then formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's histogram does not match the last image's. % Add panorama image?
 
 
 \section{Results}
