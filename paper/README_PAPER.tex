@@ -13,6 +13,8 @@
 Selective Removal of Extraneous Photographs
 }
 
+\name{Anonymous submission}
+\address{}
 %\name{K. Armin Samii, Allison Carlisle, Uliana Popov, James Davis}
 %\address{[ksamii,acarlisl]@ucsc.edu,[uliana,davis]@soe.ucsc.edu}
 
@@ -89,14 +91,12 @@ The quality modules (blur, exposure, and color assessment) provide a ranking bet
 
 \(W_i\) is weight of module \(i\), \(n\) is number of modules, \(Q_i\) is  module \(i\)'s rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows: blur 60\%, exposure 30\%, and color harmony 10\%.
 
-% Hope I didnt completely kill it. I was removing itemization and just putting in the text I hope. - JED
-
 \subsection{Foreground detection}\label{ContentRecognition}
 Several modules make use of foreground detection. We use a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}). Interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary foreground subject.
 %Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 
-%\subsection{Exposure}
+\subsection{Exposure}
 %\begin{figure}
 %  \centering
 %    \epsfig{file=imageluminosity.eps,width=8.5cm}
@@ -111,19 +111,13 @@ Exposure is a measure of how appropriate the lighting is in a given image. While
 
 %We have determined eight measures by examining a set of images with various exposure problems. 
 
-UUU: We assess exposure quality using two measurements global and local. 
-The global method determines how far the average value of the image from the "middle grey" value. When the average value of the image is the sum of
-each pixel's brightness value, divided by the number of pixels.  
-\begin{eqnarray}
-Image_i avg =\frac{\sum\limits_{i=1}^nGrey_i}{n}
-\end{eqnarray}
+To assess an image's exposure quality, we use both global and local calculations to compare the average grayscale value of the region to 50\% gray (halfway between black and white).
 
-The local method uses a nxm grid. The size of the grid is determened by the size of the image. We suggest that each
-cell of a grid wil not exceed 2000 pixels. For each cell we calculate average grey values using equation UUU as
-in the global method. 
+The global method ranks an image highly when the average grayscale value is near 50\% gray.
 
-We combine the global and local values we aqcired in order to estimate the exposure value of an image.
-UUU - have to provide a bit more details
+The local method divides the image into 20x20 grid. Images are ranked highly when the bright and dark grid squares average near 50\% gray, with no square being extremely right or dark. We also penalize an image if there is not enough variation between grid squares.
+
+The two measures are averaged to provide a final ranking.
    
 
 
@@ -148,9 +142,17 @@ UUU - have to provide a bit more details
 
 
 \subsection{Blur Detection}
-Using the foreground bounding box, the blur detection algorithm first quantifies the spread of the subject's edges. Using the Image Gradient Model proposed in \cite{springerlink:10.1007/978-3-540-77409-9_26}, we obtain a value for the blur.
+There are three measures used to assess the amount of blur: edge width, global point-spread, and a comparison against a computed blurry image.
 
-Next, we compute a predicted blurred model of the foreground using a gaussian function. Sharpness is determined by an image's similarity to the predicted blur model, with sharp images being the least similar. These two values combine to determine the amount of blur, which is especially accurate when comparing the foregrounds of two similar images.
+The first two rely on an edge-detection algorithm which is done in three steps. First, we calculate the differences between a pixel's luminosity and the image's average luminosity. Large differences are considered edge pixels. Mislabeled edge pixels are then removed by ensuring each one is connected to another edge pixel. Finally, edges are spaced out by ensuring there is a large radius of non-edge pixels around each set of edge pixels; if there is not, the edge pixel with the largest value from the first step is kept. % XX FIGURE?
+
+The first measure finds the width of each edge by finding a "line of maximum contrast" from the brightest to darkest pixel around each edge. Sharper edges will have shorter line lengths.
+
+The second measure handles looks at the orientation of the lines  of maximum contrast. If there are significantly more lines oriented in a single direction than the average, we assume the point-spread to be in that direction. %XX def. needs a figure
+
+Finally, if both of these measures are inconclusive, we compute a predicted blurred model of the foreground using a gaussian blur on the image. The closer an image is to this model, the blurrier it is.
+
+These three values combine to determine the amount of blur. Only one needs to have high confidence to assess the blur. The results are averaged if none have high confidence.%, and it is especially accurate when comparing two similar images. % XX add result here, keep sentence?
 
 
 \subsection{Contrast}
@@ -170,15 +172,15 @@ UUU
 
 %The poor images follow a similar path, starting with analysis by the X harmony, and ending with a pass done with i harmony.
 
-\subsection{Similar-Image Clustering}
-To find similar images we use three measures: time similarity, global color similarity, and foreground color similarity.
+\section{Similar-Image Clustering}
+To find similar images we use three measures: time nearness, histogram similarity, and a comparison between degraded versions of the photographs.
 %\begin{figure}
 %  \centering
 %    \epsfig[scale=0.07,clip]{similarimages.eps}
 %  \caption{We cluster images based on their temporal nearness, overall color distribution, and foreground subject color distribution.}
 %\end{figure}
 
-
+\subsection{Timestamp}
 First, we use the timestamp to obtain a time similarity index between all pairs of images. Prior work focused on finding large timestamp gaps\cite{1292402}. We want to allow nonconsecutive images to be grouped together, so we have derived a formula which finds temporal closeness between every pair of images. We find the similarity \(S_{i,j}\) between two images \(i\) and \(j\) on a 0-9 scale:
 \begin{eqnarray}
 S_{i,j}=\frac{G_{i,j}}{A_{i,j}}
@@ -189,15 +191,20 @@ G_{i,j}=\log(|T_i-T_j|)
 \end{eqnarray}
 The calculated similarity index \(S_{i,j}\) is used to weight the results of the next two steps.
 
-Global color similarity is evaluated by dividing the image into a 4x4 grid of average color values. To compare two images, we find the color difference of each square (average difference of the red, green, and blue channels) and deduct from the similarity score if the difference is greater than a threshold of 15\%. Because global color similarity is sensitive to subject and camera movement, we then take the bounding box derived in \ref{ContentRecognition} and perform the same algorithm on the foreground region, using a threshold of 10\%.
 
-Clusters are formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's color does not match the last image's. % Add panorama image?
+\subsection{Histogram Similarity}
+The histogram similarity is evaluated by dividing the image into a 2x2 grid and finding their grayscale, red, green, and blue channel histograms. We use 20 histogram bins for each channel, each of which has overlapping values for resistance against minor exposure changes. We also find the median value of each channel. When comparing the histograms of two images, the bins are scaled so that all channels have the same median value. This provides resillience against larger exposure changes.
 
-UUU: To make it clear, how you choose, add a figure. 
-or example with panorama that you mention in the last paragraph, or just any
-other example with dog - low score, three cats - higher scores, and than two are 
-chosen. similar to the image that we wanted to have remember (?), with flowers and 
-something else.
+To calculate the similarity, the difference in the size of each bin for each channel is summed across the grids. Each grid is weighted by the amount of the foreground that it contains, and the weighted average is the similarity score, with smaller differences indicating high similarity.
+
+
+\subsection{Degraded-Image Comparison}
+We degrade an image to remove specific features in it while maintaining color and shape information. This in general will be similar to the histogram similarity comparison, but catches any false positives caused by similar histograms in dissimilar images.
+
+First, a strong gaussian blur filter is applied to the photograph to remove features. The image is then scaled to make the comparison have less differences in pixel values. When comparing two images, a small pixel-by-pixel difference indicates higher similarity.
+
+\subsection{Clustering}
+Clusters are then formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's histogram does not match the last image's. % Add panorama image?
 
 
 \section{Results}
@@ -249,22 +256,7 @@ We gathered Amazon Mechanical Turk user ratings on our own dataset of 459 sequen
 %Enumerated below are the results and comparisons to similar works.
 
 %\subsection{Similar Image Detection}
-UUU: should have three paragraphs.
-removal, quality assesment and similarity.
-
-for quality assessment - camera is the reference, it's light meter.
-looked for studies/papers about light meters in a camera.
-found only patents, and they are not what we need.
-anyway, the site that you like says: http://www.cambridgeincolour.com/tutorials/camera-metering.htm
-"All in-camera light meters have a fundamental flaw: they can only measure reflected light. This means the best they can do is guess how much light is actually hitting the subject. If all objects reflected the same percentage of incident light, this would work just fine, however real-world subjects vary greatly in their reflectance. For this reason, in-camera metering is standardized based on the luminance of light which would be reflected from an object appearing as middle gray. If the camera is aimed directly at any object lighter or darker than middle gray, the camera's light meter will incorrectly calculate under or over-exposure, respectively. A hand-held light meter would calculate the same exposure for any object under the same incident lighting."
--> not sure that this reference is good. btw, never met this argument in the papers i read...
-
-similarity - turk is ok. they just asked for more details, how many turkers, how many sets each...
-
-removal - i don't think we have anything right now. we can just hand wave and say that combination of prev two provides some good (subjective?) results
-
-
-We asked Turk users to group together photographs within four sets of twenty images based on their own personal measure of "similarity." We agree with Turk users' decisions of whether a given pair of images is in the same group with 78\% accuracy. We then grouped together photographs with the same subject in focus and achieved an 85\% accuracy on the same dataset. % JAMES SHOULD THIS LAST MEASURE BE HERE?
+We asked Turk users to group together photographs within four sets of twenty images based on their own personal measure of "similarity." We agree with Turk users' decisions of whether a given pair of images is in the same group with 81\% accuracy.
 
 %\subsection{Image Rating}
 

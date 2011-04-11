@@ -72,7 +72,6 @@ dupGroup Duplicates::findDuplicates() {
     // Construct matrix of rankings
     rankVector* ranks = getRankVector();
     //debugPrintRanks(ranks);
-    //debugPrintPhpRanks(ranks); // For comparing against turk data
 
     // Successively merge groupst
     //qDebug("Merging groups together");
@@ -92,7 +91,8 @@ dupGroup Duplicates::findDuplicates() {
             allGroups->push_back(thisPair.second);
         }
     }
-    //debugPrintPhpGroups(allGroups); // For comparing against turk data
+    debugPrintPhpRanks(getRankVector(true)); // For comparing against turk data
+    debugPrintPhpGroups(allGroups); // For comparing against turk data
 
     delete ranks;
 
@@ -121,15 +121,16 @@ void Duplicates::debugPrintRanks(rankVector* ranks) {
 void Duplicates::debugPrintPhpRanks(rankVector* ranks) {
     cerr << setiosflags(ios::left);
     cerr<<"\n<<<<<<<<<<<<  Printing PHP DEBUG RANK OUTPUT >>>>>>>>>>>>>>>>>>\n" << endl;
-    cerr << "array(";
+    cerr << "array(\n";
     for(unsigned int i=0; i<allImages->size(); ++i) {
-        cerr << "array(\"" << allImages->at(i)->getFilename() << "\", ";
+        cerr << "    array(\"" << allImages->at(i)->getFilename() << "\", ";
         for(unsigned int j=0; j<allImages->size(); ++j) {
             cerr << ranks->at(i).first.at(j);
             if(j != allImages->size()-1) cerr << ",";
         }
         cerr << "),\n";
     }
+    cerr << "),\n";
 }
 
 void Duplicates::debugPrintPhpGroups(dupGroup* groups) {
@@ -145,9 +146,9 @@ void Duplicates::debugPrintPhpGroups(dupGroup* groups) {
             isInGroupVector[i][currImageIndex] = true;
         }
     }
-    cerr << "array(";
+    cerr << "array(\n";
     for(unsigned int i=0; i<numPics; ++i) {
-        cerr << "array(\"" << allImages->at(i)->getFilename() << "\", ";
+        cerr << "    array(\"" << allImages->at(i)->getFilename() << "\", ";
         for(unsigned int j=0; j<numPics; ++j) {
             cerr << isInGroupVector[i][j];
             if(j != numPics-1) cerr << ",";
@@ -157,7 +158,7 @@ void Duplicates::debugPrintPhpGroups(dupGroup* groups) {
     cerr << "),\n";
 }
 
-rankVector* Duplicates::getRankVector() {
+rankVector* Duplicates::getRankVector(bool binary) {
     int size = allImages->size();
     rankVector* ranks = new rankVector();
     for(int i=0; i<size; ++i) {
@@ -171,7 +172,12 @@ rankVector* Duplicates::getRankVector() {
             // Comparing second to first
             VImage *second = allImages->at(j);
 
-            float rank = rater->getRanking(first, second);
+            float rank;
+            if(binary)
+                rank = (first->getSetNum() == second->getSetNum())
+                        ? 1 : 0;
+            else
+                rank = rater->getRanking(first, second);
             row.first.push_back(rank);
         }
         ranks->push_back(row);
