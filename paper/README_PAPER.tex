@@ -89,8 +89,6 @@ The quality modules (blur, exposure, and color assessment) provide a ranking bet
 
 \(W_i\) is weight of module \(i\), \(n\) is number of modules, \(Q_i\) is  module \(i\)'s rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows: blur 60\%, exposure 30\%, and color harmony 10\%.
 
-% Hope I didnt completely kill it. I was removing itemization and just putting in the text I hope. - JED
-
 \subsection{Foreground detection}\label{ContentRecognition}
 Several modules make use of foreground detection. We use a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}). Interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary foreground subject.
 %Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
@@ -224,7 +222,7 @@ We gathered Amazon Mechanical Turk user ratings on our own dataset of 459 sequen
 %Enumerated below are the results and comparisons to similar works.
 
 %\subsection{Similar Image Detection}
-We asked Turk users to group together photographs within four sets of twenty images based on their own personal measure of "similarity." We agree with Turk users' decisions of whether a given pair of images is in the same group with 78\% accuracy. We then grouped together photographs with the same subject in focus and achieved an 85\% accuracy on the same dataset. % JAMES SHOULD THIS LAST MEASURE BE HERE?
+We asked Turk users to group together photographs within four sets of twenty images based on their own personal measure of "similarity." We agree with Turk users' decisions with 81\% accuracy.
 
 %\subsection{Image Rating}
 
