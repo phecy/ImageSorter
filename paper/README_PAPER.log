@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.6)  11 APR 2011 04:04
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.6)  11 APR 2011 10:36
 entering extended mode
  %&-line parsing enabled.
 **README_PAPER.tex
@@ -235,15 +235,20 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/it' tried instead on input line 26.
 Package epstopdf Info: Source file: <flowchart.eps>
-(epstopdf)                    date: 2011-04-10 16:44:25
-(epstopdf)                    size: 16877 bytes
+(epstopdf)                    date: 2011-04-11 09:42:24
+(epstopdf)                    size: 16814 bytes
 (epstopdf)             Output file: <flowchart-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-04-10 16:50:04
+(epstopdf)                    date: 2011-03-09 10:40:54
 (epstopdf)                    size: 9680 bytes
 (epstopdf)             Command: <epstopdf --outfile=flowchart-eps-converted-to.
 pdf flowchart.eps>
 (epstopdf)             \includegraphics on input line 80.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=flowchart-eps-converted-to.pdf flowchart.eps)...di
+sabled.
+
+Package epstopdf Info: Result file: <flowchart-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-03-09 10:40:54
+(epstopdf)                    size: 9680 bytes.
  <flowchart-eps-converted-to.pdf, id=1, 433.62pt x 162.6075pt>
 File: flowchart-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -260,14 +265,14 @@ n
 
 [2 <./flowchart-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <result_unsorted.eps>
-(epstopdf)                    date: 2011-03-26 16:30:12
+(epstopdf)                    date: 2011-03-09 21:08:53
 (epstopdf)                    size: 319464 bytes
 (epstopdf)             Output file: <result_unsorted-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-04-10 16:50:04
+(epstopdf)                    date: 2011-03-09 21:14:39
 (epstopdf)                    size: 67001 bytes
 (epstopdf)             Command: <epstopdf --outfile=result_unsorted-eps-convert
 ed-to.pdf result_unsorted.eps>
-(epstopdf)             \includegraphics on input line 220.
+(epstopdf)             \includegraphics on input line 221.
 Package epstopdf Info: Output file is already uptodate.
 
 <result_unsorted-eps-converted-to.pdf, id=24, 440.64626pt x 238.8925pt>
@@ -275,47 +280,47 @@ File: result_unsorted-eps-converted-to.pdf Graphic file (type pdf)
 
 <use result_unsorted-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <result_sorted.eps>
-(epstopdf)                    date: 2011-03-26 16:30:12
+(epstopdf)                    date: 2011-03-09 21:15:54
 (epstopdf)                    size: 314071 bytes
 (epstopdf)             Output file: <result_sorted-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-04-10 16:50:04
+(epstopdf)                    date: 2011-03-09 21:16:03
 (epstopdf)                    size: 51873 bytes
 (epstopdf)             Command: <epstopdf --outfile=result_sorted-eps-converted
 -to.pdf result_sorted.eps>
-(epstopdf)             \includegraphics on input line 224.
+(epstopdf)             \includegraphics on input line 225.
 Package epstopdf Info: Output file is already uptodate.
 
 <result_sorted-eps-converted-to.pdf, id=25, 440.64626pt x 238.8925pt>
 File: result_sorted-eps-converted-to.pdf Graphic file (type pdf)
 
 <use result_sorted-eps-converted-to.pdf>
-Overfull \hbox (0.83777pt too wide) in paragraph at lines 220--225
+Overfull \hbox (0.83777pt too wide) in paragraph at lines 221--226
  [][][] 
  []
 
 Package epstopdf Info: Source file: <example_blur.eps>
-(epstopdf)                    date: 2011-03-26 16:30:12
+(epstopdf)                    date: 2011-03-07 19:38:57
 (epstopdf)                    size: 1569269 bytes
 (epstopdf)             Output file: <example_blur-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-04-10 16:50:04
+(epstopdf)                    date: 2011-03-09 10:40:58
 (epstopdf)                    size: 114944 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_blur-eps-converted-
 to.pdf example_blur.eps>
-(epstopdf)             \includegraphics on input line 238.
+(epstopdf)             \includegraphics on input line 239.
 Package epstopdf Info: Output file is already uptodate.
 <example_blur-eps-converted-to.pdf, id=26, 601.24625pt x 398.48875pt>
 File: example_blur-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_blur-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <example_expose.eps>
-(epstopdf)                    date: 2011-03-26 16:30:12
+(epstopdf)                    date: 2011-03-08 22:02:06
 (epstopdf)                    size: 645796 bytes
 (epstopdf)             Output file: <example_expose-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-04-10 16:50:04
+(epstopdf)                    date: 2011-03-09 10:40:59
 (epstopdf)                    size: 88600 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_expose-eps-converte
 d-to.pdf example_expose.eps>
-(epstopdf)             \includegraphics on input line 244.
+(epstopdf)             \includegraphics on input line 245.
 Package epstopdf Info: Output file is already uptodate.
 
 <example_expose-eps-converted-to.pdf, id=27, 601.24625pt x 399.4925pt>
@@ -323,20 +328,22 @@ File: example_expose-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_expose-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <example_good.eps>
-(epstopdf)                    date: 2011-03-26 16:30:12
+(epstopdf)                    date: 2011-03-07 19:39:44
 (epstopdf)                    size: 1611241 bytes
 (epstopdf)             Output file: <example_good-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-04-10 16:50:04
+(epstopdf)                    date: 2011-03-09 10:41:01
 (epstopdf)                    size: 171728 bytes
 (epstopdf)             Command: <epstopdf --outfile=example_good-eps-converted-
 to.pdf example_good.eps>
-(epstopdf)             \includegraphics on input line 251.
+(epstopdf)             \includegraphics on input line 252.
 Package epstopdf Info: Output file is already uptodate.
 
 <example_good-eps-converted-to.pdf, id=28, 601.24625pt x 398.48875pt>
 File: example_good-eps-converted-to.pdf Graphic file (type pdf)
 
 <use example_good-eps-converted-to.pdf> [3] (./README_PAPER.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
  [4 <./result_unsorted-eps-converted-to.pdf> <./result_sorted-eps-converted-to.
@@ -351,7 +358,7 @@ Here is how much of TeX's memory you used:
  5813 multiletter control sequences out of 15000+50000
  22740 words of font info for 47 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 41i,9n,45p,1178b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,9n,45p,1177b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}<
 /usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/
 texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texli
@@ -363,7 +370,7 @@ sfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
 -texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1
 /urw/times/utmbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.p
 fb></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on README_PAPER.pdf (5 pages, 636978 bytes).
+Output written on README_PAPER.pdf (5 pages, 642574 bytes).
 PDF statistics:
  93 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

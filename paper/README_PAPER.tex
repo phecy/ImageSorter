@@ -50,7 +50,7 @@ To focus our research and determine which image qualities are relevant to techni
 \item Retrieve: Select the retouched images most suitable to a given task.
 \end{enumerate}
 
-This work focuses on the removal stage and contains both quality assessment and similarity ranking. We implement technical quality assessment using three modules: blur detection, exposure, and color harmony. The blur detection uses three measures: the gradient magnitude of edges, the similarity to a predicted out-of-focus image, and the probability of a linear point-spread function existing. Exposure is measured by finding the balance in brightness throughout the image, both locally and globally. Contrast is measured based on the local changes in brightnesst throughout an image. We implement similarity ranking using global color similarity, foreground color similarity, and timestamps.  These modules are combined to obtain a reordering of the set representing how suited they are for removal (the "Importance Order"). A user study has shown XX\% accuracy in our absolute ranking of photographs. The similarity ranking was evaluated separately and found to have XX\% accuracy. Fig. \ref{fig:Examples} shows our accuracy in finding the subject and rating quality.% 86% comes from our average difference to turk ratings on Ke's set = 1.35
+This work focuses on the removal stage and contains both quality assessment and similarity ranking. We implement technical quality assessment using three modules: blur detection, exposure, and color harmony. The blur detection uses three measures: the gradient magnitude of edges, the similarity to a predicted out-of-focus image, and the probability of a linear point-spread function existing. Exposure is measured by finding the balance in brightness throughout the image, both locally and globally. Contrast is measured based on the local changes in brightness throughout an image. We implement similarity ranking using global color similarity, foreground color similarity, and timestamps.  These modules are combined to obtain a reordering of the set representing how suited they are for removal (the "Importance Order"). A user study has shown XX\% accuracy in our absolute ranking of photographs. The similarity ranking was evaluated separately and found to have 81\% accuracy. Fig. \ref{fig:Examples} shows our accuracy in finding the subject and rating quality.% 86% comes from our average difference to turk ratings on Ke's set = 1.35
 
 \section{Related Work}
 
@@ -78,18 +78,18 @@ Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} d
 \begin{figure*}
   \centering
     \epsfig{file=flowchart.eps,width=16cm}
-  \caption{Interest points are used to find the foreground subject. Blur detection, color harmony, and exposure algorithms calculate an image's quality rating. The color distribution of the local foreground subject, and global image, coupled with the timestamp, cluster images into groups. A reordering of the input results, allowing the user to remove images at the end of this ordering.}
+  \caption{Interest points are used to find the foreground subject. Blur, contrast, and exposure assessment algorithms are used to calculate an image's quality rating. Images are clustered into groups of similar images based on their histograms, color distribution, and timestamps. A reordering of the input results, allowing the user to remove images at the end of this ordering.}
   \label{flowchart}
 \end{figure*}
 
-To find the Importance Order of the user's photographs, we use both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and color harmony modules. Similarity of images is determined by matching the color content and timestamp of every pair of images. Both modules make use of a foreground region detection module based on interest points. We combine these measures to get the final ordering (Fig. \ref{flowchart}).
+To find the Importance Order of the user's photographs, we use both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and contrast modules. Similarity of images is determined by matching the color content and timestamp of every pair of images. Both modules make use of a foreground region detection module based on interest points. We combine these measures to get the final ordering (Fig. \ref{flowchart}).
 
-The quality modules (blur, exposure, and color assessment) provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which is flawed in any of the three factors would be considered poor, we propose a formula which penalizes low scores more than it rewards high scores:
+The quality modules (blur, exposure, and contrast assessment) provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which is flawed in any of the three factors would be considered poor, we use a formula similar to the sum-of-squares which penalizes low scores more than it rewards high scores:
 \begin{eqnarray}
 \left(\displaystyle\sum\limits_{i=1}^nW_i\left({Q_i+t}\right)^\frac{2}{3}\right)^\frac{3}{2}
 \end{eqnarray}
 
-\(W_i\) is weight of module \(i\), \(n\) is number of modules, \(Q_i\) is  module \(i\)'s rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows: blur 60\%, exposure 30\%, and color harmony 10\%.
+\(W_i\) is weight of module \(i\), \(n\) is number of modules, \(Q_i\) is  module \(i\)'s rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows: blur 50\%, exposure 40\%, and contrast 10\%.
 
 \subsection{Foreground detection}\label{ContentRecognition}
 Several modules make use of foreground detection. We use a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}). Interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary foreground subject.
@@ -173,7 +173,7 @@ UUU
 %The poor images follow a similar path, starting with analysis by the X harmony, and ending with a pass done with i harmony.
 
 \section{Similar-Image Clustering}
-To find similar images we use three measures: time nearness, histogram similarity, and a comparison between degraded versions of the photographs.
+To find similar images we use three measures: time nearness, histogram similarity, and color distribution.
 %\begin{figure}
 %  \centering
 %    \epsfig[scale=0.07,clip]{similarimages.eps}
@@ -193,15 +193,18 @@ The calculated similarity index \(S_{i,j}\) is used to weight the results of the
 
 
 \subsection{Histogram Similarity}
-The histogram similarity is evaluated by dividing the image into a 2x2 grid and finding their grayscale, red, green, and blue channel histograms. We use 20 histogram bins for each channel, each of which has overlapping values for resistance against minor exposure changes. We also find the median value of each channel. When comparing the histograms of two images, the bins are scaled so that all channels have the same median value. This provides resillience against larger exposure changes.
+Directly comparing histograms will produce many false positives due to similar-colored but different images, and many false negatives due to changes in exposure affecting the histograms. Our method is robust against both of these.
 
-To calculate the similarity, the difference in the size of each bin for each channel is summed across the grids. Each grid is weighted by the amount of the foreground that it contains, and the weighted average is the similarity score, with smaller differences indicating high similarity.
+The image is first divided into a 2x2 grid, with four pairs of values describing each grid square: red, green, blue, and grayscale histograms, paired with the median color for each histogram. The grid protects against false positives. We then divide each histogram into 20 overlapping bins, with each bin containing 8\% of the range of values for resistance against minor exposure changes (under 3\%).
 
+When comparing the histograms of two images, the bins are scaled so that all channels have the same median value. This provides resillience against larger exposure changes. A similarity ranking for each histogram is derived from the differences in the size of each scaled bin. Finally, each grid square is weighted by the amount of the foreground that it contains. The result is the grid-weighted average of differences between each bin, with smaller differences indicating high similarity:
+\begin{eqnarray}
+\mathrm{Difference_{I,J}}=\displaystyle\sum\limits_{g=1}^4W_g\sum\limits_{c=1}^4\sum\limits_{b=1}^{20} |I_{b,c} - J_{b,c}|
+\end{eqnarray}
+Where \(g\) is the grid square, \(W_g\) is the weight of the square based on foreground overlap, \(c\) is the channel, \(b\) is the bin, and \(|I_{b,c}-J_{b,c}|\) is the difference between the number of pixels in bin \(b\), channel \(c\) for images \(I\) and \(J\).
 
-\subsection{Degraded-Image Comparison}
-We degrade an image to remove specific features in it while maintaining color and shape information. This in general will be similar to the histogram similarity comparison, but catches any false positives caused by similar histograms in dissimilar images.
-
-First, a strong gaussian blur filter is applied to the photograph to remove features. The image is then scaled to make the comparison have less differences in pixel values. When comparing two images, a small pixel-by-pixel difference indicates higher similarity.
+\subsection{Foreground Color Distribution}
+We degrade an image to remove features from the foreground while maintaining general color and shape information. First, a strong gaussian blur filter is applied to the foreground to remove features. The image is then scaled to make the comparison have less differences in pixel values. When comparing two images, a smaller pixel-by-pixel difference indicates higher similarity. Because only the foreground is used, this method is robust against frame and subject movement between photographs.
 
 \subsection{Clustering}
 Clusters are then formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's histogram does not match the last image's. % Add panorama image?
