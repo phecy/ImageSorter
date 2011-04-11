@@ -33,7 +33,7 @@ dvi-visual: complete-dvi
 dv: dvi-visual
 
 complete-pdf: complete-dvi
-	pdflatex README_PAPER
+	dvipdf README_PAPER.dvi
 
 p: complete-pdf
 
