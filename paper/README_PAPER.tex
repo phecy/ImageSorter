@@ -92,7 +92,7 @@ The quality modules (blur, exposure, and contrast assessment) provide a ranking 
 \(W_i\) is weight of module \(i\), \(n\) is number of modules, \(Q_i\) is  module \(i\)'s rating for the image, and \(t\) is a leniency threshold to balance each module's output, empirically chosen to be 4. Weights are assigned as follows: blur 50\%, exposure 40\%, and contrast 10\%.
 
 \subsection{Foreground detection}\label{ContentRecognition}
-Several modules make use of foreground detection. We use a Harris Interest Operator (utilizing NASA's Vision Workbench\cite{vision-workbench}). Interest points are obtained for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary foreground subject.
+Several modules make use of foreground detection. We use a Harris corner detector\cite{Harris} (utilizing NASA's Vision Workbench\cite{vision-workbench}) to obtain interest points for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary foreground subject.
 %Although there are more accurate methods available\cite{5649226}, our work only requires this simpler method which provides a bounding box around the most salient foreground object.
 
 
@@ -148,11 +148,11 @@ The first two rely on an edge-detection algorithm which is done in three steps. 
 
 The first measure finds the width of each edge by finding a "line of maximum contrast" from the brightest to darkest pixel around each edge. Sharper edges will have shorter line lengths.
 
-The second measure handles looks at the orientation of the lines  of maximum contrast. If there are significantly more lines oriented in a single direction than the average, we assume the point-spread to be in that direction. %XX def. needs a figure
+The second measure looks at the orientation of the lines of maximum contrast. If there are significantly more lines oriented in a single direction than the average, we assume the point-spread to be in that direction. %XX def. needs a figure
 
-Finally, if both of these measures are inconclusive, we compute a predicted blurred model of the foreground using a gaussian blur on the image. The closer an image is to this model, the blurrier it is.
+Finally, if the previous two measures are inconclusive, we compute a predicted blurred model of the foreground using a gaussian blur on the image. The closer an image is to this model, the blurrier it is.
 
-These three values combine to determine the amount of blur. Only one needs to have high confidence to assess the blur. The results are averaged if none have high confidence.%, and it is especially accurate when comparing two similar images. % XX add result here, keep sentence?
+These three values are combined to determine the amount of blur. Only one needs to have high confidence to assess the blur. The results are averaged if none have high confidence.%, and it is especially accurate when comparing two similar images. % XX add result here, keep sentence?
 
 
 \subsection{Contrast}
@@ -195,7 +195,7 @@ The calculated similarity index \(S_{i,j}\) is used to weight the results of the
 \subsection{Histogram Similarity}
 Directly comparing histograms will produce many false positives due to similar-colored but different images, and many false negatives due to changes in exposure affecting the histograms. Our method is robust against both of these.
 
-The image is first divided into a 2x2 grid, with four pairs of values describing each grid square: red, green, blue, and grayscale histograms, paired with the median color for each histogram. The grid protects against false positives. We then divide each histogram into 20 overlapping bins, with each bin containing 8\% of the range of values for resistance against minor exposure changes (under 3\%).
+The image is first divided into a 2x2 grid, with four pairs of values describing each grid square: red, green, blue, and grayscale histograms, paired with the median color for each histogram. The grid protects against false positives. We then divide each histogram into 20 bins, each containing 5\% of the range of values, plus 2\% of the values in adjacent bins, which provides resistance against minor exposure changes. So, for example, the second bin will contain all pixels between 3\% and 12\%.
 
 When comparing the histograms of two images, the bins are scaled so that all channels have the same median value. This provides resillience against larger exposure changes. A similarity ranking for each histogram is derived from the differences in the size of each scaled bin. Finally, each grid square is weighted by the amount of the foreground that it contains. The result is the grid-weighted average of differences between each bin, with smaller differences indicating high similarity:
 \begin{eqnarray}
