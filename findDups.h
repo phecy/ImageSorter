@@ -47,7 +47,7 @@ public:
     dupGroup findDuplicates();
 
     // Get a 2d matrix of rankings. Destruct it when you're done.
-    rankVector* getRankVector();
+    rankVector* getRankVector(bool isBinary = false);
 
     // A simpler version of above
     void createSimilarityVector();
