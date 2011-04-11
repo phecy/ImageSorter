@@ -24,7 +24,7 @@ This file is part of ppm.
 
 #define PI 3.142
 
-#define MIN_NUM_IPS 0
+#define MIN_NUM_IPS 4
 #define LOOK_FOR_CONTRAST_RADIUS 10
 #define SENSITIVITY_THRESHOLD 96
 #define EDGE_SIZE 5
@@ -70,8 +70,8 @@ float BlurDetect::calculateBlur(VImage* vim) {
     assert(highpassRadius > edgeRadius);
 
     // Test # IPs
-    //if(vim->getIps().size() <= MIN_NUM_IPS)
-      //  return 0;
+    if(vim->getIps().size() <= MIN_NUM_IPS)
+        return 0;
 
     QImage* image = vim->getQImage();
     minColor = avgColor = maxColor = 0;
@@ -381,7 +381,7 @@ float BlurDetect::angleCalc() {
         angleHist[*angleIter%180 / numAngleBins]++;
         //qDebug("Curr diff =  %ld,   angle = %d", totalDiffs, lastAngle);
     }
-    int avgAngle = totalAngs / sharpestAngles.size();
+    int avgAngle = totalAngs / (sharpestAngles.size()+1);
 
     int maxBinSize = 0; // Size of bin with most angles
     int maxBinAngle = 0; // The angle range containing ^
@@ -455,7 +455,7 @@ float BlurDetect::contrastCalc() {
     for(; contrIter != weightedContrast.end(); ++contrIter) {
         avgDist += *contrIter;
     }
-    avgDist /= weightedContrast.size();
+    avgDist /= (weightedContrast.size()+1);
     return avgDist / 12.8; // 12.8: Max avg dist is 128 (256/2).
                            // Scale to 0-10
 }
