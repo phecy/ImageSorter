@@ -26,7 +26,7 @@ grey::grey()
 }
 int grey::calcGrey(QImage* im)
 {
-    int middle_gray = 175;
+    int middle_gray = 128;  //175;
     float average = 0.0;
 
     QImage image = *im;
@@ -46,6 +46,7 @@ int grey::calcGrey(QImage* im)
     }
 
     average /= (image.width() * image.height());
+    return average; // ARMIN ADDED THIS 4/9/11 19:38
 
     //qDebug("Average = %f", average);
 
