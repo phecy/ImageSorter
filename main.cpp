@@ -156,7 +156,7 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         */
 
         float rank = root3((pow2(combinedExpose+RANK_THRESHOLD)))*exposeScale;
-        rank += root3((pow2(combinedContrast[i]+RANK_THRESHOLD)))*contrastScale;
+        rank += root3((pow2(combinedContrast+RANK_THRESHOLD)))*contrastScale;
         rank += root3((pow2(combinedBlur+RANK_THRESHOLD)))*blurScale;
         rank = pow3(rank);
         rank = sqrt(rank);
