@@ -259,13 +259,8 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             //blurVals[i] = newBlur->calculateBlur(currVIm);
             //sharpVals[i] = sharpDetect.rankOne(currVIm);
         }
-<<<<<<< HEAD
-        blurVals[i] = newBlur->calculateBlur(currVIm);
-        //sharpVals[i] = sharpDetect.rankOne(currVIm);
-=======
         // blurVals[i] = newBlur->calculateBlur(currVIm);
         // sharpVals[i] = sharpDetect.rankOne(currVIm);
->>>>>>> a31e4851010bb674edc02e424986f16c8fd3e99d
         // newBlur->show();
         exposeVals[i] = newExpose.expose(currVIm);
         contrastVals[i] = contrastRater.local_contrast(currVIm);
