@@ -429,7 +429,7 @@ float BlurDetect::edgeCalc() {
     for(; distIter != sharpestDists.end(); ++distIter) {
         avgDist += *distIter;
     }
-    avgDist /= sharpestDists.size();
+    avgDist /= (sharpestDists.size()+1);
 
 
     // Distance from bottom left to top right
