@@ -77,4 +77,12 @@ H., M.~Douze, and C.~Schmid,
 \newblock in {\em Proc. of the European Conf. on Comp. Vis.} oct 2008,
   Springer.
 
+\bibitem{JDS08}
+Herv\'e J\'egou, Matthijs Douze, and Cordelia Schmid,
+\newblock ``Hamming embedding and weak geometric consistency for large scale
+  image search,''
+\newblock in {\em European Conference on Computer Vision}, Andrew~Zisserman
+  David~Forsyth, Philip~Torr, Ed. oct 2008, vol.~I of {\em LNCS}, pp. 304--317,
+  Springer.
+
 \end{thebibliography}
