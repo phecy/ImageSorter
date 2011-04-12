@@ -31,8 +31,7 @@ C.H. Yeh, Y.C. Ho, B.A. Barsky, and M.~Ouhyoung,
 A.C. Loui and A.~Savakis,
 \newblock ``Automated event clustering and quality screening of consumer
   pictures for digital albuming,''
-\newblock {\em Multimedia, IEEE Transactions on}, vol. 5, no. 3, pp. 390 --
-  402, Sept. 2003.
+\newblock {\em IEEE Mult. Trans.}, Sept. 2003.
 
 \bibitem{4444209}
 C.~Jang, J.~Lee, J.~Lee, and H.~Cho,
@@ -71,10 +70,9 @@ J.C. Platt, M.~Czerwinski, and B.A. Field,
 \newblock in {\em ICICS and PCM}, 2003.
 
 \bibitem{JDS08}
-H., M.~Douze, and C.~Schmid,
+H.~Jegou, M.~Douze, and C.~Schmid,
 \newblock ``Hamming embedding and weak geometric consistency for large scale
   image search,''
-\newblock in {\em Proc. of the European Conf. on Comp. Vis.} oct 2008,
-  Springer.
+\newblock in {\em Proc. of the Eur. Conf. on Comp. Vis.} Oct 2008, Springer.
 
 \end{thebibliography}
