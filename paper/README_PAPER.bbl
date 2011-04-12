@@ -74,4 +74,12 @@ J.C. Platt, M.~Czerwinski, and B.A. Field,
 \newblock ``Phototoc: automatic clustering for browsing personal photographs,''
 \newblock in {\em ICICS and PCM}, 2003, vol.~1.
 
+\bibitem{JDS08}
+Herv\'e J\'egou, Matthijs Douze, and Cordelia Schmid,
+\newblock ``Hamming embedding and weak geometric consistency for large scale
+  image search,''
+\newblock in {\em European Conference on Computer Vision}, Andrew~Zisserman
+  David~Forsyth, Philip~Torr, Ed. oct 2008, vol.~I of {\em LNCS}, pp. 304--317,
+  Springer.
+
 \end{thebibliography}
