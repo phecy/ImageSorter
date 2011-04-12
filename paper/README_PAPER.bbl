@@ -49,6 +49,11 @@ Daniel Kormann, Peter Dunker, and Ronny Paduschek,
   Computer Science}, pp. 192--195. Springer Berlin / Heidelberg, 2009,
 \newblock 10.1007/978-3-642-10543-2\_23.
 
+\bibitem{Harris}
+C.~Harris and M.~Stephens,
+\newblock ``A combined corner and edge detector,''
+\newblock {\em Proc. Alvey Vision Conf.}, 1988.
+
 \bibitem{vision-workbench}
 M.D. Hancher, M.J. Broxton, and L.J. Edwards,
 \newblock {\em A User's Guide to the NASA Vision Workbench.},
