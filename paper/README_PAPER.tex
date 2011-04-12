@@ -104,11 +104,7 @@ Exposure is a measure of how appropriate the lighting is in a given image. While
 
 To assess an image's exposure quality, we use both global and local calculations to compare the average grayscale value of the region to middle gray (halfway between black and white on a lightness scale) \cite{ppr:1815}.
 
-The global method ranks an image highly when the average grayscale value is near middle gray.
-
-The local method divides the image into 20x20 grid. Images are ranked highly when the bright and dark grid cells average near middle gray, with a few cells being extremely light or dark. We also penalize an image if there is not enough variation between grid squares.
-
-The two measures are averaged to provide a final ranking.
+The global method ranks an image highly when the average grayscale value is near middle gray. The local method divides the image into 20x20 grid. Images are ranked highly when the bright and dark grid cells average near middle gray, with few cells being extremely light or dark. We also penalize an image if there is not enough variation between grid squares. These two measures are averaged to provide a final ranking.
 
 \subsection{Blur Detection}
 There are three measures used to assess the amount of blur: edge width, global point-spread, and a comparison against a computed blurry image.
@@ -119,7 +115,7 @@ The first measure finds the width of each edge by finding a "line of maximum con
 
 The second measure looks at the orientation of the lines of maximum contrast. If there are significantly more lines oriented in a single direction than the average, we assume the point-spread to be in that direction. %XX def. needs a figure
 
-Finally, if the previous two measures are inconclusive, we compute a predicted blurred model of the foreground using a gaussian blur on the image. The closer an image is to this model, the blurrier it is.
+Finally, if the previous two measures are inconclusive, we compute a predicted blurred model of the foreground using a Gaussian blur on the image. The closer an image is to this model, the blurrier it is.
 
 These three values are combined to determine the amount of blur. Only one needs to have high confidence to assess the blur. The results are averaged if none have high confidence.%, and it is especially accurate when comparing two similar images. % XX add result here, keep sentence?
 
@@ -150,14 +146,14 @@ Directly comparing histograms will produce many false positives due to similar-c
 
 The image is first divided into a 2x2 grid, with four pairs of values describing each grid square: red, green, blue, and grayscale histograms, paired with the median color for each histogram. The grid protects against false positives. We then divide each histogram into 20 bins, each containing 5\% of the range of values, plus 2\% of the values in adjacent bins, which provides resistance against minor exposure changes. So, for example, the second bin will contain all pixels between 3\% and 12\%.
 
-When comparing the histograms of two images, the bins are scaled so that all channels have the same median value. This provides resillience against larger exposure changes. A similarity ranking for each histogram is derived from the differences in the size of each scaled bin. Finally, each grid square is weighted by the amount of the foreground that it contains. The result is the grid-weighted average of differences between each bin, with smaller differences indicating higher similarity:
+When comparing the histograms of two images, the bins are scaled so that all channels have the same median value. This provides resilience against larger exposure changes. A similarity ranking for each histogram is derived from the differences in the size of each scaled bin. Finally, each grid square is weighted by the amount of the foreground that it contains. The result is the grid-weighted average of differences between each bin, with smaller differences indicating higher similarity:
 \begin{eqnarray}
 \mathrm{Difference_{I,J}}=\displaystyle\sum\limits_{g=1}^4W_g\sum\limits_{c=1}^4\sum\limits_{b=1}^{20} |I_{b,c} - J_{b,c}|
 \end{eqnarray}
 Where \(g\) is the grid square, \(W_g\) is the weight of the square based on foreground overlap, \(c\) is the channel, \(b\) is the bin, and \(|I_{b,c}-J_{b,c}|\) is the difference between the number of pixels in bin \(b\), channel \(c\) for images \(I\) and \(J\).
 
 \subsection{Foreground Color Distribution}
-We degrade an image to remove features from the foreground while maintaining general color and shape information. First, a strong gaussian blur filter is applied to the foreground to remove features. The image is then scaled to make the comparison have less differences in pixel values. When comparing two images, a smaller pixel-by-pixel difference indicates higher similarity. Because only the foreground is used, this method is robust against frame and subject movement between photographs.
+We degrade an image to remove features from the foreground while maintaining general color and shape information. First, a strong Gaussian blur filter is applied to the foreground to remove features. The image is then scaled to make the comparison have less differences in pixel values. When comparing two images, a smaller pixel-by-pixel difference indicates higher similarity. Because only the foreground is used, this method is robust against frame and subject movement between photographs.
 
 \subsection{Clustering}
 Clusters are then formed using a Quality-Threshold algorithm. We first put each image into its own group, then iteratively merge the two most similar groups until a minimum similarity threshold is reached. In this way, groups votes for other similar groups, rather than single image voting for other images, resulting in a noise-resistant clustering. This method successfully groups panoramic sets of images together, even when the first image's histogram does not match the last image's. % Add panorama image?
@@ -203,7 +199,7 @@ We asked Amazon Mechanical Turk users to group together photographs within four 
 
 We also assessed blur and exposure individually using a binary classification. First, we use our own data to confirm an image is low quality. We gathered 70 out-of-focus images uploaded by Turk users and correctly classified 62 of them as blurry (89\%). We then gathered 86 poorly exposed images (as determined by the in-camera light meter) and correctly classified 79 of them as having poor exposure (92\%).
 
-To assess technically high quality images, we use INRIA's publically available "Original Image" 157-image dataset\cite{JDS08}, and correctly classified 139 as not blurry (89\%). For exposure, we correctly marked 135 of the images as well-exposed (86\%). Averaging the four percentages gives 89\% accuracy overall.
+To assess technically high quality images, we use INRIA's publicly available "Original Image" 157-image dataset\cite{JDS08}, and correctly classified 139 as not blurry (89\%). For exposure, we correctly marked 135 of the images as well-exposed (86\%). Averaging the four percentages gives 89\% accuracy overall.
 
 Fig. \ref{fig:ResultSorting} shows an example of a user's input images being resorted by quality and uniqueness. The top four images in \ref{resultsorted} (as would be chosen by a user) represent the highest quality images in each similar-image set. The nontrivial case of zoomed-in flowers was recognized as the same foreground subject. The top images are consistent with Turk users' votes.
 
