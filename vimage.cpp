@@ -40,6 +40,7 @@ void VImage::makeQImage() {
     if(vimage == NULL) return;
 
     // *4: one per ARGB channel (yes, A is necessary)
+#ifndef FAST_MODE
     uchar* data = (uchar*)malloc(sizeof(uchar) * origwidth * origheight * 4);
 
     qimage = new QImage(data,
@@ -55,6 +56,9 @@ void VImage::makeQImage() {
     QImage* tmp = qimage;
     qimage = new QImage(qimage->scaledToWidth(800));
     delete tmp;
+#else
+    qimage = new QImage(fullpath);
+#endif
     height = qimage->height();
     width = qimage->width();
 

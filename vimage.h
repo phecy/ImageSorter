@@ -114,7 +114,7 @@ private:
 
     // Information
     char* filename;
-    char* fullpath;
+    char* fullpath; // including filename
     string ip_fullpath;
     int index;
     int width, height; // Width scaled to 800px

@@ -66,8 +66,10 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
 
     int timeRating = moduleRanks[DUPLICATE_TIME];
     int segRating = moduleRanks[DUPLICATE_SEGMENTED];
+#ifndef FAST_MODE
     int ipRating = moduleRanks[DUPLICATE_IP];
     int gaussRating = moduleRanks[DUPLICATE_GAUSSIAN];
+#endif
     int histRating = moduleRanks[DUPLICATE_HISTOGRAM];
 
     if(timeRating <= MIN_TIME_THRESHHOLD ||
@@ -78,17 +80,26 @@ float DuplicateRater::calcRank(vector1d moduleRanks) {
        segRating >= MAX_SEGMENTED_THRESHHOLD)
         return segRating;
 
+#ifndef FAST_MODE
     if(ipRating <= MIN_FOREGROUND_THRESHHOLD ||
        ipRating >= MAX_FOREGROUND_THRESHHOLD)
         return ipRating;
+#endif
 
     // No auto-pass or auto-fail. Calculate.
     rankCalc =  ( SEG_WEIGHT*segRating
+#ifndef FAST_MODE
                 + IP_WEIGHT*ipRating
                 + GAUSS_WEIGHT*gaussRating
+#endif
                 + HIST_WEIGHT*histRating
                 )
-                / (SEG_WEIGHT+IP_WEIGHT+GAUSS_WEIGHT+HIST_WEIGHT);
+                / (SEG_WEIGHT
+#ifndef FAST_MODE
+                   + IP_WEIGHT
+                   + GAUSS_WEIGHT
+#endif
+                   + HIST_WEIGHT);
     rankCalc *= 1 + TIME_WEIGHT*timeRating/MAX_RANK;
     rankCalc = min((float)10.0, rankCalc);
 

@@ -36,12 +36,16 @@ void DuplicateSegmented::addImage(VImage* vim) {
     QImage* foreground = vim->getForeground();
 
     segAllBlockDiffs imgdiffs = getDifferences(image, BLOCKSACROSS_ALL);
+#ifndef FAST_MODE
     segAllBlockDiffs fgdiffs = getDifferences(foreground, BLOCKSACROSS_FG);
+#endif
 
     allPics->insert(allPics->end(),
        pair<QImage*, segAllBlockDiffs>(image, imgdiffs));
+#ifndef FAST_MODE
     allForegrounds->insert(allForegrounds->end(),
        pair<QImage*, segAllBlockDiffs>(foreground, fgdiffs));
+#endif
 }
 
 segAllBlockDiffs DuplicateSegmented::getDifferences(QImage* image, int blocksAcross) {

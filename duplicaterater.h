@@ -4,8 +4,11 @@
 #include <map>
 #include "vimage.h"
 
+#ifndef FAST_MODE
 #define NUM_MODULES 5 // add more as we go
-
+#else
+#define NUM_MODULES 3 // add more as we go
+#endif
 using namespace std;
 
 typedef vector<vector<vector<int > > > vector3d;

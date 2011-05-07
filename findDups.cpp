@@ -44,8 +44,10 @@ Duplicates::Duplicates(int numImages) {
     rater = new DuplicateRater(numImages);
     segmented = new DuplicateSegmented(rater);
     timed = new DuplicateTime(rater);
+#ifndef FAST_MODE
     interest = new DuplicateIp(rater);
     gaussian = new DuplicateGaussian(rater);
+#endif
     histogram = new DuplicateHistogram(rater);
 
     setFinder = new map<VImage*, int>();
@@ -55,10 +57,15 @@ Duplicates::Duplicates(int numImages) {
 
 void Duplicates::addImage(VImage* vim, QualityExif* exif) {
     timed->addImage(vim, exif);
+#ifndef FAST_MODE
     interest->addImage(vim);
+#endif
     segmented->addImage(vim); // NEEDS TO USE INTEREST POINTS,
+                              // (if ndef FAST_MODE)
                               // keep after interest rater
+#ifndef FAST_MODE
     gaussian->addImage(vim);
+#endif
     histogram->addImage(vim);
     allImages->insert(allImages->end(), vim);
 }
@@ -317,8 +324,10 @@ void Duplicates::runModules() {
         for(after_i = (++main_i)--; after_i != allImages->end(); ++after_i) {
             segmented->rankOne(*main_i, *after_i);
             timed->rankOne(*main_i, *after_i);
+#ifndef FAST_MODE
             interest->rankOne(*main_i, *after_i);
             gaussian->rankOne(*main_i, *after_i);
+#endif
             histogram->rankOne(*main_i, *after_i);
         }
     }

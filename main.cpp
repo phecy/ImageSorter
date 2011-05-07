@@ -55,7 +55,8 @@ using namespace std;
 #define RANK_THRESHOLD 4
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
-//#define IGNORE_SETS
+#define IGNORE_SETS
+#define FAST_MODE
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -129,7 +130,11 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
     //cerr<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
     for(int i=0;i<numPics; ++i){
         // Average of fourth-root of squared-squares
+#ifdef FAST_MODE
         float combinedBlur = 1*blurVals[i] + 0*sharpVals[i];
+#else
+        float combinedBlur = blurVals[i];
+#endif
         float combinedExpose = 1*exposeVals[i]+0*greyVals[i];
         float contrast = contrastVals[i];
         float local_contrast = localContrastVals[i];
@@ -196,13 +201,14 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
 }
 
 // False on failure
-bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
+bool runAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
                     int size, Duplicates dupFinder, float* finalValue) {
     // Create each module object
     exposure newExpose;
-    grey newGrey;
     BlurDetect* newBlur = new BlurDetect();
+#ifndef FAST_MODE
     SharpDetect sharpDetect;
+#endif
     Contrast contrastRater;
 #ifdef IGNORE_SETS
 
@@ -223,7 +229,9 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         palletVals[i] = 0;
         greyVals[i] = 0;
         blurVals[i] = -1;
+#ifndef FAST_MODE
         sharpVals[i] = 0;
+#endif
         contrastVals[i] = 0;
         localContrastVals[i] = 0;
     }
@@ -259,12 +267,18 @@ bool calcAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             //blurVals[i] = newBlur->calculateBlur(currVIm);
             //sharpVals[i] = sharpDetect.rankOne(currVIm);
         //}
+qDebug("Starting blur");
         blurVals[i] = newBlur->calculateBlur(currVIm);
+#ifndef FAST_MODE
         sharpVals[i] = sharpDetect.rankOne(currVIm);
+#endif
         // newBlur->show();
+qDebug("Starting expose");
         exposeVals[i] = newExpose.expose(currVIm);
-        contrastVals[i] = contrastRater.local_contrast(currVIm);
-        localContrastVals[i] = contrastRater.RMS(currVIm);
+qDebug("Starting local Contrast");
+        localContrastVals[i] = contrastRater.local_contrast(currVIm);
+qDebug("Starting contrast");
+        contrastVals[i] = contrastRater.RMS(currVIm);
     }
 
     // Sets the different methods' respective weights.
@@ -307,7 +321,7 @@ int main(int argc, char *argv[])
     int numSets = 0; // <= size
 
     // Calculate everything. Gather duplicates.
-    bool succeeded = calcAllModules(imageInfoArray, imageStrArray, size, dupFinder, picValue);
+    bool succeeded = runAllModules(imageInfoArray, imageStrArray, size, dupFinder, picValue);
     if(!succeeded) return EXIT_FAILURE;
 
 #ifndef IGNORE_SETS
