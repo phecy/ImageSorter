@@ -147,7 +147,7 @@ float exposure::expose(VImage *vim) {
 
 
 
-    printf("%f,%f,%d,%d,%d,%d,%d\n", avg, out, very_high, high, middle, low, very_low);
+    //printf("%f,%f,%d,%d,%d,%d,%d\n", avg, out, very_high, high, middle, low, very_low);
 
     return out;
 

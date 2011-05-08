@@ -16,6 +16,8 @@ QImage and a VImage (Vision Workbench image)
 #include "vw/InterestPoint.h"
 #include "vw/Image.h"
 
+#define FAST_MODE
+
 #define HNUMCOLORS 4
 #define HBLACK 0
 #define HRED 1
@@ -65,8 +67,9 @@ public:
     void multiplyAdjustedRank(float k) { adjustedRank *= k; }
     void subAdjustedRank(float k) { adjustedRank -= k; }
     float getAdjustedRank() { return adjustedRank; }
-    void setRanks(vector<float> r) { ranks = r; }
-    vector<float> getRanks() { return ranks; }
+    void setRanks(vector<pair<string, float> > r) { ranks = r; }
+    void addRank(string attributeName, double value);
+    vector<pair<string, float> > getRanks() { return ranks; }
 
     // Foreground stuff
     vector<InterestPoint> getIps() { return ipList; }
@@ -124,7 +127,7 @@ private:
     float rankTotal;
     int setNum;
     float adjustedRank; // Rank adjusted for sets
-    vector<float> ranks; // Vals for each rank
+    vector<pair<string, float> > ranks; // A name and number for each rank
 
     // Foreground stuff
     vector<InterestPoint> ipList;

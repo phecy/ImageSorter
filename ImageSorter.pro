@@ -69,7 +69,8 @@ HEADERS += blurdetect.h \
     setdisplay.h \
     duplicategaussian.h \
     duplicatehistogram.h \
-    contrast.h
+    contrast.h \
+    learner.h
 FORMS += display.ui \
     setdisplay.ui
 SOURCES += blurdetect.cpp \
@@ -93,7 +94,8 @@ SOURCES += blurdetect.cpp \
     duplicategaussian.cpp \
     duplicatehistogram.cpp \
     vw/InterestPoint/InterestData.cc \
-    contrast.cpp
+    contrast.cpp \
+    learner.cpp
 LIBS += /usr/lib/libexif.a \
     /usr/lib/libboost*.a \
     /usr/local/lib/libvw.so \

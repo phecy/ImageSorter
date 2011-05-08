@@ -70,8 +70,10 @@ float BlurDetect::calculateBlur(VImage* vim) {
     assert(highpassRadius > edgeRadius);
 
     // Test # IPs
+#ifndef FAST_MODE
     if(vim->getIps().size() <= MIN_NUM_IPS)
         return 0;
+#endif
 
     QImage* image = vim->getQImage();
     minColor = avgColor = maxColor = 0;
@@ -108,7 +110,7 @@ float BlurDetect::calculateBlur(VImage* vim) {
     edgeDetect();
     followEdges();
     float result = resultCalc();
-    cerr << "," << result << endl;
+    //cerr << "," << result << endl;
 
     for(int w=0; w<width; w++) {
         delete[] highPass[w];
@@ -325,7 +327,7 @@ float BlurDetect::resultCalc() {
     float edge = edgeCalc();
     float contr = contrastCalc();
 
-    cerr << contr << "," << angle << "," << edge;
+    //cerr << contr << "," << angle << "," << edge;
 
     // Too blurry: return small
     if(angle < BAD_ANGLE_THRESHOLD) {

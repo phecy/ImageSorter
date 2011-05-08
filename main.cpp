@@ -56,7 +56,7 @@ using namespace std;
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
 #define IGNORE_SETS
-#define FAST_MODE
+// fast mode defined in vimage.h
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -173,12 +173,12 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         if(rank < 0) rank = 0;
         picValue[i] =  rank;
 
-        vector<float> finalRank;
-        finalRank.push_back(combinedBlur);
-        finalRank.push_back(combinedExpose);
-        finalRank.push_back(contrast);
-        finalRank.push_back(local_contrast);
-        imageInfoArray[i]->setRanks(finalRank);
+
+        VImage* vim = imageInfoArray[i];
+        vim->addRank("blur", combinedBlur);
+        vim->addRank("exposure", combinedExpose);
+        vim->addRank("contrast", contrast);
+        vim->addRank("local", local_contrast);
 
         cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
@@ -267,17 +267,13 @@ bool runAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
             //blurVals[i] = newBlur->calculateBlur(currVIm);
             //sharpVals[i] = sharpDetect.rankOne(currVIm);
         //}
-qDebug("Starting blur");
         blurVals[i] = newBlur->calculateBlur(currVIm);
 #ifndef FAST_MODE
         sharpVals[i] = sharpDetect.rankOne(currVIm);
 #endif
         // newBlur->show();
-qDebug("Starting expose");
         exposeVals[i] = newExpose.expose(currVIm);
-qDebug("Starting local Contrast");
         localContrastVals[i] = contrastRater.local_contrast(currVIm);
-qDebug("Starting contrast");
         contrastVals[i] = contrastRater.RMS(currVIm);
     }
 
@@ -365,10 +361,15 @@ int main(int argc, char *argv[])
     //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
-    const char* ranktext[4] = {"Blur", "Exposure", "Contrast", "Local "};
+    vector<string> ranksToDisplay;
+    ranksToDisplay.push_back("blur");
+    ranksToDisplay.push_back("exposure");
+    ranksToDisplay.push_back("contrast");
+    ranksToDisplay.push_back("local");
+
     display *disp = new display();
     disp->setImageData(imageInfoArray, numSets, size);
-    disp->setRankText(ranktext);
+    disp->setRanksToDisplay(ranksToDisplay);
     disp->init();
 
 //    SetDisplay *setdisp_sorted = new SetDisplay();

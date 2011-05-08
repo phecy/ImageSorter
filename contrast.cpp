@@ -22,15 +22,15 @@ float Contrast::RMS(VImage *vim)
     }
 
     float rms = sqrt(sumOfSquareDiffs);
-    printf("%f\n",        rms);
+    // printf("%f\n",        rms);
 
     return rms;
 }
 
 sumMap* Contrast::makeGraySumMap(VImage* vim) {
     QImage* qimage = vim->getQImage();
-    int width = vim->getWidth();
-    int height = vim->getHeight();
+    int width = qimage->width();
+    int height = qimage->height();
 
     sumMap* densityMap = new sumMap();
 
@@ -92,7 +92,7 @@ float Contrast::local_contrast(VImage *vim)
     }
 
 
-    printf("local contrast = %d \n", diff);
+    // printf("local contrast = %d \n", diff);
 
     delete graySumMap;
 

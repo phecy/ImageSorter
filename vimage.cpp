@@ -183,3 +183,8 @@ int VImage::amountInForeground(boundingBox box) {
     int ylen = box.second.second - fgstart.second;
     return xlen*ylen;
 }
+
+void VImage::addRank(string attributeName, double value)  {
+    ranks.push_back(pair<string, double>
+                    (attributeName, value));
+}

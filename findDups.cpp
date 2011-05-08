@@ -98,8 +98,8 @@ dupGroup Duplicates::findDuplicates() {
             allGroups->push_back(thisPair.second);
         }
     }
-    debugPrintPhpRanks(getRankVector(true)); // For comparing against turk data
-    debugPrintPhpGroups(allGroups); // For comparing against turk data
+    // debugPrintPhpRanks(getRankVector(true)); // For comparing against turk data
+    // debugPrintPhpGroups(allGroups); // For comparing against turk data
 
     delete ranks;
 

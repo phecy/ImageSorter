@@ -1,7 +1,12 @@
-#include <QPainter>
-#include <QLabel>
 #include <stdio.h>
 #include <assert.h>
+#include <algorithm>
+
+#include <boost/lexical_cast.hpp>
+
+#include <QPainter>
+#include <QLabel>
+
 #include "display.h"
 #include "ui_display.h"
 
@@ -71,21 +76,25 @@ void display::newPic(int picNum)
     label->setPixmap(currPix);
     show();
 
-    vector<float> indivRanks = vim->getRanks();
-    char indivRankText[128];
+    stringstream indivRankText;
     char text[512];
 
     // Ranks start at 1, not 0, for display; +1 to indeces
     sprintf(text, "Image %d/%d: Ranked %1.02f/9 [%1.02f] || Set number %d/%d",
             picNum+1, size, vim->getRank(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
-    sprintf(indivRankText, "%s: %.1f  || %s: %.1f  ||   %s: %.1f   || %s: %.1f ",
-            rankText[0], indivRanks[0],
-            rankText[1],indivRanks[1],
-            rankText[2], indivRanks[2],
-            rankText[3], indivRanks[3]);
+    vector<pair<string, float> > ranks = vim->getRanks();
+    for(int i=0; i<ranks.size(); ++i) {
+        if(std::find(ranksToDisplay.begin(),
+                ranksToDisplay.end(),
+                ranks.at(i).first) == ranksToDisplay.end()) continue;
+        indivRankText << ranks.at(i).first << ": " <<
+                         setprecision(2) << ranks.at(i).second <<  " || ";
+        if(indivRankText.str().size() > 80)
+            indivRankText << "\n";
+    }
 
     ui->rankText->setText(text);
-    ui->indivRanks->setText(indivRankText);
+    ui->indivRanks->setText(indivRankText.str().c_str());
 }
 
 void display::nextImage() {
