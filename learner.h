@@ -12,6 +12,7 @@ class Learner
 public:
     Learner(string relation);
     void addAttribute(VImage* vim, string name, double value);
+    void learn(vector<VImage*> images);
 
 private:
     map<VImage*, attribute> ranks; // Maps an attribute name to its rank

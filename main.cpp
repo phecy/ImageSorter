@@ -50,6 +50,7 @@ using namespace std;
 #include "vimage.h"
 #include "algorithmPresets.h"
 #include "setdisplay.h"
+#include "learner.h"
 
 #define RANGE 10
 #define RANK_THRESHOLD 4
@@ -375,6 +376,9 @@ int main(int argc, char *argv[])
 //    SetDisplay *setdisp_sorted = new SetDisplay();
 //    setdisp_sorted->display(imageInfoArray);
 //    setdisp_sorted->setWindowTitle("Sorted");
+
+    Learner svm("ImageSorter");
+    svm.learn(imageInfoArray);
 
     return app.exec();
 }

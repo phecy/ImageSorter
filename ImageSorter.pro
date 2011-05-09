@@ -44,7 +44,8 @@ INCLUDEPATH += . \
     vw/Stereo \
     vw/Cartography \
     vw/HDR \
-    vw/Mosaic
+    vw/Mosaic \
+    /var/lib
 
 # Input
 HEADERS += blurdetect.h \
