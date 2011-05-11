@@ -60,7 +60,7 @@ void Learner::learn(std::vector<VImage*> images) {
             m(attr) = images[i]->getRanks()[attr].second;
 
         samples.push_back(m);
-        targets.push_back(images[i]->getRanks()[0].second);
+        targets.push_back(sin(images[i]->getRanks()[0].second));
     }
 
     // Now setup a SVR trainer object.  It has three parameters, the kernel and
@@ -85,10 +85,14 @@ void Learner::learn(std::vector<VImage*> images) {
 
     // now we output the value of the sinc function for a few test points as well as the
     // value predicted by SVR.
-    for(int attr=0; attr<numAttributes; ++attr) {
-        m(attr) = images[0]->getRanks()[attr].second;
+    for(int img=0; img<numImages; ++img) {
+        for(int attr=0; attr<numAttributes; ++attr) {
+            m(attr) = images[img]->getRanks()[attr].second;
+            cout << m(attr) << ",   ";
+        }
+        cout << " ---> sin(m0)=" << sin(images[img]->getRanks()[0].second)
+             << ", predict: " << df(m) << endl;
     }
-    cout << m(0) << "   " << df(m) << endl;
 
     // The first column is the true value of the sinc function and the second
     // column is the output from the SVR estimate.
