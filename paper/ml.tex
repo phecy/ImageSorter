@@ -1,0 +1,84 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\title{A Framework for Personalized Photograph Quality Assessment}
+\author{K. Armin Samii}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+In this paper we develop a framework for quickly developing and testing new features related to photograph quality assessment. We have two sets of features: high-level features are subjective qualities that humans can easily answer; low-level features are objective calculations which can be computed. First, we find how each high-level feature corresponds to overall image quality, allowing for (but not requiring) user-adjusted preferences. Next, we find how the low-level features corresponds to each high-level feature. Finally, we allow both the low-level and high-level features to be dynamically adjusted by the developer with ease. We use basic Human Computation to obtain a ground truth.
+
+
+\end{abstract}
+
+\section{Problem Statement}
+The purpose of this paper is to accurately answer the following two questions:
+
+\begin{enumerate}
+\item \textbf{How important is each high-level feature to the overall rating of a photograph?}
+
+For example:
+Photographers Penny and Quinn want to automatically rate their photographs so they can ignore those with low ratings and save some time when browsing their collections. Penny takes pictures at concerts so she doesn't mind slightly underexposed images. Quinn takes pictures on racetracks so he prefers very well-exposed images, but is more lenient on how in-focus his image is. Penny will decrease the default weight on the high-level "exposure" feature. Quinn will decrease the "blur" weight.
+
+\item \textbf{How does each low-level feature affect the ranking of a high-level feature?}
+
+For example:
+Programmer Popov has several low-level features, such as the average width of edges and the average pixel color. She wants to use these low-level features to provide a rating for all high-level features.
+\end{enumerate}
+
+After answering these two questions the first time on a set of developer-defined features (both low-level and high-level), the developer may want to add a feature.
+
+If the developer adds a low-level feature, the second question must be answered again for every high-level feature. If the developer adds a high-level feature, the weights of this new feature compared with overall image quality must be recomputed, and then the second question must be answered for only the new feature.
+
+\section{Introduction}
+First, we use a logistic regression to calculate weights on which high-level features appeal to humans in photographs. We then use Support Vector Machines (SVMs) to match low-level features extracted algorithmically to high-level features. For example, the high level feature of "exposure" has more weight than "blur," and the low-level feature of "average pixel color" affects "exposure" more than it affects "blur." We then allow the weights of high-level features to be adjusted by users to allow personalization. The result is a rating of an image based on the base high-level weights and the user's individual preferences.
+
+We keep a held-out test set to recalculate parameters when the developer adds a feature. When a new high-level feature is added, we ask Amazon Mechanical Turk\footnote{http://www.mturk.com} users ("Turkers") to rank an image based on that feature. When a low-level feature is added, the parameters of each of the SVMs are updated.
+
+\section{Related Work}
+Brian Barsky.
+
+\section{Data}
+
+There are two sets of data used, both of which are learned independently.
+
+\subsection{User-Produced Data}
+The initial set of data was produced by giving Turkers a simple statement for each high level feature, and asking if they agreed. Our primary, ground-truth statement for each image is:
+
+``This image is high quality.''
+
+We present this to five Turkers and ask them to choose one of three options, each of which corresponds to some number of points gained for each high-level feature:
+
+\begin{itemize}
+\item ``Agree'' (+1 point)
+\item ``Neutral'' (+.5 points)
+\item ``Disagree'' (+0 points)
+\end{itemize}
+The points are then averaged across the five Turkers' responses to come up with a final score.
+
+We repeat this process for each high level feature, with statements such as ``This image is in focus'' and ``This image is well-exposed.'' The data then looks like:
+
+\resizebox{7.5cm}{!}{
+\begin{tabular}[t]{| c | c | c | c | l | }
+ \hline
+ & High Quality & In focus & Well exposed & \ldots \\ 
+ \hline
+Image 1 & .5 & .25 & 1 & \ldots \\ 
+ \hline
+\vdots & \vdots & \vdots & \vdots & $\ddots$ \\
+ \hline
+\end{tabular}
+}
+
+This data is used in a Logistic Regression to relate each high-level feature to the first statement (``This image is high-quality'').
+
+\subsection{Application-produced data}
+The application produces numbers for each high-level feature.
+
+\section{Progress thus far}
+
+\end{document}
