@@ -1,7 +1,7 @@
 #ifndef INSERTIONSORT_H
 #define INSERTIONSORT_H
 
-#include "findDups.h"
+#include "duplicates/findDups.h"
 #include "vimage.h"
 
 // Sorts in descending order

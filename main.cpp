@@ -41,16 +41,16 @@ using namespace std;
 #include "colorUtility.h"
 #include "contrast.h"
 #include "harmony.h"
-#include "findDups.h"
+#include "duplicates/findDups.h"
 #include "grey.h"
 #include "display.h"
 #include "insertionsort.h"
-#include "duplicatesegmented.h"
+#include "duplicates/segmented.h"
 #include "qualityexif.h"
 #include "vimage.h"
 #include "algorithmPresets.h"
 #include "setdisplay.h"
-#include "learner.h"
+#include "ml/learner.h"
 
 #define RANGE 10
 #define RANK_THRESHOLD 4

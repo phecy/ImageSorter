@@ -1,7 +1,7 @@
 #ifndef BOUNDINGBOXPRESETS_H
 #define BOUNDINGBOXPRESETS_H
 
-#include "duplicateip.h"
+#include "duplicates/interestpoints.h"
 
 boundingBox DuplicateIp::loadBox(VImage* vim) {
     boundingBox fgBox(point(-1,-1),point(-1,-1));

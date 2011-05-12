@@ -1,5 +1,5 @@
 #include "insertionsort.h"
-#include "findDups.h"
+#include "duplicates/findDups.h"
 #include "vimage.h"
 
 #define ECLECTIC_GRP .6 // Lower = more eclectic
