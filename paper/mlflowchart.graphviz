@@ -25,8 +25,8 @@ digraph ML_Flowchart {
             label = "Low Level Features";
          }
 
-         "Application output"[shape=plaintext, color=white];
-         "Application output"->"Avg Pixel\nContrast"[minlen=2,lhead="cluster_0"];
+         " "[shape=plaintext, color=invis];
+         " "->"Avg Pixel\nContrast"[minlen=0,lhead="cluster_0",color=invis];
       }
 
       subgraph cluster_1 {
