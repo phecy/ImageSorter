@@ -16,7 +16,22 @@ uliana@soe.ucsc.edu}
 \begin{document}
 \maketitle
 \begin{abstract}
-In this paper we develop a framework for quickly developing and testing new features related to photograph quality assessment. We have two types of features: \textit{high-level features} are subjective qualities which humans can easily answer; \textit{low-level features} are objective calculations which are produced algorithmically. We use machine learning techniques to learn each of these separately. Our model allows for a developer to easily train new features (both low-level and high-level), and for an end-user to personalize which features (high-level) are important.
+Recently a lot of work has been done in 
+In recent years digital cameras became very affordable. 
+A number of people using them increased immensly over the past 10 years. %UUU citation needed
+An image acquisition became very cheap, which caused 
+huge data sets of phtographs.
+A typical scenario is a person going to a one vacation,
+coming back and uploading ~1000 photographs from his
+digital camera to home personal computer. 
+It is hard to manage such a big data set.
+Automated way to sort it into a number
+of categories, like bad and good will
+be very helpful.
+A number of works proposing ways to
+assess quality of an image has been  
+published,
+in this paper we propose a framework for quickly developing and testing new features related to photograph quality assessment. We have two types of features: \textit{high-level features} are subjective qualities which humans can easily answer; \textit{low-level features} are objective calculations which are produced algorithmically. We use machine learning techniques to learn each of these separately. Our model allows for a developer to easily train new features (both low-level and high-level), and for an end-user to personalize which features (high-level) are important.
 
 %First, we find how each high-level feature corresponds to overall image quality, allowing for user-adjusted preferences. Next, we find how the low-level features corresponds to each high-level feature. Finally, we allow both the low-level and high-level features to be dynamically adjusted by the developer with ease. We use basic Human Computation to obtain a ground truth.
 
@@ -40,13 +55,13 @@ Photographers Penny and Quinn want to automatically rate their photographs so th
 
 This  question is relevant to the developer. As an example:
 
-Programmer Popov has several low-level features, such as the average width of edges and the average pixel color. She wants to use these low-level features to provide a rating for all high-level features. This way, when Photographer Penny wants to decrease the weight of the high-level exposure feature, she does not need to interpret the meaning of a low-level calculation such as edge width.
+Programmer Cesario has several low-level features, such as the average width of edges and the average pixel color. He wants to use these low-level features to provide a rating for all high-level features. This way, when Photographer Penny wants to decrease the weight of the high-level exposure feature, she does not need to interpret the meaning of a low-level calculation such as edge width.
 \end{enumerate}
 
 \subsection{Ease of progress for the developer}
-Say Programmer Popov finds a new way to measure blur levels in an image. She should be able to insert this feature into the program with ease. Because of the abstraction above, the end user would be unaware of any changes.
+Say Programmer Tomer finds a new way to measure blur levels in an image. He should be able to insert this feature into the program with ease. Because of the abstraction above, the end user would be unaware of any changes.
 
-Instead, if Popov realizes that some new high-level feature is relevant to overall image quality (say, the saturation of the image), then she will want to see just how much saturation is relevant to image quality. The end-user photographers will be aware of this new change, and can adjust the high-level weights accordingly.
+Instead, if Tomer realizes that some new high-level feature is relevant to overall image quality (say, the saturation of the image), then he will want to see just how much saturation is relevant to image quality. The end-user photographers will be aware of this new change, and can adjust the high-level weights accordingly.
 
 \section{Introduction}
 First, we use a logistic regression to calculate weights on which high-level features appeal to humans in photographs. We then use Support Vector Machines (SVMs) to match low-level features extracted algorithmically to high-level features. For example, the high level feature of "exposure" has more weight than "blur," and the low-level feature of "average pixel color" affects "exposure" more than it affects "blur." We then allow the weights of high-level features to be adjusted by users to allow personalization. The result is a rating of an image based on the base high-level weights and the user's individual preferences.
