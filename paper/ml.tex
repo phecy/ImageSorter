@@ -48,6 +48,7 @@ Figure \ref{fig:flowchart} visualizes these ideas. We will describe them in deta
 This problem boils down to the following two questions:
 
 \begin{enumerate}
+\cite{twoquestions}
 \item \textbf{How important is each high-level feature to the overall rating of a photograph?}
 
 This question is relevant to the photographer. As an example:
@@ -73,11 +74,12 @@ To solve the problem presented, one might try to directly train low-level featur
 
 So instead, one might try to compute high-level features directly and allow the photographer to personalize the importance this way. However, this method risks using a poor algorithm to calculate a high-level feature, and thus sacrifices accuracy.
 
-We thus propose a method which separately trains low-level and high-level features. This method allows (1) the photographer to personalize each feature's importance, and (2) the programmer to choose the best possible method for rating each high-level feature on an image.
+We thus propose a method which separately trains low-level and high-level features. This method allows (1) the photographer to personalize each feature's importance, and (2) the developer to have multiple calculations to rate each high-level feature. Further, the developer can (3) dynamically change which features are used.
+% We allow the developer to dynamically modify the features by retraining on a held-out test set after any changes.
 
-Further, the programmer utilizing our framework will decide which features to include. We allow the programmer to dynamically modify the features by retraining on a held-out test set.
+%Training our data is broken down into two steps. First is determining the importance of each high-level feature. To do so, we need to see how much influence each high-level feature has on overall image quality. (We describe how we obtain this data in Section \ref{turkdata}.) Second, we determine how much influence each low-level feature has on each high-level feature.
 
-Training our data is broken down into two steps. First is determining the importance of each high-level feature. To do so, we need to see how much influence each high-level feature has on overall image quality. (We describe how we obtain this data in Section \ref{turkdata}.) Second, we determine how much influence each low-level feature has on each high-level feature. The learning methods we use are described in detail in Section \ref{methods}.
+To answer the first question presented in Section \ref{twoquestions}, we use a Logistic Regression machine learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, we use the more accurate model of Support Vector Machines, because we do not need to reweigh the low-level features. When the developer adds a new feature, one or both of these must get retrained. These methods are described in detail in Section \ref{methods}.
 
 \section{Related Work}
 Tong and Chang\cite{Tong:2001:SVM:500141.500159} use Support Vector Machines to search a database of images quickly by choosing images that are visually similar, which abstracts the features from the user completely.
@@ -121,7 +123,7 @@ Image 1 & .5 & .25 & 1 & \ldots \\
 This data is used in a Logistic Regression to relate each high-level feature to the first statement (``This image is high-quality'').
 
 \subsection{Application-produced data}
-The application produces numbers for each high-level feature.
+The developer chooses which low-level features to calculate. Each calculation is used in a Support Vector Machine to get rankings of each high-level feature.
 
 \section{Training Methods}
 \label{methods}
