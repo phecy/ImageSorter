@@ -130,7 +130,7 @@ Image 2 & .1 & .2 & .4 & .4 & \ldots \\
 \\
 \\
 
-This data is used in a Logistic Regression to relate each high-level feature to the first statement (``This image is high-quality'').
+In this way, the primary rating for an image is learned indirectly through a logistic regression of each of the other high-level features.
 
 \subsection{Application-produced data}
 The developer chooses which low-level features to calculate. Each calculation is used in a Support Vector Machine to get rankings of each high-level feature.
@@ -138,9 +138,20 @@ The developer chooses which low-level features to calculate. Each calculation is
 \section{Training Methods}
 \label{methods}
 
-First, we use a logistic regression to calculate weights on which high-level features appeal to humans in photographs. We then use Support Vector Machines (SVMs) to match low-level features extracted algorithmically to high-level features. For example, the high level feature of "exposure" has more weight than "blur," and the low-level feature of "average pixel color" affects "exposure" more than it affects "blur". We then allow the weights of high-level features to be adjusted by users to allow personalization. The result is a rating of an image based on the base high-level weights and the user's individual preferences.
+There are two steps to the learning process. First, we learn the importance of each high-level feature on the overall image rating. Then, we learn how each low-level feature affects each high-level feature.
 
-We keep a held-out test set to recalculate parameters when the developer adds a feature. When a new high-level feature is added, we Turkers to rank an image based on that feature. When a low-level feature is added, the parameters of each of the SVMs are updated.
+%We keep a held-out test set to recalculate the learning parameters when the developer adds a feature. When a new high-level feature is added, we ask Turkers to rank an image based on that feature. When a low-level feature is added, the parameters of each of the SVMs are updated.
+
+\subsection{Learning High-Level Features}
+We use a logistic regression to train each high level feature. For this, we do not take into account any low-level features. The error function is defined as:
+\[
+E=\displaystyle\sum\limits_{i=0}^N R_i-Z_i
+\]
+Where $E$ is the error, $N$ is the number of images in the training set, $R_i$ is the overall rating obtained from Turkers for image $i$, and $Z_i$ is as follows:
+\[
+Z_i=\displaystyle\sum\limits_{f=0}^M w_f \cdot r_{i,f}
+\]
+Where $M$ is the number of high-level features, $w_f$ is the weight of feature $f$, and $r_{i,f}$ is the Turkers rating of feature $f$ on image $i$.
 
 
 \section{Progress thus far [informal]}
