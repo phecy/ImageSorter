@@ -175,7 +175,17 @@ We should note that we talk about our work as if the project were completed. It 
 
 
 \section{Results [informal]}
-We have a test set of several hundred images that we expect our application will rate highly, and another test set of several hundred blurry images that we expect to rate poorly. We will measure how much better we perform on blur detection after implementing machine learning techniques compared to the accuracy results from before this paper. This does not take into account user preferences or ease of use of our framework.
+We have two big data sets, each of them consists of several hundred images. 
+Each image in the set has a label, that was assigned using information from Amazon Turk
+(average of Turkers votes).
+We have two measurements,
+absolute and relative. Absolute measures how close our results
+to the beackground truth (humans). Relative - measures the improvement
+of our results after implementing machine learning techniques compared 
+to the accuracy results from before this paper.
+For both measurement we use correlation function.
+
+%We have a test set of several hundred images that we expect our application will rate highly, and another test set of several hundred blurry images that we expect to rate poorly. We will measure how much better we perform on blur detection after implementing machine learning techniques compared to the accuracy results from before this paper. This does not take into account user preferences or ease of use of our framework.
 
 %UUU. I'd talk here about the evaluation of the results, rather than about different / hard-to-understand data sets. 
 % we can say that we will use the corelation or standard deviation to measure our success rate.
