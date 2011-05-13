@@ -16,7 +16,8 @@ uliana@soe.ucsc.edu}
 \begin{document}
 \maketitle
 \begin{abstract}
-Photograph quality assessment can help aid home users in managing their personal collections in several ways, including deleting low-quality images and browsing for high quality images. Recent research has aimed to automatically rate image quality, but such methods are far from perfect and progress is slow. In this paper, we propose a framework for quickly developing and testing new features to accelerate the progress of this research. We have two types of features: \textit{high-level features} are subjective qualities which humans can easily answer; \textit{low-level features} are objective calculations which are produced algorithmically. We use machine learning techniques to learn how each of these relate to image quality. Our model allows for a developer to easily train new features (both low-level and high-level), and for an end-user to personalize which high-level features are important.
+Photograph quality assessment can help aid home users in managing their personal collections in several ways, including deleting low-quality images and browsing for high quality images. Recent research has aimed to automatically rate image quality, but such methods are not perfect yet. %far from perfect and progress is slow. 
+In this paper, we propose a framework for quickly developing and testing new features to accelerate the progress of this research. We have two types of features: \textit{high-level features} are subjective qualities which humans can easily answer, like saturation, exposure or blurriness; \textit{low-level features} are objective calculations which are produced algorithmically, like edge width or number of dark pixels. We use machine learning techniques to learn how each of these relate to image quality. Our model allows for a developer to easily train new features (both low-level and high-level), and for an end-user to personalize which high-level features are important.
 
 %First, we find how each high-level feature corresponds to overall image quality, allowing for user-adjusted preferences. Next, we find how the low-level features corresponds to each high-level feature. Finally, we allow both the low-level and high-level features to be dynamically adjusted by the developer with ease. We use basic Human Computation to obtain a ground truth.
 
@@ -28,7 +29,7 @@ A photographer wishes to automatically rate his pictures based on personal prefe
 
 There are two audiences we are trying to serve in this work: the photographer using the application, and the developer producing the application. In other words, we want to make it as easy as possible for the developer to serve the photographer.
 
-To do so, we first want to allow the photographer to choose which features are important to her personally.
+To do so, we first want to allow the photographer to choose which features are important to him personally.
 %However, many of the features extracted from photographs are highly algorithmic and make little intuitive sense (e.g. "Blurriness" is more intuitive than "Average edge width"). We call these \textit{low level features}. These low level features are hidden from the user and instead, the user is shown \textit{high level features}, which may contain several low-level features.
 Second, we want the developer of the quality-assessment application to be able to add new features with ease.
 
