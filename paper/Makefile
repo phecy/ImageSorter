@@ -59,6 +59,8 @@ bv: bib-visual
 g:
 	dot -Teps flowchart.graphviz > flowchart.eps
 	dot -Teps mlflowchart.graphviz > mlflowchart.eps
+	epstopdf flowchart.eps
+	epstopdf mlflowchart.eps
 
 gv1: g
 	gnome-open flowchart.eps

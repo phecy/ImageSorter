@@ -1,0 +1,86 @@
+# make with dot -Teps mlflowchart.graphviz > mlflowchart.eps
+digraph ML_Flowchart {
+#   concentrate=true
+# label  = "Reordering Images Based on Quality and Uniqueness"
+
+   node  [  color=lightblue2, style=filled];
+   graph [  fontname = "Helvetica-Oblique",
+            fontsize = 20,
+            size = "6,6",
+            splines=ortho,
+            compound=true
+         ];
+   
+   subgraph cluster_I {
+      center=true
+      color=invis;
+      subgraph cluster_a {
+         color=invis;
+         subgraph cluster_0 {
+            node [shape=invhouse];
+            color=black;
+            "Avg Pixel\nBrightness";
+            "Avg Pixel\nContrast";
+            "Avg Edge\nWidth";
+            label = "Low Level Features";
+         }
+
+         "Application output"[shape=plaintext, color=white];
+         "Application output"->"Avg Pixel\nContrast"[minlen=2,lhead="cluster_0"];
+      }
+
+      subgraph cluster_1 {
+         node [shape=house];
+         color=black;
+         label = "High Level Features";
+         "Poorly Exposed?";
+         "Blurry?";
+
+      }
+
+      subgraph cluster_2 {
+         node [shape=rect];
+         color=invis;
+#        label = "External Control";
+      }
+
+      subgraph cluster_b {
+         rankdir="LR";
+         color=invis;
+         logreg[label="Combine Ratings",shape=house];
+#        humanoverall[label="Human\nPreference\nSurvey",shape=plaintext, color=white];
+#        humanoverall->"Logistic Regression"[minlen=0];
+      }
+   }
+
+
+   "Total Ranking"[shape=doubleoctagon];
+
+   "Avg Pixel\nBrightness"->"Poorly Exposed?"[minlen=1,lhead="cluster_1"];
+   "Avg Pixel\nContrast"->"Poorly Exposed?"[minlen=1,lhead="cluster_1"];
+   "Avg Edge\nWidth"->"Poorly Exposed?"[minlen=1,lhead="cluster_1"];
+
+   devcontrol[label="Developer Control:\nChange Features"];
+   devcontrol->usercontrol[color=invis];
+   devcontrol->"Avg Pixel\nBrightness"[minlen=0,lhead="cluster_0"];
+   devcontrol->"Blurry?"[minlen=0,lhead="cluster_1"];
+   usercontrol[label="User Control:\nAdjust Importance"];
+
+   "Blurry?"->logreg;
+   "Poorly Exposed?"->logreg;
+   usercontrol->logreg;
+
+   logreg->"Total Ranking";
+
+
+#   "Camera\nOrder"[shape=doubleoctagon]
+#   "Find\nInterest\nPoint"[shape=rectangle]
+#   "Exposure"[shape=rectangle,fontsize=10]
+#   "Blur"[shape=rectangle,fontsize=10]
+#   "Contrast"[shape=rectangle,fontsize=10]
+#   "Color\nDistribution"[shape=rectangle,fontsize=10]
+#   "Histogram"[shape=rectangle,fontsize=10]
+#   "Time"[shape=rectangle,fontsize=10]
+#   "Importance\nOrder"[shape=doubleoctagon]
+
+}
