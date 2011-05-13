@@ -5,34 +5,48 @@
 \usepackage{amssymb}
 
 \title{A Framework for Personalized Photograph Quality Assessment}
-\author{K. Armin Samii}
+\author{
+K. Armin Samii \\
+ksamii@ucsc.edu
+\and
+Uliana Popov \\
+uliana@soe.ucsc.edu}
+\date{May 13, 2011}
 
 \begin{document}
 \maketitle
 \begin{abstract}
-In this paper we develop a framework for quickly developing and testing new features related to photograph quality assessment. We have two sets of features: high-level features are subjective qualities that humans can easily answer; low-level features are objective calculations which can be computed. First, we find how each high-level feature corresponds to overall image quality, allowing for (but not requiring) user-adjusted preferences. Next, we find how the low-level features corresponds to each high-level feature. Finally, we allow both the low-level and high-level features to be dynamically adjusted by the developer with ease. We use basic Human Computation to obtain a ground truth.
+In this paper we develop a framework for quickly developing and testing new features related to photograph quality assessment. We have two types of features: \textit{high-level features} are subjective qualities which humans can easily answer; \textit{low-level features} are objective calculations which are produced algorithmically. We use machine learning techniques to learn each of these separately. Our model allows for a developer to easily train new features (both low-level and high-level), and for an end-user to personalize which features (high-level) are important.
+
+%First, we find how each high-level feature corresponds to overall image quality, allowing for user-adjusted preferences. Next, we find how the low-level features corresponds to each high-level feature. Finally, we allow both the low-level and high-level features to be dynamically adjusted by the developer with ease. We use basic Human Computation to obtain a ground truth.
 
 
 \end{abstract}
 
 \section{Problem Statement}
-The purpose of this paper is to accurately answer the following two questions:
+The first problem is to create a layer of abstraction for the end-user, who wants to modify the personal importance of high-level features without having to interpret the meaning of low-level features. The second is to allow a developer to continuously add features with ease. We will describe these problems in detail to make the specific purpose of this paper more clear.
+
+\subsection{Abstraction from the end user}
+This problem boils down to the following two questions:
 
 \begin{enumerate}
 \item \textbf{How important is each high-level feature to the overall rating of a photograph?}
 
-For example:
+This question is relevant to the end user. As an example:
+
 Photographers Penny and Quinn want to automatically rate their photographs so they can ignore those with low ratings and save some time when browsing their collections. Penny takes pictures at concerts so she doesn't mind slightly underexposed images. Quinn takes pictures on racetracks so he prefers very well-exposed images, but is more lenient on how in-focus his image is. Penny will decrease the default weight on the high-level "exposure" feature. Quinn will decrease the "blur" weight.
 
 \item \textbf{How does each low-level feature affect the ranking of a high-level feature?}
 
-For example:
-Programmer Popov has several low-level features, such as the average width of edges and the average pixel color. She wants to use these low-level features to provide a rating for all high-level features.
+This  question is relevant to the developer. As an example:
+
+Programmer Popov has several low-level features, such as the average width of edges and the average pixel color. She wants to use these low-level features to provide a rating for all high-level features. This way, when Photographer Penny wants to decrease the weight of the high-level exposure feature, she does not need to interpret the meaning of a low-level calculation such as edge width.
 \end{enumerate}
 
-After answering these two questions the first time on a set of developer-defined features (both low-level and high-level), the developer may want to add a feature.
+\subsection{Ease of progress for the developer}
+Say Programmer Popov finds a new way to measure blur levels in an image. She should be able to insert this feature into the program with ease. Because of the abstraction above, the end user would be unaware of any changes.
 
-If the developer adds a low-level feature, the second question must be answered again for every high-level feature. If the developer adds a high-level feature, the weights of this new feature compared with overall image quality must be recomputed, and then the second question must be answered for only the new feature.
+Instead, if Popov realizes that some new high-level feature is relevant to overall image quality (say, the saturation of the image), then she will want to see just how much saturation is relevant to image quality. The end-user photographers will be aware of this new change, and can adjust the high-level weights accordingly.
 
 \section{Introduction}
 First, we use a logistic regression to calculate weights on which high-level features appeal to humans in photographs. We then use Support Vector Machines (SVMs) to match low-level features extracted algorithmically to high-level features. For example, the high level feature of "exposure" has more weight than "blur," and the low-level feature of "average pixel color" affects "exposure" more than it affects "blur." We then allow the weights of high-level features to be adjusted by users to allow personalization. The result is a rating of an image based on the base high-level weights and the user's individual preferences.
