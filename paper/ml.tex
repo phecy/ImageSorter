@@ -77,7 +77,7 @@ We thus propose a method which separately trains low-level and high-level featur
 
 Further, the programmer utilizing our framework will decide which features to include. We allow the programmer to dynamically modify the features by retraining on a held-out test set.
 
-Training our data is broken down into two steps. First is determining the importance of each high-level feature. To do so, we need to see how much influence each high-level feature has on overall image quality. (We describe how we obtain this data in Section \ref{turkdata}.) Second, we determine how much influence each low-level feature has each high-level feature. The learning methods we use are described in detail in Section \ref{methods}.
+Training our data is broken down into two steps. First is determining the importance of each high-level feature. To do so, we need to see how much influence each high-level feature has on overall image quality. (We describe how we obtain this data in Section \ref{turkdata}.) Second, we determine how much influence each low-level feature has on each high-level feature. The learning methods we use are described in detail in Section \ref{methods}.
 
 \section{Related Work}
 Tong and Chang\cite{Tong:2001:SVM:500141.500159} use Support Vector Machines to search a database of images quickly by choosing images that are visually similar, which abstracts the features from the user completely.
