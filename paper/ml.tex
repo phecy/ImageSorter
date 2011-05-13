@@ -153,7 +153,7 @@ Z_i=\displaystyle\sum\limits_{f=0}^M w_f \cdot r_{i,f}
 \]
 Where $M$ is the number of high-level features, $w_f$ is the weight of feature $f$, and $r_{i,f}$ is the Turkers rating of feature $f$ on image $i$.
 
-We minimize this error function over $w_i$.
+We minimize this error function over all $w_i$.
 
 \subsection{Learning Low-Level Features}
 We use a Support Vector Machine with a Gaussian spread around the optimal separating hyperplane to obtain a regression function from the low-level features. (We will add details as we implement them.)
