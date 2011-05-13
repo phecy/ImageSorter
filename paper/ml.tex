@@ -34,13 +34,14 @@ This problem boils down to the following two questions:
 
 This question is relevant to the end user. As an example:
 
-Photographers Penny and Quinn want to automatically rate their photographs so they can ignore those with low ratings and save some time when browsing their collections. Penny takes pictures at concerts so she doesn't mind slightly underexposed images. Quinn takes pictures on racetracks so he prefers very well-exposed images, but is more lenient on how in-focus his image is. Penny will decrease the default weight on the high-level "exposure" feature. Quinn will decrease the "blur" weight.
+%Photographers Penny and Quinn want to automatically rate their photographs so they can ignore those with low ratings and save some time when browsing their collections.
+Penny takes pictures at concerts so she doesn't mind slightly underexposed images. Quinn takes pictures on racetracks so he is more lenient on how in-focus his image is. Penny will decrease the default weight on the high-level "exposure" feature. Quinn will do the same for "blur" weight.
 
 \item \textbf{How does each low-level feature affect the ranking of a high-level feature?}
 
 This  question is relevant to the developer. As an example:
 
-Programmer Popov has several low-level features, such as the average width of edges and the average pixel color. She wants to use these low-level features to provide a rating for all high-level features. This way, when Photographer Penny wants to decrease the weight of the high-level exposure feature, she does not need to interpret the meaning of a low-level calculation such as edge width.
+Programmer Popov has several low-level features, such as the average width of edges and the average pixel color. She wants to use these low-level features to provide a rating for all high-level features. She cannot use them to directly influence the overall ranking because this would not allow the end-user photographers to adjust the weights of high-level features.
 \end{enumerate}
 
 \subsection{Ease of progress for the developer}
