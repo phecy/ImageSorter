@@ -13,8 +13,9 @@
 # bv     (visual)
 #
 # g      graphviz:
-#        create the main flowchart
-# gv     (visual - eps only)
+#        create both flowcharts
+# gv1    (visual - eps only - main only)
+# gv2    (visual - eps only - ml only)
 
 basic:
 	latex README_PAPER
@@ -57,9 +58,12 @@ bv: bib-visual
 
 g:
 	dot -Teps flowchart.graphviz > flowchart.eps
+	dot -Teps mlflowchart.graphviz > mlflowchart.eps
 
-gv: g
+gv1: g
 	gnome-open flowchart.eps
+gv2: g
+	gnome-open mlflowchart.eps
 
 commit:
 	git commit README*
