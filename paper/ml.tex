@@ -90,7 +90,7 @@ There are two sets of data used, both of which are learned independently.
 
 \subsection{User-Produced Data}
 \label{turkdata}
-The initial set of data was produced by giving Turkers a simple statement for each high level feature, and asking if they agreed. Our primary, ground-truth statement for each image is:
+The initial set of data was produced by giving Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers) a simple statement for each high level feature, and asking if they agreed. Our primary, ground-truth statement for each image is:
 
 ``This image is high quality.''
 
@@ -128,7 +128,7 @@ The application produces numbers for each high-level feature.
 
 First, we use a logistic regression to calculate weights on which high-level features appeal to humans in photographs. We then use Support Vector Machines (SVMs) to match low-level features extracted algorithmically to high-level features. For example, the high level feature of "exposure" has more weight than "blur," and the low-level feature of "average pixel color" affects "exposure" more than it affects "blur". We then allow the weights of high-level features to be adjusted by users to allow personalization. The result is a rating of an image based on the base high-level weights and the user's individual preferences.
 
-We keep a held-out test set to recalculate parameters when the developer adds a feature. When a new high-level feature is added, we ask Amazon Mechanical Turk\footnote{http://www.mturk.com} users ("Turkers") to rank an image based on that feature. When a low-level feature is added, the parameters of each of the SVMs are updated.
+We keep a held-out test set to recalculate parameters when the developer adds a feature. When a new high-level feature is added, we Turkers to rank an image based on that feature. When a low-level feature is added, the parameters of each of the SVMs are updated.
 
 
 \section{Progress thus far [informal]}
