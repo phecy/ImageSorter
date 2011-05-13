@@ -3,7 +3,7 @@
 \setlength{\topmargin}{0in}
 \setlength{\headheight}{0in}
 \setlength{\headsep}{0in}
-\setlength{\textheight}{8.5in}
+\setlength{\textheight}{9in}
 \setlength{\oddsidemargin}{0in}
 \setlength{\textwidth}{6.5in}
 
@@ -85,7 +85,7 @@ So instead, one might try to compute high-level features directly and allow the 
 
 We thus propose a method which separately trains low-level and high-level features. This method allows (1) the photographer to personalize each high-level feature's importance, and (2) the developer to have multiple low-level calculations to rate each high-level feature. Further, the developer can (3) dynamically change which features are used.
 
-To answer the first question presented in Section \ref{abstraction}, we use a Logistic Regression machine learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, we use the more accurate model of Support Vector Machines, because we do not need to reweight the low-level features. When the developer adds a new feature, one or both of these must get retrained. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers).
+To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression machine learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, we use the more accurate model of Support Vector Machines, because we do not need to reweight the low-level features. When the developer adds a new feature, one or both of these must get retrained. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers).
 
 \section{Related Work}
 Tong and Chang\cite{Tong:2001:SVM:500141.500159} use Support Vector Machines to search a database of images quickly by choosing images that are visually similar, which abstracts the features from the user completely.
@@ -130,7 +130,7 @@ Image 2 & .1 & .2 & .4 & .4 & \ldots \\
 \\
 \\
 
-In this way, the primary rating for an image is learned indirectly through a logistic regression of each of the other high-level features.
+In this way, the primary rating for an image is learned indirectly through a linear regression of each of the other high-level features.
 
 \subsection{Application-produced data}
 The developer chooses which low-level features to calculate. Each calculation is used in a Support Vector Machine to get rankings of each high-level feature.
@@ -143,7 +143,7 @@ There are two steps to the learning process. First, we learn the importance of e
 %We keep a held-out test set to recalculate the learning parameters when the developer adds a feature. When a new high-level feature is added, we ask Turkers to rank an image based on that feature. When a low-level feature is added, the parameters of each of the SVMs are updated.
 
 \subsection{Learning High-Level Features}
-We use a logistic regression to train each high level feature. For this, we do not take into account any low-level features. The error function is defined as:
+We use a linear regression to train each high level feature. For this, we do not take into account any low-level features. The error function is defined as:
 \[
 E=\displaystyle\sum\limits_{i=0}^N R_i-Z_i
 \]
@@ -153,17 +153,29 @@ Z_i=\displaystyle\sum\limits_{f=0}^M w_f \cdot r_{i,f}
 \]
 Where $M$ is the number of high-level features, $w_f$ is the weight of feature $f$, and $r_{i,f}$ is the Turkers rating of feature $f$ on image $i$.
 
+We minimize this error function over $w_i$.
+
+\subsection{Learning Low-Level Features}
+We use a Support Vector Machine with a Gaussian spread around the optimal separating hyperplane to obtain a regression function from the low-level features. (We will add details as we implement them.)
+
+\subsection{Output on new images}
+After training, the rating of a new image $i$ is as follows:
+\[
+O_i=\frac{1}{M}\displaystyle\sum\limits_{f=0}^Ma_f \cdot w_f \cdot S_{i,f}
+\]
+Where $a_f$ is the personalized weight adjustment for feature $f$ (which defaults to 1), $S_{i,f}$ is the output of the Support Vector Machine for image $i$ and feature $f$, and the other variables are as defined above.
+
 
 \section{Progress thus far [informal]}
-So far, we have gathered several hundred data points for two high-level features. We have increased the speed of previously written code to allow for several dozen images to be processed in a minute (as opposed to about 2 minutes per image previously).
+So far, we have gathered several hundred data points for the high-level features of "blurriness." We have increased the speed of previously written code to allow for several dozen images to be processed in a minute (as opposed to about 2 minutes per image previously).
 
-We have implemented Support Vector Machines into our code and it is working on a small test set. We have a mostly-completed framework for dynamically changing high- and low-level features. No progress has been made on determining the weights of each high-level feature (for logistic regression).
+We have implemented Support Vector Machines into our code and it is working on a small test set. We have a mostly-completed framework for dynamically changing high- and low-level features. No progress has been made on determining the weights of each high-level feature (for linear regression).
 
 We should note that we talk about our work as if the project were completed. It is not.
 
 
 \section{Results [informal]}
-We have a test set of several hundred images that we expect our application will rank highly, and another test set of several hundred blurry images that we expect to rank poorly. We will measure how much better we perform on blur detection after implementing machine learning techniques (we have accuracy results from before this paper). This does not take into account user preferences or ease of use of our framework.
+We have a test set of several hundred images that we expect our application will rate highly, and another test set of several hundred blurry images that we expect to rate poorly. We will measure how much better we perform on blur detection after implementing machine learning techniques compared to the accuracy results from before this paper. This does not take into account user preferences or ease of use of our framework.
 
 %UUU. I'd talk here about the evaluation of the results, rather than about different / hard-to-understand data sets. 
 % we can say that we will use the corelation or standard deviation to measure our success rate.
