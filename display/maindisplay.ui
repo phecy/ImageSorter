@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainDisplay</class>
+ <widget class="QTabWidget" name="MainDisplay">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>658</width>
+    <height>573</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TabWidget</string>
+  </property>
+  <property name="currentIndex">
+   <number>0</number>
+  </property>
+  <widget class="QWidget" name="tab">
+   <attribute name="title">
+    <string>Open files</string>
+   </attribute>
+   <widget class="QPushButton" name="trainButton">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>80</y>
+      <width>91</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Train on data...</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="newImgButton">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>120</y>
+      <width>91</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>New images...</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

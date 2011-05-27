@@ -6,7 +6,7 @@
 #include "vw/Image.h"
 #include "vw/FileIO.h"
 
-#include "duplicates/interestpoints.h""
+#include "duplicates/interestpoints.h"
 #include "duplicates/rater.h"
 #include "vimage.h"
 

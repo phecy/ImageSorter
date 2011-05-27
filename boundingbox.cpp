@@ -182,10 +182,12 @@ densityBox BoundingBox::getMaxDensity(densityMap totalIpMap,
 void BoundingBox::debugPrint(VImage* vim, point start, point fin) {
     int width = ipMap[0].size();
     int height = ipMap.size();
+/*
     int owidth = vim->getWidth();
     int oheight = vim->getHeight();
     float scalex = (double)width / owidth;
     float scaley = (double)height / oheight;
+*/
 
     QImage i = QImage(*vim->getQImage());
 

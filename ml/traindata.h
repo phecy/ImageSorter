@@ -19,6 +19,7 @@ public:
     double getLLFeature(int img_i, int feature_i);
     double getHLFeature(int img_i, int feature_i);
     double getGroundTruth(int img_i);
+    string hash();
 
 private:
     struct FeaturesStruct {

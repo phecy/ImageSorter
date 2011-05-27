@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "dlib/svm.h"
+#include "dlib/data_io.h"
 
 #include "common.h"
 #include "learner.h"
@@ -45,7 +46,7 @@ void Learner::learn(TrainData trainingset) {
     // Now setup a SVR trainer object.  It has three parameters, the kernel and
     // two parameters specific to SVR.
     svr_trainer<kernel_type> trainer;
-    trainer.set_kernel(kernel_type(0.1));
+    trainer.set_kernel(kernel_type(0.01));
 
     // This parameter is the usual regularization parameter.  It determines the trade-off
     // between trying to reduce the training error or allowing more errors but hopefully
@@ -69,15 +70,21 @@ void Learner::learn(TrainData trainingset) {
     // We can also do 5-fold cross-validation and find the mean squared error.  Note that
     // we need to randomly shuffle the samples first.  See the svm_ex.cpp for a discussion of
     // why this is important.
+    randomize_samples(llsamples, lltargets);
+    cout << "TRAINING INFO -------------------" << endl;
+    cout << "MSE: "<< cross_validate_regression_trainer(
+                        trainer, llsamples, lltargets, 5) << endl;
 
     // Now we see how well we predicted on the training set
     for(int img_i=0; img_i<numImages; ++img_i) {
         for(int feat_i=0; feat_i < numFeatures; ++feat_i) {
             lowLevelSample(feat_i)
                  = trainingset.getLLFeature(img_i, feat_i);
-            cout << lowLevelSample(feat_i) << ",   ";
         }
         cout << "actual = " << trainingset.getGroundTruth(img_i) << endl
              << "predicted = " << llDecisionFcn(lowLevelSample) << endl;
     }
+
+    // Save so we only train once
+    save_libsvm_formatted_data(trainingset.hash(), llsamples, lltargets);
 }

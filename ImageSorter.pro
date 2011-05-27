@@ -8,10 +8,7 @@ INCLUDEPATH += . \
     /var/lib
 
 # Input
-HEADERS += blurdetect.h \
-    color.h \
-    colorUtility.h \
-    display.h \
+HEADERS += common.h \
     duplicates/interestpoints.h \
     duplicates/rater.h \
     duplicates/segmented.h \
@@ -19,27 +16,32 @@ HEADERS += blurdetect.h \
     duplicates/gaussian.h \
     duplicates/histogram.h \
     duplicates/findDups.h \
+    algorithmPresets.h \
+    boundingbox.h \
+    boundingBoxPresets.h \
+    blurdetect.h \
+    color.h \
+    colorUtility.h \
+    contrast.h \
     exposure.h \
     grey.h \
     harmony.h \
     insertionsort.h \
-    ml/learner.h \
     qualityexif.h \
     vimage.h \
     sharpdetect.h \
-    boundingbox.h \
-    boundingBoxPresets.h \
-    algorithmPresets.h \
-    setdisplay.h \
-    contrast.h \
     ml/getrating.h \
-    common.h \
-    ml/traindata.h
-FORMS += display.ui \
-    setdisplay.ui
-SOURCES += blurdetect.cpp \
-    color.cpp \
-    display.cpp \
+    ml/learner.h \
+    ml/traindata.h \
+    display/maindisplay.h \
+    display/setdisplay.h \
+    display/imgviewer.h \
+    imagesorter.h
+FORMS += \
+    display/setdisplay.ui \
+    display/maindisplay.ui \
+    display/imgviewer.ui
+SOURCES += \
     duplicates/interestpoints.cpp \
     duplicates/rater.cpp \
     duplicates/segmented.cpp \
@@ -47,21 +49,25 @@ SOURCES += blurdetect.cpp \
     duplicates/gaussian.cpp \
     duplicates/histogram.cpp \
     duplicates/findDups.cpp \
+    blurdetect.cpp \
     exposure.cpp \
+    contrast.cpp \
+    color.cpp \
     grey.cpp \
     harmony.cpp \
     insertionsort.cpp \
     main.cpp \
-    ml/learner.cpp \
     qualityexif.cpp \
     vimage.cpp \
     sharpdetect.cpp \
     boundingbox.cpp \
-    setdisplay.cpp \
     vw/InterestPoint/InterestData.cc \
-    contrast.cpp \
     ml/getrating.cpp \
-    ml/traindata.cpp
+    ml/traindata.cpp \
+    ml/learner.cpp \
+    display/maindisplay.cpp \
+    display/setdisplay.cpp \
+    display/imgviewer.cpp
 LIBS += /usr/lib/libexif.a \
     /usr/lib/libboost*.a \
     /usr/local/lib/libvw.so \

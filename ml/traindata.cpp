@@ -1,3 +1,6 @@
+#include <sstream>
+#include <math.h>
+
 #include "traindata.h"
 
 TrainData::TrainData()
@@ -24,4 +27,42 @@ void TrainData::addSample(
     features.groundTruth = groundTruth;
 
     trainingSet.push_back(features);
+}
+
+string TrainData::hash() {
+    double hashnum=1;
+
+    vector<Features>::iterator img_i;
+    vector<double>::iterator feat_i;
+    for(img_i=trainingSet.begin(); img_i!=trainingSet.end(); ++img_i) {
+        for(feat_i  = img_i->lowLevelFeatures.begin();
+            feat_i != img_i->lowLevelFeatures.end();
+            ++feat_i) {
+            hashnum *= (*feat_i) * (*feat_i);
+            hashnum *= img_i->groundTruth;
+        }
+        for(feat_i  = img_i->highLevelFeatures.begin();
+            feat_i != img_i->highLevelFeatures.end();
+            ++feat_i) {
+            hashnum *= (*feat_i) * (*feat_i);
+            hashnum *= img_i->groundTruth;
+        }
+    }
+
+    stringstream hashstream;
+    hashstream << "trainset_";
+    hashstream << hashnum;
+
+    string hashed = hashstream.str();
+    // Magic number 9 is for size of "trainset_"
+    hashed = hashed.substr(0, min(24, 9+(int)hashed.size()-1));
+    for(unsigned int i=9; i<hashed.size(); ++i) {
+        if(hashed[i]=='.') hashed[i] = '-';
+        else if(hashed[i]=='+') hashed[i] = char(i%10 + '0');
+        else if(hashed[i]=='e') hashed[i] = char(i%10 + '0');
+    }
+    hashed.append(".tdat");
+
+    cout << "Hashed val: " << hashed << endl;
+    return hashed;
 }
