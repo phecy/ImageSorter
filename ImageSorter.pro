@@ -23,8 +23,7 @@ HEADERS += blurdetect.h \
     grey.h \
     harmony.h \
     insertionsort.h \
-    ml\learner.h \
-    ml\rankdata.h \
+    ml/learner.h \
     qualityexif.h \
     vimage.h \
     sharpdetect.h \
@@ -32,7 +31,10 @@ HEADERS += blurdetect.h \
     boundingBoxPresets.h \
     algorithmPresets.h \
     setdisplay.h \
-    contrast.h
+    contrast.h \
+    ml/getrating.h \
+    common.h \
+    ml/traindata.h
 FORMS += display.ui \
     setdisplay.ui
 SOURCES += blurdetect.cpp \
@@ -50,15 +52,16 @@ SOURCES += blurdetect.cpp \
     harmony.cpp \
     insertionsort.cpp \
     main.cpp \
-    ml\learner.cpp \
-    ml\rankdata.cpp \
+    ml/learner.cpp \
     qualityexif.cpp \
     vimage.cpp \
     sharpdetect.cpp \
     boundingbox.cpp \
     setdisplay.cpp \
     vw/InterestPoint/InterestData.cc \
-    contrast.cpp
+    contrast.cpp \
+    ml/getrating.cpp \
+    ml/traindata.cpp
 LIBS += /usr/lib/libexif.a \
     /usr/lib/libboost*.a \
     /usr/local/lib/libvw.so \

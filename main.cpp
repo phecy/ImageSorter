@@ -15,6 +15,14 @@
     along with ImageSorter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <stdio.h>
+#include <string.h>
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <fstream>
+#include <assert.h>
+
 #include <QApplication>
 #include <QFileDialog>
 #include <QtDebug>
@@ -22,12 +30,6 @@
 #include <QtPlugin>
 #include <QImage>
 #include <QPixmap>
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
-#include <cstring>
-#include <string>
-#include <fstream>
 
 using namespace std;
 
@@ -51,6 +53,8 @@ using namespace std;
 #include "algorithmPresets.h"
 #include "setdisplay.h"
 #include "ml/learner.h"
+#include "ml/traindata.h"
+#include "common.h"
 
 #define RANGE 10
 #define RANK_THRESHOLD 4
@@ -377,8 +381,20 @@ int main(int argc, char *argv[])
 //    setdisp_sorted->display(imageInfoArray);
 //    setdisp_sorted->setWindowTitle("Sorted");
 
-    Learner svm("ImageSorter");
-    svm.learn(imageInfoArray);
+    // For testing
+    TrainData training;
+    for(int i=0; i<size; ++i) {
+        vector<double> features;
+        vector<pair<string, float> > ratings = imageInfoArray[i]->getRanks();
+        assert(NUM_LL_FEATURES <= ratings.size());
+        for(int f=0; f<NUM_LL_FEATURES; ++f) {
+            features.push_back(ratings[f].second);
+        }
+        training.addSample(features, features, .9);
+    }
+    Learner svm;
+    svm.learn(training);
+    //svm.learn(imageInfoArray);
 
     return app.exec();
 }
