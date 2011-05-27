@@ -1,5 +1,5 @@
 #include "duplicates/gaussian.h"
-#include "display.h"
+#include "display/imgviewer.h"
 
 #define GAUSS_DIVIDE_BY 10
 

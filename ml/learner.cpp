@@ -1,98 +1,68 @@
-#include "learner.h"
-
-#include "dlib/svm.h"
-
-using namespace std;
-using namespace dlib;
-
-Learner::Learner(string relationName)
-{
-}
-// The contents of this file are in the public domain. See LICENSE_FOR_EXAMPLE_PROGRAMS.txt
-/*
-    This is an example illustrating the use of the epsilon-insensitive support vector
-    regression object from the dlib C++ Library.
-
-    In this example we will draw some points from the sinc() function and do a
-    non-linear regression on them.
-*/
-
 #include <iostream>
 #include <vector>
 
 #include "dlib/svm.h"
+#include "dlib/data_io.h"
 
-#include "vimage.h"
+#include "common.h"
+#include "learner.h"
 
 using namespace std;
 using namespace dlib;
 
-// Here is the sinc function we will be trying to learn with the svr_trainer
-// object.
-double sinc(double x)
+Learner::Learner()
 {
-    if (x == 0)
-        return 1;
-    return sin(x)/x;
 }
 
-void Learner::learn(std::vector<VImage*> images) {
-    int numImages = images.size();
+void Learner::learn(TrainData trainingset) {
+    int numImages = trainingset.size();
     if(numImages == 0) return;
-    int numAttributes = images[0]->getRanks().size();
+    int numFeatures = NUM_LL_FEATURES;
 
-    // Samples will be NUM-ATTR dimensional column vectors.
-    typedef matrix<float,0,1> sample_type;
+    // Make features and label vectors
+    std::vector<sample_type> llsamples;
+    std::vector<float> lltargets;
 
-    // Default good results without fiddling
-    typedef radial_basis_kernel<sample_type> kernel_type;
-
-    // Make attribute and label vectors
-    std::vector<sample_type> samples;
-    std::vector<float> targets;
-
-    // Create samples and label them
-    sample_type m;
-    m.set_size(numAttributes);
-    for (int i=0; i<numImages; ++i)
+    // Create the samples for the low-level features,
+    // training them to the "ground truth" for now,
+    // and later, to the high-level features
+    sample_type lowLevelSample; // A single sample, to be saved then
+                                //                  written over
+    lowLevelSample.set_size(numFeatures);
+    for (int img_i=0; img_i<numImages; ++img_i)
     {
-        for(int attr=0; attr<numAttributes; ++attr)
-            m(attr) = images[i]->getRanks()[attr].second;
+        for(int llFeat_i=0; llFeat_i<numFeatures; ++llFeat_i) {
+            lowLevelSample(llFeat_i) = trainingset.getLLFeature(img_i, llFeat_i);
+        }
 
-        samples.push_back(m);
-        targets.push_back(sin(images[i]->getRanks()[0].second));
+        llsamples.push_back(lowLevelSample);
+        /*
+        int hlFeat_i = 0; // Loop this after Low Levels work
+        lltargets.push_back(trainingset.getHLFeature(img_i, hlFeat_i));
+        */
+        lltargets.push_back(trainingset.getGroundTruth(img_i));
     }
 
     // Now setup a SVR trainer object.  It has three parameters, the kernel and
     // two parameters specific to SVR.
     svr_trainer<kernel_type> trainer;
-    trainer.set_kernel(kernel_type(0.1));
+    trainer.set_kernel(kernel_type(0.01));
 
     // This parameter is the usual regularization parameter.  It determines the trade-off
     // between trying to reduce the training error or allowing more errors but hopefully
     // improving the generalization of the resulting function.  Larger values encourage exact
     // fitting while smaller values of C may encourage better generalization.
-    trainer.set_c(10);
+    trainer.set_c(5); // Default 10
 
     // Epsilon-insensitive regression means we do regression but stop trying to fit a data
     // point once it is "close enough" to its target value.  This parameter is the value that
     // controls what we mean by "close enough".  In this case, I'm saying I'm happy if the
-    // resulting regression function gets within 0.001 of the target value.
-    trainer.set_epsilon_insensitivity(0.001);
+    // resulting regression function gets within 1 of the target value.
+    trainer.set_epsilon_insensitivity(.1); // Default 0.001
 
     // Now do the training and save the results
-    decision_function<kernel_type> df = trainer.train(samples, targets);
+    llDecisionFcn = trainer.train(llsamples, lltargets);
 
-    // now we output the value of the sinc function for a few test points as well as the
-    // value predicted by SVR.
-    for(int img=0; img<numImages; ++img) {
-        for(int attr=0; attr<numAttributes; ++attr) {
-            m(attr) = images[img]->getRanks()[attr].second;
-            cout << m(attr) << ",   ";
-        }
-        cout << " ---> sin(m0)=" << sin(images[img]->getRanks()[0].second)
-             << ", predict: " << df(m) << endl;
-    }
 
     // The first column is the true value of the sinc function and the second
     // column is the output from the SVR estimate.
@@ -100,6 +70,21 @@ void Learner::learn(std::vector<VImage*> images) {
     // We can also do 5-fold cross-validation and find the mean squared error.  Note that
     // we need to randomly shuffle the samples first.  See the svm_ex.cpp for a discussion of
     // why this is important.
-    randomize_samples(samples, targets);
-    cout << "MSE: "<< cross_validate_regression_trainer(trainer, samples, targets, 5) << endl;
+    randomize_samples(llsamples, lltargets);
+    cout << "TRAINING INFO -------------------" << endl;
+    cout << "MSE: "<< cross_validate_regression_trainer(
+                        trainer, llsamples, lltargets, 5) << endl;
+
+    // Now we see how well we predicted on the training set
+    for(int img_i=0; img_i<numImages; ++img_i) {
+        for(int feat_i=0; feat_i < numFeatures; ++feat_i) {
+            lowLevelSample(feat_i)
+                 = trainingset.getLLFeature(img_i, feat_i);
+        }
+        cout << "actual = " << trainingset.getGroundTruth(img_i) << endl
+             << "predicted = " << llDecisionFcn(lowLevelSample) << endl;
+    }
+
+    // Save so we only train once
+    save_libsvm_formatted_data(trainingset.hash(), llsamples, lltargets);
 }

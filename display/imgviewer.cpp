@@ -7,12 +7,12 @@
 #include <QPainter>
 #include <QLabel>
 
-#include "display.h"
-#include "ui_display.h"
+#include "imgviewer.h"
+#include "ui_imgviewer.h"
 
-display::display(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::display)
+ImgViewer::ImgViewer(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::ImgViewer)
 {
     ui->setupUi(this);
 
@@ -23,12 +23,12 @@ display::display(QWidget *parent) :
     connect(ui->slider, SIGNAL(valueChanged(int)), this, SLOT(slid(int)));
 }
 
-display::~display()
+ImgViewer::~ImgViewer()
 {
     delete ui;
 }
 
-void display::init()
+void ImgViewer::init()
 {
     qDebug("Initialize ui");
 
@@ -43,7 +43,7 @@ void display::init()
     goToPic(0);
 }
 
-void display::newPic(int picNum)
+void ImgViewer::newPic(int picNum)
 {
     if(picNum < 0 || picNum >= size)
         return;
@@ -79,14 +79,14 @@ void display::newPic(int picNum)
     stringstream indivRankText;
     char text[512];
 
-    // Ranks start at 1, not 0, for display; +1 to indeces
+    // Ranks start at 1, not 0, for ImgViewer; +1 to indeces
     sprintf(text, "Image %d/%d: Ranked %1.02f/9 [%1.02f] || Set number %d/%d",
             picNum+1, size, vim->getRank(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
     vector<pair<string, float> > ranks = vim->getRanks();
     for(int i=0; i<ranks.size(); ++i) {
-        if(std::find(ranksToDisplay.begin(),
-                ranksToDisplay.end(),
-                ranks.at(i).first) == ranksToDisplay.end()) continue;
+        if(std::find(ranksToImgViewer.begin(),
+                ranksToImgViewer.end(),
+                ranks.at(i).first) == ranksToImgViewer.end()) continue;
         indivRankText << ranks.at(i).first << ": " <<
                          setprecision(2) << ranks.at(i).second <<  " || ";
         if(indivRankText.str().size() > 80)
@@ -97,29 +97,29 @@ void display::newPic(int picNum)
     ui->indivRanks->setText(indivRankText.str().c_str());
 }
 
-void display::nextImage() {
+void ImgViewer::nextImage() {
     if(currPixIndex < size-1) {
         goToPic(currPixIndex+1);
     }
 }
 
-void display::prevImage() {
+void ImgViewer::prevImage() {
     if(currPixIndex > 0) {
         goToPic(currPixIndex-1);
     }
 }
 
-void display::nextInSet() {
+void ImgViewer::nextInSet() {
     if(nextInCurrSet != -1)
         goToPic(nextInCurrSet);
 }
 
-void display::prevInSet() {
+void ImgViewer::prevInSet() {
     if(prevInCurrSet != -1)
         goToPic(prevInCurrSet);
 }
 
-int display::findOthersInSet(bool lookForward) {
+int ImgViewer::findOthersInSet(bool lookForward) {
     int direction = lookForward ? 1 : -1; // Which way to iterate
 
     int tempIndex = currPixIndex;
@@ -132,13 +132,13 @@ int display::findOthersInSet(bool lookForward) {
     return tempIndex; // Success
 }
 
-void display::goToPic(int whichPic) {
+void ImgViewer::goToPic(int whichPic) {
     assert(whichPic >= 0 && whichPic < size);
 
     enableAllButtons();
     currPixIndex = whichPic;
 
-    // This will not display correctly in case size==1
+    // This will not ImgViewer correctly in case size==1
     // Correct prev/next img buttons
     if(currPixIndex == 0) {
         ui->prevSetBut->setEnabled(false);
@@ -161,13 +161,13 @@ void display::goToPic(int whichPic) {
     ui->slider->setValue(currPixIndex);
 }
 
-void display::enableAllButtons() {
+void ImgViewer::enableAllButtons() {
     ui->prevBut->setEnabled(true);
     ui->prevSetBut->setEnabled(true);
     ui->nextBut->setEnabled(true);
     ui->nextSetBut->setEnabled(true);
 }
 
-void display::slid(int pos) {
+void ImgViewer::slid(int pos) {
     goToPic(pos);
 }

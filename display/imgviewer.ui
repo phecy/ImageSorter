@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>display</class>
- <widget class="QWidget" name="display">
+ <class>ImgViewer</class>
+ <widget class="QWidget" name="ImgViewer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,9 +16,9 @@
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>25</x>
+     <x>24</x>
      <y>10</y>
-     <width>600</width>
+     <width>601</width>
      <height>400</height>
     </rect>
    </property>

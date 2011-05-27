@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'setdisplay.ui'
 **
-** Created: Mon Apr 4 13:09:09 2011
-**      by: Qt User Interface Compiler version 4.6.2
+** Created: Fri May 27 14:11:43 2011
+**      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/

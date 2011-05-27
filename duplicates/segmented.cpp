@@ -33,7 +33,6 @@ DuplicateSegmented::~DuplicateSegmented() {
 
 void DuplicateSegmented::addImage(VImage* vim) {
     QImage* image = vim->getQImage();
-    QImage* foreground = vim->getForeground();
 
     segAllBlockDiffs imgdiffs = getDifferences(image, BLOCKSACROSS_ALL);
 #ifndef FAST_MODE
@@ -85,14 +84,6 @@ void DuplicateSegmented::rankOne(VImage *first, VImage *second) {
     int rank = getSimilarity(first->getQImage(), second->getQImage(),
                              false);
     rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_SEGMENTED);
-}
-
-void DuplicateSegmented::rankOneForeground(VImage *first, VImage *second) {
-    /* Currently unimplemented
-    int rank = getSimilarity(first->getForeground(),second->getForeground(),
-                             true);
-    rater->addRanking(first, second, rank, DuplicateRater::DUPLICATE_FG);
-    */
 }
 
 int DuplicateSegmented::getSimilarity(QImage* first, QImage* second,

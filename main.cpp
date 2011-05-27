@@ -15,19 +15,22 @@
     along with ImageSorter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
-#include <QFileDialog>
-#include <QtDebug>
-#include <QImageReader>
-#include <QtPlugin>
-#include <QImage>
-#include <QPixmap>
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
 #include <cstring>
 #include <string>
 #include <fstream>
+#include <assert.h>
+
+#include <QApplication>
+#include <QTabWidget>
+#include <QFileDialog>
+#include <QtDebug>
+#include <QImageReader>
+#include <QtPlugin>
+#include <QImage>
+#include <QPixmap>
 
 using namespace std;
 
@@ -43,21 +46,25 @@ using namespace std;
 #include "harmony.h"
 #include "duplicates/findDups.h"
 #include "grey.h"
-#include "display.h"
 #include "insertionsort.h"
 #include "duplicates/segmented.h"
 #include "qualityexif.h"
 #include "vimage.h"
 #include "algorithmPresets.h"
-#include "setdisplay.h"
 #include "ml/learner.h"
+#include "ml/traindata.h"
+#include "common.h"
+#include "display/imgviewer.h"
+#include "display/maindisplay.h"
+#include "display/setdisplay.h"
 
 #define RANGE 10
 #define RANK_THRESHOLD 4
 
 // USE THIS TO IGNORE ALL SET COMPUTATIONS:
 #define IGNORE_SETS
-// fast mode defined in vimage.h
+
+static QTabWidget *disp;
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -86,31 +93,6 @@ void loadExif(QualityExif* exifs, const char* fn) {
 
     exifs->parseData(data);
     exif_loader_unref(loader);
-}
-
-// Compute antilog base 10
-double alog10(double num) {
-    return exp(num * log(10));
-}
-
-// Compute x^(1/3)
-double root3(double num) {
-    return pow(num, 1.0/3.0);
-}
-
-// Compute x^3
-double pow3(double num) {
-    return num*num*num;
-}
-
-// Compute x^2
-double pow2(double num) {
-    return num*num;
-}
-
-// Compute fourth-root x
-double root4(double num) {
-    return sqrt(sqrt(num));
 }
 
 // Calculates ranking for each image based on params. Puts into picValue.
@@ -287,10 +269,7 @@ bool runAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
     return true;
 }
 
-int main(int argc, char *argv[])
-{
-    QApplication app(argc, argv);
-
+void loadFiles(bool isTraining) {
     QStringList files = QFileDialog::getOpenFileNames(
             0,
             "Select the images you wish to use",
@@ -299,7 +278,7 @@ int main(int argc, char *argv[])
 
     // Check validity of file dialog result
     int size = files.length();
-    if(size == 0) return EXIT_SUCCESS;
+    if(size == 0) return;
 
     // Some variables for each image
     vector<VImage*> imageInfoArray(size);
@@ -319,7 +298,7 @@ int main(int argc, char *argv[])
 
     // Calculate everything. Gather duplicates.
     bool succeeded = runAllModules(imageInfoArray, imageStrArray, size, dupFinder, picValue);
-    if(!succeeded) return EXIT_FAILURE;
+    if(!succeeded) return;
 
 #ifndef IGNORE_SETS
     //Finds and combines duplicates.
@@ -368,17 +347,40 @@ int main(int argc, char *argv[])
     ranksToDisplay.push_back("contrast");
     ranksToDisplay.push_back("local");
 
-    display *disp = new display();
-    disp->setImageData(imageInfoArray, numSets, size);
-    disp->setRanksToDisplay(ranksToDisplay);
-    disp->init();
+    ImgViewer *viewer = new ImgViewer();
+    viewer->setImageData(imageInfoArray, numSets, size);
+    viewer->setRanksToDisplay(ranksToDisplay);
+    viewer->init();
+
+    disp->addTab(viewer, QIcon(), "Image Browser");
+    disp->setCurrentWidget(viewer);
 
 //    SetDisplay *setdisp_sorted = new SetDisplay();
 //    setdisp_sorted->display(imageInfoArray);
 //    setdisp_sorted->setWindowTitle("Sorted");
 
-    Learner svm("ImageSorter");
-    svm.learn(imageInfoArray);
+    // For testing
+    TrainData training;
+    for(int i=0; i<size; ++i) {
+        vector<double> features;
+        vector<pair<string, float> > ratings = imageInfoArray[i]->getRanks();
+        assert(NUM_LL_FEATURES <= ratings.size());
+        for(int f=0; f<NUM_LL_FEATURES; ++f) {
+            features.push_back(ratings[f].second);
+        }
+        training.addSample(features, features, features.at(0));
+    }
+    Learner svm;
+    svm.learn(training);
+    //svm.learn(imageInfoArray);
+}
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+
+    disp = new MainDisplay();
+    disp->show();
 
     return app.exec();
 }

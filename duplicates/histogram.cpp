@@ -153,7 +153,6 @@ int DuplicateHistogram::compareHistograms(
 }
 
 void DuplicateHistogram::debugPrint(VImage* vim, histogramSet hists) {
-    int area = vim->getWidth() * vim->getHeight();
     for(int col=0; col<HNUMCOLORS; ++col) {
         cerr << "Printing " <<
                 (col==0 ? "black" :

@@ -15,8 +15,7 @@ QImage and a VImage (Vision Workbench image)
 #include "vw/Core.h"
 #include "vw/InterestPoint.h"
 #include "vw/Image.h"
-
-#define FAST_MODE
+#include "common.h"
 
 #define HNUMCOLORS 4
 #define HBLACK 0

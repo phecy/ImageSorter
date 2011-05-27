@@ -147,7 +147,7 @@ void Duplicates::debugPrintPhpGroups(dupGroup* groups) {
     vector<vector<bool> > isInGroupVector(numPics, vector<bool>(numPics, false));
     for(unsigned int i=0; i<groups->size(); ++i) {
         imgList thisGroup = groups->at(i);
-        int size = thisGroup.size();
+        unsigned int size = thisGroup.size();
         for(unsigned int j=0; j<size; ++j) {
             int currImageIndex = thisGroup.at(j)->getIndex();
             isInGroupVector[i][currImageIndex] = true;
