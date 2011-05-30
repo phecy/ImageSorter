@@ -99,8 +99,7 @@ void loadExif(QualityExif* exifs, const char* fn) {
 // Then prints all info to cerr
 void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
                  float* picValue, float* exposeVals, float* contrastVals,
-                 float* localContrastVals,
-                 int* palletVals, int* greyVals, float* blurVals,
+                 float* localContrastVals, float* blurVals,
                  int* sharpVals, int numPics) {
     float exposeScale = 1; // correlation: .27turk / .058ke
                             // Exposure: .26turk.051ke
@@ -118,30 +117,11 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
 #else
         float combinedBlur = blurVals[i];
 #endif
-        float combinedExpose = 1*exposeVals[i]+0*greyVals[i];
+        float combinedExpose = 1*exposeVals[i];
         float contrast = contrastVals[i];
         float local_contrast = localContrastVals[i];
         float combinedContrast = .5*localContrastVals[i] + .5*contrastVals[i];
 
-        /*
-        double rank=0;
-        int xVals[3];
-        double yVals[3];
-        xVals[0]=combinedBlur;
-        yVals[0]=combinedBlur/100.0 + .1;
-        xVals[1]=combinedExpose;
-        yVals[1]=combinedExpose/100.0 + .1;
-        xVals[2]=palletVals[i];
-        yVals[2]=palletVals[i]/100.0 + .1;
-        for(int i=0; i<3; ++i) {
-            rank += xVals[i] / pow2(yVals[i]);
-        }
-        double d=0;
-        for(int i=0; i<3; ++i) {
-            d += (1 / pow2(yVals[i]));
-        }
-        rank/=d;
-        */
 
         float rank = root3((pow2(combinedExpose+RANK_THRESHOLD)))*exposeScale;
         rank += root3((pow2(combinedContrast+RANK_THRESHOLD)))*contrastScale;
@@ -166,14 +146,11 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
         cerr << "else if(strcmp(vim->getFilename(), \"" <<
                 imageInfoArray[i]->getFilename() << "\") == 0) {\n";
         cerr << "         exposeVals[i] = " << exposeVals[i] << ";\n";
-        cerr << "         palletVals[i] = " << palletVals[i] << ";\n";
-        cerr << "           greyVals[i] = " << greyVals[i] << ";\n";
         cerr << "           blurVals[i] = " << blurVals[i] << ";\n";
         cerr << "          sharpVals[i] = " << sharpVals[i] << ";\n";
         cerr << "//          picValue[i] = " << picValue[i] << ";\n";
         cerr << "//   Blur: " << combinedBlur << endl;
         cerr << "//   Exposure: " << combinedExpose << endl;
-        cerr << "//   Color: " << palletVals[i] << endl;
         cerr << "}\n";
 
   }
@@ -187,30 +164,21 @@ void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
 bool runAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
                     int size, Duplicates dupFinder, float* finalValue) {
     // Create each module object
-    exposure newExpose;
-    BlurDetect* newBlur = new BlurDetect();
+    BlurDetect blurRater;
+    Exposure exposureRater;
 #ifndef FAST_MODE
-    SharpDetect sharpDetect;
+    SharpDetect sharpRater;
 #endif
     Contrast contrastRater;
-#ifdef IGNORE_SETS
-
-#endif
 
     // Initialize ranks from all modules
-    float exposeVals[size];
-    float contrastVals[size];
-    float localContrastVals[size];
-    int palletVals[size];
-    int greyVals[size];
-    float blurVals[size];
+    float exposeVals[size], blurVals[size];
+    float contrastVals[size], localContrastVals[size];
     int sharpVals[size];
     QualityExif exifs[size];
     for(int i=0; i < size; ++i){
         finalValue[i] = 0.0f;
         exposeVals[i] = 0;
-        palletVals[i] = 0;
-        greyVals[i] = 0;
         blurVals[i] = -1;
 #ifndef FAST_MODE
         sharpVals[i] = 0;
@@ -219,7 +187,7 @@ bool runAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         localContrastVals[i] = 0;
     }
 
-    //Call different calculation methods
+    // Load all the images
     QImage* currQIm;
     for(int i=0;i<size; ++i){
         char* fn = imageStrArray[i];
@@ -244,18 +212,16 @@ bool runAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
         //if(!loadPreset(currVIm, i, exposeVals, palletVals,
         //               greyVals, blurVals, sharpVals)) {
             // Calc ranks
-            //exposeVals[i] = newExpose.expose(currVIm) - 1;
-            //palletVals[i] = colorAnalysis(currQIm);
-            //greyVals[i] = newGrey.calcGrey(currQIm);
+            //exposeVals[i] = newExpose.rate(currVIm) - 1;
             //blurVals[i] = newBlur->calculateBlur(currVIm);
             //sharpVals[i] = sharpDetect.rankOne(currVIm);
         //}
-        blurVals[i] = newBlur->calculateBlur(currVIm);
+        blurVals[i] = blurRater.calculateBlur(currVIm);
 #ifndef FAST_MODE
-        sharpVals[i] = sharpDetect.rankOne(currVIm);
+        sharpVals[i] = sharpRater.rankOne(currVIm);
 #endif
         // newBlur->show();
-        exposeVals[i] = newExpose.expose(currVIm);
+        exposeVals[i] = exposureRater.rate(currVIm);
         localContrastVals[i] = contrastRater.local_contrast(currVIm);
         contrastVals[i] = contrastRater.RMS(currVIm);
     }
@@ -263,8 +229,7 @@ bool runAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
     // Sets the different methods' respective weights.
     // Puts it into calcWeights.
     calcAndPrintWeights(imageInfoArray, finalValue, exposeVals, contrastVals,
-                        localContrastVals,
-                        palletVals, greyVals, blurVals, sharpVals, size);
+                        localContrastVals, blurVals, sharpVals, size);
 
     return true;
 }
@@ -355,9 +320,9 @@ void loadFiles(bool isTraining) {
     disp->addTab(viewer, QIcon(), "Image Browser");
     disp->setCurrentWidget(viewer);
 
-//    SetDisplay *setdisp_sorted = new SetDisplay();
-//    setdisp_sorted->display(imageInfoArray);
-//    setdisp_sorted->setWindowTitle("Sorted");
+    SetDisplay *setdisp_sorted = new SetDisplay();
+    setdisp_sorted->display(imageInfoArray);
+    setdisp_sorted->setWindowTitle("Sorted");
 
     // For testing
     TrainData training;

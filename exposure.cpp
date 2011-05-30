@@ -46,10 +46,10 @@ double intersect(VImage *vim, boundingBox r1)
 
 
 
-exposure::exposure(){
+Exposure::Exposure(){
 }
 
-float exposure::expose(VImage *vim) {
+float Exposure::rate(VImage *vim) {
     QImage* im = vim->getQImage();
     char* imageName = vim->getFilename();
 

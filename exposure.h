@@ -4,11 +4,11 @@
 #include <QImage>
 #include <vimage.h>
 
-class exposure
+class Exposure
 {
 public:
-    exposure();
-    float expose(VImage *im);
+    Exposure();
+    float rate(VImage *im);
 };
 
 #endif // EXPOSURE_H
