@@ -48,28 +48,17 @@ void Learner::learn(TrainData trainingset) {
     svr_trainer<kernel_type> trainer;
     trainer.set_kernel(kernel_type(0.01));
 
-    // This parameter is the usual regularization parameter.  It determines the trade-off
-    // between trying to reduce the training error or allowing more errors but hopefully
-    // improving the generalization of the resulting function.  Larger values encourage exact
-    // fitting while smaller values of C may encourage better generalization.
+    // Smaller C = better generalization, Larger = Better fit
     trainer.set_c(5); // Default 10
 
-    // Epsilon-insensitive regression means we do regression but stop trying to fit a data
-    // point once it is "close enough" to its target value.  This parameter is the value that
-    // controls what we mean by "close enough".  In this case, I'm saying I'm happy if the
-    // resulting regression function gets within 1 of the target value.
+    // What is "close enough"?
     trainer.set_epsilon_insensitivity(.1); // Default 0.001
 
     // Now do the training and save the results
     llDecisionFcn = trainer.train(llsamples, lltargets);
 
 
-    // The first column is the true value of the sinc function and the second
-    // column is the output from the SVR estimate.
-
-    // We can also do 5-fold cross-validation and find the mean squared error.  Note that
-    // we need to randomly shuffle the samples first.  See the svm_ex.cpp for a discussion of
-    // why this is important.
+    // 5-fold cross-validation and mean squared error.
     randomize_samples(llsamples, lltargets);
     cout << "TRAINING INFO -------------------" << endl;
     cout << "MSE: "<< cross_validate_regression_trainer(
