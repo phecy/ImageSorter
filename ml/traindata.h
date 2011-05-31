@@ -24,6 +24,7 @@ public:
     double getGroundTruth(int img_i);
     string hash(); // Unique string for this training set
     string genHashFilename(); // File name and directory
+    string genHashNormFilename(); // For learning norm factors
 
 private:
     struct FeaturesStruct {

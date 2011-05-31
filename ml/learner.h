@@ -24,7 +24,6 @@ class Learner
 public:
     Learner(); // Looks for most recent training data
     Learner(TrainData* imageData); // Uses specified data
-    Learner(string filename); // Loads from tdat file
 
     // Returns first tdat found
     string getAnyTdat();
@@ -47,6 +46,7 @@ public:
 
 private:
     dlib::decision_function<kernel_type> llDecisionFcn;
+    dlib::vector_normalizer<sample_type> normalizer;
 };
 
 #endif // LEARNER_H
