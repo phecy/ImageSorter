@@ -8,12 +8,11 @@
 
 #include "vimage.h"
 
-
 namespace Ui {
     class SetDisplay;
 }
 
-class SetDisplay : public QMainWindow
+class SetDisplay : public QWidget
 {
     Q_OBJECT
 

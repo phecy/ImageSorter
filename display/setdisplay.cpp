@@ -2,7 +2,7 @@
 #include "ui_setdisplay.h"
 
 SetDisplay::SetDisplay(QWidget *parent) :
-    QMainWindow(parent),
+    QWidget(parent),
     ui(new Ui::SetDisplay)
 {
     ui->setupUi(this);
@@ -36,5 +36,4 @@ void SetDisplay::display(vector<VImage*> vims)
     }
 
     show();
-
 }

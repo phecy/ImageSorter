@@ -68,7 +68,7 @@ public:
     float getAdjustedRank() { return adjustedRank; }
     void setRanks(vector<pair<string, float> > r) { ranks = r; }
     void addRank(string attributeName, double value);
-    vector<pair<string, float> > getRanks() { return ranks; }
+    const vector<pair<string, float> >& getRanks() { return ranks; }
 
     // Foreground stuff
     vector<InterestPoint> getIps() { return ipList; }
@@ -118,15 +118,15 @@ private:
     char* filename;
     char* fullpath; // including filename
     string ip_fullpath;
-    int index;
+    int index; // As sorted by filesystem
     int width, height; // Width scaled to 800px
     int origwidth, origheight; // VImage_t width+height
 
     // Ranks
-    float rankTotal;
+    float rankTotal; // The image's final rank
+    vector<pair<string, float> > ranks; // A name and number for each rank
     int setNum;
     float adjustedRank; // Rank adjusted for sets
-    vector<pair<string, float> > ranks; // A name and number for each rank
 
     // Foreground stuff
     vector<InterestPoint> ipList;

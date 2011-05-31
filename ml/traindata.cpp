@@ -61,7 +61,6 @@ string TrainData::hash() {
         else if(hashed[i]=='+') hashed[i] = char(i%10 + '0');
         else if(hashed[i]=='e') hashed[i] = char(i%10 + '0');
     }
-    hashed.append(".tdat");
 
     cout << "Hashed val: " << hashed << endl;
     return hashed;

@@ -22,9 +22,16 @@ train high-levels to combine too.
 class Learner
 {
 public:
-    Learner();
+    Learner(TrainData* );
+
     // Learn each low level feature to each high level truth
-    void learn(TrainData trainingset);
+    void loadSamples(TrainData* trainingset,
+                     std::vector<sample_type>& llsamples,
+                     std::vector<float>& lltargets);
+    void train(std::vector<sample_type>& llsamples,
+               std::vector<float>& lltargets);
+
+    double predict(sample_type lowLevelSample);
 
 private:
     dlib::decision_function<kernel_type> llDecisionFcn;

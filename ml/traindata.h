@@ -14,7 +14,10 @@ public:
     void addSample(vector<double> lowLevelFeatures,
                    vector<double> highLevelFeatures,
                    double groundTruth);
-    int size() { return trainingSet.size(); }
+    int size()
+        { return trainingSet.size(); }
+    int numLLFeatures()
+        { return trainingSet[0].lowLevelFeatures.size(); }
 
     double getLLFeature(int img_i, int feature_i);
     double getHLFeature(int img_i, int feature_i);

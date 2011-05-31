@@ -242,27 +242,27 @@ void loadFiles(bool isTraining) {
             "Images (*.jpeg *.jpg *.nef *.raw)");
 
     // Check validity of file dialog result
-    int size = files.length();
-    if(size == 0) return;
+    int numFiles = files.length();
+    if(numFiles == 0) return;
 
     // Some variables for each image
-    vector<VImage*> imageInfoArray(size);
-    char* imageStrArray[size];
-    float picValue[size];
+    vector<VImage*> imageInfoArray(numFiles);
+    char* imageStrArray[numFiles];
+    float picValue[numFiles];
 
     // Get strings for each filename
-    for(int i=0; i < size; ++i) {
+    for(int i=0; i < numFiles; ++i) {
         QByteArray temp = (files.at(i)).toLatin1();
         char* data = temp.data();
         imageStrArray[i] = strdup(data);
     }
 
     // Initialize duplicate stuff
-    Duplicates dupFinder(size);
+    Duplicates dupFinder(numFiles);
     int numSets = 0; // <= size
 
     // Calculate everything. Gather duplicates.
-    bool succeeded = runAllModules(imageInfoArray, imageStrArray, size, dupFinder, picValue);
+    bool succeeded = runAllModules(imageInfoArray, imageStrArray, numFiles, dupFinder, picValue);
     if(!succeeded) return;
 
 #ifndef IGNORE_SETS
@@ -290,7 +290,7 @@ void loadFiles(bool isTraining) {
     }
 #else
     numSets = 1;
-    for(int i=0; i<size; ++i) {
+    for(int i=0; i<numFiles; ++i) {
         imageInfoArray[i]->setSetNum(0);
         imageInfoArray[i]->setRank(picValue[i]);
     }
@@ -301,7 +301,7 @@ void loadFiles(bool isTraining) {
 //    setdisp_unsorted->setWindowTitle("Unsorted");
 
     // Sort
-    insertion_sort(picValue, imageStrArray, size);
+    insertion_sort(picValue, imageStrArray, numFiles);
     //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
     //imageInfoArray = set_sort(imageInfoArray);
 
@@ -313,7 +313,7 @@ void loadFiles(bool isTraining) {
     ranksToDisplay.push_back("local");
 
     ImgViewer *viewer = new ImgViewer();
-    viewer->setImageData(imageInfoArray, numSets, size);
+    viewer->setImageData(imageInfoArray, numSets, numFiles);
     viewer->setRanksToDisplay(ranksToDisplay);
     viewer->init();
 
@@ -322,22 +322,21 @@ void loadFiles(bool isTraining) {
 
     SetDisplay *setdisp_sorted = new SetDisplay();
     setdisp_sorted->display(imageInfoArray);
-    setdisp_sorted->setWindowTitle("Sorted");
+    disp->addTab(setdisp_sorted, QIcon(), "Top Images (incl. sets)");
 
     // For testing
-    TrainData training;
-    for(int i=0; i<size; ++i) {
+    TrainData* training = new TrainData();
+    for(int i=0; i<numFiles; ++i) {
         vector<double> features;
         vector<pair<string, float> > ratings = imageInfoArray[i]->getRanks();
-        assert(NUM_LL_FEATURES <= ratings.size());
-        for(int f=0; f<NUM_LL_FEATURES; ++f) {
+
+        for(int f=0; f<ratings.size(); ++f) {
             features.push_back(ratings[f].second);
         }
-        training.addSample(features, features, features.at(0));
+        training->addSample(features, features, features.at(0));
     }
-    Learner svm;
-    svm.learn(training);
-    //svm.learn(imageInfoArray);
+    Learner svm(training);
+    delete training;
 }
 
 int main(int argc, char *argv[])

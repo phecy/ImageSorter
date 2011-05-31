@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 #include "dlib/svm.h"
@@ -10,18 +11,54 @@
 using namespace std;
 using namespace dlib;
 
-Learner::Learner()
-{
-}
+typedef std::map<unsigned long, float> sparse_sample;
 
-void Learner::learn(TrainData trainingset) {
-    int numImages = trainingset.size();
+Learner::Learner(TrainData* trainingset)
+{
+    int numImages = trainingset->size();
     if(numImages == 0) return;
-    int numFeatures = NUM_LL_FEATURES;
+    int numFeatures = trainingset->numLLFeatures();
+
 
     // Make features and label vectors
-    std::vector<sample_type> llsamples;
     std::vector<float> lltargets;
+    std::vector<sample_type> llsamples;
+
+    // Read if file exists
+    string filename = DEFAULT_CSV_DIR + trainingset->hash() + ".tdat";
+    ifstream ifile(filename.c_str());
+    if (ifile) {
+        // This file exists already
+        std::vector<sparse_sample> sparsesamples;
+        load_libsvm_formatted_data(filename, sparsesamples, lltargets);
+        llsamples = sparse_to_dense(sparsesamples);
+    } else {
+        loadSamples(trainingset, llsamples, lltargets);
+    }
+    train(llsamples, lltargets);
+
+    // Save for future use
+    save_libsvm_formatted_data(filename, llsamples, lltargets);
+
+    // Now we see how well we predicted on the training set
+    cerr << "TRAINING INFO -------------------" << endl;
+    sample_type lowLevelSample;
+    lowLevelSample.set_size(numFeatures);
+    for(int img_i=0; img_i<numImages; ++img_i) {
+        for(int feat_i=0; feat_i < numFeatures; ++feat_i) {
+            lowLevelSample(feat_i)
+                 = trainingset->getLLFeature(img_i, feat_i);
+        }
+        cerr << "actual = " << trainingset->getGroundTruth(img_i)
+             << "      predicted = " << predict(lowLevelSample) << endl;
+    }
+}
+
+void Learner::loadSamples(TrainData* trainingset,
+                 std::vector<sample_type>& llsamples,
+                 std::vector<float>& lltargets) {
+    int numImages = trainingset->size();
+    int numFeatures = trainingset->numLLFeatures();
 
     // Create the samples for the low-level features,
     // training them to the "ground truth" for now,
@@ -32,16 +69,20 @@ void Learner::learn(TrainData trainingset) {
     for (int img_i=0; img_i<numImages; ++img_i)
     {
         for(int llFeat_i=0; llFeat_i<numFeatures; ++llFeat_i) {
-            lowLevelSample(llFeat_i) = trainingset.getLLFeature(img_i, llFeat_i);
+            lowLevelSample(llFeat_i) = trainingset->getLLFeature(img_i, llFeat_i);
         }
 
         llsamples.push_back(lowLevelSample);
         /*
         int hlFeat_i = 0; // Loop this after Low Levels work
-        lltargets.push_back(trainingset.getHLFeature(img_i, hlFeat_i));
+        lltargets.push_back(trainingset->getHLFeature(img_i, hlFeat_i));
         */
-        lltargets.push_back(trainingset.getGroundTruth(img_i));
+        lltargets.push_back(trainingset->getGroundTruth(img_i));
     }
+}
+
+void Learner::train(std::vector<sample_type>& llsamples,
+                 std::vector<float>& lltargets) {
 
     // Now setup a SVR trainer object.  It has three parameters, the kernel and
     // two parameters specific to SVR.
@@ -57,23 +98,12 @@ void Learner::learn(TrainData trainingset) {
     // Now do the training and save the results
     llDecisionFcn = trainer.train(llsamples, lltargets);
 
-
     // 5-fold cross-validation and mean squared error.
     randomize_samples(llsamples, lltargets);
-    cout << "TRAINING INFO -------------------" << endl;
-    cout << "MSE: "<< cross_validate_regression_trainer(
+    cerr << "MSE: "<< cross_validate_regression_trainer(
                         trainer, llsamples, lltargets, 5) << endl;
+}
 
-    // Now we see how well we predicted on the training set
-    for(int img_i=0; img_i<numImages; ++img_i) {
-        for(int feat_i=0; feat_i < numFeatures; ++feat_i) {
-            lowLevelSample(feat_i)
-                 = trainingset.getLLFeature(img_i, feat_i);
-        }
-        cout << "actual = " << trainingset.getGroundTruth(img_i) << endl
-             << "predicted = " << llDecisionFcn(lowLevelSample) << endl;
-    }
-
-    // Save so we only train once
-    save_libsvm_formatted_data(trainingset.hash(), llsamples, lltargets);
+double Learner::predict(sample_type lowLevelSample) {
+    return llDecisionFcn(lowLevelSample);
 }

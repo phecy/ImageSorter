@@ -14,7 +14,10 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
+  </property>
+  <property name="tabsClosable">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="tab">
    <attribute name="title">

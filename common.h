@@ -17,7 +17,10 @@
 #define LL_BLUR_I 0
 #define LL_EXPOSURE_I 1
 #define LL_CONTRAST_I 2
-#define NUM_LL_FEATURES 3
+
+// Loading SVR stuff:
+#define DEFAULT_CSV_DIR "./trainingdata/"
+#define DEFAULT_SVR_DIR "./trainingdata/"
 
 // Compute x^(1/3)
 static double root3(double num) {

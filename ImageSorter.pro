@@ -38,8 +38,8 @@ HEADERS += common.h \
     display/imgviewer.h \
     imagesorter.h
 FORMS += \
-    display/setdisplay.ui \
     display/maindisplay.ui \
+    display/setdisplay.ui \
     display/imgviewer.ui
 SOURCES += \
     duplicates/interestpoints.cpp \
