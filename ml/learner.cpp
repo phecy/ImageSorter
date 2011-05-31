@@ -129,6 +129,7 @@ void Learner::loadSamples(TrainData* trainingset,
         }
 
         llsamples.push_back(lowLevelSample);
+
         /*
         int hlFeat_i = 0; // Loop this after Low Levels work
         lltargets.push_back(trainingset->getHLFeature(img_i, hlFeat_i));
@@ -140,10 +141,11 @@ void Learner::loadSamples(TrainData* trainingset,
 void Learner::train(std::vector<sample_type>& llsamples,
                  std::vector<float>& lltargets) {
 
+
     // Now setup a SVR trainer object.  It has three parameters, the kernel and
     // two parameters specific to SVR.
     svr_trainer<kernel_type> trainer;
-    trainer.set_kernel(kernel_type(0.01));
+    trainer.set_kernel(kernel_type(1));
 
     // Smaller C = better generalization, Larger = Better fit
     trainer.set_c(5); // Default 10
@@ -157,7 +159,7 @@ void Learner::train(std::vector<sample_type>& llsamples,
     // 5-fold cross-validation and mean squared error.
     randomize_samples(llsamples, lltargets);
     cerr << "MSE: "<< cross_validate_regression_trainer(
-                        trainer, llsamples, lltargets, 5) << endl;
+                       trainer, llsamples, lltargets, 5) << endl;
 
     // Save as last-used
     string filename = DEFAULT_SVR_DIR

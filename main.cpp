@@ -236,7 +236,7 @@ TrainData* makeTrainingSet(vector<VImage*>& imageInfoArray) {
         for(int f=0; f<ratings.size(); ++f) {
             features.push_back(ratings[f].second);
         }
-        training->addSample(features, features, features.at(0));
+        training->addSample(features, features, features.at(0) + features.at(1));
     }
     return training;
 }
