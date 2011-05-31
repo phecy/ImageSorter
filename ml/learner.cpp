@@ -34,11 +34,6 @@ Learner::Learner() {
     loadFromFileWrapper(filename);
 }
 
-Learner::Learner(string filename)
-{
-    loadFromFileWrapper(filename);
-}
-
 void Learner::loadFromFileWrapper(string filename) {
     std::vector<float> lltargets;
     std::vector<sample_type> llsamples;
@@ -136,6 +131,17 @@ void Learner::loadSamples(TrainData* trainingset,
         */
         lltargets.push_back(trainingset->getGroundTruth(img_i));
     }
+
+    // Learn the mean and stddev of the samples
+    normalizer.train(llsamples);
+    std::vector<sample_type> normsamples;
+    // Then normalize each sample
+    for (unsigned long i = 0; i < llsamples.size(); ++i) {
+        normsamples.push_back(normalizer(llsamples[i]));
+    }
+    // And save
+    string fn = trainingset->genHashNormFilename();
+    save_libsvm_formatted_data(fn, llsamples, normsamples);
 }
 
 void Learner::train(std::vector<sample_type>& llsamples,

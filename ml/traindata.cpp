@@ -70,3 +70,7 @@ string TrainData::hash() {
 string TrainData::genHashFilename() {
     return DEFAULT_CSV_DIR + hash() + ".tdat";
 }
+
+string TrainData::genHashNormFilename() {
+    return DEFAULT_CSV_DIR + hash() + "-norm.tdat";
+}
