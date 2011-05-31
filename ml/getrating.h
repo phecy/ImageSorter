@@ -15,7 +15,8 @@ using namespace std;
 class GetRating
 {
 public:
-    GetRating(TrainData*);
+    GetRating(); // Use last .tdat, or a random if last not found
+    GetRating(TrainData*); // Retrain on this data
     ~GetRating();
     void rate(vector<VImage*>& images);
 

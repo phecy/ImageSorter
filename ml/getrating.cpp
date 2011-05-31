@@ -4,8 +4,11 @@
 using namespace std;
 using namespace dlib;
 
-GetRating::GetRating(TrainData* traindata)
-{
+GetRating::GetRating() {
+    svr = new Learner();
+}
+
+GetRating::GetRating(TrainData* traindata) {
     svr = new Learner(traindata);
 }
 

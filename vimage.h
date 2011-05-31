@@ -15,6 +15,7 @@ QImage and a VImage (Vision Workbench image)
 #include "vw/Core.h"
 #include "vw/InterestPoint.h"
 #include "vw/Image.h"
+#include "qualityexif.h"
 #include "common.h"
 
 #define HNUMCOLORS 4
@@ -55,6 +56,8 @@ public:
     int getHeight() { return height; }
     int getOrigWidth() { return origwidth; }
     int getOrigHeight() { return origheight; }
+    QualityExif& getExif() { return exifdata; }
+    void setExif(QualityExif e) { exifdata = e; }
 
     // Ranks
     // Rank = 0-10 rating.
@@ -121,6 +124,7 @@ private:
     int index; // As sorted by filesystem
     int width, height; // Width scaled to 800px
     int origwidth, origheight; // VImage_t width+height
+    QualityExif exifdata;
 
     // Ranks
     float rankTotal; // The image's final rank

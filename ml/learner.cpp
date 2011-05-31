@@ -22,8 +22,7 @@ Learner::Learner() {
     if (!ifile) {
         // Not default. Try to find any.
         filename = getAnyTdat();
-        ifile.open(filename.c_str());
-        if(!ifile) {
+        if(filename == "") {
             cerr << "No training data found!"
                  << "Please train the app first.\n"
                  << "Files belong in "
@@ -57,14 +56,13 @@ Learner::Learner(TrainData* trainingset)
     std::vector<float> lltargets;
     std::vector<sample_type> llsamples;
 
-    // Load samples, first trying to load saved
+    // Load and train
+    loadSamples(trainingset, llsamples, lltargets);
+    train(llsamples, lltargets);
+
+    // Save knowledge
     string filename = trainingset->genHashFilename();
-    if(!loadFromFile(filename, llsamples, lltargets)) {
-        // Not saved. Train then save.
-        loadSamples(trainingset, llsamples, lltargets);
-        train(llsamples, lltargets);
-        save_libsvm_formatted_data(filename, llsamples, lltargets);
-    }
+    save_libsvm_formatted_data(filename, llsamples, lltargets);
 
     // Now we see how well we predicted on the training set
     int numImages = trainingset->size();
@@ -84,7 +82,7 @@ Learner::Learner(TrainData* trainingset)
 
 string Learner::getAnyTdat() {
     DIR *dir = opendir (DEFAULT_SVR_DIR);
-    if (dir == NULL) return NULL;
+    if (dir == NULL) return "";
 
     struct dirent *entry;
     while ((entry = readdir (dir)) != NULL) {
@@ -96,7 +94,7 @@ string Learner::getAnyTdat() {
         }
     }
     closedir (dir);
-    return NULL;
+    return "";
 }
 
 bool Learner::loadFromFile(string filename,

@@ -1,6 +1,8 @@
 #include "maindisplay.h"
 #include "ui_maindisplay.h"
 
+#include "common.h"
+
 MainDisplay::MainDisplay(QWidget *parent) :
     QTabWidget(parent),
     ui(new Ui::MainDisplay)
@@ -10,6 +12,12 @@ MainDisplay::MainDisplay(QWidget *parent) :
                      this, SLOT(loadFileTrain()));
     QObject::connect(ui->newImgButton, SIGNAL(clicked()),
                      this, SLOT(loadFileNew()));
+    QObject::connect(ui->tdat_change, SIGNAL(clicked()),
+                     this, SLOT(loadTrainData()));
+
+    QString defaultname(DEFAULT_SVR_DIR);
+    defaultname.append(DEFAULT_SVR_FILENAME);
+    ui->tdat_var->setText(defaultname);
 }
 
 MainDisplay::~MainDisplay()
@@ -23,4 +31,8 @@ void MainDisplay::loadFileTrain() {
 }
 void MainDisplay::loadFileNew() {
     loadFiles(false);
+}
+
+void MainDisplay::loadTrainData() {
+
 }

@@ -19,8 +19,10 @@ private:
     Ui::MainDisplay *ui;
 
 protected slots:
-    void loadFileTrain();
-    void loadFileNew();
+    void loadFileTrain(); // Load training data files
+    void loadFileNew(); // Load files to predict on
+
+    void loadTrainData(); // Load a tdat file
 };
 
 #endif // MAINDISPLAY_H

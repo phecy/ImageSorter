@@ -19,8 +19,8 @@ class ImgViewer : public QWidget
 public:
     explicit ImgViewer(QWidget *parent = 0);
     ~ImgViewer();
-    void setImageData(const vector<VImage*> &im,int ns, int sz)
-        {images = im; size=sz; numsets=ns;}
+    void setImageData(const vector<VImage*> &im,int ns)
+        {images = im; size=im.size(); numsets=ns;}
     void setRanksToDisplay(vector<string> r) { ranksToImgViewer = r; }
     void init();
 

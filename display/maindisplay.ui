@@ -143,7 +143,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>default tdat</string>
+     <string>default.tdat</string>
     </property>
     <property name="readOnly">
      <bool>true</bool>

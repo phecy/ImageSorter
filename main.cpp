@@ -53,6 +53,7 @@ using namespace std;
 #include "algorithmPresets.h"
 #include "ml/learner.h"
 #include "ml/traindata.h"
+#include "ml/getrating.h"
 #include "common.h"
 #include "display/imgviewer.h"
 #include "display/maindisplay.h"
@@ -77,7 +78,7 @@ int findIndex(QImage *im, vector<VImage*> &imageInfoArray, int size){
 }
 
 // Loads the exif data of the image into the QualityExif object
-void loadExif(QualityExif* exifs, const char* fn) {
+void loadExif(QualityExif& exifs, const char* fn) {
     ExifLoader* loader = exif_loader_new();
     if(!loader) {
         qDebug("No exif data available for %s", fn);
@@ -91,180 +92,70 @@ void loadExif(QualityExif* exifs, const char* fn) {
         return;
     }
 
-    exifs->parseData(data);
+    exifs.parseData(data);
     exif_loader_unref(loader);
 }
 
-// Calculates ranking for each image based on params. Puts into picValue.
-// Then prints all info to cerr
-void calcAndPrintWeights(vector<VImage*> &imageInfoArray,
-                 float* picValue, float* exposeVals, float* contrastVals,
-                 float* localContrastVals, float* blurVals,
-                 int* sharpVals, int numPics) {
-    float exposeScale = 1; // correlation: .27turk / .058ke
-                            // Exposure: .26turk.051ke
-                            // Middle gray: .11turk / .10ke
-    float contrastScale = 0; // correlation: .01turk / -.3 ke
-    float blurScale = 0; // correlation: .26turk / .15ke
-                         // sharp: .45turk / .33ke
-                         // blur: shit.
+vector<VImage*> initVImages(vector<char*> imageStrArray) {
+    vector<VImage*> imageInfoArray;
+    int numims = imageStrArray.size();
 
-    //cerr<<"\n<<<<<<<<<<<<  Printing Final Values >>>>>>>>>>>>>>>>>>\n" << endl;
-    for(int i=0;i<numPics; ++i){
-        // Average of fourth-root of squared-squares
-#ifdef FAST_MODE
-        float combinedBlur = 1*blurVals[i] + 0*sharpVals[i];
-#else
-        float combinedBlur = blurVals[i];
-#endif
-        float combinedExpose = 1*exposeVals[i];
-        float contrast = contrastVals[i];
-        float local_contrast = localContrastVals[i];
-        float combinedContrast = .5*localContrastVals[i] + .5*contrastVals[i];
-
-
-        float rank = root3((pow2(combinedExpose+RANK_THRESHOLD)))*exposeScale;
-        rank += root3((pow2(combinedContrast+RANK_THRESHOLD)))*contrastScale;
-        rank += root3((pow2(combinedBlur+RANK_THRESHOLD)))*blurScale;
-        rank = pow3(rank);
-        rank = sqrt(rank);
-        rank-=RANK_THRESHOLD;
-
-
-    //    if(rank > RANGE) rank = RANGE;
-        --rank; // 1...10 -> 0...9
-        if(rank < 0) rank = 0;
-        picValue[i] =  rank;
-
-
-        VImage* vim = imageInfoArray[i];
-        vim->addRank("blur", combinedBlur);
-        vim->addRank("exposure", combinedExpose);
-        vim->addRank("contrast", contrast);
-        vim->addRank("local", local_contrast);
-
-        cerr << "else if(strcmp(vim->getFilename(), \"" <<
-                imageInfoArray[i]->getFilename() << "\") == 0) {\n";
-        cerr << "         exposeVals[i] = " << exposeVals[i] << ";\n";
-        cerr << "           blurVals[i] = " << blurVals[i] << ";\n";
-        cerr << "          sharpVals[i] = " << sharpVals[i] << ";\n";
-        cerr << "//          picValue[i] = " << picValue[i] << ";\n";
-        cerr << "//   Blur: " << combinedBlur << endl;
-        cerr << "//   Exposure: " << combinedExpose << endl;
-        cerr << "}\n";
-
-  }
-    cerr<<"\n<<<<<<<<<<<<  Printing CONDENSED Values >>>>>>>>>>>>>>>>>>\n" << endl;
-    for(int i=0;i<numPics; ++i){
-        cerr << picValue[i] << "," << imageInfoArray[i]->getFilename() << endl;
-    }
-}
-
-// False on failure
-bool runAllModules(vector<VImage*> &imageInfoArray, char** imageStrArray,
-                    int size, Duplicates dupFinder, float* finalValue) {
-    // Create each module object
-    BlurDetect blurRater;
-    Exposure exposureRater;
-#ifndef FAST_MODE
-    SharpDetect sharpRater;
-#endif
-    Contrast contrastRater;
-
-    // Initialize ranks from all modules
-    float exposeVals[size], blurVals[size];
-    float contrastVals[size], localContrastVals[size];
-    int sharpVals[size];
-    QualityExif exifs[size];
-    for(int i=0; i < size; ++i){
-        finalValue[i] = 0.0f;
-        exposeVals[i] = 0;
-        blurVals[i] = -1;
-#ifndef FAST_MODE
-        sharpVals[i] = 0;
-#endif
-        contrastVals[i] = 0;
-        localContrastVals[i] = 0;
-    }
-
-    // Load all the images
     QImage* currQIm;
-    for(int i=0;i<size; ++i){
+    for(int i=0;i<numims; ++i){
         char* fn = imageStrArray[i];
         VImage* currVIm = new VImage(fn);
         currVIm->setIndex(i);
         currQIm = currVIm->getQImage();
         if(currQIm == NULL) {
             cerr << "Image " << fn << " failed to load!\n";
-            return false;
+            exit(1);
         }
 
-        imageInfoArray[i] = currVIm;
+        imageInfoArray.push_back(currVIm);
 
         // First get exif
-        loadExif(&exifs[i], fn);
-
-        // Find duplicates; use IPs to get foreground
-#ifndef IGNORE_SETS
-        dupFinder.addImage(currVIm, &exifs[i]);
-#endif
-
-        //if(!loadPreset(currVIm, i, exposeVals, palletVals,
-        //               greyVals, blurVals, sharpVals)) {
-            // Calc ranks
-            //exposeVals[i] = newExpose.rate(currVIm) - 1;
-            //blurVals[i] = newBlur->calculateBlur(currVIm);
-            //sharpVals[i] = sharpDetect.rankOne(currVIm);
-        //}
-        blurVals[i] = blurRater.calculateBlur(currVIm);
-#ifndef FAST_MODE
-        sharpVals[i] = sharpRater.rankOne(currVIm);
-#endif
-        // newBlur->show();
-        exposeVals[i] = exposureRater.rate(currVIm);
-        localContrastVals[i] = contrastRater.local_contrast(currVIm);
-        contrastVals[i] = contrastRater.RMS(currVIm);
+        loadExif(currVIm->getExif(), fn);
     }
-
-    // Sets the different methods' respective weights.
-    // Puts it into calcWeights.
-    calcAndPrintWeights(imageInfoArray, finalValue, exposeVals, contrastVals,
-                        localContrastVals, blurVals, sharpVals, size);
-
-    return true;
+    return imageInfoArray;
 }
 
-void loadFiles(bool isTraining) {
-    QStringList files = QFileDialog::getOpenFileNames(
-            0,
-            "Select the images you wish to use",
-            NULL,
-            "Images (*.jpeg *.jpg *.nef *.raw)");
+void runAllModules(vector<VImage*> &imageInfoArray) {
+    // Create each module object
+    Exposure exposureRater;
+    Contrast contrastRater;
+    BlurDetect blurRater;
+#ifndef FAST_MODE
+    SharpDetect sharpRater;
+#endif
 
-    // Check validity of file dialog result
-    int numFiles = files.length();
-    if(numFiles == 0) return;
+    VImage* vim;
+    for(int i=0;i<imageInfoArray.size(); ++i){
+        vim = imageInfoArray[i];
+#ifndef IGNORE_SETS
+        // Find duplicates; use IPs to get foreground
+        dupFinder.addImage(vim, vim->getExif());
+#endif
 
-    // Some variables for each image
-    vector<VImage*> imageInfoArray(numFiles);
-    char* imageStrArray[numFiles];
-    float picValue[numFiles];
-
-    // Get strings for each filename
-    for(int i=0; i < numFiles; ++i) {
-        QByteArray temp = (files.at(i)).toLatin1();
-        char* data = temp.data();
-        imageStrArray[i] = strdup(data);
+#ifndef FAST_MODE
+        vim->addRank("sharpness",
+                       sharpRater.rankOne(vim));
+#endif
+        // newBlur->show();
+        vim->addRank("blur",
+                       blurRater.calculateBlur(vim));
+        vim->addRank("exposure",
+                       exposureRater.rate(vim));
+        vim->addRank("contrast",
+                       contrastRater.RMS(vim));
+        vim->addRank("localcontrast",
+                       contrastRater.local_contrast(vim));
     }
+}
 
-    // Initialize duplicate stuff
-    Duplicates dupFinder(numFiles);
-    int numSets = 0; // <= size
 
-    // Calculate everything. Gather duplicates.
-    bool succeeded = runAllModules(imageInfoArray, imageStrArray, numFiles, dupFinder, picValue);
-    if(!succeeded) return;
-
+// Returns number of sets
+int manageSets(vector<VImage*>& imageInfoArray, Duplicates& dupfinder) {
+    int numSets;
 #ifndef IGNORE_SETS
     //Finds and combines duplicates.
     dupFinder.createSimilarityVector();
@@ -285,23 +176,21 @@ void loadFiles(bool isTraining) {
            int picIndex = findIndex(currPic, imageInfoArray, size);
 
            dupList[set_index][picset_index]->setSetNum(set_index);
-           dupList[set_index][picset_index]->setRank(picValue[picIndex]);
        }
     }
 #else
     numSets = 1;
-    for(int i=0; i<numFiles; ++i) {
+    for(int i=0; i<imageInfoArray.size(); ++i) {
         imageInfoArray[i]->setSetNum(0);
-        imageInfoArray[i]->setRank(picValue[i]);
     }
 #endif
 
-//    SetDisplay *setdisp_unsorted = new SetDisplay();
-//    setdisp_unsorted->display(imageInfoArray);
-//    setdisp_unsorted->setWindowTitle("Unsorted");
+    return numSets;
+}
 
+void manageDisplays(vector<VImage*>& imageInfoArray, int numSets) {
     // Sort
-    insertion_sort(picValue, imageStrArray, numFiles);
+    //insertion_sort(picValue, imageStrArray, numFiles);
     //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
     //imageInfoArray = set_sort(imageInfoArray);
 
@@ -310,10 +199,10 @@ void loadFiles(bool isTraining) {
     ranksToDisplay.push_back("blur");
     ranksToDisplay.push_back("exposure");
     ranksToDisplay.push_back("contrast");
-    ranksToDisplay.push_back("local");
+    ranksToDisplay.push_back("localcontrast");
 
     ImgViewer *viewer = new ImgViewer();
-    viewer->setImageData(imageInfoArray, numSets, numFiles);
+    viewer->setImageData(imageInfoArray, numSets);
     viewer->setRanksToDisplay(ranksToDisplay);
     viewer->init();
 
@@ -324,9 +213,23 @@ void loadFiles(bool isTraining) {
     setdisp_sorted->display(imageInfoArray);
     disp->addTab(setdisp_sorted, QIcon(), "Top Images (incl. sets)");
 
+}
+
+vector<char*> makeCStringVector(QStringList files) {
+    vector<char*> imageStrArray;
+    // Get strings for each filename
+    for(int i=0; i < files.size(); ++i) {
+        QByteArray temp = (files.at(i)).toLatin1();
+        char* data = temp.data();
+        imageStrArray.push_back(strdup(data));
+    }
+    return imageStrArray;
+}
+
+TrainData* makeTrainingSet(vector<VImage*>& imageInfoArray) {
     // For testing
     TrainData* training = new TrainData();
-    for(int i=0; i<numFiles; ++i) {
+    for(int i=0; i<imageInfoArray.size(); ++i) {
         vector<double> features;
         vector<pair<string, float> > ratings = imageInfoArray[i]->getRanks();
 
@@ -335,8 +238,43 @@ void loadFiles(bool isTraining) {
         }
         training->addSample(features, features, features.at(0));
     }
-    Learner svm(training);
-    delete training;
+    return training;
+}
+
+void loadFiles(bool isTraining) {
+    QStringList files = QFileDialog::getOpenFileNames(
+            0,
+            "Select the images you wish to use",
+            NULL,
+            "Images (*.jpeg *.jpg *.nef *.raw)");
+
+    // Check validity of file dialog result
+    int numFiles = files.length();
+    if(numFiles == 0) return;
+
+    // Initialization
+    vector<char*> imageStrArray = makeCStringVector(files);
+    Duplicates dupFinder(numFiles);
+    vector<VImage*> imageInfoArray = initVImages(imageStrArray);
+
+    // Calculations
+    runAllModules(imageInfoArray);
+    int numSets = manageSets(imageInfoArray, dupFinder);
+
+    // Learning
+    GetRating* rater;
+    if(isTraining) {
+        TrainData* t = makeTrainingSet(imageInfoArray);
+        rater = new GetRating(t);
+        delete t;
+    } else {
+        rater = new GetRating(); // Use default
+    }
+    rater->rate(imageInfoArray);
+    delete rater;
+
+    // Display
+    manageDisplays(imageInfoArray, numSets);
 }
 
 int main(int argc, char *argv[])
