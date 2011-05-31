@@ -1,6 +1,7 @@
 #include <sstream>
 #include <math.h>
 
+#include "common.h"
 #include "traindata.h"
 
 TrainData::TrainData()
@@ -64,4 +65,8 @@ string TrainData::hash() {
 
     cout << "Hashed val: " << hashed << endl;
     return hashed;
+}
+
+string TrainData::genHashFilename() {
+    return DEFAULT_CSV_DIR + hash() + ".tdat";
 }

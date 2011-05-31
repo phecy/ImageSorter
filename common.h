@@ -21,6 +21,7 @@
 // Loading SVR stuff:
 #define DEFAULT_CSV_DIR "./trainingdata/"
 #define DEFAULT_SVR_DIR "./trainingdata/"
+#define DEFAULT_SVR_FILENAME "./default.tdat"
 
 // Compute x^(1/3)
 static double root3(double num) {

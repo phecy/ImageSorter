@@ -22,7 +22,8 @@ public:
     double getLLFeature(int img_i, int feature_i);
     double getHLFeature(int img_i, int feature_i);
     double getGroundTruth(int img_i);
-    string hash();
+    string hash(); // Unique string for this training set
+    string genHashFilename(); // File name and directory
 
 private:
     struct FeaturesStruct {

@@ -22,7 +22,19 @@ train high-levels to combine too.
 class Learner
 {
 public:
-    Learner(TrainData* );
+    Learner(); // Looks for most recent training data
+    Learner(TrainData* imageData); // Uses specified data
+    Learner(string filename); // Loads from tdat file
+
+    // Returns first tdat found
+    string getAnyTdat();
+
+    // Calls loadFromFile and exits on failure
+    void loadFromFileWrapper(string filename);
+    // Returns true if file existed and successfully loaded
+    bool loadFromFile(string filename,
+                      std::vector<sample_type>& llsamples,
+                      std::vector<float>& lltargets);
 
     // Learn each low level feature to each high level truth
     void loadSamples(TrainData* trainingset,
