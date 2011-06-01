@@ -15,13 +15,23 @@ using namespace std;
 class GetRating
 {
 public:
-    GetRating(); // Use last .tdat, or a random if last not found
-    GetRating(TrainData*); // Retrain on this data
+    // Constructors need to know how many weak learners to use
+
+    // Use last .tdat, or a random if last not found
+    GetRating(int numHlFeatures);
+
+    // Train on given data
+    GetRating(TrainData*, int numHLFeatures);
     ~GetRating();
+
+    // Get a rating for all images
     void rate(vector<VImage*>& images);
 
 private:
-    Learner* svr;
+    vector<Learner*> svrs;
+
+    // Average over all svrs
+    double avgPrediction(sample_type llSample);
 };
 
 #endif // GETRATING_H

@@ -14,7 +14,7 @@ using namespace dlib;
 
 typedef std::map<unsigned long, float> sparse_sample;
 
-Learner::Learner() {
+Learner::Learner(int hlFeat_i) : hlFeat_i(hlFeat_i) {
     // Try default. If fail, try any. If fail, exit.
     string filename = DEFAULT_SVR_DIR
                       DEFAULT_SVR_FILENAME;
@@ -34,20 +34,8 @@ Learner::Learner() {
     loadFromFileWrapper(filename);
 }
 
-void Learner::loadFromFileWrapper(string filename) {
-    std::vector<float> lltargets;
-    std::vector<sample_type> llsamples;
-
-    if(!loadFromFile(filename, llsamples, lltargets)) {
-        cerr << "Could not load the SVR: " + filename << endl;
-        exit(1);
-    }
-    normalizer.train(llsamples);
-    normalize(llsamples);
-    train(llsamples, lltargets);
-}
-
-Learner::Learner(TrainData* trainingset)
+Learner::Learner(TrainData* trainingset, int hlFeat_i)
+                                  : hlFeat_i(hlFeat_i)
 {
     // Make features and label vectors
     std::vector<float> lltargets;
@@ -63,7 +51,7 @@ Learner::Learner(TrainData* trainingset)
 
     // Save knowledge as hashed and as default
     // using unnormalized data!
-    string filename = trainingset->genHashFilename();
+    string filename = trainingset->genHashFilename(hlFeat_i);
     save_libsvm_formatted_data(filename, llsamples, lltargets);
     filename = DEFAULT_SVR_DIR
                DEFAULT_SVR_FILENAME;
@@ -83,6 +71,19 @@ Learner::Learner(TrainData* trainingset)
         cerr << "actual = " << trainingset->getGroundTruth(img_i)
              << "      predicted = " << predict(lowLevelSample) << endl;
     }
+}
+
+void Learner::loadFromFileWrapper(string filename) {
+    std::vector<float> lltargets;
+    std::vector<sample_type> llsamples;
+
+    if(!loadFromFile(filename, llsamples, lltargets)) {
+        cerr << "Could not load the SVR: " + filename << endl;
+        exit(1);
+    }
+    normalizer.train(llsamples);
+    normalize(llsamples);
+    train(llsamples, lltargets);
 }
 
 string Learner::getAnyTdat() {
@@ -135,11 +136,8 @@ void Learner::loadSamples(TrainData* trainingset,
 
         llsamples.push_back(lowLevelSample);
 
-        /*
         int hlFeat_i = 0; // Loop this after Low Levels work
         lltargets.push_back(trainingset->getHLFeature(img_i, hlFeat_i));
-        */
-        lltargets.push_back(trainingset->getGroundTruth(img_i));
     }
 
     // Learn the mean and stddev of the samples
@@ -150,7 +148,7 @@ void Learner::loadSamples(TrainData* trainingset,
         normsamples.push_back(normalizer(llsamples[i]));
     }
     // And save
-    string fn = trainingset->genHashNormFilename();
+    string fn = trainingset->genHashFilename(hlFeat_i);
     save_libsvm_formatted_data(fn, llsamples, normsamples);
 }
 

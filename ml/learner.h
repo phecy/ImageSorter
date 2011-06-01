@@ -22,8 +22,8 @@ train high-levels to combine too.
 class Learner
 {
 public:
-    Learner(); // Looks for most recent training data
-    Learner(TrainData* imageData); // Uses specified data
+    Learner(int hlFeat_i); // Looks for most recent training data
+    Learner(TrainData* imageData, int hlFeat_i); // Uses specified data
 
     // Returns first tdat found
     string getAnyTdat();
@@ -50,6 +50,7 @@ public:
 private:
     dlib::decision_function<kernel_type> llDecisionFcn;
     dlib::vector_normalizer<sample_type> normalizer;
+    int hlFeat_i;
 };
 
 #endif // LEARNER_H

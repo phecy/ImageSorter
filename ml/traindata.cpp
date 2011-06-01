@@ -67,10 +67,10 @@ string TrainData::hash() {
     return hashed;
 }
 
-string TrainData::genHashFilename() {
-    return DEFAULT_CSV_DIR + hash() + ".tdat";
-}
-
-string TrainData::genHashNormFilename() {
-    return DEFAULT_CSV_DIR + hash() + "-norm.tdat";
+string TrainData::genHashFilename(int hlFeat_i) {
+    stringstream s;
+    s << DEFAULT_CSV_DIR;
+    s << "hl" << hlFeat_i << "_";
+    s << hash() + ".tdat";
+    return s.str();
 }

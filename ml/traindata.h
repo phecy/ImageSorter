@@ -23,8 +23,7 @@ public:
     double getHLFeature(int img_i, int feature_i);
     double getGroundTruth(int img_i);
     string hash(); // Unique string for this training set
-    string genHashFilename(); // File name and directory
-    string genHashNormFilename(); // For learning norm factors
+    string genHashFilename(int hlFeat_i); // File name and directory
 
 private:
     struct FeaturesStruct {

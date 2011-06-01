@@ -265,10 +265,10 @@ void loadFiles(bool isTraining) {
     GetRating* rater;
     if(isTraining) {
         TrainData* t = makeTrainingSet(imageInfoArray);
-        rater = new GetRating(t);
+        rater = new GetRating(t, 1);
         delete t;
     } else {
-        rater = new GetRating(); // Use default
+        rater = new GetRating(1); // Use default
     }
     rater->rate(imageInfoArray);
     delete rater;
