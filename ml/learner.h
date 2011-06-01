@@ -44,6 +44,9 @@ public:
 
     double predict(sample_type lowLevelSample);
 
+    void normalize(std::vector<sample_type>& llsamples);
+    sample_type normalize(sample_type lowLevelSample);
+
 private:
     dlib::decision_function<kernel_type> llDecisionFcn;
     dlib::vector_normalizer<sample_type> normalizer;

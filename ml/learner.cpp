@@ -42,6 +42,8 @@ void Learner::loadFromFileWrapper(string filename) {
         cerr << "Could not load the SVR: " + filename << endl;
         exit(1);
     }
+    normalizer.train(llsamples);
+    normalize(llsamples);
     train(llsamples, lltargets);
 }
 
@@ -50,13 +52,21 @@ Learner::Learner(TrainData* trainingset)
     // Make features and label vectors
     std::vector<float> lltargets;
     std::vector<sample_type> llsamples;
+    std::vector<sample_type> llsamples_norm;
 
-    // Load and train
+    // Load, normalize, and train
     loadSamples(trainingset, llsamples, lltargets);
-    train(llsamples, lltargets);
+    normalizer.train(llsamples);
+    llsamples_norm = llsamples;
+    normalize(llsamples_norm);
+    train(llsamples_norm, lltargets);
 
-    // Save knowledge
+    // Save knowledge as hashed and as default
+    // using unnormalized data!
     string filename = trainingset->genHashFilename();
+    save_libsvm_formatted_data(filename, llsamples, lltargets);
+    filename = DEFAULT_SVR_DIR
+               DEFAULT_SVR_FILENAME;
     save_libsvm_formatted_data(filename, llsamples, lltargets);
 
     // Now we see how well we predicted on the training set
@@ -131,23 +141,10 @@ void Learner::loadSamples(TrainData* trainingset,
         */
         lltargets.push_back(trainingset->getGroundTruth(img_i));
     }
-
-    // Learn the mean and stddev of the samples
-    normalizer.train(llsamples);
-    std::vector<sample_type> normsamples;
-    // Then normalize each sample
-    for (unsigned long i = 0; i < llsamples.size(); ++i) {
-        normsamples.push_back(normalizer(llsamples[i]));
-    }
-    // And save
-    string fn = trainingset->genHashNormFilename();
-    save_libsvm_formatted_data(fn, llsamples, normsamples);
 }
 
 void Learner::train(std::vector<sample_type>& llsamples,
-                 std::vector<float>& lltargets) {
-
-
+                    std::vector<float>& lltargets) {
     // Now setup a SVR trainer object.  It has three parameters, the kernel and
     // two parameters specific to SVR.
     svr_trainer<kernel_type> trainer;
@@ -161,18 +158,18 @@ void Learner::train(std::vector<sample_type>& llsamples,
 
     // Now do the training and save the results
     llDecisionFcn = trainer.train(llsamples, lltargets);
+}
 
-    // 5-fold cross-validation and mean squared error.
-    randomize_samples(llsamples, lltargets);
-    cerr << "MSE: "<< cross_validate_regression_trainer(
-                       trainer, llsamples, lltargets, 5) << endl;
+void Learner::normalize(std::vector<sample_type>& llsamples) {
+    for (unsigned long i = 0; i < llsamples.size(); ++i) {
+        llsamples[i] = normalizer(llsamples[i]);
+    }
+}
 
-    // Save as last-used
-    string filename = DEFAULT_SVR_DIR
-                      DEFAULT_SVR_FILENAME;
-    save_libsvm_formatted_data(filename, llsamples, lltargets);
+sample_type Learner::normalize(sample_type lowLevelSample) {
+    return normalizer(lowLevelSample);
 }
 
 double Learner::predict(sample_type lowLevelSample) {
-    return llDecisionFcn(lowLevelSample);
+    return llDecisionFcn(normalize(lowLevelSample));
 }
