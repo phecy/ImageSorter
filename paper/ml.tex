@@ -31,13 +31,13 @@ Photograph quality assessment can help aid home users in managing their personal
 \section{Problem Statement}
 Before discussing the details of our solution, we present our problem in full.
 
-A photographer wishes to automatically rate his pictures collection based on his personal preferences. There are several papers dedicated to solving this problem using machine learning\cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-642-10543-2_23}\cite{Yeh:2010:PPR:1873951.1873963}. To accelerate research in the area, we need to develop a framework for developers (researchers) to quickly train new features extracted from photographs.
+A photographer wishes to automatically rate his photograph collection based on his personal preferences. There are several papers dedicated to solving this problem using machine learning\cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-642-10543-2_23}\cite{Yeh:2010:PPR:1873951.1873963}. To accelerate research in the area, we need to develop a framework for developers (researchers) to quickly train new features extracted from photographs.
 
 There are two audiences we are trying to serve in this work: (1) the photographer using the application, and (2) the developer producing the application. In other words, we want to make it as easy as possible for the developer to serve the photographer.
 
 To serve (1) the photographer, we want to allow him to choose which features he personally finds important (see Section \ref{abstraction}). To serve (2) the developer, we want to allow her to be able to add new features with ease (see Section \ref{easeofprogramming}). Figure \ref{fig:flowchart} visualizes these ideas.
 
-First, a note on terminology: We make the distinction between \textit{low-level features} (ones that are computed, such as average edge width) and \textit{high-level features} (ones that are solely for human interpretation, such as blurriness).
+A note on terminology: We make the distinction between \textit{low-level features} (ones that are computed, such as average edge width) and \textit{high-level features} (ones that are solely for human interpretation, such as blurriness).
 
 \begin{figure*}[b!]
   \centering
@@ -71,7 +71,7 @@ The Developer will want to add more features as research progresses. There are t
 \begin{enumerate}
 \item \textbf{Adding low-level features}
 
-Say Programmer Pete finds a new way to measure blur levels in an image. He should be able to insert this feature into the program with ease. The photographer would be unaware of any changes other than an improvement in accuracy.
+Say Programmer Pete calculates the number of vibrant pixels in an image. He should be able to insert this feature into the program with ease. The photographer would be unaware of any changes other than an improvement in accuracy.
 
 \item \textbf{Adding high-level features}
 
@@ -81,11 +81,11 @@ Say Programmer Pete decides that Saturation is important. Then he will want to s
 \section{Introduction}
 To solve the problem presented, one might try to directly train low-level features to rate image quality. However, photograph quality is highly subjective and this approach does not allow a photographer to personalize the importance of each feature.
 
-So instead, one might try to compute high-level features directly and allow the photographer to personalize the importance this way. However, this method risks using a poor algorithm to calculate a high-level feature, and thus sacrifices accuracy.
+So instead, one might try to directly compute high-level features. However, this method risks using a poor algorithm to calculate a high-level feature, and thus sacrifices accuracy. (It is hard to calculate "color quality;" it is easy to calculate the number of saturated pixels.)
 
-We thus propose a method which separately trains low-level and high-level features. This method allows (1) the photographer to personalize each high-level feature's importance, and (2) the developer to have multiple low-level calculations to rate each high-level feature. Further, the developer can (3) dynamically change which features are used.
+We thus propose a method which separately trains low-level and high-level features. This method allows (1) the photographer to personalize each high-level feature's importance, and (2) the developer to have multiple low-level calculations to rate each high-level feature. Further, the developer can (3) dynamically change which features are used (both low-level and high-level).
 
-To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression machine learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, we use the more accurate model of Support Vector Machines, because we do not need to reweight the low-level features. When the developer adds a new feature, one or both of these must get retrained. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers).
+To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, the user does not have re-weighting control, so we use the more accurate model of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. When the developer adds a new feature, one or both of these must get retrained. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers).
 
 \section{Related Work}
 Tong and Chang\cite{Tong:2001:SVM:500141.500159} use Support Vector Machines to search a database of images quickly by choosing images that are visually similar, which abstracts the features from the user completely.
@@ -111,8 +111,10 @@ We present this to five Turkers and ask them to choose one of three options:
 \end{itemize}
 The points are then averaged across the five Turkers' responses to obtain a final score.
 
-We repeat this process for each high level feature, with statements such as ``This image is in focus'' and ``This image is well-exposed.'' The data then looks like:
+We repeat this process for each high level feature, with statements such as ``This image is in focus'' and ``This image is well-exposed.'' The data then looks as shown in Figure \ref{fig:turktable}.
 
+\begin{figure}
+\centering
 \resizebox{12cm}{!}{
 \begin{tabular}[t]{| c || c || c | c | c | l | }
  \hline
@@ -120,12 +122,17 @@ We repeat this process for each high level feature, with statements such as ``Th
  \hline
 Image 1 & .5 & .3 & 1 & .8 & \ldots \\ 
  \hline
-Image 2 & .1 & .2 & .4 & .4 & \ldots \\ 
+Image 2 & .1 & ? & .4 & .4 & \ldots \\ 
+ \hline
+Image 3 & .9 & .8 & .6 & ? & \ldots \\ 
  \hline
 \vdots & \vdots & \vdots & \vdots & \vdots & $\ddots$ \\
  \hline
 \end{tabular}
 }
+\caption{The information collected from Amazon Mechanical Turk, showing example values for high-level questions. There are some values missing, indicated by a question mark (?), in case we do not have information from Turkers about that high-level feature. We discuss how to handle this in Section \ref{llfeat}.}
+\label{fig:turktable}
+\end{figure}
 
 \\
 \\
@@ -133,9 +140,9 @@ Image 2 & .1 & .2 & .4 & .4 & \ldots \\
 In this way, the primary rating for an image is learned indirectly through a linear regression of each of the other high-level features.
 
 \subsection{Application-produced data}
-The developer chooses which low-level features to calculate. Each calculation is used in a Support Vector Machine to get rankings of each high-level feature.
+The developer chooses which low-level features to calculate. Each calculation is used in an SVR to get rankings of each high-level feature.
 
-\section{Training Methods}
+\section{Implementation of Training Methods}
 \label{methods}
 
 There are two steps to the learning process. First, we learn the importance of each high-level feature on the overall image rating. Then, we learn how each low-level feature affects each high-level feature.
@@ -156,14 +163,19 @@ Where $M$ is the number of high-level features, $w_f$ is the weight of feature $
 We minimize this error function over all $w_i$.
 
 \subsection{Learning Low-Level Features}
-We use a Support Vector Machine with a Gaussian spread around the optimal separating hyperplane to obtain a regression function from the low-level features. (We will add details as we implement them.)
+\label{llfeat}
+We use an ensemble of SVRs to learn low-level features. Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}).
+
+We want to be able to ask Turkers new questions to use as high-level features, and add an SVR to the ensemble. If we do not retrain on every image used as training data, we need to handle missing data.
+
+The solution is straightforward: If we do not have Turk data for a certain high-level feature, we do not train on that image for the SVR. Note that to learn high-level features, we can only use complete rows (images with no missing values).
 
 \subsection{Output on new images}
-After training, the rating of a new image $i$ is as follows:
+After training, the rating $O_i$ of a new image $i$ is as follows:
 \[
 O_i=\frac{1}{M}\displaystyle\sum\limits_{f=0}^Ma_f \cdot w_f \cdot S_{i,f}
 \]
-Where $a_f$ is the personalized weight adjustment for feature $f$ (which defaults to 1), $S_{i,f}$ is the output of the Support Vector Machine for image $i$ and feature $f$, and the other variables are as defined above.
+Where $M$ is the number of high-level features, $a_f$ is the personalized weight adjustment for feature $f$, $S_{i,f}$ is the output of the Support Vector Regression for image $i$ and feature $f$, and the other variables are as defined above.
 
 
 \section{Progress thus far [informal]}
