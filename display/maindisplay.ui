@@ -14,7 +14,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <property name="tabsClosable">
    <bool>true</bool>
@@ -26,43 +26,14 @@
    <widget class="QPushButton" name="trainButton">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>160</y>
+      <x>480</x>
+      <y>100</y>
       <width>131</width>
       <height>26</height>
      </rect>
     </property>
     <property name="text">
-     <string>Add new...</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="csv_var">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>100</y>
-      <width>161</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>default csv dir</string>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="csv_label">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>80</y>
-      <width>201</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Current Turk CSV directory:</string>
+     <string>Select...</string>
     </property>
    </widget>
    <widget class="QLabel" name="learning">
@@ -86,30 +57,17 @@
      <string>Learning:</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="csv_change">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>100</y>
-      <width>81</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Change</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="imgs_label">
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>140</y>
+      <y>100</y>
       <width>201</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Corresponding images:</string>
+     <string>Train on images:</string>
     </property>
    </widget>
    <widget class="QTextBrowser" name="directions">
@@ -118,7 +76,7 @@
       <x>10</x>
       <y>200</y>
       <width>631</width>
-      <height>151</height>
+      <height>191</height>
      </rect>
     </property>
     <property name="html">
@@ -129,8 +87,11 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; text-decoration: underline;&quot;&gt;Learning Directions&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;(Option 1) &lt;/span&gt;Select a .tdat file with training data saved.&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#8f8f8f;&quot;&gt;Does not require learning.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;(Option 2)&lt;/span&gt; Select a directory containing MTurk CSVs and the corresponding images.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#8f8f8f;&quot;&gt;Requires learning; saves a .tdat for faster future use.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;(Option 2)&lt;/span&gt; Select images. Matches in Turk CSVs will automatically be found.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#8f8f8f;&quot;&gt;Requires learning; saves a .tdat for faster future use.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#8f8f8f;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#8f8f8f;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#8f8f8f;&quot;&gt;Note: All turk CSVs should be placed in /traindata/&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="tdat_var">
