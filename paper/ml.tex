@@ -147,8 +147,6 @@ The developer chooses which low-level features to calculate. Each calculation is
 
 There are two steps to the learning process. First, we learn the importance of each high-level feature on the overall image rating. Then, we learn how each low-level feature affects each high-level feature.
 
-%We keep a held-out test set to recalculate the learning parameters when the developer adds a feature. When a new high-level feature is added, we ask Turkers to rank an image based on that feature. When a low-level feature is added, the parameters of each of the SVMs are updated.
-
 \subsection{Learning High-Level Features}
 We use a linear regression to train each high level feature. For this, we do not take into account any low-level features. The error function is defined as:
 \[
@@ -177,30 +175,19 @@ O_i=\frac{1}{M}\displaystyle\sum\limits_{f=0}^Ma_f \cdot w_f \cdot S_{i,f}
 \]
 Where $M$ is the number of high-level features, $a_f$ is the personalized weight adjustment for feature $f$, $S_{i,f}$ is the output of the Support Vector Regression for image $i$ and feature $f$, and the other variables are as defined above.
 
+\section{Results}
+We show our accuracy by predicting on two data sets. Both of these have ground truth ratings from Turk. Because we want to show how machine learning improved our application, we focus on how much \textit{better} we do with machine learning than we did by guessing parameters.
 
-\section{Progress thus far [informal]}
-So far, we have gathered several hundred data points for the high-level features of "blurriness." We have increased the speed of previously written code to allow for several dozen images to be processed in a minute (as opposed to about 2 minutes per image previously).
+By implementing machine learning, we had an added resource restriction: to train, we needed to calculate low-level features for several hundred images quickly. We had to thus remove a lot of complexity in the calculations of the low-level features, reducing the computation time from about two minutes per image to about ten seconds (on a single core Intel processor at 4.5Ghz). We show that we still improve over our untrained algorithm.
 
-We have implemented Support Vector Machines into our code and it is working on a small test set. We have a mostly-completed framework for dynamically changing high- and low-level features. No progress has been made on determining the weights of each high-level feature (for linear regression).
+The following results are based on the default learned weights of each high level feature.
 
-We should note that we talk about our work as if the project were completed. It is not.
+\subsection{Low Quality Data Set}
+Our application of the framework is intended to find low quality images. Previously, out of 156 low-quality photographs, we gave 141 a low rating (less than .5). After training our algorithm, we gave XXX a low rating.
 
+\subsection{Average Quality Data Set}
+For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 a high rating (greater than .5). After training, we correctly gave XXX a low rating.
 
-\section{Results [informal]}
-We have two big data sets, each of them consists of several hundred images. 
-Each image in the set has a label, that was assigned using information from Amazon Turk
-(average of Turkers votes).
-We have two measurements,
-absolute and relative. Absolute measures how close our results
-to the beackground truth (humans). Relative - measures the improvement
-of our results after implementing machine learning techniques compared 
-to the accuracy results from before this paper.
-For both measurement we use correlation function.
-
-%We have a test set of several hundred images that we expect our application will rate highly, and another test set of several hundred blurry images that we expect to rate poorly. We will measure how much better we perform on blur detection after implementing machine learning techniques compared to the accuracy results from before this paper. This does not take into account user preferences or ease of use of our framework.
-
-%UUU. I'd talk here about the evaluation of the results, rather than about different / hard-to-understand data sets. 
-% we can say that we will use the corelation or standard deviation to measure our success rate.
 
 \bibliographystyle{plain}
 \bibliography{README_BIB}
