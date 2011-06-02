@@ -10,6 +10,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{appendix}
 
 \usepackage{epsfig}
 \title{A Framework for Personalized Photograph Quality Assessment}
@@ -175,6 +176,26 @@ O_i=\frac{1}{M}\displaystyle\sum\limits_{f=0}^Ma_f \cdot w_f \cdot S_{i,f}
 \]
 Where $M$ is the number of high-level features, $a_f$ is the personalized weight adjustment for feature $f$, $S_{i,f}$ is the output of the Support Vector Regression for image $i$ and feature $f$, and the other variables are as defined above.
 
+\section{Adding Features}
+Here, we show the ease of adding new features in our application. Training data is saved to a file and loaded when the application begins, so training only occurs when the user requests it using our GUI (Appendix \ref{gui}).
+
+\subsection{New High Level Features}
+To add a new high level feature, the developer must:
+
+\begin{enumerate}
+\item Obtain MTurk data, as shown in Section \ref{turkdata}.
+\item Place the .CSV file (provided by MTurk) in the /trainingdata/ directory.
+\end{enumerate}
+
+Then, use the GUI to retrain; the SVR and Linear Regression function are automatically updated. The application automatically combines all .CSVs in the directory and extracts labels. It handles multiple files containing high-level feature labels for the same image. See Figure \ref{fig:turktable} for the data extracted.
+
+\subsection{New Low Level Features}
+If a new value is produced by the application, it can be added to the training set with the following line of code (C++):
+
+\texttt{features.push\_back(value);}
+
+Where \texttt{features} is the vector (array) of low-level features and \texttt{value} is the new value. Then, use the GUI to retrain; the SVR is automatically updated.
+
 \section{Results}
 We show our accuracy by predicting on two data sets. Both of these have ground truth ratings from Turk. Because we want to show how machine learning improved our application, we focus on how much \textit{better} we do with machine learning than we did by guessing parameters.
 
@@ -182,12 +203,42 @@ By implementing machine learning, we had an added resource restriction: to train
 
 The following results are based on the default learned weights of each high level feature.
 
+\section{Conclusion and Future Work}
+We have developed a framework for continuing research on rating image quality. First, a developer calculates \textit{low-level feature} values based on image data. Turk users provide answers to \textit{high-level features}, as well as an overall rating of the quality.
+
+Using linear regression, we determine which high-level features are most correlated with the overall rating. Then, we use train one Support Vector Regression per high-level feature, and using the weights from the linear regression, obtain a final value for the image.
+
+We implement the framework in our previous research which calculates low-level features. Our accuracy increases using the machine learning techniques (as compared to arbitrarily hypothesized weights for both steps of learning: low-level to high-level and high-level to overall quality).
+
+Future work should implement a discriminant analysis to remove irrelevant low-level features from the SVRs of high-level features, because unrelated features lower the accuracy of an SVR. For example, vibrant pixels (low-level) would have no effect on blur amount (high-level), so the extra dimension is essentially random.
+
+An online learning algorithm could also be implemented as follows: for every image that the algorithm predicts on, automatically query MTurk for labels, and retrain the SVRs accordingly.
+
 \subsection{Low Quality Data Set}
 Our application of the framework is intended to find low quality images. Previously, out of 156 low-quality photographs, we gave 141 a low rating (less than .5). After training our algorithm, we gave XXX a low rating.
 
 \subsection{Average Quality Data Set}
 For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 a high rating (greater than .5). After training, we correctly gave XXX a low rating.
 
+\appendix
+\section{Graphical User Interface}
+This section shows the GUI used for training and prediction.
+
+\subsection{Training}
+There are two ways to gather training data. By default, the last used SVR and Linear Regression function are loaded. The user can choose to train on new data by selecting a set of images (Figure XXX). The application looks through all the MTurk data files for matching high-level labels and trains on these images. It ignores unlabeled images, and warns the user if none of the selected images have labels.
+
+\subsection{Prediction}
+The user selects which images to predict on. Two outputs are produced: one with all images and their ranking (Figure XXX) and one with the highest-rated images(Figure XXX).
+
+\section{CMPS 242: Notes to grader}
+This paper incorporates Machine Learning into our previous work. For full disclosure, we will list what is included in this paper that was created previously:
+
+\begin{enumerate}
+\item The low-level feature calculations and related framework (but they had been optimized for speed, allowing large training datasets).
+\item The GUIs in Figure XXX and XXX (but they were combined into a single interface for this paper).
+\end{enumerate}
+
+The rest of the contributions were developed solely for our final project in CMPS 242.
 
 \bibliographystyle{plain}
 \bibliography{README_BIB}
