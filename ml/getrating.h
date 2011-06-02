@@ -8,7 +8,7 @@ Serves as a connection between VImages and learner
 
 #include "common.h"
 #include "vimage.h"
-#include "ml/learner.h"
+#include "ml/highlevellearner.h"
 
 using namespace std;
 
@@ -28,10 +28,10 @@ public:
     void rate(vector<VImage*>& images);
 
 private:
-    vector<Learner*> svrs;
+    HighLevelLearner* hlLearner;
 
     // Average over all svrs
-    double avgPrediction(sample_type llSample);
+    double prediction(sample_type llSample);
 };
 
 #endif // GETRATING_H

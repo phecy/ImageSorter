@@ -7,14 +7,14 @@
 #include "dlib/data_io.h"
 
 #include "common.h"
-#include "learner.h"
+#include "lowlevellearner.h"
 
 using namespace std;
 using namespace dlib;
 
 typedef std::map<unsigned long, float> sparse_sample;
 
-Learner::Learner(int hlFeat_i) : hlFeat_i(hlFeat_i) {
+LowLevelLearner::LowLevelLearner(int hlFeat_i) : hlFeat_i(hlFeat_i) {
     // Try default. If fail, try any. If fail, exit.
     string filename = DEFAULT_SVR_DIR
                       DEFAULT_SVR_FILENAME;
@@ -34,7 +34,7 @@ Learner::Learner(int hlFeat_i) : hlFeat_i(hlFeat_i) {
     loadFromFileWrapper(filename);
 }
 
-Learner::Learner(TrainData* trainingset, int hlFeat_i)
+LowLevelLearner::LowLevelLearner(TrainData* trainingset, int hlFeat_i)
                                   : hlFeat_i(hlFeat_i)
 {
     // Make features and label vectors
@@ -68,12 +68,12 @@ Learner::Learner(TrainData* trainingset, int hlFeat_i)
             lowLevelSample(feat_i)
                  = trainingset->getLLFeature(img_i, feat_i);
         }
-        cerr << "actual = " << trainingset->getGroundTruth(img_i)
+        cerr << "actual = " << trainingset->getHLFeature(img_i, hlFeat_i)
              << "      predicted = " << predict(lowLevelSample) << endl;
     }
 }
 
-void Learner::loadFromFileWrapper(string filename) {
+void LowLevelLearner::loadFromFileWrapper(string filename) {
     std::vector<float> lltargets;
     std::vector<sample_type> llsamples;
 
@@ -86,7 +86,7 @@ void Learner::loadFromFileWrapper(string filename) {
     train(llsamples, lltargets);
 }
 
-string Learner::getAnyTdat() {
+string LowLevelLearner::getAnyTdat() {
     DIR *dir = opendir (DEFAULT_SVR_DIR);
     if (dir == NULL) return "";
 
@@ -103,7 +103,7 @@ string Learner::getAnyTdat() {
     return "";
 }
 
-bool Learner::loadFromFile(string filename,
+bool LowLevelLearner::loadFromFile(string filename,
                            std::vector<sample_type>& llsamples,
                            std::vector<float>& lltargets) {
     ifstream ifile(filename.c_str());
@@ -116,7 +116,7 @@ bool Learner::loadFromFile(string filename,
     return true;
 }
 
-void Learner::loadSamples(TrainData* trainingset,
+void LowLevelLearner::loadSamples(TrainData* trainingset,
                  std::vector<sample_type>& llsamples,
                  std::vector<float>& lltargets) {
     int numImages = trainingset->size();
@@ -152,7 +152,7 @@ void Learner::loadSamples(TrainData* trainingset,
     save_libsvm_formatted_data(fn, llsamples, normsamples);
 }
 
-void Learner::train(std::vector<sample_type>& llsamples,
+void LowLevelLearner::train(std::vector<sample_type>& llsamples,
                     std::vector<float>& lltargets) {
     // Now setup a SVR trainer object.  It has three parameters, the kernel and
     // two parameters specific to SVR.
@@ -169,16 +169,16 @@ void Learner::train(std::vector<sample_type>& llsamples,
     llDecisionFcn = trainer.train(llsamples, lltargets);
 }
 
-void Learner::normalize(std::vector<sample_type>& llsamples) {
+void LowLevelLearner::normalize(std::vector<sample_type>& llsamples) {
     for (unsigned long i = 0; i < llsamples.size(); ++i) {
         llsamples[i] = normalizer(llsamples[i]);
     }
 }
 
-sample_type Learner::normalize(sample_type lowLevelSample) {
+sample_type LowLevelLearner::normalize(sample_type lowLevelSample) {
     return normalizer(lowLevelSample);
 }
 
-double Learner::predict(sample_type lowLevelSample) {
+double LowLevelLearner::predict(sample_type lowLevelSample) {
     return llDecisionFcn(normalize(lowLevelSample));
 }

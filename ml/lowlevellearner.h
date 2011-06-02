@@ -19,11 +19,11 @@ train each low level to each high level.
 For now, each high level will get a weight. Later, we will
 train high-levels to combine too.
 */
-class Learner
+class LowLevelLearner
 {
 public:
-    Learner(int hlFeat_i); // Looks for most recent training data
-    Learner(TrainData* imageData, int hlFeat_i); // Uses specified data
+    LowLevelLearner(int hlFeat_i); // Looks for most recent training data
+    LowLevelLearner(TrainData* imageData, int hlFeat_i); // Uses specified data
 
     // Returns first tdat found
     string getAnyTdat();

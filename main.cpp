@@ -51,7 +51,6 @@ using namespace std;
 #include "qualityexif.h"
 #include "vimage.h"
 #include "algorithmPresets.h"
-#include "ml/learner.h"
 #include "ml/traindata.h"
 #include "ml/getrating.h"
 #include "common.h"

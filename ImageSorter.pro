@@ -31,12 +31,13 @@ HEADERS += common.h \
     vimage.h \
     sharpdetect.h \
     ml/getrating.h \
-    ml/learner.h \
     ml/traindata.h \
     display/maindisplay.h \
     display/setdisplay.h \
     display/imgviewer.h \
-    imagesorter.h
+    imagesorter.h \
+    ml/lowlevellearner.h \
+    ml/highlevellearner.h
 FORMS += \
     display/maindisplay.ui \
     display/setdisplay.ui \
@@ -64,10 +65,11 @@ SOURCES += \
     vw/InterestPoint/InterestData.cc \
     ml/getrating.cpp \
     ml/traindata.cpp \
-    ml/learner.cpp \
     display/maindisplay.cpp \
     display/setdisplay.cpp \
-    display/imgviewer.cpp
+    display/imgviewer.cpp \
+    ml/lowlevellearner.cpp \
+    ml/highlevellearner.cpp
 LIBS += /usr/lib/libexif.a \
     /usr/lib/libboost*.a \
     /usr/local/lib/libvw.so \

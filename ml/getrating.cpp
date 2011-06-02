@@ -5,20 +5,15 @@ using namespace std;
 using namespace dlib;
 
 GetRating::GetRating(int numHlFeatures) {
-    for(int i=0; i<numHlFeatures; ++i) {
-        svrs.push_back(new Learner(i));
-    }
+    hlLearner = new HighLevelLearner(numHlFeatures);
 }
 
 GetRating::GetRating(TrainData* traindata, int numHlFeatures) {
-    for(int i=0; i<numHlFeatures; ++i) {
-        svrs.push_back(new Learner(traindata, i));
-    }
+    hlLearner = new HighLevelLearner(traindata, numHlFeatures);
 }
 
 GetRating::~GetRating() {
-    for(int i=0; i<svrs.size(); ++i)
-        delete svrs[i];
+    delete hlLearner;
 }
 
 // Inserts rating into finalRating field in VImage
@@ -37,17 +32,11 @@ void GetRating::rate(std::vector<VImage*>& images) {
         for(int feat_i=0; feat_i < numLLFeatures; ++feat_i) {
             llSample(feat_i) = features[feat_i].second;
         }
-        double predictedVal = avgPrediction(llSample);
+        double predictedVal = prediction(llSample);
         images[img_i]->setRank(predictedVal);
     }
 }
 
-double GetRating::avgPrediction(sample_type llSample) {
-    double avg = 0;
-    for(int hlFeat_i=0; hlFeat_i < svrs.size(); ++hlFeat_i) {
-        avg += svrs[hlFeat_i]->predict(llSample);
-    }
-    avg /= svrs.size();
-
-    return avg;
+double GetRating::prediction(sample_type llSample) {
+    hlLearner->prediction(llSample);
 }
