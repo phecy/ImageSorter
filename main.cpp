@@ -281,6 +281,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     disp = new MainDisplay();
+    disp->setWindowTitle("ImageSorter");
     disp->show();
 
     return app.exec();

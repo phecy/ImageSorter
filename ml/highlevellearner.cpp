@@ -1,3 +1,5 @@
+#include "gsl/gsl_fit.h"
+
 #include "highlevellearner.h"
 
 HighLevelLearner::HighLevelLearner(int numHlFeatures) {

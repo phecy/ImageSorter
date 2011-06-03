@@ -74,4 +74,5 @@ LIBS += /usr/lib/libexif.a \
     /usr/lib/libboost*.a \
     /usr/local/lib/libvw.so \
     /usr/lib/liblapack.a \
-    /usr/lib/liblapack.so
+    /usr/lib/liblapack.so \
+    /usr/lib/libgsl.so.0

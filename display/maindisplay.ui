@@ -26,14 +26,14 @@
    <widget class="QPushButton" name="trainButton">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>400</x>
       <y>100</y>
       <width>131</width>
       <height>26</height>
      </rect>
     </property>
     <property name="text">
-     <string>Select...</string>
+     <string>Select files...</string>
     </property>
    </widget>
    <widget class="QLabel" name="learning">
@@ -61,13 +61,13 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>100</y>
-      <width>131</width>
+      <y>80</y>
+      <width>241</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Train on images:</string>
+     <string>Train on new images:</string>
     </property>
    </widget>
    <widget class="QTextBrowser" name="directions">
@@ -91,7 +91,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#8f8f8f;&quot;&gt;Requires learning; saves a .tdat for faster future use.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#8f8f8f;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#8f8f8f;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#8f8f8f;&quot;&gt;Note: All turk CSVs should be placed in /traindata/&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#8f8f8f;&quot;&gt;Note: All turk CSVs should be placed in ./traindata/&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="tdat_var">
@@ -120,7 +120,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>Training data file:</string>
+     <string>Load training data file (.tdat):</string>
     </property>
    </widget>
    <widget class="QToolButton" name="tdat_change">
