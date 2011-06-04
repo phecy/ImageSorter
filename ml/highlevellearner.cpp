@@ -1,11 +1,18 @@
 #include "gsl/gsl_fit.h"
 
+#include "common.h"
+#include "learnercommon.h"
 #include "highlevellearner.h"
 
 HighLevelLearner::HighLevelLearner(int numHlFeatures) {
     for(int i=0; i<numHlFeatures; ++i) {
         svrs.push_back(new LowLevelLearner(i));
     }
+
+    string filename = LearnerCommon::findExistingFile
+                                    (string(DEFAULT_SVR_EXT));
+
+    //loadFromFileWrapper(filename);
 }
 
 HighLevelLearner::HighLevelLearner

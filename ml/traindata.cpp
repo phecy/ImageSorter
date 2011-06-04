@@ -69,7 +69,7 @@ string TrainData::hash() {
 
 string TrainData::genHashFilename(int hlFeat_i) {
     stringstream s;
-    s << DEFAULT_CSV_DIR;
+    s << DEFAULT_LEARN_DIR;
     s << "hl" << hlFeat_i << "_";
     s << hash() + ".tdat";
     return s.str();

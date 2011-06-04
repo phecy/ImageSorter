@@ -1,12 +1,10 @@
-#include <iostream>
-#include <fstream>
 #include <vector>
-#include "dirent.h"
 
 #include "dlib/svm.h"
 #include "dlib/data_io.h"
 
 #include "common.h"
+#include "learnercommon.h"
 #include "lowlevellearner.h"
 
 using namespace std;
@@ -16,20 +14,8 @@ typedef std::map<unsigned long, float> sparse_sample;
 
 LowLevelLearner::LowLevelLearner(int hlFeat_i) : hlFeat_i(hlFeat_i) {
     // Try default. If fail, try any. If fail, exit.
-    string filename = DEFAULT_SVR_DIR
-                      DEFAULT_SVR_FILENAME;
-    ifstream ifile(filename.c_str());
-    if (!ifile) {
-        // Not default. Try to find any.
-        filename = getAnyTdat();
-        if(filename == "") {
-            cerr << "No training data found!"
-                 << "Please train the app first.\n"
-                 << "Files belong in "
-                 << DEFAULT_SVR_DIR << endl;
-            exit(1);
-        }
-    }
+    string filename = LearnerCommon::findExistingFile
+                                    (string(DEFAULT_SVR_EXT));
 
     loadFromFileWrapper(filename);
 }
@@ -53,10 +39,10 @@ LowLevelLearner::LowLevelLearner(TrainData* trainingset, int hlFeat_i)
     // using unnormalized data!
     string filename = trainingset->genHashFilename(hlFeat_i);
     save_libsvm_formatted_data(filename, llsamples, lltargets);
-    filename = DEFAULT_SVR_DIR
-               DEFAULT_SVR_FILENAME;
+    filename = DEFAULT_SVR_FILENAME;
     save_libsvm_formatted_data(filename, llsamples, lltargets);
 
+/*
     // Now we see how well we predicted on the training set
     int numImages = trainingset->size();
     int numFeatures = trainingset->numLLFeatures();
@@ -71,6 +57,7 @@ LowLevelLearner::LowLevelLearner(TrainData* trainingset, int hlFeat_i)
         cerr << "actual = " << trainingset->getHLFeature(img_i, hlFeat_i)
              << "      predicted = " << predict(lowLevelSample) << endl;
     }
+*/
 }
 
 void LowLevelLearner::loadFromFileWrapper(string filename) {
@@ -86,22 +73,6 @@ void LowLevelLearner::loadFromFileWrapper(string filename) {
     train(llsamples, lltargets);
 }
 
-string LowLevelLearner::getAnyTdat() {
-    DIR *dir = opendir (DEFAULT_SVR_DIR);
-    if (dir == NULL) return "";
-
-    struct dirent *entry;
-    while ((entry = readdir (dir)) != NULL) {
-        string fn(entry->d_name);
-        int fnsize = fn.size();
-        if(fnsize > 7 && fn.substr(fnsize-6) == ".tdat") {
-            closedir (dir);
-            return fn;
-        }
-    }
-    closedir (dir);
-    return "";
-}
 
 bool LowLevelLearner::loadFromFile(string filename,
                            std::vector<sample_type>& llsamples,

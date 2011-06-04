@@ -38,5 +38,5 @@ void GetRating::rate(std::vector<VImage*>& images) {
 }
 
 double GetRating::prediction(sample_type llSample) {
-    hlLearner->prediction(llSample);
+    return hlLearner->prediction(llSample);
 }

@@ -37,7 +37,8 @@ HEADERS += common.h \
     display/imgviewer.h \
     imagesorter.h \
     ml/lowlevellearner.h \
-    ml/highlevellearner.h
+    ml/highlevellearner.h \
+    ml/learnercommon.h
 FORMS += \
     display/maindisplay.ui \
     display/setdisplay.ui \
@@ -69,7 +70,9 @@ SOURCES += \
     display/setdisplay.cpp \
     display/imgviewer.cpp \
     ml/lowlevellearner.cpp \
-    ml/highlevellearner.cpp
+    ml/highlevellearner.cpp \
+    ml/learnercommon.cpp \
+    common.cpp
 LIBS += /usr/lib/libexif.a \
     /usr/lib/libboost*.a \
     /usr/local/lib/libvw.so \

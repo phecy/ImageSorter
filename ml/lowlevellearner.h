@@ -25,8 +25,15 @@ public:
     LowLevelLearner(int hlFeat_i); // Looks for most recent training data
     LowLevelLearner(TrainData* imageData, int hlFeat_i); // Uses specified data
 
-    // Returns first tdat found
-    string getAnyTdat();
+    double predict(sample_type lowLevelSample);
+
+    void normalize(std::vector<sample_type>& llsamples);
+    sample_type normalize(sample_type lowLevelSample);
+
+private:
+    dlib::decision_function<kernel_type> llDecisionFcn;
+    dlib::vector_normalizer<sample_type> normalizer;
+    int hlFeat_i; // Which high level feature are we training to?
 
     // Calls loadFromFile and exits on failure
     void loadFromFileWrapper(string filename);
@@ -41,16 +48,6 @@ public:
                      std::vector<float>& lltargets);
     void train(std::vector<sample_type>& llsamples,
                std::vector<float>& lltargets);
-
-    double predict(sample_type lowLevelSample);
-
-    void normalize(std::vector<sample_type>& llsamples);
-    sample_type normalize(sample_type lowLevelSample);
-
-private:
-    dlib::decision_function<kernel_type> llDecisionFcn;
-    dlib::vector_normalizer<sample_type> normalizer;
-    int hlFeat_i;
 };
 
 #endif // LEARNER_H

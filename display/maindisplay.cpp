@@ -15,7 +15,7 @@ MainDisplay::MainDisplay(QWidget *parent) :
     QObject::connect(ui->tdat_change, SIGNAL(clicked()),
                      this, SLOT(loadTrainData()));
 
-    QString defaultname(DEFAULT_SVR_DIR);
+    QString defaultname(DEFAULT_LEARN_DIR);
     defaultname.append(DEFAULT_SVR_FILENAME);
     ui->tdat_var->setText(defaultname);
 }
