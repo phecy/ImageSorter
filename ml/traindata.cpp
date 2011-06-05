@@ -113,7 +113,6 @@ map <string, vector<double> > TrainData::getCSVData()
     char *array[NUM_ROWS][NUM_COLUMNS];
     map <string, vector<pair<double, int> > > highlevel;
 
-
    // for every csv file loop
    while ( fgets(csv_file_name, CSV_FILE_NAME_LENGTH, pFileOfFileNames) )
    {
@@ -214,6 +213,12 @@ map <string, vector<double> > TrainData::getCSVData()
             }
         } while (it != EOF);
 
+<<<<<<< Updated upstream
+=======
+        printf("can u print anything??????????\n");
+       printf("len %s\n",  array[0][0]);
+
+>>>>>>> Stashed changes
         for (int i=0; i<row; i++)
         {
             string t = array[i][key_arr[0]];
