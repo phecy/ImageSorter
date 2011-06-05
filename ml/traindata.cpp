@@ -313,6 +313,7 @@ map <string, vector<double> > TrainData::getCSVData()
   */
         fclose(pCSVFile);
     }
+    chdir("..");
 
     // Calc averages
     map <string, vector<double> > averagedVals;
