@@ -1,8 +1,14 @@
 #include <sstream>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <cstring>
 
 #include "common.h"
 #include "traindata.h"
+
+#define CSV_FILE_NAME "all_csv_files.txt"
+#define CSV_FILE_NAME_LENGTH 100
 
 TrainData::TrainData()
 {
@@ -73,4 +79,254 @@ string TrainData::genHashFilename(int hlFeat_i) {
     s << "hl" << hlFeat_i << "_";
     s << hash() + ".tdat";
     return s.str();
+}
+
+#define FILE_EXTENSION "csv"
+#define NUM_ROWS	1000
+#define NUM_COLUMNS	100
+#define NUM_KEYWORDS    30
+#define MAX_LINE_LENGTH 1000
+
+#define NUMCOLS 5
+map <string, vector<double> > TrainData::getCSVData()
+{
+    FILE *pFileOfFileNames;
+    char csv_file_name[CSV_FILE_NAME_LENGTH];
+
+    chdir(DEFAULT_LEARN_DIR);
+
+    char cmd[CMD_LENGTH];
+    // create file with csv file names
+    sprintf(cmd,"ls *.%s > %s", FILE_EXTENSION, CSV_FILE_NAME);
+    system(cmd);
+
+    // open file with .csv files names
+    if ( (pFileOfFileNames = fopen(CSV_FILE_NAME,"r")) == NULL)
+    {
+        fprintf(stderr,"-error: can't open list of names file %s\n",CSV_FILE_NAME);
+        exit(1);
+    }
+    else
+        fprintf(stdout,"-list of file names %s was opened okay\n",CSV_FILE_NAME);
+
+    int key_arr[NUM_KEYWORDS];
+    char *array[NUM_ROWS][NUM_COLUMNS];
+    map <string, vector<pair<double, int> > > highlevel;
+
+
+   // for every csv file loop
+   while ( fgets(csv_file_name, CSV_FILE_NAME_LENGTH, pFileOfFileNames) )
+   {
+         FILE *pCSVFile;
+         // open single csv file
+         string filename = csv_file_name;
+         filename = filename.substr(0, filename.size()-1);
+         if ( (pCSVFile = fopen(filename.c_str(),"r")) == NULL)
+         {
+              fprintf(stderr,"-error: can't open csv file %s ...   skipped... \n",filename);
+              continue;
+         }
+         else
+         {
+              fprintf(stdout,"  - %s was read fine\n",csv_file_name);
+         }
+
+        char first_line[MAX_LINE_LENGTH];
+        fgets(first_line, MAX_LINE_LENGTH, pCSVFile);
+
+        char *pChar = first_line;
+        char *prev = first_line;
+        pChar++;
+        while (*pChar != 0 && *pChar != 10 && *pChar != 12 && *pChar != 13 && pChar)
+        {
+                if (*pChar == '"') *pChar = ' ';
+                prev++;
+                pChar++;
+        }
+
+
+        char *tmp;
+        tmp = strtok(first_line,";");
+        int field_cnt = 0;
+        int keyword_cnt = 0;
+
+        while (tmp != NULL)
+        {
+               // printf("%d: tmp %s keyword %s\n", field_cnt, tmp, keywords_arr[keyword_cnt]);
+                if (!strcmp(tmp, " Input.image ") || !strncmp(tmp," Answer.", 8))
+                {
+                 //       printf("--------keyword = %s\n", keywords_arr[keyword_cnt]);
+                        key_arr[keyword_cnt] = field_cnt;
+                        keyword_cnt++;
+                }
+                tmp = strtok(NULL, ";");
+                field_cnt++;
+        }
+
+
+        char it;
+        int col = 0;
+        int row = 0;
+        char *curr_pos;
+
+        array[0][0] = (char*)malloc(500);
+        curr_pos = array[0][0];
+
+
+        do
+        {
+            it = fgetc(pCSVFile);
+
+            if (it == ';')
+            // start a new cell (column)
+            {
+                    *curr_pos = '\0';
+                    col++;
+                    array[row][col] = (char*)malloc(500); // define it later
+                    curr_pos = array[row][col];
+            }
+            else if (it == '\n')
+            {
+                    row++;
+                    col = 0;
+                    array[row][col] = (char*)malloc(500); // define it later
+                    curr_pos = array[row][col];
+            }
+            else if (it == '"')
+            {
+                    // ignore it!
+            }
+            else
+            {
+                    *curr_pos = it;
+                    curr_pos++;
+            }
+        } while (it != EOF);
+
+       printf("len %s\n",  array[0][0]);
+
+        for (int i=0; i<row; i++)
+        {
+            string t = array[i][key_arr[0]];
+            if (highlevel.end() == highlevel.find(t))  // we didn't find this file name
+                                                // have to create a new line in the map
+            {
+                pair<double, int> defaultpair;
+                defaultpair.first = 0;
+                defaultpair.second = 0;
+                for(int i=0; i<NUMCOLS; ++i)
+                    highlevel[t].push_back(defaultpair);
+            }
+        }
+
+        for (int i=0; i<row; i++)
+        {
+            for (int j=1; j<keyword_cnt; j++)
+            {
+                printf("len: %d", strlen(array[i][key_arr[0]]));
+                string t = array[i][key_arr[0]];
+                t = strrchr(t.c_str(), '/');
+                t = t.substr(0, t.size()-1);
+
+                double val;
+                if (0 == sscanf(array[i][key_arr[j]], "%f", &val))
+                {
+                    val = -1;
+                }
+                else // before passing back a map, make sure to fill
+                    // all empty spaces with -1
+                {
+                    vector<pair<double, int> > row = highlevel[t];
+                    pair<double, int> cell;
+                    row[j].first += val;
+                    row[j].second++;
+                }
+            }
+        }
+/*
+
+        for (int i=0; i<NUM_COLUMNS; i++)
+        {
+                if (!strcmp(array[0][i],key_arr[key_cnt].word)) {key_arr[key_cnt].position = i; key_cnt++;}
+                if (key_cnt == NUM_KEYWORDS) break; // we got them all
+        }
+
+        for (int i=0; i<NUM_KEYWORDS; i++)
+                printf("%s  %d \n", key_arr[i].word, key_arr[i].position);
+
+        // set them all to zero
+        for (int j=0; j<NUM_ROWS; j++)
+        {
+                for (int i=0; i<NUM_KEYWORDS-1; i++)
+                {
+                        output[j].numeric_fields[i] = 0;
+                }
+        }
+
+
+        strcpy(output[0].name, array[1][key_arr[0].position]);
+
+        int cnt = 0;
+        float blur_sum = 0;
+        float qual_sum = 0;
+        int output_row_cnt = 0;
+        float val = 0;
+        float qual_val = 0;
+        for (int i=1; i<row; i++)
+        {
+                // assuming first interesting field gona be image name
+                if (!strcmp(array[i][key_arr[0].position], output[output_row_cnt].name))
+                // equal
+                {
+                        for (int j=1; j<NUM_KEYWORDS; j++)
+                        {
+                                sscanf(array[i][key_arr[j].position], "%f", &val);
+                                output[output_row_cnt].numeric_fields[j-1] += val; // leapes otam lifney
+                                cnt++;  // have to remember how many of them we got, to calc the avg later
+                        }
+                }
+                else
+                // not equal, starting a new image
+                {
+                        for (int j=1; j<NUM_KEYWORDS; j++)
+                        {
+                                output[output_row_cnt].numeric_fields[j-1] = (output[output_row_cnt].numeric_fields[j-1]/2.)/cnt;
+                        }
+                        cnt = 0;
+                        output_row_cnt++;
+                        strcpy(output[output_row_cnt].name, array[i][key_arr[0].position]);
+                        for (int j=1; j<NUM_KEYWORDS; j++)
+                        {
+                                sscanf(array[i][key_arr[j].position], "%f", &val);
+                                output[output_row_cnt].numeric_fields[j-1] += val; // leapes otam lifney
+                                cnt++;  // have to remember how many of them we got, to calc the avg later
+                        }
+                }
+        }
+
+        printf("==========================================================================================\n");
+        for (int i=0; i<output_row_cnt; i++)
+        {
+                printf("%d: %s,%f,%f\n", i, output[i].name, output[i].numeric_fields[0], output[i].numeric_fields[1]);
+        }
+
+        printf("\n\n");
+  */
+        fclose(pCSVFile);
+    }
+
+    // Calc averages
+    map <string, vector<double> > averagedVals;
+    map <string, vector<pair<double, int> > >::iterator iter;
+    for(iter = highlevel.begin(); iter != highlevel.end(); ++iter) {
+        vector<pair<double, int> > row = iter->second;
+        vector<double> averagedRow;
+        for(int i = 0; i < row.size(); ++i) {
+            if(row[i].second == 0) averagedRow.push_back(-1);
+            else averagedRow.push_back(row[i].first / row[i].second);
+        }
+        averagedVals[iter->first] = averagedRow;
+    }
+
+    return averagedVals;
 }

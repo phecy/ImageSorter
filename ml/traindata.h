@@ -1,6 +1,7 @@
 #ifndef RANKDATA_H
 #define RANKDATA_H
 
+#include <map>
 #include <cstdlib>
 #include <vector>
 #include <iostream>
@@ -24,6 +25,11 @@ public:
     double getGroundTruth(int img_i);
     string hash(); // Unique string for this training set
     string genHashFilename(int hlFeat_i); // File name and directory
+
+    // String: filename
+    // Double: avg of turk answers
+    static map <string, vector<double> > getCSVData();
+
 
 private:
     struct FeaturesStruct {

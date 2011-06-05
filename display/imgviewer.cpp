@@ -1,6 +1,7 @@
-#include <stdio.h>
+#include <cstdio>
 #include <assert.h>
 #include <algorithm>
+#include <iomanip>
 
 #include <boost/lexical_cast.hpp>
 

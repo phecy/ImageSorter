@@ -228,14 +228,31 @@ vector<char*> makeCStringVector(QStringList files) {
 TrainData* makeTrainingSet(vector<VImage*>& imageInfoArray) {
     // For testing
     TrainData* training = new TrainData();
+    map <string, vector<double> > data = TrainData::getCSVData();
+
     for(int i=0; i<imageInfoArray.size(); ++i) {
+        // Get features
         vector<double> features;
         vector<pair<string, float> > ratings = imageInfoArray[i]->getRanks();
-
         for(int f=0; f<ratings.size(); ++f) {
             features.push_back(ratings[f].second);
         }
-        training->addSample(features, features, features.at(0) + features.at(1));
+
+        // Get labels
+        string filename = imageInfoArray[i]->getFilename();
+        map <string, vector<double> >::iterator
+                        foundpair = data.find(filename);
+        if(foundpair == data.end()) {
+            cerr << "No labels found for image " << filename << endl;
+            continue;
+        }
+        vector<double> labels = foundpair->second;
+
+        // Get ground truth
+        double groundtruth = labels.back();
+        labels.pop_back();
+
+        training->addSample(features, labels, groundtruth);
     }
     return training;
 }
@@ -264,6 +281,11 @@ void loadFiles(bool isTraining) {
     GetRating* rater;
     if(isTraining) {
         TrainData* t = makeTrainingSet(imageInfoArray);
+        if(t->size() == 0) {
+            cerr << "No training data available!" << endl;
+            delete t;
+            return;
+        }
         rater = new GetRating(t, 1);
         delete t;
     } else {

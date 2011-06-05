@@ -1,7 +1,13 @@
 #ifndef LEARNERCOMMON_H
 #define LEARNERCOMMON_H
 
+#include "cstdlib"
+#include "iostream"
 #include "common.h"
+#define DEFAULT_SVR_EXT "ldat"
+#define DEFAULT_LEARN_BASENAME "default"
+
+using namespace std;
 
 class LearnerCommon
 {

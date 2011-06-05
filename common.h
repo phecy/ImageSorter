@@ -2,7 +2,6 @@
 #define COMMON_H
 
 #include "math.h"
-#include <iomanip>
 
 #define FAST_MODE
 
@@ -21,29 +20,18 @@
 
 // Loading SVR stuff:
 #define DEFAULT_LEARN_DIR "./trainingdata/"
-#define DEFAULT_LEARN_FN "default"
-#define DEFAULT_LEARN_BASENAME \
-             DEFAULT_LEARN_DIR DEFAULT_LEARN_FN
-
-// Linear regressor weights
-#define DEFAULT_LR_EXT ".wdat"
-#define DEFAULT_LR_FILENAME \
-             DEFAULT_LEARN_BASENAME DEFAULT_LR_EXT
-
-// Support vector regressor
-#define DEFAULT_SVR_EXT ".tdat"
-#define DEFAULT_SVR_FILENAME \
-             DEFAULT_LEARN_BASENAME DEFAULT_SVR_EXT
+#define CSV_FILE_NAME "all_csv_files.txt"
+#define CSV_FILE_NAME_LENGTH 100
+#define CMD_LENGTH 500
+#define DEFAULT_SVR_FILENAME "default.tdat"
 
 // Compute x^(1/3)
-double root3(double num);
+static double root3(double num);
 
 // Compute x^3
-double pow3(double num);
+static double pow3(double num);
 
 // Compute x^2
-double pow2(double num);
-
-using namespace std;
+static double pow2(double num);
 
 #endif // COMMON_H
