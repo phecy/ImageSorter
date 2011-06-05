@@ -88,8 +88,19 @@ string TrainData::genHashFilename(int hlFeat_i) {
 #define MAX_LINE_LENGTH 1000
 
 #define NUMCOLS 5
+
+typedef struct keyword
+{
+        string word;
+        int abs_position; // column number inside string 2d array
+        int relative_position; // column numbers relative to the map structure
+} keywordData;
+
+
 map <string, vector<double> > TrainData::getCSVData()
 {
+    map < string, pair <int,int> > key_arr;
+
     FILE *pFileOfFileNames;
     char csv_file_name[CSV_FILE_NAME_LENGTH];
 
@@ -109,8 +120,7 @@ map <string, vector<double> > TrainData::getCSVData()
     else
         fprintf(stdout,"-list of file names %s was opened okay\n",CSV_FILE_NAME);
 
-    int key_arr[NUM_KEYWORDS];
-    char *array[NUM_ROWS][NUM_COLUMNS];
+//    int key_arr[NUM_KEYWORDS];
     map <string, vector<pair<double, int> > > highlevel;
 
    // for every csv file loop
@@ -149,15 +159,47 @@ map <string, vector<double> > TrainData::getCSVData()
         int field_cnt = 0;
         int keyword_cnt = 0;
 
+        // parse the fitrst line to know what keywords do we have and their positions
         while (tmp != NULL)
         {
                // printf("%d: tmp %s keyword %s\n", field_cnt, tmp, keywords_arr[keyword_cnt]);
-                if (!strcmp(tmp, " Input.image ") || !strncmp(tmp," Answer.", 8))
+                // assumption: image name will always come first
+                if (!strcmp(tmp, " Input.image "))
                 {
                  //       printf("--------keyword = %s\n", keywords_arr[keyword_cnt]);
-                        key_arr[keyword_cnt] = field_cnt;
-                        keyword_cnt++;
+                        pair<int, int> inputpair;
+                        inputpair.first = -1;
+                        inputpair.second = field_cnt;
+
+                        key_arr["Input.image"] = inputpair;
                 }
+                // looking for answer.* fields
+                else if (!strncmp(tmp," Answer.", 8))
+                {
+                    // if already exists in our vector, just update its relative and absolute
+                    // positions
+                    // otherwise create a new entry, and save the name and the positions
+                    if (key_arr.find(tmp) == key_arr.end())
+                    {
+                        pair<int, int> inputpair;
+                        inputpair.first = keyword_cnt;
+                        inputpair.second = field_cnt;
+
+                        key_arr[tmp] = inputpair;
+
+                        keyword_cnt++;
+                    }
+                    else // it already exists! just update the positions
+                    {
+                        pair<int, int> inputpair = key_arr[tmp];
+                        //inputpair.first = keyword_cnt;
+                        inputpair.second = field_cnt;
+                        key_arr[tmp] = inputpair;
+
+                    }
+
+                }
+
                 tmp = strtok(NULL, ";");
                 field_cnt++;
         }
@@ -213,15 +255,10 @@ map <string, vector<double> > TrainData::getCSVData()
             }
         } while (it != EOF);
 
-<<<<<<< Updated upstream
-=======
-        printf("can u print anything??????????\n");
-       printf("len %s\n",  array[0][0]);
-
->>>>>>> Stashed changes
+    // look how many lines we gonna have in our "big map" the highlevel features
         for (int i=0; i<row; i++)
         {
-            string t = array[i][key_arr[0]];
+            string t = array[i][key_arr["Input.image"].second];
             t = strrchr(t.c_str(), '/')+1;
             if (highlevel.end() == highlevel.find(t))  // we didn't find this file name
                                                 // have to create a new line in the map
@@ -236,15 +273,20 @@ map <string, vector<double> > TrainData::getCSVData()
 
         for (int i=0; i<row; i++)
         {
-            for (int j=1; j<keyword_cnt; j++)
+            map<string, pair<int,int> >::iterator key_it;
+            int j = 0;
+            for (key_it = key_arr.begin(); key_it != key_arr.end(); ++key_it)
             {
-                string t = array[i][key_arr[0]];
+                string t = array[i][key_arr["Input.image"].second];
                 t = strrchr(t.c_str(), '/')+1;
 
-                double val = atoi(array[i][key_arr[j]].c_str());
+                pair<int, int> indexpair = key_it->second;
+                if(indexpair.first == -1) continue;
+                double val = atoi(array[i][indexpair.first].c_str());
                 vector<pair<double, int> > row = highlevel[t];
                 row[j].first += val;
                 row[j].second++;
+                j++;
             }
         }
 /*
