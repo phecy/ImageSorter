@@ -38,7 +38,7 @@ LowLevelLearner::LowLevelLearner(TrainData* trainingset, int hlFeat_i)
     // Save knowledge as hashed and as default
     // using unnormalized data!
     string filename = trainingset->genHashFilename(hlFeat_i);
-    save_libsvm_formatted_data(filename, llsamples, lltargets);
+    //save_libsvm_formatted_data(filename, llsamples, lltargets);
     filename = DEFAULT_SVR_FILENAME;
     save_libsvm_formatted_data(filename, llsamples, lltargets);
 
@@ -120,7 +120,7 @@ void LowLevelLearner::loadSamples(TrainData* trainingset,
     }
     // And save
     string fn = trainingset->genHashFilename(hlFeat_i);
-    save_libsvm_formatted_data(fn, llsamples, normsamples);
+    //save_libsvm_formatted_data(fn, llsamples, normsamples);
 }
 
 void LowLevelLearner::train(std::vector<sample_type>& llsamples,

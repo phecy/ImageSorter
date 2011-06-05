@@ -123,7 +123,7 @@ map <string, vector<double> > TrainData::getCSVData()
          filename = filename.substr(0, filename.size()-1);
          if ( (pCSVFile = fopen(filename.c_str(),"r")) == NULL)
          {
-              fprintf(stderr,"-error: can't open csv file %s ...   skipped... \n",filename);
+              fprintf(stderr,"-error: can't open csv file %s ...   skipped... \n",filename.c_str());
               continue;
          }
          else
@@ -167,11 +167,10 @@ map <string, vector<double> > TrainData::getCSVData()
         char it;
         int col = 0;
         int row = 0;
-        char *curr_pos;
-
-        array[0][0] = (char*)malloc(500);
-        curr_pos = array[0][0];
-
+        // char *curr_pos;
+        string csv_cell;
+        vector<string> csv_row;
+        vector<vector<string> > array;
 
         do
         {
@@ -180,17 +179,28 @@ map <string, vector<double> > TrainData::getCSVData()
             if (it == ';')
             // start a new cell (column)
             {
-                    *curr_pos = '\0';
                     col++;
-                    array[row][col] = (char*)malloc(500); // define it later
-                    curr_pos = array[row][col];
+
+                    // Add string to row, then erase
+                    csv_row.push_back(csv_cell);
+                    csv_cell = "";
+
+                    // array[row][col] = (char*)malloc(500); // define it later
+                    // curr_pos = array[row][col];
             }
             else if (it == '\n')
             {
                     row++;
                     col = 0;
-                    array[row][col] = (char*)malloc(500); // define it later
-                    curr_pos = array[row][col];
+
+                    // Add string to row, then erase and make new row
+                    csv_row.push_back(csv_cell);
+                    array.push_back(csv_row);
+                    csv_cell = "";
+                    csv_row = vector<string>();
+
+                    // array[row][col] = (char*)malloc(500); // define it later
+                    // curr_pos = array[row][col];
             }
             else if (it == '"')
             {
@@ -198,16 +208,16 @@ map <string, vector<double> > TrainData::getCSVData()
             }
             else
             {
-                    *curr_pos = it;
-                    curr_pos++;
+                csv_cell += it;
+                    // *curr_pos = it;
+                    // curr_pos++;
             }
         } while (it != EOF);
-
-       printf("len %s\n",  array[0][0]);
 
         for (int i=0; i<row; i++)
         {
             string t = array[i][key_arr[0]];
+            t = strrchr(t.c_str(), '/')+1;
             if (highlevel.end() == highlevel.find(t))  // we didn't find this file name
                                                 // have to create a new line in the map
             {
@@ -223,24 +233,13 @@ map <string, vector<double> > TrainData::getCSVData()
         {
             for (int j=1; j<keyword_cnt; j++)
             {
-                printf("len: %d", strlen(array[i][key_arr[0]]));
                 string t = array[i][key_arr[0]];
-                t = strrchr(t.c_str(), '/');
-                t = t.substr(0, t.size()-1);
+                t = strrchr(t.c_str(), '/')+1;
 
-                double val;
-                if (0 == sscanf(array[i][key_arr[j]], "%f", &val))
-                {
-                    val = -1;
-                }
-                else // before passing back a map, make sure to fill
-                    // all empty spaces with -1
-                {
-                    vector<pair<double, int> > row = highlevel[t];
-                    pair<double, int> cell;
-                    row[j].first += val;
-                    row[j].second++;
-                }
+                double val = atoi(array[i][key_arr[j]].c_str());
+                vector<pair<double, int> > row = highlevel[t];
+                row[j].first += val;
+                row[j].second++;
             }
         }
 /*
