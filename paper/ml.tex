@@ -261,7 +261,7 @@ Future work should implement a discriminant analysis to remove irrelevant low-le
 An online learning algorithm could also be implemented as follows: for every image that the algorithm predicts on, automatically query MTurk for labels, and retrain the SVRs accordingly.
 
 \subsection{Low Quality Data Set}
-Our application of the framework is intended to find low quality images. Previously, out of 156 low-quality photographs, we gave 141 a low rating (less than .5). After training our algorithm, we gave XXX a low rating.
+Our application of the framework is intended to find low quality images. Previously, out of 74 low-quality photographs (which we collected from Turk users), we gave 66 a low rating (less than .5). After training our algorithm, we gave 61 a low rating- a slight decrease, but with a large improvement in speed.
 
 \subsection{Average Quality Data Set}
 For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 out of 157 a high rating (greater than .5). After training, we correctly gave 139 a high rating- a slight improvement in accuracy and large improvement in speed.
