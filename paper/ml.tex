@@ -28,6 +28,7 @@ uliana@soe.ucsc.edu}
 Photograph quality assessment can help aid home users in managing their personal collections in several ways, including deleting low-quality images and browsing for high quality images. Recent research has aimed to automatically rate image quality, but such methods are not yet perfected. In this paper, we propose a framework for quickly developing and testing new features to accelerate the progress of this research. We have two types of features: \textit{high-level features} that are subjective qualities which humans can easily understand, such as exposure quality or sharpness; \textit{low-level features} that are objective calculations which are produced algorithmically, like edge width or number of dark pixels. We use machine learning techniques to learn how each of these relate to image quality. 
 Our framework is intended to be used by both developers and end-users (photographers). 
 The model allows for an application developer to easily add new features, both low-level and high-level. Additionally, we allow the photographer using the application to modify the importance of each high-level features based on personal preferences.
+We implement our framework in a real image quality assessment application and show improvement over the untrained application.
 
 \end{abstract}
 
@@ -80,12 +81,6 @@ For example: Photographer Penny takes pictures at concerts so she doesn't mind s
 %This  question is relevant to the developer. As an example:
 
 For example: Programmer Pete calculates three low-level features per image: average width of edges, average pixel contrast, and average pixel brightness. He wants to use these low-level features to see if an image is blurry or poorly exposed. Our framework will train multiple SVRs using the three low-level features. Each SVR will determine the relationship between low-level and high-level features.
-
-%UUU: same comment about both questions. I think we need a sentence that ties the example to the question.
-%ZZZ: how? they both seem directly related to the question...what's an example of an example i can give? 
-%UUU: look at the first example. your explanations are hardly sufficient for me/james.
-%think about kelsey/your mom.
-%ZZZ: better? hehe :)
 
 \end{enumerate}
 
@@ -214,12 +209,45 @@ We want to be able to ask Turkers new questions to use as high-level features, a
 
 The solution is straightforward: If we do not have Turk data for a certain high-level feature, we do not train on that image for the SVR. Note that to learn high-level features, we can only use complete rows (images with no missing values).
 
+We use an SVR with soft margins to allow for some noise in our data. We also normalize the low level feature values and the high level feature labels. Support Vector Regression machines work as follows: We want to find a function $S$ such that
+
+\[
+S(x)=\langle w, x\rangle + b, x\in \mathbb{R}^d, w\in \mathbb{R}^d, b\in \mathbb{R}
+\]
+
+We find $w$ by minimizing the function:
+
+\[
+\frac{1}{2}||w^2||+C\displaystyle\sum\limits_{i=0}^l(\xi_i+\xi_i*)
+\]
+
+Where $C$ is a parameter which determines the trade-off between good generalization and high accuracy on the training set (we set $C=5$); $l$ is the number of training examples; and $\xi_i$ and $\xi_i*$ are the ``slack variables'' which allow for noise in the data, and are defined in the following two constraints to the above formula:
+
+\[
+y_i-\langle w,x_i\rangle-b\leq \epsilon + \xi_i
+\]
+and
+\[
+-y_i+\langle w,x_i\rangle+b\leq \epsilon + \xi_i*
+\]
+
+Where each $(x_i, y_i)$ pair is a labeled training example, and $\epsilon$ is a parameter representing the acceptable deviation from the target $y_i$. We set $\epsilon=.1$, allowing a relatively large error margin of .1 (about 10\% on our normalized data) because of the noise in both the input $x_i$ (the low level features calculated) and the labels $y_i$ (the high level feature values obtained from Turk).
+
+We use a radial-based kernel function in lieu of the dot product $\langle w,x_i\rangle$, so that:
+\[
+\langle w,x_i\rangle = exp(-\gamma |w-x|^2)
+\]
+
+Where we set $\gamma=1$.
+
+A more detailed discussion on Support Vector Regression Machines is discussed in Smola and Scholkopf's overview paper\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}.
+
 \subsection{Output on new images}
 After training, the rating $O_i$ of a new image $i$ is as follows:
 \[
-O_i=\frac{1}{M}\displaystyle\sum\limits_{f=0}^Ma_f \cdot w_f \cdot S_{i,f}
+O_i=\frac{1}{M}\displaystyle\sum\limits_{f=0}^Ma_f \cdot w_f \cdot S_f(i)
 \]
-Where $M$ is the number of high-level features, $a_f$ is the personalized weight adjustment for feature $f$, $S_{i,f}$ is the output of the Support Vector Regression for image $i$ and feature $f$, and the other variables are as defined above. $a_f$ is subject to:
+Where $M$ is the number of high-level features, $a_f$ is the personalized weight adjustment for feature $f$, $S_f$ is the output of the Support Vector Regression for high level feature $f$ on image $i$, and the other variables are as defined above. $a_f$ is subject to:
 \[
 \displaystyle\sum\limits_{f=0}^M a_f = 1
 \]
@@ -233,7 +261,7 @@ To add a new high level feature, the developer must:
 
 \begin{enumerate}
 \item Obtain MTurk data, as shown in Section \ref{turkdata}.
-\item Place the .CSV file (provided by MTurk) in the trainingdata/ directory.
+\item Place the .CSV file (provided by MTurk) in the \texttt{trainingdata/} directory.
 \end{enumerate}
 
 Then, use the GUI to retrain; the SVR and Linear Regression function are automatically updated. The application automatically combines all .CSVs in the directory and extracts labels. It handles multiple files containing high-level feature labels for the same image. See Figure \ref{fig:turktable} for the data extracted.
@@ -264,14 +292,13 @@ Future work should implement a discriminant analysis to remove irrelevant low-le
 An online learning algorithm could also be implemented as follows: for every image that the algorithm predicts on, automatically query MTurk for labels, and retrain the SVRs accordingly.
 
 \subsection{Low Quality Data Set}
-Our application of the framework is intended to find low quality images. Previously, out of 156 low-quality photographs, we gave 141 a low rating (less than .5), 
-which is 90\% correct. After training our algorithm, we gave XXX a low rating.
+Previously, out of 74 low-quality photographs, we gave 63 a low rating (less than .5). After training our algorithm, we gave 61 a low rating- about the same, but with a huge increase in processing time.
 
 \subsection{Average Quality Data Set}
 For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 out of 157 a high rating (greater than .5), 
 which is almost 86\% accuracy. After training, we correctly gave 139 a high rating,
-which is equal to a 88.5\% .
-It is a slight improvement in accuracy and large improvement in speed.
+which is equal to a 88.5\%.
+This is a slight improvement in accuracy, again with a significant improvement in processing time.
 
 \appendix
 \section{Graphical User Interface}
@@ -310,7 +337,7 @@ The user selects which images to predict on. Two outputs are produced: one with 
   \label{fig:topimages}
 \end{figure*}
 
-\section{CMPS 242: Notes to grader}
+\section{CMPS 242: What We Completed}
 This paper incorporates Machine Learning into our previous work. For full disclosure, we will list what is included in this paper that was created previously:
 
 \begin{enumerate}
@@ -318,7 +345,14 @@ This paper incorporates Machine Learning into our previous work. For full disclo
 \item The GUIs in Figures \ref{fig:imagebrowser} and \ref{fig:topimages} (but they were combined into a single interface for this paper).
 \end{enumerate}
 
-The rest of the contributions were developed solely for our final project in CMPS 242.
+The rest of the contributions were developed solely for our final project in CMPS 242, including:
+\begin{enumerate}
+\item Designing Amazon Mechanical Turk tests; the framework for reading the unmodified CSVs containing Turk results; combining multiple CSVs that may ask Turkers different questions.
+\item Integrating all Machine Learning techniques.
+\item Making the GUI support both learning and prediction in a similar interface.
+\end{enumerate}
+
+Although we were only able to train on around 200 images, our framework allows us to quickly add more, given additional Turk data. Each picture cost \$0.05 for accurate data.
 
 \bibliographystyle{plain}
 \bibliography{README_BIB}
