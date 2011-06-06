@@ -92,13 +92,18 @@ So instead, one might try to directly compute high-level features. However, this
 
 We thus propose a hybrid method which separately trains low-level and high-level features. This method allows (1) the photographer to personalize each high-level feature's importance, and (2) the developer to have multiple low-level calculations to rate each high-level feature. Further, the developer can (3) dynamically change which features are used (both low-level and high-level).
 
-To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression UUU (may want to add a sentence about why LG and not other technique) learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, the user does not have re-weighting control, so we use the more accurate model UUU(what model exactly and why, I know that u have it later, but since intro is very short and fuzzy, i think it is ok to be more specific here) of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. When the developer adds a new feature, one or both of these must get retrained. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers). UUU (add an image,
+To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression UUU (may want to add a sentence about why LG and not other technique) learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, the user does not have re-weighting control, so we use the more accurate model UUU(what model exactly and why, I know that u have it later, but since intro is very short and fuzzy, i think it is ok to be more specific here) of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. When the developer adds a new feature, one or both (UUU: might want to add an explanation of when it is one and when it is two. 
+both if it is a low level feature.
+when a photographer, aka end user, adjusts the weights, nothing
+needs to be learned)
+of these must get retrained. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers). UUU (add an image,
 screeshot, of what a user sees. also, if you clean/filter the data, it worths to mention it and the reasons).
 
 \section{Related Work}
 Tong and Chang\cite{Tong:2001:SVM:500141.500159} use Support Vector Machines to search a database of images quickly by choosing images that are visually similar, which abstracts the features from the user completely.
 
 The Personalized Photograph Ranking and Selection System\cite{Yeh:2010:PPR:1873951.1873963} computes high-level features directly and uses ListNet\cite{Cao:2007:LRP:1273496.1273513} to find a ranking. However, this does not allow for the training of several low-level features to produce a single high-level feature, which can increase the overall accuracy.
+UUU: (can be expanded but since we don't have much time, it is ok to leave it as is)
 
 \section{Data}
 
@@ -148,12 +153,15 @@ Image 3 & .9 & .8 & .6 & ? & \ldots \\
 In this way, the primary rating for an image is learned indirectly through a linear regression of each of the other high-level features.
 
 \subsection{Application-produced data}
-The developer chooses which low-level features to calculate. Each calculation is used in an SVR to get rankings of each high-level feature.
+The developer chooses which low-level features to calculate. Each calculation is used in an Support Vector (SVR) to get rankings of each high-level feature.
+UUU (explain second sentence, how exactly it gets the ranking of a high level. yes, i know that dave knows how sv-s work, but still...)
 
 \section{Implementation of Training Methods}
 \label{methods}
 
-There are two steps to the learning process. First, we learn the importance of each high-level feature on the overall image rating. Then, we learn how each low-level feature affects each high-level feature.
+There are two steps to the learning process. First, we learn the importance of each high-level feature on the overall image rating. 
+UUU (mention that this is a default val of a high level fatures)
+Then, we learn how each low-level feature affects each high-level feature.
 
 \subsection{Learning High-Level Features}
 We use a linear regression to train each high level feature. For this, we do not take into account any low-level features. The error function is defined as:
@@ -167,10 +175,14 @@ Z_i=\displaystyle\sum\limits_{f=0}^M w_f \cdot r_{i,f}
 Where $M$ is the number of high-level features, $w_f$ is the weight of feature $f$, and $r_{i,f}$ is the Turkers rating of feature $f$ on image $i$.
 
 We minimize this error function over all $w_i$.
+UUU: (should the weights sum up to 1? mention it)
 
 \subsection{Learning Low-Level Features}
 \label{llfeat}
-We use an ensemble of SVRs to learn low-level features. Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}).
+We use an ensemble 
+UUU (what is the initial number of vectors, who determines it. it is ok to reference our paper)
+of SVRs to learn low-level features. Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}).
+UUU (, which corresponds to a single question we ask Turkers)
 
 We want to be able to ask Turkers new questions to use as high-level features, and add an SVR to the ensemble. If we do not retrain on every image used as training data, we need to handle missing data.
 
@@ -204,11 +216,21 @@ If a new value is produced by the application, it can be added to the training s
 Where \texttt{features} is the vector (array) of low-level features and \texttt{value} is the new value. Then, use the GUI to retrain; the SVR is automatically updated.
 
 \section{Results}
-We show our accuracy by predicting on two data sets. Both of these have ground truth ratings from Turk. Because we want to show how machine learning improved our application, we focus on how much \textit{better} we do with machine learning than we did by guessing parameters.
+We show our accuracy by predicting on two data sets. Both of these have ground truth ratings from Turk. Because we want to show how machine learning improved 
+UUU (explain what we compare to what.
+reference our paper.
+it can be a link to your website/github,
+and say what were the results that we 
+got using a,b,c features,
+and what is the accuracy now)
+our application, we focus on how much \textit{better} we do with machine learning than we did by guessing parameters.
 
 By implementing machine learning, we had an added resource restriction: to train, we needed to calculate low-level features for several hundred images quickly. We had to thus remove a lot of complexity in the calculations of the low-level features, reducing the computation time from about two minutes per image to about ten seconds (on a single core Intel processor at 4.5Ghz). We show that we still improve over our untrained algorithm.
 
 The following results are based on the default learned weights of each high level feature.
+UUU (confusing sentence. or remove it or add that
+no user was entered, because our reference,
+our prev paper, doesn't have this option)
 
 \section{Conclusion and Future Work}
 We have developed a framework for continuing research on rating image quality. First, a developer calculates \textit{low-level feature} values based on image data. Turk users provide answers to \textit{high-level features}, as well as an overall rating of the quality.
