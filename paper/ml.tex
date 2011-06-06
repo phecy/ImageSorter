@@ -203,7 +203,14 @@ We minimize this error function over all $w_i$, ensuring
 
 \subsection{Learning Low-Level Features}
 \label{llfeat}
-We use an ensemble of Support Vector Regression Machines (SVRs) to learn low-level features. Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}). The number of SVRs is equal to the number of high-level feature ratings provided by Turkers, as shown in Section \ref{turkdata}.
+We use an ensemble of Support Vector Regression Machines (SVRs) to learn low-level features. 
+UUU: the title says "low level" the whole section talks about high level,
+but maybe it is ok, because the equations show the relationship,
+but just from reading it is very confusing.
+Not sure how to fix it... if u can, add a transition
+sentence here, if not - ignore the comment.
+
+Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}). The number of SVRs is equal to the number of high-level feature ratings provided by Turkers, as shown in Section \ref{turkdata}.
 
 We want to be able to ask Turkers new questions to use as high-level features, and add an SVR to the ensemble. If we do not retrain on every image used as training data, we need to handle missing data.
 
@@ -214,6 +221,9 @@ We use an SVR with soft margins to allow for some noise in our data. We also nor
 \[
 S(x)=\langle w, x\rangle + b, x\in \mathbb{R}^d, w\in \mathbb{R}^d, b\in \mathbb{R}
 \]
+
+Where w is a vector of low level features weights, x is a vector of low level features,
+b is a UUU.
 
 We find $w$ by minimizing the function:
 
@@ -336,6 +346,9 @@ The user selects which images to predict on. Two outputs are produced: one with 
   \caption{This is a quick view of the top twelve images, as rated by the application.}
   \label{fig:topimages}
 \end{figure*}
+
+UUU: 4.75 (out of 9) is the highest score we gave?
+Our program is quite picky :)
 
 \section{CMPS 242: What We Completed}
 This paper incorporates Machine Learning into our previous work. For full disclosure, we will list what is included in this paper that was created previously:
