@@ -81,11 +81,11 @@ For example: Photographer Penny takes pictures at concerts so she doesn't mind s
 
 For example: Programmer Pete calculates three low-level features per image: average width of edges, average pixel contrast, and average pixel brightness. He wants to use these low-level features to see if an image is blurry or poorly exposed. Our framework will train multiple SVRs using the three low-level features. Each SVR will determine the relationship between low-level and high-level features.
 
-UUU: same comment about both questions. I think we need a sentence that ties the example to the question.
-ZZZ: how? they both seem directly related to the question...what's an example of an example i can give? 
-UUU: look at the first example. your explanations are hardly sufficient for me/james.
-think about kelsey/your mom.
-ZZZ: better? hehe :)
+%UUU: same comment about both questions. I think we need a sentence that ties the example to the question.
+%ZZZ: how? they both seem directly related to the question...what's an example of an example i can give? 
+%UUU: look at the first example. your explanations are hardly sufficient for me/james.
+%think about kelsey/your mom.
+%ZZZ: better? hehe :)
 
 \end{enumerate}
 
@@ -112,7 +112,8 @@ We thus propose a hybrid method which separately trains low-level and high-level
 
 To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression learning model. We chose a Linear Regression because it allows for the photographer to adjust the importance of each feature without retraining the model.
 
-For the second question, the user does not have control over the default weights, so we use the more accurate model of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. We train one SVR per high-level feature, resulting in an ensemble of SVRs, each trained to a different high-level feature. We chose this model because SVRs, in general, have higher accuracy than a Linear Regression. We use an ensemble because each one can specialize to a certain feature, allowing for our Linear Regression to exist. %ZZZ: I added explanation about why we chose- is it too wordy now?
+For the second question, the user does not have control over the default weights, so we use the more accurate model of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. We train one SVR per high-level feature, resulting in an ensemble of SVRs, each trained to a different high-level feature. We chose this model because SVRs, in general, have higher accuracy than a Linear Regression. We use an ensemble because each one can specialize to a certain feature, allowing for our Linear Regression to exist. %ZZZ: I added explanation about why we chose- is it too wordy now? 
+%UUU. No. it is good now
 
 When the developer adds a new low-level feature, every SVR in the ensemble is updated. When the developer adds a high-level feature, another SVR is added to the ensemble. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{MTurk: http://www.mturk.com} users (Turkers). Figure \ref{fig:turkexample} shows an example of what Turkers are asked.
 
@@ -121,7 +122,9 @@ When the developer adds a new low-level feature, every SVR in the ensemble is up
     \fbox{
       \epsfig{file=turkexample.pdf,width=17cm}
     }
-  \caption{This is what Turkers see when rating the image. Here, there are two high level features: blur quality and exposure quality. The first statement (``This image is high quality'') is the ground truth. See Section \ref{turkdata} for details.}
+  \caption{This is what Turkers see when rating the image. Here, there are two high level features: blur quality and exposure quality. 
+That are determined by two last statements on the right.
+The first statement (``This image is high quality'') is the ground truth. See Section \ref{turkdata} for details.}
   \label{fig:turkexample}
 \end{figure*}
 
@@ -261,10 +264,14 @@ Future work should implement a discriminant analysis to remove irrelevant low-le
 An online learning algorithm could also be implemented as follows: for every image that the algorithm predicts on, automatically query MTurk for labels, and retrain the SVRs accordingly.
 
 \subsection{Low Quality Data Set}
-Our application of the framework is intended to find low quality images. Previously, out of 156 low-quality photographs, we gave 141 a low rating (less than .5). After training our algorithm, we gave XXX a low rating.
+Our application of the framework is intended to find low quality images. Previously, out of 156 low-quality photographs, we gave 141 a low rating (less than .5), 
+which is 90\% correct. After training our algorithm, we gave XXX a low rating.
 
 \subsection{Average Quality Data Set}
-For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 out of 157 a high rating (greater than .5). After training, we correctly gave 139 a high rating- a slight improvement in accuracy and large improvement in speed.
+For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 out of 157 a high rating (greater than .5), 
+which is almost 86\% accuracy. After training, we correctly gave 139 a high rating,
+which is equal to a 88.5\% .
+It is a slight improvement in accuracy and large improvement in speed.
 
 \appendix
 \section{Graphical User Interface}
