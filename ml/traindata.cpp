@@ -45,14 +45,14 @@ string TrainData::hash() {
         for(feat_i  = img_i->lowLevelFeatures.begin();
             feat_i != img_i->lowLevelFeatures.end();
             ++feat_i) {
-            hashnum *= (*feat_i) * (*feat_i);
-            hashnum *= img_i->groundTruth;
+            hashnum += (*feat_i) * (*feat_i);
+            hashnum += img_i->groundTruth;
         }
         for(feat_i  = img_i->highLevelFeatures.begin();
             feat_i != img_i->highLevelFeatures.end();
             ++feat_i) {
-            hashnum *= (*feat_i) * (*feat_i);
-            hashnum *= img_i->groundTruth;
+            hashnum += (*feat_i) * (*feat_i);
+            hashnum += img_i->groundTruth;
         }
     }
 
@@ -271,93 +271,27 @@ map <string, vector<double> > TrainData::getCSVData()
             }
         }
 
+        // Move from CSV Array to Map
         for (int i=0; i<row; i++)
         {
             map<string, pair<int,int> >::iterator key_it;
-            int j = 0;
-            for (key_it = key_arr.begin(); key_it != key_arr.end(); ++key_it)
-            {
+            for(key_it = key_arr.begin(); key_it != key_arr.end(); ++key_it) {
                 string t = array[i][key_arr["Input.image"].second];
                 t = strrchr(t.c_str(), '/')+1;
 
                 pair<int, int> indexpair = key_it->second;
-                if(indexpair.first == -1) continue;
-                double val = atoi(array[i][indexpair.first].c_str());
-                vector<pair<double, int> > row = highlevel[t];
-                row[j].first += val;
-                row[j].second++;
-                j++;
+                int indexInMapRow = indexpair.first;
+                int indexInCSV = indexpair.second;
+                if(indexInMapRow == -1) continue;
+
+                double val = atoi(array[i][indexInCSV].c_str());
+                vector<pair<double, int> > rowvect = highlevel[t];
+                rowvect[indexInMapRow].first += val;
+                rowvect[indexInMapRow].second++;
+                highlevel[t] = rowvect;
             }
         }
-/*
 
-        for (int i=0; i<NUM_COLUMNS; i++)
-        {
-                if (!strcmp(array[0][i],key_arr[key_cnt].word)) {key_arr[key_cnt].position = i; key_cnt++;}
-                if (key_cnt == NUM_KEYWORDS) break; // we got them all
-        }
-
-        for (int i=0; i<NUM_KEYWORDS; i++)
-                printf("%s  %d \n", key_arr[i].word, key_arr[i].position);
-
-        // set them all to zero
-        for (int j=0; j<NUM_ROWS; j++)
-        {
-                for (int i=0; i<NUM_KEYWORDS-1; i++)
-                {
-                        output[j].numeric_fields[i] = 0;
-                }
-        }
-
-
-        strcpy(output[0].name, array[1][key_arr[0].position]);
-
-        int cnt = 0;
-        float blur_sum = 0;
-        float qual_sum = 0;
-        int output_row_cnt = 0;
-        float val = 0;
-        float qual_val = 0;
-        for (int i=1; i<row; i++)
-        {
-                // assuming first interesting field gona be image name
-                if (!strcmp(array[i][key_arr[0].position], output[output_row_cnt].name))
-                // equal
-                {
-                        for (int j=1; j<NUM_KEYWORDS; j++)
-                        {
-                                sscanf(array[i][key_arr[j].position], "%f", &val);
-                                output[output_row_cnt].numeric_fields[j-1] += val; // leapes otam lifney
-                                cnt++;  // have to remember how many of them we got, to calc the avg later
-                        }
-                }
-                else
-                // not equal, starting a new image
-                {
-                        for (int j=1; j<NUM_KEYWORDS; j++)
-                        {
-                                output[output_row_cnt].numeric_fields[j-1] = (output[output_row_cnt].numeric_fields[j-1]/2.)/cnt;
-                        }
-                        cnt = 0;
-                        output_row_cnt++;
-                        strcpy(output[output_row_cnt].name, array[i][key_arr[0].position]);
-                        for (int j=1; j<NUM_KEYWORDS; j++)
-                        {
-                                sscanf(array[i][key_arr[j].position], "%f", &val);
-                                output[output_row_cnt].numeric_fields[j-1] += val; // leapes otam lifney
-                                cnt++;  // have to remember how many of them we got, to calc the avg later
-                        }
-                }
-        }
-
-        printf("==========================================================================================\n");
-        for (int i=0; i<output_row_cnt; i++)
-        {
-                printf("%d: %s,%f,%f\n", i, output[i].name, output[i].numeric_fields[0], output[i].numeric_fields[1]);
-        }
-
-        printf("\n\n");
-  */
         fclose(pCSVFile);
     }
     chdir("..");
@@ -365,12 +299,16 @@ map <string, vector<double> > TrainData::getCSVData()
     // Calc averages
     map <string, vector<double> > averagedVals;
     map <string, vector<pair<double, int> > >::iterator iter;
+    int numAnswers = key_arr.size() - 1; // -1: exclude Input.image
     for(iter = highlevel.begin(); iter != highlevel.end(); ++iter) {
         vector<pair<double, int> > row = iter->second;
         vector<double> averagedRow;
         for(int i = 0; i < row.size(); ++i) {
+            if(i >= numAnswers) continue;
+            // If there are answers, average them
+            //   and scale from [0,2] to [0,1]
             if(row[i].second == 0) averagedRow.push_back(-1);
-            else averagedRow.push_back(row[i].first / row[i].second);
+            else averagedRow.push_back(row[i].first / (row[i].second*2));
         }
         averagedVals[iter->first] = averagedRow;
     }
