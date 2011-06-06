@@ -107,8 +107,7 @@ We thus propose a hybrid method which separately trains low-level and high-level
 
 To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression learning model. We chose a Linear Regression because it allows for the photographer to adjust the importance of each feature without retraining the model.
 
-For the second question, the user does not have control over the default weights, so we use the more accurate model of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. We train one SVR per high-level feature, resulting in an ensemble of SVRs, each trained to a different high-level feature. We chose this model because SVRs, in general, have higher accuracy than a Linear Regression. We use an ensemble because each one can specialize to a certain feature, allowing for our Linear Regression to exist. %ZZZ: I added explanation about why we chose- is it too wordy now? 
-%UUU. No. it is good now
+For the second question, the user does not have control over the default weights, so we use the more accurate model of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. We train one SVR per high-level feature, resulting in an ensemble of SVRs, each trained to a different high-level feature. We chose this model because SVRs, in general, have higher accuracy than a Linear Regression. We use an ensemble because each one can specialize to a certain feature, allowing for our Linear Regression to exist. 
 
 When the developer adds a new low-level feature, every SVR in the ensemble is updated. When the developer adds a high-level feature, another SVR is added to the ensemble. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{MTurk: http://www.mturk.com} users (Turkers). Figure \ref{fig:turkexample} shows an example of what Turkers are asked.
 
@@ -203,12 +202,6 @@ We minimize this error function over all $w_i$, ensuring
 
 \subsection{Learning Low-Level Features}
 \label{llfeat}
-We use an ensemble of Support Vector Regression Machines (SVRs) to learn low-level features. 
-UUU: the title says "low level" the whole section talks about high level,
-but maybe it is ok, because the equations show the relationship,
-but just from reading it is very confusing.
-Not sure how to fix it... if u can, add a transition
-sentence here, if not - ignore the comment.
 
 Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}). The number of SVRs is equal to the number of high-level feature ratings provided by Turkers, as shown in Section \ref{turkdata}.
 
@@ -222,8 +215,7 @@ We use an SVR with soft margins to allow for some noise in our data. We also nor
 S(x)=\langle w, x\rangle + b, x\in \mathbb{R}^d, w\in \mathbb{R}^d, b\in \mathbb{R}
 \]
 
-Where w is a vector of low level features weights, x is a vector of low level features,
-b is a UUU.
+Where $w$ is a vector of low level features weights, $x$ is a vector of low level features, and $b$ is the offset from the origin.
 
 We find $w$ by minimizing the function:
 
@@ -302,11 +294,7 @@ Future work should implement a discriminant analysis to remove irrelevant low-le
 An online learning algorithm could also be implemented as follows: for every image that the algorithm predicts on, automatically query MTurk for labels, and retrain the SVRs accordingly.
 
 \subsection{Low Quality Data Set}
-<<<<<<< HEAD
-Our application of the framework is intended to find low quality images. Previously, out of 74 low-quality photographs (which we collected from Turk users), we gave 66 a low rating (less than .5). After training our algorithm, we gave 61 a low rating- a slight decrease, but with a large improvement in speed.
-=======
 Previously, out of 74 low-quality photographs, we gave 63 a low rating (less than .5). After training our algorithm, we gave 61 a low rating- about the same, but with a huge increase in processing time.
->>>>>>> 9e9eade125ae23dfc373281d035ba9e9c6289f08
 
 \subsection{Average Quality Data Set}
 For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 out of 157 a high rating (greater than .5), 
@@ -338,7 +326,7 @@ The user selects which images to predict on. Two outputs are produced: one with 
     \fbox{
       \epsfig{file=imagebrowser.pdf,width=15cm}
     }
-  \caption{This interface shows the list of images with some of their low-level rankings and final prediction.}
+  \caption{This interface shows the unsorted list of images with some of their low-level rankings and final prediction. (The interface displays a rating in $[0,9]$, scaled from the $[0,1]$ range outputted by the application.)}
   \label{fig:imagebrowser}
 \end{figure*}
 
@@ -350,9 +338,6 @@ The user selects which images to predict on. Two outputs are produced: one with 
   \caption{This is a quick view of the top twelve images, as rated by the application.}
   \label{fig:topimages}
 \end{figure*}
-
-UUU: 4.75 (out of 9) is the highest score we gave?
-Our program is quite picky :)
 
 \section{CMPS 242: What We Completed}
 This paper incorporates Machine Learning into our previous work. For full disclosure, we will list what is included in this paper that was created previously:
