@@ -1,0 +1,77 @@
+# make with dot -Teps mlhighlevel.graphviz > mlhighlevel.eps
+digraph ML_Lowlevel {
+#   concentrate=true
+# label  = "Reordering Images Based on Quality and Uniqueness"
+# Note: svr1 is actually 3. Graph was being dumb otherwise
+
+   graph [  fontname = "Helvetica-Oblique",
+            fontsize = 20,
+            size = "6,6",
+            splines=ortho,
+            compound=true
+         ];
+
+   hlfeat1[label="Rating for\nHigh Level\nFeature 3",
+           shape=house,
+           color=lightblue2,
+           style=filled];
+   hlfeat2[label="Rating for\nHigh Level\nFeature 2",
+           shape=house,
+           color=lightblue2,
+           style=filled];
+   hlfeat3[label="Rating for\nHigh Level\nFeature 3",
+           shape=house,
+           color=lightblue2,
+           style=filled];
+
+   hlsvr1[shape=rect,
+          label="High Level SVR 3",
+          color=lightblue2,
+          style=filled];
+   hlsvr2[shape=rect,
+          label="High Level SVR 2",
+          color=lightblue2,
+          style=filled];
+   hlsvr3[shape=rect,
+          label="High Level SVR 1",
+          color=lightblue2,
+          style=filled];
+
+   llfeat1[label="Low Level\nFeature 1",
+           shape=invhouse,
+           color=lightblue2,
+           style=filled];
+   llfeat2[label="Low Level\nFeature 2",
+           shape=invhouse,
+           color=lightblue2,
+           style=filled];
+
+   label1[shape=plaintext,
+          fontsize=12,
+          label="Label:\nTurk Rating for\nHigh Level 3"]
+   label2[shape=plaintext,
+          fontsize=12,
+          label="Label:\nTurk Rating for\nHigh Level 2"]
+   label3[shape=plaintext,
+          fontsize=12,
+          label="Label:\nTurk Rating for\nHigh Level 1"]
+
+   llfeat1->hlsvr1
+   llfeat1->hlsvr2
+   llfeat1->hlsvr3
+   llfeat2->hlsvr1
+   llfeat2->hlsvr2
+   llfeat2->hlsvr3
+
+   hlsvr1->hlfeat1
+   hlsvr2->hlfeat2
+   hlsvr3->hlfeat3
+ 
+   label1->hlsvr1
+   label2->hlsvr2
+   label3->hlsvr3
+  
+   {rank=same; label1 hlsvr1};
+   {rank=same; label2 hlsvr2};
+   {rank=same; label3 hlsvr3};
+}

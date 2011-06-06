@@ -1,0 +1,48 @@
+# make with dot -Teps mlhighlevel.graphviz > mlhighlevel.eps
+digraph ML_Highlevel {
+#   concentrate=true
+# label  = "Reordering Images Based on Quality and Uniqueness"
+
+   graph [  fontname = "Helvetica-Oblique",
+            fontsize = 20,
+            size = "6,6",
+            splines=ortho,
+            compound=true
+         ];
+
+   overall[label="Overall Rating",
+           shape=doubleoctagon,
+           color=lightblue2,
+           style=filled];
+
+   lregres[label="Linear Regression",
+           shape=rect,
+           color=lightblue2,
+           style=filled];
+
+   hlfeat1[label="Rating for\nHigh Level\nFeature 3",
+           shape=house,
+           color=lightblue2,
+           style=filled];
+   hlfeat2[label="Rating for\nHigh Level\nFeature 2",
+           shape=house,
+           color=lightblue2,
+           style=filled];
+   hlfeat3[label="Rating for\nHigh Level\nFeature 3",
+           shape=house,
+           color=lightblue2,
+           style=filled];
+
+   label[shape=plaintext,
+         fontsize=12,
+         label="Label:\nTurk Rating for\nOverall Quality"]
+
+   {rank=same; label lregres };
+   label->lregres;
+
+   hlfeat1->lregres;
+   hlfeat2->lregres;
+   hlfeat3->lregres;
+
+   lregres->overall;
+}

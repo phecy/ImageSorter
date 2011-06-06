@@ -16,6 +16,8 @@
 #        create both flowcharts
 # gv1    (visual - eps only - main only)
 # gv2    (visual - eps only - ml only)
+# gvh    (visual - eps only - highlevel only)
+# gvl    (visual - eps only - lowlevel only)
 
 basic:
 	latex README_PAPER
@@ -59,13 +61,21 @@ bv: bib-visual
 g:
 	dot -Teps flowchart.graphviz > flowchart.eps
 	dot -Teps mlflowchart.graphviz > mlflowchart.eps
+	dot -Teps mlhighlevel.graphviz > mlhighlevel.eps
+	dot -Teps mllowlevel.graphviz > mllowlevel.eps
 	epstopdf flowchart.eps
 	epstopdf mlflowchart.eps
+	epstopdf mlhighlevel.eps
+	epstopdf mllowlevel.eps
 
 gv1: g
 	gnome-open flowchart.eps
 gv2: g
 	gnome-open mlflowchart.eps
+gvh: g
+	gnome-open mlhighlevel.eps
+gvl: g
+	gnome-open mllowlevel.eps
 
 commit:
 	git commit README*

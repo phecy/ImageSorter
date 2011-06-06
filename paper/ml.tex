@@ -184,7 +184,15 @@ The developer chooses which low-level features to calculate. Each of these calcu
 There are two steps to the learning process. First, we learn the importance of each high-level feature on the overall image rating. These are the default weights which can be modified by the photographer. Then, we learn how each low-level feature affects each high-level feature.
 
 \subsection{Learning High-Level Features}
-We use a linear regression to train each high level feature. For this, we do not take into account any low-level features. The error function is defined as:
+\begin{figure*}[h!]
+  \centering
+      \epsfig{file=mlhighlevel.pdf,width=11cm}
+  \caption{This is an example of how the linear regression for high level features is trained. During training, each sample is a set of ratings for high level features and an overall quality rating, both acquired from Turk. When predicting, the high level features are outputted by the SVRs (see Section \ref{llfeat}).}
+  \label{fig:mlhighlevel}
+\end{figure*}
+We use a linear regression to train each high level feature. For this, we do not take into account any low-level features. Figure \ref{fig:mlhighlevel} demonstrates this.
+
+When learning the weights of the Linear Regression, we minimize the error. The error function is defined as:
 \[
 E=\displaystyle\sum\limits_{i=0}^N R_i-Z_i
 \]
@@ -202,8 +210,14 @@ We minimize this error function over all $w_i$, ensuring
 
 \subsection{Learning Low-Level Features}
 \label{llfeat}
+\begin{figure*}[h!]
+  \centering
+      \epsfig{file=mllowlevel.pdf,width=16cm}
+  \caption{This is an example of how the ensemble of SVRs for low level features are trained. Each sample is a set of low level features (calculated by the application) and a label (acquired from Turkers). The prediction is a set of ratings per high level feature.}
+  \label{fig:mllowlevel}
+\end{figure*}
 
-Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}). The number of SVRs is equal to the number of high-level feature ratings provided by Turkers, as shown in Section \ref{turkdata}.
+Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}). The number of SVRs is equal to the number of high-level feature ratings provided by Turkers, as shown in Section \ref{turkdata}. See Figure \ref{fig:mllowlevel} for an example.
 
 We want to be able to ask Turkers new questions to use as high-level features, and add an SVR to the ensemble. If we do not retrain on every image used as training data, we need to handle missing data.
 
