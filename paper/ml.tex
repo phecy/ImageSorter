@@ -91,7 +91,7 @@ We thus propose a hybrid method which separately trains low-level and high-level
 
 To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression UUU (may want to add a sentence about why LG and not other technique ZZZ: the next sentence does that, right?) learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, the user does not have control over the default weights, so we use the more accurate model of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. We train one SVR per high-level feature, resulting in an ensemble of SVRs, each trained to a different high-level feature.
 
-When the developer adds a new low-level feature, every SVR in the ensemble is updated. When the developer adds a high-level feature, another SVR is added to the ensemble. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers). Figure \ref{fig:turkexample} shows an example of what Turkers are asked.
+When the developer adds a new low-level feature, every SVR in the ensemble is updated. When the developer adds a high-level feature, another SVR is added to the ensemble. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{MTurk: http://www.mturk.com} users (Turkers). Figure \ref{fig:turkexample} shows an example of what Turkers are asked.
 
 \begin{figure*}[h!]
   \centering
@@ -204,7 +204,7 @@ To add a new high level feature, the developer must:
 
 \begin{enumerate}
 \item Obtain MTurk data, as shown in Section \ref{turkdata}.
-\item Place the .CSV file (provided by MTurk) in the /trainingdata/ directory.
+\item Place the .CSV file (provided by MTurk) in the trainingdata/ directory.
 \end{enumerate}
 
 Then, use the GUI to retrain; the SVR and Linear Regression function are automatically updated. The application automatically combines all .CSVs in the directory and extracts labels. It handles multiple files containing high-level feature labels for the same image. See Figure \ref{fig:turktable} for the data extracted.
@@ -217,14 +217,7 @@ If a new value is produced by the application, it can be added to the training s
 Where \texttt{features} is the vector (array) of low-level features and \texttt{value} is the new value. Then, use the GUI to retrain; the SVR is automatically updated.
 
 \section{Results}
-We show our accuracy by predicting on two data sets. Both of these have ground truth ratings from Turk. Because we want to show how machine learning improved 
-UUU (explain what we compare to what.
-reference our paper.
-it can be a link to your website/github,
-and say what were the results that we 
-got using a,b,c features,
-and what is the accuracy now)
-our application, we focus on how much \textit{better} we do with machine learning than we did by guessing parameters.
+We show our accuracy by predicting on two data sets. Both of these have ground truth ratings from Turk. Because we want to show how machine learning improved our original application\cite{imagesorter} which did not use Machine Learning, we focus on how much \textit{better} we do with machine learning than we did by guessing parameters.
 
 By implementing machine learning, we had an added resource restriction: to train, we needed to calculate low-level features for several hundred images quickly. We had to thus remove a lot of complexity in the calculations of the low-level features, reducing the computation time from about two minutes per image to about ten seconds (on a single core Intel processor at 4.5Ghz). We show that we still improve over our untrained algorithm.
 
