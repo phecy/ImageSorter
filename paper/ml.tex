@@ -25,13 +25,11 @@ uliana@soe.ucsc.edu}
 \begin{document}
 \maketitle
 \begin{abstract}
-Photograph quality assessment can help aid home users in managing their personal collections in several ways, including deleting low-quality images and browsing for high quality images. Recent research has aimed to automatically rate image quality, but such methods are not yet perfected. In this paper, we propose a framework for quickly developing and testing new features to accelerate the progress of this research. We have two types of features* UUU (the note of terminology can go to the footer of the page, and will be referenced here using *): \textit{high-level features} that are subjective qualities which humans can easily answer UUU: (not sure that "answer" is the best verb, maybe qualify/determine/recognize or something like that), like saturation, exposure or blurriness; \textit{low-level features} that are objective calculations which are produced algorithmically, like edge width or number of dark pixels. We use machine learning techniques to learn how each of these relate to image quality. Our model allows for a developer to easily train new features (both low-level and high-level), UUU (make a stronger relationship between the second half of this sentence and the rest of the abstract. who is this end user, what personaliziation, why? i'd say that for default assesment, when we just want to rank images, we calculate these high and low features, but we also allow a user, in our case photographer, to affect the final decision of the algorithm, aka personalize it )and for an end-user to personalize which high-level features are important.
+Photograph quality assessment can help aid home users in managing their personal collections in several ways, including deleting low-quality images and browsing for high quality images. Recent research has aimed to automatically rate image quality, but such methods are not yet perfected. In this paper, we propose a framework for quickly developing and testing new features to accelerate the progress of this research. We have two types of features* UUU (the note of terminology can go to the footer of the page, and will be referenced here using * ZZZ: can we use footers in the abstract?): \textit{high-level features} that are subjective qualities which humans can easily understand, such as exposure quality or sharpness; \textit{low-level features} that are objective calculations which are produced algorithmically, like edge width or number of dark pixels. We use machine learning techniques to learn how each of these relate to image quality. Our model allows for an application developer to easily add new features, both low-level and high-level. Additionally, we allow the photographer using the application to modify the importance of each high-level features based on personal preferences. (ZZZ: Is this better at all?)
 
 \end{abstract}
 
 \section{Problem Statement}
-Before discussing the details of our solution, we present our problem in full. UUU: (<- this sentence can be removed)
-
 A photographer wishes to automatically rate his photograph collection based on his personal preferences. There are several papers dedicated to solving this problem using machine learning\cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-642-10543-2_23}\cite{Yeh:2010:PPR:1873951.1873963}. To accelerate research in the area, we need to develop a framework for developers (researchers) to quickly train new features extracted from photographs.
 
 There are two audiences we are trying to serve in this work: (1) the photographer using the application, and (2) the developer producing the application. In other words, we want to make it as easy as possible for the developer to serve the photographer.
@@ -43,15 +41,13 @@ A note on terminology: We make the distinction between \textit{low-level feature
 \begin{figure*}[b!]
   \centering
     \epsfig{file=mlflowchart.pdf,width=14cm}
-  \caption{An example flowchart. Here, the application computes three low-level features. All three combine to rate the two high-level features: blurriness and exposure. The developer controls which features are present. The photographer decides how to weight each high-level feature. UUU: (photographer's decision/opinion/input effects the default values of the highlevel features)}
+  \caption{An example flowchart. Here, the application computes three low-level features. All three combine to rate the two high-level features: blurriness and exposure. The developer controls which features are present. The photographer's personal preferences can change the default weights on high-level features.}
   \label{fig:flowchart}
 \end{figure*}
 
 \subsection{Helping the Photographer Personalize Ratings}
 \label{abstraction}
-%The photographer should not have to interpret the meaning of low-level features. Instead, we use high-level features as a layer of abstraction. It is easy for a photographer to understand the meaning of high-level features, but this presents the following two questions:
-UUU: (how about reordering the sentences)
-The photographer should not have to interpret the meaning of low-level features, because it is easy for him to understand the meaning of high-level features. Thus, we use high-level features as a layer of abstraction.  But this presents the following two questions:
+While it is difficult for a human to interpret the meaning of low-level features, high level features are intended for human understanding. Thus, we use high-level features as a layer of abstraction: Instead of asking the photographer to change the default weights on low-level features, we present them with high-level features. But, this presents the following two questions:
 
 \begin{enumerate}
 \item \textbf{How important is each high-level feature to the overall rating of a photograph?}
@@ -68,6 +64,7 @@ For example: Photographer Penny takes pictures at concerts so she doesn't mind s
 For example: Programmer Pete calculates three low-level features per image: average width of edges, average pixel contrast, and average pixel brightness. He wants to use these low-level features to see if an image is blurry or poorly exposed.
 
 UUU: same comment about both questions. I think we need a sentence that ties the example to the question.
+ZZZ: how? they both seem directly related to the question...what's an example of an example i can give?
 
 \end{enumerate}
 
@@ -92,12 +89,18 @@ So instead, one might try to directly compute high-level features. However, this
 
 We thus propose a hybrid method which separately trains low-level and high-level features. This method allows (1) the photographer to personalize each high-level feature's importance, and (2) the developer to have multiple low-level calculations to rate each high-level feature. Further, the developer can (3) dynamically change which features are used (both low-level and high-level).
 
-To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression UUU (may want to add a sentence about why LG and not other technique) learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, the user does not have re-weighting control, so we use the more accurate model UUU(what model exactly and why, I know that u have it later, but since intro is very short and fuzzy, i think it is ok to be more specific here) of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. When the developer adds a new feature, one or both (UUU: might want to add an explanation of when it is one and when it is two. 
-both if it is a low level feature.
-when a photographer, aka end user, adjusts the weights, nothing
-needs to be learned)
-of these must get retrained. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers). UUU (add an image,
-screeshot, of what a user sees. also, if you clean/filter the data, it worths to mention it and the reasons).
+To answer the first question presented in Section \ref{abstraction}, we use a Linear Regression UUU (may want to add a sentence about why LG and not other technique ZZZ: the next sentence does that, right?) learning model. This allows for the photographer to adjust the importance of each feature without retraining the model. For the second question, the user does not have control over the default weights, so we use the more accurate model of Support Vector Regression Machines (SVRs)\cite{springerlink:10.1023/B:STCO.0000035301.49549.88}. We train one SVR per high-level feature, resulting in an ensemble of SVRs, each trained to a different high-level feature.
+
+When the developer adds a new low-level feature, every SVR in the ensemble is updated. When the developer adds a high-level feature, another SVR is added to the ensemble. These methods are described in detail in Section \ref{methods}. The high-level features for the images in the training set are labeled by surveying Amazon Mechanical Turk\footnote{http://www.mturk.com} users (Turkers). Figure \ref{fig:turkexample} shows an example of what Turkers are asked.
+
+\begin{figure*}[h!]
+  \centering
+    \fbox{
+      \epsfig{file=turkexample.pdf,width=17cm}
+    }
+  \caption{This is what Turkers see when rating the image. Here, there are two high level features: blur quality and exposure quality. The first statement (``This image is high quality'') is the ground truth. See Section \ref{turkdata} for details.}
+  \label{fig:turkexample}
+\end{figure*}
 
 \section{Related Work}
 Tong and Chang\cite{Tong:2001:SVM:500141.500159} use Support Vector Machines to search a database of images quickly by choosing images that are visually similar, which abstracts the features from the user completely.
@@ -247,7 +250,7 @@ An online learning algorithm could also be implemented as follows: for every ima
 Our application of the framework is intended to find low quality images. Previously, out of 156 low-quality photographs, we gave 141 a low rating (less than .5). After training our algorithm, we gave XXX a low rating.
 
 \subsection{Average Quality Data Set}
-For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 a high rating (greater than .5). After training, we correctly gave XXX a low rating.
+For completeness, we must also show that we do not rate high-quality and average-quality images poorly. We use INRIA's publicly-available "Original Image" dataset\cite{JDS08} for these images. Previously, we had correctly gave 135 out of 157 a high rating (greater than .5). After training, we correctly gave 139 a high rating- a slight improvement in accuracy and large improvement in speed.
 
 \appendix
 \section{Graphical User Interface}
