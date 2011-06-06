@@ -3,6 +3,7 @@
 
 #include "math.h"
 
+
 #define FAST_MODE
 
 #define BLUR_SHORTNAME "blur"
@@ -20,10 +21,24 @@
 
 // Loading SVR stuff:
 #define DEFAULT_LEARN_DIR "./trainingdata/"
+#define DEFAULT_LEARN_FN "default"
+#define DEFAULT_LEARN_BASENAME \
+DEFAULT_LEARN_DIR DEFAULT_LEARN_FN
+
+// Linear regressor weights
+#define DEFAULT_LR_EXT ".wdat"
+#define DEFAULT_LR_FILENAME \
+DEFAULT_LEARN_BASENAME DEFAULT_LR_EXT
+
+// Support vector regressor
+#define DEFAULT_SVR_EXT ".tdat"
+#define DEFAULT_SVR_FILENAME \
+DEFAULT_LEARN_BASENAME DEFAULT_SVR_EXT
+
+// CSV file loading
 #define CSV_FILE_NAME "all_csv_files.txt"
 #define CSV_FILE_NAME_LENGTH 100
 #define CMD_LENGTH 500
-#define DEFAULT_SVR_FILENAME "default.tdat"
 
 // Compute x^(1/3)
 static double root3(double num);
