@@ -106,7 +106,6 @@ When the developer adds a new low-level feature, every SVR in the ensemble is up
 Tong and Chang\cite{Tong:2001:SVM:500141.500159} use Support Vector Machines to search a database of images quickly by choosing images that are visually similar, which abstracts the features from the user completely.
 
 The Personalized Photograph Ranking and Selection System\cite{Yeh:2010:PPR:1873951.1873963} computes high-level features directly and uses ListNet\cite{Cao:2007:LRP:1273496.1273513} to find a ranking. However, this does not allow for the training of several low-level features to produce a single high-level feature, which can increase the overall accuracy.
-UUU: (can be expanded but since we don't have much time, it is ok to leave it as is)
 
 \section{Data}
 
@@ -153,18 +152,16 @@ Image 3 & .9 & .8 & .6 & ? & \ldots \\
 \\
 \\
 
-In this way, the primary rating for an image is learned indirectly through a linear regression of each of the other high-level features.
+During training, the overall rating for an image is learned indirectly, through a linear regression of the high-level features' SVRs.
 
 \subsection{Application-produced data}
-The developer chooses which low-level features to calculate. Each calculation is used in an Support Vector (SVR) to get rankings of each high-level feature.
-UUU (explain second sentence, how exactly it gets the ranking of a high level. yes, i know that dave knows how sv-s work, but still...)
+The developer chooses which low-level features to calculate. Each of these calculations is used in all the SVRs to obtain ratings of the high-level features. Recall that each SVR is trained to produce a numerical prediction for a single high-level feature.
+
 
 \section{Implementation of Training Methods}
 \label{methods}
 
-There are two steps to the learning process. First, we learn the importance of each high-level feature on the overall image rating. 
-UUU (mention that this is a default val of a high level fatures)
-Then, we learn how each low-level feature affects each high-level feature.
+There are two steps to the learning process. First, we learn the importance of each high-level feature on the overall image rating. These are the default weights which can be modified by the photographer. Then, we learn how each low-level feature affects each high-level feature.
 
 \subsection{Learning High-Level Features}
 We use a linear regression to train each high level feature. For this, we do not take into account any low-level features. The error function is defined as:
@@ -177,15 +174,16 @@ Z_i=\displaystyle\sum\limits_{f=0}^M w_f \cdot r_{i,f}
 \]
 Where $M$ is the number of high-level features, $w_f$ is the weight of feature $f$, and $r_{i,f}$ is the Turkers rating of feature $f$ on image $i$.
 
-We minimize this error function over all $w_i$.
-UUU: (should the weights sum up to 1? mention it)
+We minimize this error function over all $w_i$, ensuring
+\[
+\displaystyle\sum\limits_{f=0}^M w_f = 1
+\]
+
+
 
 \subsection{Learning Low-Level Features}
 \label{llfeat}
-We use an ensemble 
-UUU (what is the initial number of vectors, who determines it. it is ok to reference our paper)
-of SVRs to learn low-level features. Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}).
-UUU (, which corresponds to a single question we ask Turkers)
+We use an ensemble of Support Vector Regression Machines (SVRs) to learn low-level features. Each SVR is trained to learn a single high-level feature (e.g. the last three columns of Figure \ref{fig:turktable}). The number of SVRs is equal to the number of high-level feature ratings provided by Turkers, as shown in Section \ref{turkdata}.
 
 We want to be able to ask Turkers new questions to use as high-level features, and add an SVR to the ensemble. If we do not retrain on every image used as training data, we need to handle missing data.
 
@@ -257,17 +255,44 @@ For completeness, we must also show that we do not rate high-quality and average
 This section shows the GUI used for training and prediction.
 
 \subsection{Training}
-There are two ways to gather training data. By default, the last used SVR and Linear Regression function are loaded. The user can choose to train on new data by selecting a set of images (Figure XXX). The application looks through all the MTurk data files for matching high-level labels and trains on these images. It ignores unlabeled images, and warns the user if none of the selected images have labels.
+There are two ways to gather training data. By default, the last used SVR ensemble and Linear Regression function are loaded. The user can choose to train on new data by selecting a set of images (Figure \ref{fig:learnpage}). The application looks through all the MTurk data files for matching high-level labels and trains on these images. It ignores unlabeled images, and warns the user if none of the selected images have labels.
+
+\begin{figure*}[h!]
+  \centering
+    \fbox{
+      \epsfig{file=learnpage.pdf,width=15cm}
+    }
+  \caption{When learning, the user has two options. The first option is to choose a new set of images to train on. The second is to select saved training data.}
+  \label{fig:learnpage}
+\end{figure*}
 
 \subsection{Prediction}
-The user selects which images to predict on. Two outputs are produced: one with all images and their ranking (Figure XXX) and one with the highest-rated images(Figure XXX).
+The user selects which images to predict on. Two outputs are produced: one with all images and their ranking (Figure \ref{fig:imagebrowser}) and one with the highest-rated images (Figure \ref{fig:topimages}).
+
+\begin{figure*}[h!]
+  \centering
+    \fbox{
+      \epsfig{file=imagebrowser.pdf,width=15cm}
+    }
+  \caption{This interface shows the list of images with some of their low-level rankings and final prediction.}
+  \label{fig:imagebrowser}
+\end{figure*}
+
+\begin{figure*}[h!]
+  \centering
+    \fbox{
+      \epsfig{file=topimages.pdf,width=15cm}
+    }
+  \caption{This is a quick view of the top twelve images, as rated by the application.}
+  \label{fig:topimages}
+\end{figure*}
 
 \section{CMPS 242: Notes to grader}
 This paper incorporates Machine Learning into our previous work. For full disclosure, we will list what is included in this paper that was created previously:
 
 \begin{enumerate}
 \item The low-level feature calculations and related framework (but they had been optimized for speed, allowing large training datasets).
-\item The GUIs in Figure XXX and XXX (but they were combined into a single interface for this paper).
+\item The GUIs in Figures \ref{fig:imagebrowser} and \ref{fig:topimages} (but they were combined into a single interface for this paper).
 \end{enumerate}
 
 The rest of the contributions were developed solely for our final project in CMPS 242.
