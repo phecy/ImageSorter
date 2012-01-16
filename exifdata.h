@@ -1,12 +1,12 @@
-#ifndef QUALITYEXIF_H
-#define QUALITYEXIF_H
+#ifndef EXIFDATA_H
+#define EXIFDATA_H
 
 #include "libexif/exif-data.h"
 
-class QualityExif
+class ExifData
 {
 public:
-    QualityExif();
+    ExifData();
 
     void parseData(ExifData* data);
 
@@ -26,4 +26,4 @@ private:
     bool dataExists;
 };
 
-#endif // QUALITYEXIF_H
+#endif // EXIFDATA_H

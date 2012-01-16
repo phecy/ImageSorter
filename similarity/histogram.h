@@ -1,7 +1,6 @@
 #ifndef DUPLICATEHISTOGRAM_H
 #define DUPLICATEHISTOGRAM_H
 
-#include "duplicates/rater.h"
 #include "vimage.h"
 
 #define PIXELS_PER_BIN 16 // divides 256
@@ -14,20 +13,18 @@ using namespace std;
 class DuplicateHistogram
 {
 public:
-    DuplicateHistogram(DuplicateRater *rater);
+    DuplicateHistogram(vector<VImage*> allImages);
 
+    // Adds a single ranking to the DuplicateRater
+    float getSimilarity const(VImage* first, VImage* second);
+
+private:
     // Throw groups of pixels into bins, with some pixels in
     // multiple bins
     void addImage(VImage*);
 
-    // Adds a single ranking to the DuplicateRater
-    void rankOne(VImage*, VImage*);
-
-private:
     // Compares two partial histograms
     int compareHistograms(VImage* first, VImage* second);
-
-    DuplicateRater* rater;
 
     void debugPrint(VImage* vim, HistogramSet);
 };

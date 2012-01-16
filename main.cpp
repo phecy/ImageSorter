@@ -34,29 +34,23 @@
 
 using namespace std;
 
-#include "libexif/exif-loader.h"
-#include "libexif/exif-data.h"
-#include "blurdetect.h"
-#include "boundingbox.h"
-#include "sharpdetect.h"
-#include "exposure.h"
-#include "color.h"
-#include "colorUtility.h"
-#include "contrast.h"
-#include "harmony.h"
-#include "duplicates/findDups.h"
-#include "grey.h"
-#include "insertionsort.h"
-#include "duplicates/segmented.h"
-#include "qualityexif.h"
-#include "vimage.h"
-#include "algorithmPresets.h"
-#include "ml/traindata.h"
-#include "ml/getrating.h"
 #include "common.h"
+#include "vimage.h"
 #include "display/imgviewer.h"
 #include "display/maindisplay.h"
 #include "display/setdisplay.h"
+#include "libexif/exif-loader.h"
+#include "libexif/exif-data.h"
+#include "ml/traindata.h"
+#include "ml/getrating.h"
+#include "quality/blurdetect.h"
+#include "quality/sharpdetect.h"
+#include "quality/exposure.h"
+#include "quality/contrast.h"
+#include "quality/grey.h"
+#include "util/algorithmPresets.h"
+#include "util/insertionsort.h"
+#include "util/qualityexif.h"
 
 #define RANGE 10
 #define RANK_THRESHOLD 4
@@ -130,10 +124,6 @@ void getQualityRatings(vector<VImage*> &imageInfoArray) {
     VImage* vim;
     for(int i=0;i<imageInfoArray.size(); ++i){
         vim = imageInfoArray[i];
-#ifndef IGNORE_SETS
-        // Find duplicates; use IPs to get foreground
-        dupFinder.addImage(vim, vim->getExif());
-#endif
 
 #ifndef FAST_MODE
         vim->addRank("sharpness",
@@ -151,46 +141,9 @@ void getQualityRatings(vector<VImage*> &imageInfoArray) {
     }
 }
 
-
-// Returns number of sets
-int manageSets(vector<VImage*>& imageInfoArray, Duplicates& dupfinder) {
-    int numSets;
-#ifndef IGNORE_SETS
-    //Finds and combines duplicates.
-    dupFinder.createSimilarityVector();
-    vector<vector<VImage*> > dupList = dupFinder.findDuplicates();
-    numSets=dupList.size();
-
-    // Debug output
-    //dupFinder.printRanks();
-
-    // Fill in VImage info
-    for (int set_index = 0; set_index < numSets; ++set_index)
-    {
-       int picsInSet = dupList[set_index].size();
-
-       // Put data in VImage
-       for (int picset_index=0; picset_index < picsInSet; ++picset_index){
-           QImage* currPic = dupList[set_index][picset_index]->getQImage();
-           int picIndex = findIndex(currPic, imageInfoArray, size);
-
-           dupList[set_index][picset_index]->setSetNum(set_index);
-       }
-    }
-#else
-    numSets = 1;
-    for(int i=0; i<imageInfoArray.size(); ++i) {
-        imageInfoArray[i]->setSetNum(0);
-    }
-#endif
-
-    return numSets;
-}
-
 void manageDisplays(vector<VImage*>& imageInfoArray, int numSets) {
     // Sort
     //insertion_sort(picValue, imageStrArray, numFiles);
-    //imageInfoArray = similarity_sort(imageInfoArray, dupFinder);
     //imageInfoArray = set_sort(imageInfoArray);
 
     // GUI
@@ -270,12 +223,10 @@ void loadFiles(bool isTraining) {
 
     // Initialization
     vector<char*> imageStrArray = makeCStringVector(files);
-    Duplicates dupFinder(numFiles);
     vector<VImage*> imageInfoArray = initVImages(imageStrArray);
 
     // Calculations
     getQualityRatings(imageInfoArray);
-    int numSets = manageSets(imageInfoArray, dupFinder);
 
     // Learning
     GetRating* rater;

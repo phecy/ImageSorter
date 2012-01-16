@@ -1,20 +1,22 @@
 #include <math.h>
-#include "duplicates/time.h"
-#include "qualityexif.h"
+#include "time.h"
 #include "vimage.h"
 
 #define WINDOWSIZE 9
 #define MAXRANK 10 // Subtract MAXRANK-logdiff so lower diff = better
 #define STRICTNESS_TIME 10
 
-DuplicateTime::DuplicateTime(DuplicateRater *rater) {
-    this->rater = rater;
+DuplicateTime::DuplicateTime(vector<VImage*> allImages) {
+    vector<VImage*>::iterator it;
+    for(it = allImages.begin(); it != allImages.end(); ++it) {
+        addImage(*it);
+    }
 }
 
-void DuplicateTime::addImage(VImage *vim, QualityExif* exif) {
+void DuplicateTime::addImage(VImage *vim) {
     QImage* im = vim->getQImage();
 
-    exifTime time = exif->getTime();
+    ExifTime time = vim->getExif()->getTime();
 
     // Add to map for quick indexing and time-retrieval
     int currIndex = times.size();
@@ -32,15 +34,10 @@ void DuplicateTime::addImage(VImage *vim, QualityExif* exif) {
     }
 }
 
-void DuplicateTime::rankOne(VImage* vim1, VImage* vim2) {
-    QImage* first = vim1->getQImage();
-    QImage* second = vim2->getQImage();
-
-    int numPics = times.size();
-
+float DuplicateTime::calculateSimilarity(VImage* vim1, VImage* vim2) {
     // Get indeces of images
-    int firstIndex = getIndex(first);
-    int secondIndex = getIndex(second);
+    int firstIndex = vim2->index;
+    int secondIndex = vim2->index;
 
     // Get boundaries
     int minIndex = (firstIndex < WINDOWSIZE) ? 0 : firstIndex - WINDOWSIZE;
@@ -61,16 +58,5 @@ void DuplicateTime::rankOne(VImage* vim1, VImage* vim2) {
 
     if(rank < 0) rank = 0;
 
-//    qDebug("duplicateTime: Img#%p->%p similarity hypothesis: %d/10",
-//           vim1->getFilename(), vim2->getFilename(), rank);
-
-    rater->addRanking(vim1, vim2, rank, DuplicateRater::DUPLICATE_TIME);
-}
-
-int DuplicateTime::getIndex(QImage* which) {
-    return timeIndexFinder.find(which)->second;
-}
-
-int DuplicateTime::getTime(QImage* which) {
-    return times[getIndex(which)];
+    return rank
 }

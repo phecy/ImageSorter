@@ -9,18 +9,16 @@ INCLUDEPATH += . \
 
 # Input
 HEADERS += util/common.h \
-    similarity/rater.h \
     similarity/time.h \
     similarity/gaussian.h \
     similarity/histogram.h \
-    similarity/findDups.h \
     util/algorithmPresets.h \
     quality/blurdetect.h \
     quality/contrast.h \
     quality/exposure.h \
     quality/grey.h \
     util/insertionsort.h \
-    data/qualityexif.h \
+    exifdata.h \
     vimage.h \
     quality/sharpdetect.h \
     ml/getrating.h \
@@ -36,18 +34,16 @@ FORMS += \
     display/setdisplay.ui \
     display/imgviewer.ui
 SOURCES += \
-    similarity/rater.cpp \
     similarity/time.cpp \
     similarity/gaussian.cpp \
     similarity/histogram.cpp \
-    similarity/findDups.cpp \
     quality/blurdetect.cpp \
     quality/exposure.cpp \
     quality/contrast.cpp \
     quality/grey.cpp \
     util/insertionsort.cpp \
     main.cpp \
-    data/qualityexif.cpp \
+    exifdata.cpp \
     vimage.cpp \
     quality/sharpdetect.cpp \
     ml/getrating.cpp \

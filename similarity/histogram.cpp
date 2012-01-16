@@ -10,21 +10,18 @@
 #define STRICTNESS_G 2.0 * MULTIPLIER
 #define STRICTNESS_B 1.0 * MULTIPLIER
 
-DuplicateHistogram::DuplicateHistogram(DuplicateRater *rater) {
-    this->rater = rater;
+DuplicateHistogram::DuplicateHistogram(vector<VImage*> allImages) {
 }
 
 void DuplicateHistogram::addImage(VImage* vim) {
     // Nothing to do; it's contained in VImage already
-    //debugPrint(vim);
 }
 
 // Averages similarity of each segment
-void DuplicateHistogram::rankOne(VImage* first, VImage* second) {
+float DuplicateHistogram::getSimilarity(VImage* first, VImage* second) {
     int similarity = compareHistograms(first, second);
 
-    rater->addRanking(first, second, similarity,
-                      DuplicateRater::DUPLICATE_HISTOGRAM);
+    return similarity;
 }
 
 int DuplicateHistogram::compareHistograms(VImage* vim1, VImage* vim2) {

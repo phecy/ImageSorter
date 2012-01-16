@@ -2,7 +2,7 @@
 #include <QDebug>
 #include "qualityexif.h"
 
-QualityExif::QualityExif()
+ExifData::ExifData()
 {
     dataExists = false;
     aperture = 0;
@@ -11,7 +11,7 @@ QualityExif::QualityExif()
     time = 0;
 }
 
-void QualityExif::parseData(ExifData* data) {
+void ExifData::parseData(ExifData* data) {
     ExifEntry* entry;
     char vals[20];
 

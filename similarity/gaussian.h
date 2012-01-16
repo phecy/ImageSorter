@@ -1,26 +1,23 @@
 #ifndef DUPLICATEGAUSSIAN_H
 #define DUPLICATEGAUSSIAN_H
 
-#include "duplicates/rater.h"
 #include "vimage.h"
 
 using namespace std;
 
-class DuplicateGaussian
+class SimilarityGaussian
 {
 public:
-    DuplicateGaussian(DuplicateRater *rater);
+    SimilarityGaussian(vector<VImage*> allImages);
 
+    // Adds the RGB difference between image and it's blurred copy
+    float rankOne(VImage* first, VImage* second);
+
+private:
     // Creates a small gaussian'd copy of the image
     void addImage(VImage*);
 
-    // Adds a single ranking to the DuplicateRater
-    void rankOne(VImage*, VImage*);
-
-private:
     map<VImage*, VImage_t> blurmap;
-
-    DuplicateRater* rater;
 };
 
 #endif // DUPLICATEGAUSSIAN_H

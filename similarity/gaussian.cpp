@@ -3,25 +3,21 @@
 
 #define GAUSS_DIVIDE_BY 10
 
-DuplicateGaussian::DuplicateGaussian(DuplicateRater *rater) {
-    this->rater = rater;
+SimilarityGaussian::SimilarityGaussian(SimilarityRater *rater) {
+    vector<VImage*>::iterator it;
+    for(it = allImages.begin(); it != allImages.end(); ++it) {
+        addImage(*it);
+    }
 }
 
 // Creates a small gaussian'd copy of the image
-void DuplicateGaussian::addImage(VImage* vim) {
+void SimilarityGaussian::addImage(VImage* vim) {
     VImage_t blurred = gaussian_filter(*vim->getVImage(), 1.0);
     blurmap[vim] = blurred;
-
-
-//    display* d = new display();
-//    vector<VImage*> v;
-//    v.push_back(vim);
-//    d->setImageData(v,1,1);
-//    d->show();
 }
 
-// Adds a single ranking to the DuplicateRater
-void DuplicateGaussian::rankOne(VImage* first, VImage* second) {
+// Adds a single ranking to the SimilarityRater
+float SimilarityGaussian::rankOne(VImage* first, VImage* second) {
     VImage_t one = blurmap[first];
     VImage_t two = blurmap[second];
 
@@ -29,5 +25,5 @@ void DuplicateGaussian::rankOne(VImage* first, VImage* second) {
     rating = 10 - rating;
     rating = rating < 0 ? 0 : rating > 9 ? 9 : rating; // 0<=r<=9
 
-    rater->addRanking(first, second, rating, DuplicateRater::DUPLICATE_GAUSSIAN);
+    return rating;
 }
