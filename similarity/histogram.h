@@ -1,5 +1,5 @@
-#ifndef DUPLICATEHISTOGRAM_H
-#define DUPLICATEHISTOGRAM_H
+#ifndef SIMILARITYHISTOGRAM_H
+#define SIMILARITYHISTOGRAM_H
 
 #include "vimage.h"
 
@@ -10,13 +10,13 @@
 
 using namespace std;
 
-class DuplicateHistogram
+class SimilarityHistogram
 {
 public:
-    DuplicateHistogram(vector<VImage*> allImages);
+    SimilarityHistogram(vector<VImage*> allImages);
 
-    // Adds a single ranking to the DuplicateRater
-    float getSimilarity const(VImage* first, VImage* second);
+    // Adds a single ranking to the SimilarityRater
+    float calculateSimilarity (VImage* first, VImage* second);
 
 private:
     // Throw groups of pixels into bins, with some pixels in
@@ -28,4 +28,4 @@ private:
 
     void debugPrint(VImage* vim, HistogramSet);
 };
-#endif // DUPLICATEHISTOGRAM_H
+#endif // SIMILARITYHISTOGRAM_H

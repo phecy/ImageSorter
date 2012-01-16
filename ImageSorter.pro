@@ -17,8 +17,7 @@ HEADERS += util/common.h \
     quality/contrast.h \
     quality/exposure.h \
     quality/grey.h \
-    util/insertionsort.h \
-    exifdata.h \
+    exifinfo.h \
     vimage.h \
     quality/sharpdetect.h \
     ml/getrating.h \
@@ -41,9 +40,8 @@ SOURCES += \
     quality/exposure.cpp \
     quality/contrast.cpp \
     quality/grey.cpp \
-    util/insertionsort.cpp \
     main.cpp \
-    exifdata.cpp \
+    exifinfo.cpp \
     vimage.cpp \
     quality/sharpdetect.cpp \
     ml/getrating.cpp \
@@ -54,6 +52,7 @@ SOURCES += \
     ml/lowlevellearner.cpp \
     ml/highlevellearner.cpp \
     ml/learnercommon.cpp \
+    vw/InterestPoint/InterestData.cc\
     util/common.cpp
 LIBS += /usr/lib/libexif.a \
     /usr/lib/libboost*.a \
@@ -61,3 +60,4 @@ LIBS += /usr/lib/libexif.a \
     /usr/lib/liblapack.a \
     /usr/lib/liblapack.so \
     /usr/lib/libgsl.so.0
+QMAKE_CXXFLAGS_DEBUG += -Wno-sign-compare

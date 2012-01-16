@@ -1,9 +1,8 @@
-#include "duplicates/gaussian.h"
-#include "display/imgviewer.h"
+#include "gaussian.h"
 
 #define GAUSS_DIVIDE_BY 10
 
-SimilarityGaussian::SimilarityGaussian(SimilarityRater *rater) {
+SimilarityGaussian::SimilarityGaussian(vector<VImage*> allImages) {
     vector<VImage*>::iterator it;
     for(it = allImages.begin(); it != allImages.end(); ++it) {
         addImage(*it);
@@ -17,7 +16,7 @@ void SimilarityGaussian::addImage(VImage* vim) {
 }
 
 // Adds a single ranking to the SimilarityRater
-float SimilarityGaussian::rankOne(VImage* first, VImage* second) {
+float SimilarityGaussian::calculateSimilarity(VImage* first, VImage* second) {
     VImage_t one = blurmap[first];
     VImage_t two = blurmap[second];
 

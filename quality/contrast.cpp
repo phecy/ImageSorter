@@ -12,7 +12,7 @@ float Contrast::RMS(VImage *vim)
 {
     int avgGray = vim->getAvgGray();
    // int area = vim->getWidth() * vim->getHeight();
-    histogramChannel hist = vim->getHistogramK();
+    HistogramChannel hist = vim->getHistogramK();
 
     double sumOfSquareDiffs = 0;
 

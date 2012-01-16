@@ -176,8 +176,8 @@ void BlurDetect::followEdges() {
 void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
     int brightest_contr = 0; int darkest_contr = 255;
     int brightest_dist = 0; int darkest_dist = 255;
-    //point brightloc_contr, darkloc_contr;
-    point brightloc_dist, darkloc_dist;
+    //Point brightloc_contr, darkloc_contr;
+    Point brightloc_dist, darkloc_dist;
 
     // Ensure its an edge
     if(highPass[w][h] == 255)
@@ -202,26 +202,26 @@ void BlurDetect::calcEdgeWidthAndAngle(int w, int h) {
             sizePenalty *= EDGE_WIDTH_PENALTY;
             sizePenalty = fmax(sizePenalty, 1.0);
 
-            // Weighted-contrast brightest and darkest points
+            // Weighted-contrast brightest and darkest Points
             if(originalImage[x][y]*sizePenalty < darkest_contr) {
-                // Check if darkest point
+                // Check if darkest Point
                 darkest_contr = originalImage[x][y];
-                //darkloc_contr = point(x, y);
+                //darkloc_contr = Point(x, y);
             } else if(originalImage[x][y]/sizePenalty > brightest_contr) {
-                // Check if brightest point
+                // Check if brightest Point
                 brightest_contr = originalImage[x][y];
-                //brightloc_contr = point(x, y);
+                //brightloc_contr = Point(x, y);
             }
 
             // Biggest distance penalty
             if(originalImage[x][y] < darkest_dist) {
-                // Check if darkest point
+                // Check if darkest Point
                 darkest_dist = originalImage[x][y];
-                darkloc_dist = point(x, y);
+                darkloc_dist = Point(x, y);
             } else if(originalImage[x][y] > brightest_dist) {
-                // Check if brightest point
+                // Check if brightest Point
                 brightest_dist = originalImage[x][y];
-                brightloc_dist = point(x, y);
+                brightloc_dist = Point(x, y);
             }
 
         }
@@ -298,7 +298,7 @@ int BlurDetect::calcAngle(int w, int h) {
     dirAngle = dirAngle % 360;
 
     // Get difference of this and closest angle
-    int closestAngleDiff = 361; // Start with far point
+    int closestAngleDiff = 361; // Start with far Point
     for(int x=w-radius; x<w; x++) {
         for(int y=h-radius; y<h; y++) {
             if((x == w && y == h)  ||

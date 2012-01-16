@@ -19,8 +19,6 @@ ImgViewer::ImgViewer(QWidget *parent) :
 
     connect(ui->prevBut, SIGNAL(released()), this, SLOT(prevImage()));
     connect(ui->nextBut, SIGNAL(released()), this, SLOT(nextImage()));
-    connect(ui->prevSetBut, SIGNAL(released()), this, SLOT(prevInSet()));
-    connect(ui->nextSetBut, SIGNAL(released()), this, SLOT(nextInSet()));
     connect(ui->slider, SIGNAL(valueChanged(int)), this, SLOT(slid(int)));
 }
 
@@ -52,26 +50,6 @@ void ImgViewer::newPic(int picNum)
     VImage* vim = images[picNum];
     QImage* i = vim->getQImage();
 
-    // Gather bounding box info
-    point start = vim->getForegroundCoords().first;
-    point fin = vim->getForegroundCoords().second;
-    float widthScale = (float)i->width() / vim->getOrigWidth();
-    float heightScale = (float)i->height() / vim->getOrigHeight();
-    start.first *= widthScale;
-    fin.first *= widthScale;
-    start.second *= heightScale;
-    fin.second *= heightScale;
-
-    // Draw bounding box
-    for(int w=start.first; w<fin.first; w++) {
-        i->setPixel(w, start.second, qRgb(0,255,0));
-        i->setPixel(w, fin.second, qRgb(0,255,0));
-    }
-    for(int h=start.second; h<fin.second; h++) {
-        i->setPixel(start.first, h, qRgb(0,255,0));
-        i->setPixel(fin.first, h, qRgb(0,255,0));
-    }
-
     currPix = QPixmap::fromImage(*i);
 
     label->setPixmap(currPix);
@@ -81,13 +59,17 @@ void ImgViewer::newPic(int picNum)
     char text[512];
 
     // Ranks start at 1, not 0, for ImgViewer; +1 to indeces
-    sprintf(text, "Image %d/%d: Ranked %1.02f/9 [%1.02f] || Set number %d/%d",
-            picNum+1, size, vim->getRank(), vim->getAdjustedRank(), vim->getSetNum()+1, numsets);
-    vector<pair<string, float> > ranks = vim->getRanks();
+    sprintf(text, "Image %d/%d: Ranked %1.02f/10",
+            picNum+1, size, vim->getTotalQuality()*10);
+    vector<pair<string, float> > ranks = vim->getQualities();
     for(int i=0; i<ranks.size(); ++i) {
+        // If current image isn't found, skip it
         if(std::find(ranksToImgViewer.begin(),
-                ranksToImgViewer.end(),
-                ranks.at(i).first) == ranksToImgViewer.end()) continue;
+                     ranksToImgViewer.end(),
+                     ranks.at(i).first) == ranksToImgViewer.end()) {
+            continue;
+        }
+
         indivRankText << ranks.at(i).first << ": " <<
                          setprecision(2) << ranks.at(i).second <<  " || ";
         if(indivRankText.str().size() > 80)
@@ -110,29 +92,6 @@ void ImgViewer::prevImage() {
     }
 }
 
-void ImgViewer::nextInSet() {
-    if(nextInCurrSet != -1)
-        goToPic(nextInCurrSet);
-}
-
-void ImgViewer::prevInSet() {
-    if(prevInCurrSet != -1)
-        goToPic(prevInCurrSet);
-}
-
-int ImgViewer::findOthersInSet(bool lookForward) {
-    int direction = lookForward ? 1 : -1; // Which way to iterate
-
-    int tempIndex = currPixIndex;
-    do {
-        tempIndex += direction;
-        if(tempIndex < 0 || tempIndex >= size)
-            return -1; // Out of bounds
-    } while(images[tempIndex]->getSetNum()!=images[currPixIndex]->getSetNum());
-
-    return tempIndex; // Success
-}
-
 void ImgViewer::goToPic(int whichPic) {
     assert(whichPic >= 0 && whichPic < size);
 
@@ -142,21 +101,10 @@ void ImgViewer::goToPic(int whichPic) {
     // This will not ImgViewer correctly in case size==1
     // Correct prev/next img buttons
     if(currPixIndex == 0) {
-        ui->prevSetBut->setEnabled(false);
         ui->prevBut->setEnabled(false);
     } else if(currPixIndex == size-1) {
-        ui->nextSetBut->setEnabled(false);
         ui->nextBut->setEnabled(false);
     }
-
-    // Correct prev/next set buttons
-    prevInCurrSet = findOthersInSet(false);
-    nextInCurrSet = findOthersInSet(true);
-
-    if(prevInCurrSet == -1)
-        ui->prevSetBut->setEnabled(false);
-    if(nextInCurrSet == -1)
-        ui->nextSetBut->setEnabled(false);
 
     newPic(currPixIndex);
     ui->slider->setValue(currPixIndex);
@@ -164,9 +112,7 @@ void ImgViewer::goToPic(int whichPic) {
 
 void ImgViewer::enableAllButtons() {
     ui->prevBut->setEnabled(true);
-    ui->prevSetBut->setEnabled(true);
     ui->nextBut->setEnabled(true);
-    ui->nextSetBut->setEnabled(true);
 }
 
 void ImgViewer::slid(int pos) {

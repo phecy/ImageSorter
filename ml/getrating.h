@@ -6,9 +6,9 @@ Serves as a connection between VImages and learner
 #ifndef GETRATING_H
 #define GETRATING_H
 
-#include "common.h"
 #include "vimage.h"
 #include "ml/highlevellearner.h"
+#include "util/common.h"
 
 using namespace std;
 

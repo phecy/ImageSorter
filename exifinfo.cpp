@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <QDebug>
-#include "qualityexif.h"
+#include "exifinfo.h"
 
-ExifData::ExifData()
+ExifInfo::ExifInfo()
 {
     dataExists = false;
     aperture = 0;
@@ -11,7 +11,7 @@ ExifData::ExifData()
     time = 0;
 }
 
-void ExifData::parseData(ExifData* data) {
+void ExifInfo::parseData(ExifData* data) {
     ExifEntry* entry;
     char vals[20];
 

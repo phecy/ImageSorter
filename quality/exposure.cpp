@@ -22,29 +22,6 @@ const int middle_grey = 128;
 const int delta = 30;
 const int big_delta = 80;
 
-// r1 - piece
-// r2 - foreground
-double intersect(VImage *vim, boundingBox r1)
-{
-    /*double area = (double)(max(r1[0].first,r2[0].first) - min(r1[1].first,r2[1].first))*
-(double)(max(r1[0].second,r2[0].second) - min(r1[1].second,r2[1].second));
-*/
-
-    //double area = (double)(max(r1.first.first,r2.first.first));
-
-    double area = (double)vim->amountInForeground(r1);
-
-    if (area == 0) return 1.;
-
-    double r1_area = (r1.first.first-r1.second.first)*(r1.first.second-r1.second.second);
-
-    //qDebug("piece area %d    intersection area %d\n");
-
-    return ((area)*3. + (r1_area-area)*1.)/r1_area;
-
-}
-
-
 
 Exposure::Exposure(){
 }

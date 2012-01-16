@@ -20,7 +20,7 @@ GetRating::~GetRating() {
 void GetRating::rate(std::vector<VImage*>& images) {
     // Gather info
     int numImages = images.size();
-    int numLLFeatures = images[0]->getRanks().size();
+    int numLLFeatures = images[0]->getQualities().size();
     sample_type llSample; // A single low level sample, to be saved then
                           //  written over
     llSample.set_size(numLLFeatures);
@@ -28,12 +28,12 @@ void GetRating::rate(std::vector<VImage*>& images) {
     // Now we see how well we predicted on the training set
     for(int img_i=0; img_i<numImages; ++img_i) {
         const std::vector<pair<string, float> > features
-                                         = images[img_i]->getRanks();
+                                         = images[img_i]->getQualities();
         for(int feat_i=0; feat_i < numLLFeatures; ++feat_i) {
             llSample(feat_i) = features[feat_i].second;
         }
         double predictedVal = prediction(llSample);
-        images[img_i]->setRank(predictedVal);
+        images[img_i]->setTotalQuality(predictedVal);
     }
 }
 

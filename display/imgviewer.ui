@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>535</height>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -108,47 +108,6 @@
    </property>
    <property name="tickPosition">
     <enum>QSlider::TicksBelow</enum>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="prevSetBut">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>500</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Meiryo UI</family>
-    </font>
-   </property>
-   <property name="text">
-    <string>Prev. In Set</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="nextSetBut">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>550</x>
-     <y>500</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Meiryo UI</family>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Next In Set</string>
    </property>
   </widget>
   <widget class="QLabel" name="indivRanks">

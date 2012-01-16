@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <cstring>
 
-#include "common.h"
+#include "util/common.h"
 #include "traindata.h"
 
 #define CSV_FILE_NAME "all_csv_files.txt"

@@ -15,7 +15,7 @@ QImage and a VImage (Vision Workbench image)
 #include "vw/Core.h"
 #include "vw/InterestPoint.h"
 #include "vw/Image.h"
-#include "exifdata.h"
+#include "exifinfo.h"
 #include "util/common.h"
 
 #define HNUMCOLORS 4
@@ -54,14 +54,14 @@ public:
     int getHeight() { return height; }
     int getOrigWidth() { return origwidth; }
     int getOrigHeight() { return origheight; }
-    QualityExif& getExif() { return exifdata; }
-    void setExif(QualityExif e) { exifdata = e; }
+    ExifInfo& getExif() { return exifdata; }
+    void setExif(ExifInfo e) { exifdata = e; }
 
     // Rating
-    void setQuality(float r) { quality=r; }
-    float getQuality() { return quality; }
+    void setTotalQuality(float r) { quality=r; }
+    float getTotalQuality() { return quality; }
     void setQualities(vector<pair<string, float> > q) { qualities=q; }
-    void addQuality(string attributeName, double value);
+    void setQuality(string attributeName, double value);
     const vector<pair<string, float> >& getQualities() { return qualities; }
 
     // For sharpdetect and duplicategaussian
@@ -104,7 +104,7 @@ private:
     int index; // As sorted by filesystem
     int width, height; // Width scaled to 800px
     int origwidth, origheight; // VImage_t width+height
-    QualityExif exifdata;
+    ExifInfo exifdata;
 
     // The image's final rank (combination of the qualities vector)
     float quality; 

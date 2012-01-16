@@ -120,9 +120,9 @@ int VImage::avgPixelDiff(VImage_t one, VImage_t two) {
     return total;
 }
 
-histogramSet VImage::makeHistograms(VImage* vim,
+HistogramSet VImage::makeHistograms(VImage* vim,
                        int x, int y, int width, int height) {
-    histogramSet histograms = histogramSet(HNUMCOLORS,
+    HistogramSet histograms = HistogramSet(HNUMCOLORS,
                               vector<float>(256, 0.0));
 
     if(x+width > vim->getWidth() ||
@@ -160,7 +160,7 @@ histogramSet VImage::makeHistograms(VImage* vim,
     return histograms;
 }
 
-void VImage::addQuality(string attributeName, double value)  {
+void VImage::setQuality(string attributeName, double value)  {
     qualities.push_back(pair<string, double>
                         (attributeName, value));
 }

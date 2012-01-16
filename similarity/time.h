@@ -1,5 +1,5 @@
-#ifndef DUPLICATETIME_H
-#define DUPLICATETIME_H
+#ifndef SIMILARITYTIME_H
+#define SIMILARITYTIME_H
 
 #include "vimage.h"
 
@@ -17,7 +17,7 @@ public:
     //
     // e.g. gets everything between two images, WINDOWSIZE before first,
     // and WINDOWSIZE after second
-    float getSimilarity const(VImage* first, VImage* second);
+    float calculateSimilarity(VImage* first, VImage* second);
 
 private:
     // Add this image to the internal structure (updates sumGapLogs)
@@ -34,4 +34,4 @@ private:
 
 };
 
-#endif // DUPLICATETIME_H
+#endif // SIMILARITYTIME_H

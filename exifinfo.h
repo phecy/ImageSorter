@@ -3,10 +3,10 @@
 
 #include "libexif/exif-data.h"
 
-class ExifData
+class ExifInfo
 {
 public:
-    ExifData();
+    ExifInfo();
 
     void parseData(ExifData* data);
 

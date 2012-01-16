@@ -6,17 +6,17 @@
 #define MAXRANK 10 // Subtract MAXRANK-logdiff so lower diff = better
 #define STRICTNESS_TIME 10
 
-DuplicateTime::DuplicateTime(vector<VImage*> allImages) {
+SimilarityTime::SimilarityTime(vector<VImage*> allImages) {
     vector<VImage*>::iterator it;
     for(it = allImages.begin(); it != allImages.end(); ++it) {
         addImage(*it);
     }
 }
 
-void DuplicateTime::addImage(VImage *vim) {
+void SimilarityTime::addImage(VImage *vim) {
     QImage* im = vim->getQImage();
 
-    ExifTime time = vim->getExif()->getTime();
+    ExifTime time = vim->getExif().getTime();
 
     // Add to map for quick indexing and time-retrieval
     int currIndex = times.size();
@@ -34,10 +34,11 @@ void DuplicateTime::addImage(VImage *vim) {
     }
 }
 
-float DuplicateTime::calculateSimilarity(VImage* vim1, VImage* vim2) {
+float SimilarityTime::calculateSimilarity(VImage* vim1, VImage* vim2) {
     // Get indeces of images
-    int firstIndex = vim2->index;
-    int secondIndex = vim2->index;
+    int firstIndex = vim1->getIndex();
+    int secondIndex = vim2->getIndex();
+    int numPics = times.size();
 
     // Get boundaries
     int minIndex = (firstIndex < WINDOWSIZE) ? 0 : firstIndex - WINDOWSIZE;
@@ -58,5 +59,5 @@ float DuplicateTime::calculateSimilarity(VImage* vim1, VImage* vim2) {
 
     if(rank < 0) rank = 0;
 
-    return rank
+    return rank;
 }

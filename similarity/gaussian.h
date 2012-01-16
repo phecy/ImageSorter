@@ -1,5 +1,5 @@
-#ifndef DUPLICATEGAUSSIAN_H
-#define DUPLICATEGAUSSIAN_H
+#ifndef SIMILARITYGAUSSIAN_H
+#define SIMILARITYGAUSSIAN_H
 
 #include "vimage.h"
 
@@ -11,7 +11,7 @@ public:
     SimilarityGaussian(vector<VImage*> allImages);
 
     // Adds the RGB difference between image and it's blurred copy
-    float rankOne(VImage* first, VImage* second);
+    float calculateSimilarity(VImage* first, VImage* second);
 
 private:
     // Creates a small gaussian'd copy of the image
@@ -20,4 +20,4 @@ private:
     map<VImage*, VImage_t> blurmap;
 };
 
-#endif // DUPLICATEGAUSSIAN_H
+#endif // SIMILARITYGAUSSIAN_H

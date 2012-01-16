@@ -3,7 +3,6 @@
 #include "dlib/svm.h"
 #include "dlib/data_io.h"
 
-#include "common.h"
 #include "learnercommon.h"
 #include "lowlevellearner.h"
 

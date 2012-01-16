@@ -34,7 +34,7 @@
 
 using namespace std;
 
-#include "common.h"
+#include "exifinfo.h"
 #include "vimage.h"
 #include "display/imgviewer.h"
 #include "display/maindisplay.h"
@@ -49,8 +49,7 @@ using namespace std;
 #include "quality/contrast.h"
 #include "quality/grey.h"
 #include "util/algorithmPresets.h"
-#include "util/insertionsort.h"
-#include "util/qualityexif.h"
+#include "util/common.h"
 
 #define RANGE 10
 #define RANK_THRESHOLD 4
@@ -70,8 +69,8 @@ int findIndex(QImage *im, vector<VImage*> &imageInfoArray, int size){
     return -1;
 }
 
-// Loads the exif data of the image into the QualityExif object
-void loadExif(QualityExif& exifs, const char* fn) {
+// Loads the exif data of the image into the ExifInfo object
+void loadExif(ExifInfo& exifs, const char* fn) {
     ExifLoader* loader = exif_loader_new();
     if(!loader) {
         qDebug("No exif data available for %s", fn);
@@ -130,22 +129,18 @@ void getQualityRatings(vector<VImage*> &imageInfoArray) {
                        sharpRater.rankOne(vim));
 #endif
         // newBlur->show();
-        vim->addRank("blur",
+        vim->setQuality("blur",
                        blurRater.calculateBlur(vim));
-        vim->addRank("exposure",
+        vim->setQuality("exposure",
                        exposureRater.rate(vim));
-        vim->addRank("contrast",
+        vim->setQuality("contrast",
                        contrastRater.RMS(vim));
-        vim->addRank("localcontrast",
+        vim->setQuality("localcontrast",
                        contrastRater.local_contrast(vim));
     }
 }
 
-void manageDisplays(vector<VImage*>& imageInfoArray, int numSets) {
-    // Sort
-    //insertion_sort(picValue, imageStrArray, numFiles);
-    //imageInfoArray = set_sort(imageInfoArray);
-
+void manageDisplays(vector<VImage*>& imageInfoArray) {
     // GUI
     vector<string> ranksToDisplay;
     ranksToDisplay.push_back("blur");
@@ -154,7 +149,7 @@ void manageDisplays(vector<VImage*>& imageInfoArray, int numSets) {
     ranksToDisplay.push_back("localcontrast");
 
     ImgViewer *viewer = new ImgViewer();
-    viewer->setImageData(imageInfoArray, numSets);
+    viewer->setImageData(imageInfoArray);
     viewer->setRanksToDisplay(ranksToDisplay);
     viewer->init();
 
@@ -186,7 +181,7 @@ TrainData* makeTrainingSet(vector<VImage*>& imageInfoArray) {
     for(int i=0; i<imageInfoArray.size(); ++i) {
         // Get features
         vector<double> features;
-        vector<pair<string, float> > ratings = imageInfoArray[i]->getRanks();
+        vector<pair<string, float> > ratings = imageInfoArray[i]->getQualities();
         for(int f=0; f<ratings.size(); ++f) {
             features.push_back(ratings[f].second);
         }
@@ -246,7 +241,7 @@ void loadFiles(bool isTraining) {
     delete rater;
 
     // Display
-    manageDisplays(imageInfoArray, numSets);
+    manageDisplays(imageInfoArray);
 }
 
 int main(int argc, char *argv[])

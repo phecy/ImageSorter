@@ -1,8 +1,8 @@
 //#include "gsl/gsl_fit.h"
 
-#include "common.h"
 #include "learnercommon.h"
 #include "highlevellearner.h"
+#include "util/common.h"
 
 HighLevelLearner::HighLevelLearner(int numHlFeatures) {
     for(int i=0; i<numHlFeatures; ++i) {

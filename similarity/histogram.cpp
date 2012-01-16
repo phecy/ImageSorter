@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include "duplicates/histogram.h"
+#include "histogram.h"
 
 #define EDGE_BINS_TO_IGNORE 2
 
@@ -10,21 +10,21 @@
 #define STRICTNESS_G 2.0 * MULTIPLIER
 #define STRICTNESS_B 1.0 * MULTIPLIER
 
-DuplicateHistogram::DuplicateHistogram(vector<VImage*> allImages) {
+SimilarityHistogram::SimilarityHistogram(vector<VImage*> allImages) {
 }
 
-void DuplicateHistogram::addImage(VImage* vim) {
+void SimilarityHistogram::addImage(VImage* vim) {
     // Nothing to do; it's contained in VImage already
 }
 
 // Averages similarity of each segment
-float DuplicateHistogram::getSimilarity(VImage* first, VImage* second) {
+float SimilarityHistogram::calculateSimilarity(VImage* first, VImage* second) {
     int similarity = compareHistograms(first, second);
 
     return similarity;
 }
 
-int DuplicateHistogram::compareHistograms(VImage* vim1, VImage* vim2) {
+int SimilarityHistogram::compareHistograms(VImage* vim1, VImage* vim2) {
     const vector<int> oneMeds = vim1->getMedians();
     const vector<int> twoMeds = vim2->getMedians();
 
@@ -65,7 +65,7 @@ int DuplicateHistogram::compareHistograms(VImage* vim1, VImage* vim2) {
     return rating;
 }
 
-void DuplicateHistogram::debugPrint(VImage* vim, HistogramSet hists) {
+void SimilarityHistogram::debugPrint(VImage* vim, HistogramSet hists) {
     for(int col=0; col<HNUMCOLORS; ++col) {
         cerr << "Printing " <<
                 (col==0 ? "black" :

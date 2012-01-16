@@ -3,7 +3,7 @@
 
 #include "cstdlib"
 #include "iostream"
-#include "common.h"
+#include "util/common.h"
 #define DEFAULT_SVR_EXT "ldat"
 #define DEFAULT_LEARN_BASENAME "default"
 
