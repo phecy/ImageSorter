@@ -19,23 +19,21 @@ This file is part of ppm.
 #define FINDDUPS_H
 
 #include <map>
-#include "duplicates/segmented.h"
 #include "duplicates/time.h"
-#include "duplicates/interestpoints.h"
 #include "duplicates/gaussian.h"
 #include "duplicates/histogram.h"
 #include "vimage.h"
 
 using namespace std;
 
-typedef vector<VImage*> imgList;
-typedef vector<imgList > dupGroup;
+typedef vector<VImage*> ImgList;
+typedef vector<ImgList> DupGroup;
 
 
 // A list of sets of rankings and the images that voted
 // float: the ranking
-// imgList: the images that voted on this rank
-typedef vector<pair<vector<float>, imgList> > rankVector;
+// ImgList: the images that voted on this rank
+typedef vector<pair<vector<float>, ImgList> > rankVector;
 
 class Duplicates {
 public:
@@ -44,7 +42,7 @@ public:
     // Initialize anything needed by the modules for this im
     void addImage(VImage*, QualityExif* );
 
-    dupGroup findDuplicates();
+    DupGroup findDuplicates();
 
     // Get a 2d matrix of rankings. Destruct it when you're done.
     rankVector* getRankVector(bool isBinary = false);
@@ -81,21 +79,18 @@ private:
     /*
      * Clustering
      */
-
     // Prints out the current rank vector + PHP
     void debugPrintRanks(rankVector*);
-    void debugPrintPhpRanks(rankVector*);
-    void debugPrintPhpGroups(dupGroup*);
 
     // Get the max paired ranking in the rankVector
     pair<int,int> getMaxPair(rankVector* ranks);
 
     // True if "checking" is in the row
-    bool contains(imgList row, VImage* lookfor);
+    bool contains(ImgList row, VImage* lookfor);
 
     // Updated rank of this index after firstRow & secondRow merge
-    float getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
-                         const pair<vector<float>, imgList> &secondRow,
+    float getUpdatedRank(const pair<vector<float>, ImgList> &firstRow,
+                         const pair<vector<float>, ImgList> &secondRow,
                          int index);
 
     // Combine second row into first. Remove second row.
@@ -103,7 +98,7 @@ private:
     void combineSets(int first, int second, rankVector* ranks);
 
     // A list of near-duplicates
-    dupGroup* allGroups;
+    DupGroup* allGroups;
 
     // Maps an image to its set number (index in allGroups)
     map<VImage*, int>* setFinder;
@@ -120,18 +115,15 @@ private:
     DuplicateRater* rater;
 
     // Duplicate detection modules
-    DuplicateSegmented* segmented;
     DuplicateTime* timed;
-    DuplicateIp* interest;
     DuplicateGaussian* gaussian;
     DuplicateHistogram* histogram;
-
 
     /*
      * Variables
      */
     // All images fed to the duplicate tester
-    imgList* allImages;
+    ImgList* allImages;
 
 };
 

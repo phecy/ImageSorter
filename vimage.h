@@ -29,10 +29,9 @@ using namespace vw;
 using namespace vw::ip;
 
 typedef ImageView<PixelRGB<uint8> > VImage_t;
-typedef pair<int,int> point;
-typedef pair<point,point> boundingBox;
-typedef vector<float> histogramChannel;
-typedef vector<histogramChannel> histogramSet;
+typedef pair<int,int> Point;
+typedef vector<float> HistogramChannel;
+typedef vector<HistogramChannel> HistogramSet;
 
 /*DEBUG class QMainWindow;*/
 class VImage/*DEBUG : public QMainWindow*/
@@ -49,7 +48,6 @@ public:
     // Information
     char* getFilename() { return filename; }
     char* getFullpath() { return fullpath; }
-    string getIpFullpath() { return ip_fullpath; }
     int getIndex() { return index; }
     void setIndex(int i) { index=i; }
     int getWidth() { return width; }
@@ -59,44 +57,26 @@ public:
     QualityExif& getExif() { return exifdata; }
     void setExif(QualityExif e) { exifdata = e; }
 
-    // Ranks
-    // Rank = 0-10 rating.
-    // Adjusted rank = rank adjusted for set
-    void setRank(float r) { rankTotal=r; adjustedRank=r; }
-    float getRank() { return rankTotal; }
-    void setSetNum(float s) { setNum = s; }
-    int getSetNum() { return setNum; }
-    void multiplyAdjustedRank(float k) { adjustedRank *= k; }
-    void subAdjustedRank(float k) { adjustedRank -= k; }
-    float getAdjustedRank() { return adjustedRank; }
-    void setRanks(vector<pair<string, float> > r) { ranks = r; }
-    void addRank(string attributeName, double value);
-    const vector<pair<string, float> >& getRanks() { return ranks; }
-
-    // Foreground stuff
-    vector<InterestPoint> getIps() { return ipList; }
-    void setIp(vector<InterestPoint> ip) { ipList = ip; }
-
-    boundingBox getForegroundCoords() { return foregroundCoords; }
-    QImage* getForeground() { return foreground; }
-    void setForeground(boundingBox coords);
+    // Rating
+    void setQuality(float r) { quality=r; }
+    float getQuality() { return quality; }
+    void setQualities(vector<pair<string, float> > q) { qualities=q; }
+    void addQuality(string attributeName, double value);
+    const vector<pair<string, float> >& getQualities() { return qualities; }
 
     // For sharpdetect and duplicategaussian
     // Returns avg pixel difference
     static int avgPixelDiff(VImage_t one, VImage_t two);
 
-    // Returns the area of the given box in the fg
-    int amountInForeground(boundingBox);
-
     // Colors
-        // Make histogram starting at QImage's (x,y)
-    static histogramSet makeHistograms
+    // Make histogram starting at QImage's (x,y)
+    static HistogramSet makeHistograms
                     (VImage* vim, int x, int y, int width, int height);
-    const histogramSet& getHistogram() { return histograms; }
-    histogramChannel getHistogramK() { return histograms[HBLACK]; }
-    histogramChannel getHistogramR() { return histograms[HRED]; }
-    histogramChannel getHistogramG() { return histograms[HGREEN]; }
-    histogramChannel getHistogramB() { return histograms[HBLUE]; }
+    const HistogramSet& getHistogram() { return histograms; }
+    HistogramChannel getHistogramK() { return histograms[HBLACK]; }
+    HistogramChannel getHistogramR() { return histograms[HRED]; }
+    HistogramChannel getHistogramG() { return histograms[HGREEN]; }
+    HistogramChannel getHistogramB() { return histograms[HBLUE]; }
     const vector<int>& getMedians() { return medianColors; }
     int getMedGray() { return medianColors[HBLACK]; }
     int getMedRed() { return medianColors[HRED]; }
@@ -126,19 +106,17 @@ private:
     int origwidth, origheight; // VImage_t width+height
     QualityExif exifdata;
 
-    // Ranks
-    float rankTotal; // The image's final rank
-    vector<pair<string, float> > ranks; // A name and number for each rank
-    int setNum;
-    float adjustedRank; // Rank adjusted for sets
+    // The image's final rank (combination of the qualities vector)
+    float quality; 
 
-    // Foreground stuff
-    vector<InterestPoint> ipList;
-    boundingBox foregroundCoords;
-    QImage* foreground;
+    // A name and rating for each item in the quality vector
+    vector<pair<string, float> > qualities; 
+
+    // A name and rating for each item in the uniqueness vector
+    vector<pair<string, float> > uniqueness;
 
     // Colors
-    histogramSet histograms; // 4 channels, black+RGB
+    HistogramSet histograms; // 4 channels, black+RGB
                                        // % between 0 and 1
     vector<int> medianColors; // Median of histogram
     vector<int> avgColors; // Average per channel

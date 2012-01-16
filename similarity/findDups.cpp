@@ -19,7 +19,6 @@
 #include <assert.h>
 #include "findDups.h"
 #include "duplicates/rater.h"
-#include "duplicates/segmented.h"
 #include "duplicates/time.h"
 #include "duplicates/gaussian.h"
 #include "qualityexif.h"
@@ -42,27 +41,20 @@ typedef pair<unsigned int, unsigned int> avgPair;
 
 Duplicates::Duplicates(int numImages) {
     rater = new DuplicateRater(numImages);
-    segmented = new DuplicateSegmented(rater);
     timed = new DuplicateTime(rater);
 #ifndef FAST_MODE
-    interest = new DuplicateIp(rater);
     gaussian = new DuplicateGaussian(rater);
 #endif
     histogram = new DuplicateHistogram(rater);
 
     setFinder = new map<VImage*, int>();
-    allImages = new imgList();
-    allGroups = new dupGroup();
+    allImages = new ImgList();
+    allGroups = new DupGroup();
 }
 
 void Duplicates::addImage(VImage* vim, QualityExif* exif) {
     timed->addImage(vim, exif);
-#ifndef FAST_MODE
-    interest->addImage(vim);
-#endif
-    segmented->addImage(vim); // NEEDS TO USE INTEREST POINTS,
-                              // (if ndef FAST_MODE)
-                              // keep after interest rater
+
 #ifndef FAST_MODE
     gaussian->addImage(vim);
 #endif
@@ -70,7 +62,7 @@ void Duplicates::addImage(VImage* vim, QualityExif* exif) {
     allImages->insert(allImages->end(), vim);
 }
 
-dupGroup Duplicates::findDuplicates() {
+DupGroup Duplicates::findDuplicates() {
     //qDebug("Gathering duplicates....");
     // Gather votes
     runModules();
@@ -93,7 +85,7 @@ dupGroup Duplicates::findDuplicates() {
     // Gather all imglists
     //qDebug("Gathering groups from live rows");
     for(unsigned int i=0; i<allImages->size(); ++i) {
-        pair<vector<float>, imgList> thisPair = ranks->at(i);
+        pair<vector<float>, ImgList> thisPair = ranks->at(i);
         if(thisPair.second.size() > 0) { // Ignore "dead rows"
             allGroups->push_back(thisPair.second);
         }
@@ -125,53 +117,13 @@ void Duplicates::debugPrintRanks(rankVector* ranks) {
     }
 }
 
-void Duplicates::debugPrintPhpRanks(rankVector* ranks) {
-    cerr << setiosflags(ios::left);
-    cerr<<"\n<<<<<<<<<<<<  Printing PHP DEBUG RANK OUTPUT >>>>>>>>>>>>>>>>>>\n" << endl;
-    cerr << "array(\n";
-    for(unsigned int i=0; i<allImages->size(); ++i) {
-        cerr << "    array(\"" << allImages->at(i)->getFilename() << "\", ";
-        for(unsigned int j=0; j<allImages->size(); ++j) {
-            cerr << ranks->at(i).first.at(j);
-            if(j != allImages->size()-1) cerr << ",";
-        }
-        cerr << "),\n";
-    }
-    cerr << "),\n";
-}
-
-void Duplicates::debugPrintPhpGroups(dupGroup* groups) {
-    cerr << setiosflags(ios::left);
-    cerr<<"\n<<<<<<<<<<<<  Printing PHP DEBUG GROUP OUTPUT >>>>>>>>>>>>>>>>>>\n" << endl;
-    int numPics = allImages->size();
-    vector<vector<bool> > isInGroupVector(numPics, vector<bool>(numPics, false));
-    for(unsigned int i=0; i<groups->size(); ++i) {
-        imgList thisGroup = groups->at(i);
-        unsigned int size = thisGroup.size();
-        for(unsigned int j=0; j<size; ++j) {
-            int currImageIndex = thisGroup.at(j)->getIndex();
-            isInGroupVector[i][currImageIndex] = true;
-        }
-    }
-    cerr << "array(\n";
-    for(unsigned int i=0; i<numPics; ++i) {
-        cerr << "    array(\"" << allImages->at(i)->getFilename() << "\", ";
-        for(unsigned int j=0; j<numPics; ++j) {
-            cerr << isInGroupVector[i][j];
-            if(j != numPics-1) cerr << ",";
-        }
-        cerr << "),\n";
-    }
-    cerr << "),\n";
-}
-
 rankVector* Duplicates::getRankVector(bool binary) {
     int size = allImages->size();
     rankVector* ranks = new rankVector();
     for(int i=0; i<size; ++i) {
         // Working on the row of *first
         VImage *first = allImages->at(i);
-        pair<vector<float>, imgList> row;
+        pair<vector<float>, ImgList> row;
         row.second.push_back(first);
 
         // Add firsts rank of all other images
@@ -219,8 +171,8 @@ vector<vector<float> >* Duplicates::getSimilarityVector() {
     return similarityRanks;
 }
 
-float Duplicates::getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
-                                 const pair<vector<float>, imgList> &secondRow,
+float Duplicates::getUpdatedRank(const pair<vector<float>, ImgList> &firstRow,
+                                 const pair<vector<float>, ImgList> &secondRow,
                                  int index) {
     int firstNumVoters = firstRow.second.size();
     int secondNumVoters = secondRow.second.size();
@@ -241,8 +193,8 @@ float Duplicates::getUpdatedRank(const pair<vector<float>, imgList> &firstRow,
 // Merge second row into first
 // Set second row vals to -1
 void Duplicates::combineSets(int first, int second, rankVector* ranks) {
-    pair<vector<float>, imgList> firstRow = ranks->at(first);
-    pair<vector<float>, imgList> secondRow = ranks->at(second);
+    pair<vector<float>, ImgList> firstRow = ranks->at(first);
+    pair<vector<float>, ImgList> secondRow = ranks->at(second);
 
     // Average rankings and delete second row
     int size = ranks->size();
@@ -262,9 +214,9 @@ void Duplicates::combineSets(int first, int second, rankVector* ranks) {
     }
 
     // Combine two imglists
-    imgList firstList = firstRow.second;
-    imgList secondList = secondRow.second;
-    imgList combined;
+    ImgList firstList = firstRow.second;
+    ImgList secondList = secondRow.second;
+    ImgList combined;
     combined.insert(combined.end(), firstList.begin(), firstList.end());
     combined.insert(combined.end(), secondList.begin(), secondList.end());
     firstRow.second = combined;
@@ -283,7 +235,7 @@ pair<int,int> Duplicates::getMaxPair(rankVector* ranks) {
 
     for(unsigned int main_i = 0; main_i < ranks->size(); ++main_i) {
         for(unsigned int after_i = main_i+1; after_i < ranks->size(); ++after_i) {
-            pair<vector<float>, imgList> thisRow = ranks->at(main_i);
+            pair<vector<float>, ImgList> thisRow = ranks->at(main_i);
 
             // Skip if after_i is already in main_i's list
             if(contains(thisRow.second, allImages->at(after_i))) continue;
@@ -309,8 +261,8 @@ pair<int,int> Duplicates::getMaxPair(rankVector* ranks) {
     return maxPair;
 }
 
-bool Duplicates::contains(imgList row, VImage* lookFor) {
-    imgList::iterator iter = row.begin();
+bool Duplicates::contains(ImgList row, VImage* lookFor) {
+    ImgList::iterator iter = row.begin();
     for(; iter != row.end(); ++iter) {
         if(*iter == lookFor) return true;
     }
@@ -319,13 +271,11 @@ bool Duplicates::contains(imgList row, VImage* lookFor) {
 
 void Duplicates::runModules() {
     // Rank every image against every image after it.
-    imgList::iterator main_i, after_i;
+    ImgList::iterator main_i, after_i;
     for(main_i = allImages->begin(); main_i != allImages->end(); ++main_i) {
         for(after_i = (++main_i)--; after_i != allImages->end(); ++after_i) {
-            segmented->rankOne(*main_i, *after_i);
             timed->rankOne(*main_i, *after_i);
 #ifndef FAST_MODE
-            interest->rankOne(*main_i, *after_i);
             gaussian->rankOne(*main_i, *after_i);
 #endif
             histogram->rankOne(*main_i, *after_i);
@@ -340,7 +290,7 @@ void Duplicates::insertIntoList(VImage *one, VImage *two) {
 
     // Then, insert at end of that list
     int index = item->second;
-    imgList set = allGroups->at(index);
+    ImgList set = allGroups->at(index);
     set.insert(set.end(), two);
 
     setFinder->insert(pair<VImage*,int>(two, index));
@@ -353,15 +303,15 @@ void Duplicates::removeFromList(VImage *one, VImage *two) {
 
     // Then, search for and erase *two from *one's set
     int index = item->second;
-    imgList set = allGroups->at(index);
-    for(imgList::iterator i = set.begin(); i != set.end(); ++i)
+    ImgList set = allGroups->at(index);
+    for(ImgList::iterator i = set.begin(); i != set.end(); ++i)
         if(*i == two) { set.erase(i); break; }
     set.insert(set.end(), two);
 }
 
 void Duplicates::createNewList(VImage *one) {
     // Create a new list
-    imgList thisSet;
+    ImgList thisSet;
     thisSet.push_back(one);
     allGroups->push_back(thisSet);
 

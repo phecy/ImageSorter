@@ -8,34 +8,26 @@ INCLUDEPATH += . \
     /var/lib
 
 # Input
-HEADERS += common.h \
-    duplicates/interestpoints.h \
-    duplicates/rater.h \
-    duplicates/segmented.h \
-    duplicates/time.h \
-    duplicates/gaussian.h \
-    duplicates/histogram.h \
-    duplicates/findDups.h \
-    algorithmPresets.h \
-    boundingbox.h \
-    boundingBoxPresets.h \
-    blurdetect.h \
-    color.h \
-    colorUtility.h \
-    contrast.h \
-    exposure.h \
-    grey.h \
-    harmony.h \
-    insertionsort.h \
-    qualityexif.h \
+HEADERS += util/common.h \
+    similarity/rater.h \
+    similarity/time.h \
+    similarity/gaussian.h \
+    similarity/histogram.h \
+    similarity/findDups.h \
+    util/algorithmPresets.h \
+    quality/blurdetect.h \
+    quality/contrast.h \
+    quality/exposure.h \
+    quality/grey.h \
+    util/insertionsort.h \
+    data/qualityexif.h \
     vimage.h \
-    sharpdetect.h \
+    quality/sharpdetect.h \
     ml/getrating.h \
     ml/traindata.h \
     display/maindisplay.h \
     display/setdisplay.h \
     display/imgviewer.h \
-    imagesorter.h \
     ml/lowlevellearner.h \
     ml/highlevellearner.h \
     ml/learnercommon.h
@@ -44,26 +36,20 @@ FORMS += \
     display/setdisplay.ui \
     display/imgviewer.ui
 SOURCES += \
-    duplicates/interestpoints.cpp \
-    duplicates/rater.cpp \
-    duplicates/segmented.cpp \
-    duplicates/time.cpp \
-    duplicates/gaussian.cpp \
-    duplicates/histogram.cpp \
-    duplicates/findDups.cpp \
-    blurdetect.cpp \
-    exposure.cpp \
-    contrast.cpp \
-    color.cpp \
-    grey.cpp \
-    harmony.cpp \
-    insertionsort.cpp \
+    similarity/rater.cpp \
+    similarity/time.cpp \
+    similarity/gaussian.cpp \
+    similarity/histogram.cpp \
+    similarity/findDups.cpp \
+    quality/blurdetect.cpp \
+    quality/exposure.cpp \
+    quality/contrast.cpp \
+    quality/grey.cpp \
+    util/insertionsort.cpp \
     main.cpp \
-    qualityexif.cpp \
+    data/qualityexif.cpp \
     vimage.cpp \
-    sharpdetect.cpp \
-    boundingbox.cpp \
-    vw/InterestPoint/InterestData.cc \
+    quality/sharpdetect.cpp \
     ml/getrating.cpp \
     ml/traindata.cpp \
     display/maindisplay.cpp \
@@ -72,7 +58,7 @@ SOURCES += \
     ml/lowlevellearner.cpp \
     ml/highlevellearner.cpp \
     ml/learnercommon.cpp \
-    common.cpp
+    util/common.cpp
 LIBS += /usr/lib/libexif.a \
     /usr/lib/libboost*.a \
     /usr/local/lib/libvw.so \

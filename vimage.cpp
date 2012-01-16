@@ -20,8 +20,7 @@ VImage::VImage(char* filename) {
     this->ip_fullpath = filename;
     ip_fullpath.append(".iplist");
 
-    rankTotal = -1;
-    adjustedRank = 0;
+    quality = -1;
     makeQImage();
     histograms = VImage::makeHistograms(this, 0, 0, width, height);
     makeMedianAndAvgColors();
@@ -97,14 +96,6 @@ void VImage::makeMedianAndAvgColors() {
     }
 }
 
-void VImage::setForeground(boundingBox coords) {
-    this->foregroundCoords = coords;
-    this->foreground = new QImage
-            (this->qimage->copy(coords.first.first, coords.first.second,
-                               coords.second.first, coords.second.second));
-}
-
-
 // For sharpdetect and duplicategaussian
 // Returns 0-9 based on similarity
 int VImage::avgPixelDiff(VImage_t one, VImage_t two) {
@@ -169,22 +160,7 @@ histogramSet VImage::makeHistograms(VImage* vim,
     return histograms;
 }
 
-int VImage::amountInForeground(boundingBox box) {
-    point fgstart = getForegroundCoords().first;
-    point fgend = getForegroundCoords().second;
-
-    if(box.first.first > fgend.first  ||
-       box.first.second > fgend.second ||
-       box.second.first  < fgstart.first   ||
-       box.second.second < fgstart.second)
-        return 0;
-
-    int xlen = box.second.first - fgstart.first;
-    int ylen = box.second.second - fgstart.second;
-    return xlen*ylen;
-}
-
-void VImage::addRank(string attributeName, double value)  {
-    ranks.push_back(pair<string, double>
-                    (attributeName, value));
+void VImage::addQuality(string attributeName, double value)  {
+    qualities.push_back(pair<string, double>
+                        (attributeName, value));
 }

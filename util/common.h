@@ -41,12 +41,12 @@ DEFAULT_LEARN_BASENAME DEFAULT_SVR_EXT
 #define CMD_LENGTH 500
 
 // Compute x^(1/3)
-static double root3(double num);
+double root3(double num);
 
 // Compute x^3
-static double pow3(double num);
+double pow3(double num);
 
 // Compute x^2
-static double pow2(double num);
+double pow2(double num);
 
 #endif // COMMON_H

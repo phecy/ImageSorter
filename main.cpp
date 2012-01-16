@@ -118,7 +118,7 @@ vector<VImage*> initVImages(vector<char*> imageStrArray) {
     return imageInfoArray;
 }
 
-void runAllModules(vector<VImage*> &imageInfoArray) {
+void getQualityRatings(vector<VImage*> &imageInfoArray) {
     // Create each module object
     Exposure exposureRater;
     Contrast contrastRater;
@@ -274,7 +274,7 @@ void loadFiles(bool isTraining) {
     vector<VImage*> imageInfoArray = initVImages(imageStrArray);
 
     // Calculations
-    runAllModules(imageInfoArray);
+    getQualityRatings(imageInfoArray);
     int numSets = manageSets(imageInfoArray, dupFinder);
 
     // Learning
@@ -289,7 +289,7 @@ void loadFiles(bool isTraining) {
         rater = new GetRating(t, 1);
         delete t;
     } else {
-        rater = new GetRating(1); // Use default
+        rater = new GetRating(1); // Use default training set
     }
     rater->rate(imageInfoArray);
     delete rater;
