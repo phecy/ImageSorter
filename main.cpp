@@ -209,9 +209,6 @@ TrainData* makeTrainingSet(vector<VImage*>& imageInfoArray) {
 // If no training data, pass a null pointer and this function will try to load
 // the default
 void getTotalQuality(vector<VImage*>& imageInfoArray) {
-    // Get individual quality rating
-    getQualityRatings(imageInfoArray);
-
     // Learning - combination of individual quality ratings
     GetRating rater(1); // Looad default, 1 HL feature
     rater.rate(imageInfoArray);
@@ -262,15 +259,17 @@ float addNextBestImage(vector<VImage*>& currList,
 
 // Obtains quality ratings
 // Requires similarity to be initialized
+// And individual qualities to be initialized (not total)
 void sortImages(vector<VImage*>& imageInfoArray) {
     assert(similarity != NULL);
+    assert(imageInfoArray[0]->getQualities().size() > 0);
 
-    // Get quality vector
     getTotalQuality(imageInfoArray);
-    
+
+    // Get individual quality rating
     // Create the newly sorted list
     int numIms = imageInfoArray.size();
-    vector<VImage*> sortedList(numIms);
+    vector<VImage*> sortedList;
     vector<VImage*> remainingImages = imageInfoArray;
     for(int i=0; i<numIms; ++i) {
         addNextBestImage(sortedList, remainingImages);
@@ -279,6 +278,7 @@ void sortImages(vector<VImage*>& imageInfoArray) {
 
 // Looks for matching MTurk files to go with the imageInfoArray
 void trainModelOn(vector<VImage*>& imageInfoArray) {
+    assert(imageInfoArray[0]->getQualities().size() > 0);
     TrainData* trainingData = makeTrainingSet(imageInfoArray);
     if(trainingData->size() == 0) {
         cerr << "No training data available!" << endl;
@@ -303,6 +303,7 @@ void loadFiles(bool isTraining) {
     // Initialization
     vector<char*> imageStrArray = makeCStringVector(files);
     vector<VImage*> imageInfoArray = initVImages(imageStrArray);
+    getQualityRatings(imageInfoArray);
 
     // Train if requested
     if(isTraining) {
