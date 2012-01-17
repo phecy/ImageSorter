@@ -32,7 +32,7 @@ public:
     Similarity(vector<VImage*> allImages);
 
     // Returns the similarity rank between the two images
-    VImage* getSimilarity(VImage* one, VImage* two);
+    float getSimilarity(const VImage* one, const VImage* two);
 
 private:
     // Index [i,j] holds the similarity between vimages
@@ -41,10 +41,11 @@ private:
     vector<vector<float> > similarityMatrix;
 
     // Runs each of the similarity modules and returns their result
-    float calculateSimilarity(VImage* one, VImage* two);
+    float calculateSimilarity(const VImage* one, const VImage* two);
 
     // Adds the ranking to the matrix at [one][two] and [two][one]
-    void addSimilarityRating(VImage* one, VImage* two, float ranking);
+    void addSimilarityRating(const VImage* one, const VImage* two,
+                             float ranking);
 
     // Similarity detection modules
     SimilarityTime* timed;

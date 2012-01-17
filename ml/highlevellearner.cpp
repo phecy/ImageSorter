@@ -11,6 +11,7 @@ HighLevelLearner::HighLevelLearner(int numHlFeatures) {
 
     string filename = LearnerCommon::findExistingFile
                                     (string(DEFAULT_SVR_EXT));
+    cout << "Found filename " << filename << endl;
 
     //loadFromFileWrapper(filename);
 }

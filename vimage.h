@@ -41,18 +41,18 @@ public:
     // Information
     char* getFilename() { return filename; }
     char* getFullpath() { return fullpath; }
-    int getIndex() { return index; }
+    int getIndex () const { return index; }
     void setIndex(int i) { index=i; }
-    int getWidth() { return width; }
-    int getHeight() { return height; }
-    int getOrigWidth() { return origwidth; }
-    int getOrigHeight() { return origheight; }
+    int getWidth() const { return width; }
+    int getHeight() const { return height; }
+    int getOrigWidth() const { return origwidth; }
+    int getOrigHeight() const { return origheight; }
     ExifInfo& getExif() { return exifdata; }
     void setExif(ExifInfo e) { exifdata = e; }
 
     // Rating
     void setTotalQuality(float r) { quality=r; }
-    float getTotalQuality() { return quality; }
+    float getTotalQuality() const { return quality; }
     void setQualities(vector<pair<string, float> > q) { qualities=q; }
     void setQuality(string attributeName, double value);
     const vector<pair<string, float> >& getQualities() { return qualities; }
@@ -66,12 +66,13 @@ public:
     // Make histogram starting at QImage's (x,y)
     static HistogramSet makeHistograms
                     (VImage* vim, int x, int y, int width, int height);
-    const HistogramSet& getHistogram() { return histograms; }
+    const HistogramSet& getHistogram() const { return histograms; }
     HistogramChannel getHistogramK() { return histograms[HBLACK]; }
     HistogramChannel getHistogramR() { return histograms[HRED]; }
     HistogramChannel getHistogramG() { return histograms[HGREEN]; }
     HistogramChannel getHistogramB() { return histograms[HBLUE]; }
     const vector<int>& getMedians() { return medianColors; }
+    const vector<int> getMedians() const { return medianColors; }
     int getMedGray() { return medianColors[HBLACK]; }
     int getMedRed() { return medianColors[HRED]; }
     int getMedGreen() { return medianColors[HGREEN]; }

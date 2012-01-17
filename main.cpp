@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
+#include <cfloat>
 #include <cstring>
 #include <string>
 #include <fstream>
@@ -48,16 +49,15 @@ using namespace std;
 #include "quality/exposure.h"
 #include "quality/contrast.h"
 #include "quality/grey.h"
+#include "similarity/similarity.h"
 #include "util/algorithmPresets.h"
 #include "util/common.h"
 
-#define RANGE 10
-#define RANK_THRESHOLD 4
-
-// USE THIS TO IGNORE ALL SET COMPUTATIONS:
-#define IGNORE_SETS
+#define QUALITY_WEIGHT 1
+#define UNIQUENESS_WEIGHT 1
 
 static QTabWidget *disp;
+Similarity* similarity = NULL;
 
 // Finds im in imageDatArray and returns its index
 // -1 if not exist
@@ -121,7 +121,7 @@ void getQualityRatings(vector<VImage*> &imageInfoArray) {
 #endif
 
     VImage* vim;
-    for(int i=0;i<imageInfoArray.size(); ++i){
+    for(int i=0; i<imageInfoArray.size(); ++i){
         vim = imageInfoArray[i];
 
 #ifndef FAST_MODE
@@ -205,6 +205,90 @@ TrainData* makeTrainingSet(vector<VImage*>& imageInfoArray) {
     return training;
 }
 
+// Fills the imageInfoArray with all individual qualities and their total quality
+// If no training data, pass a null pointer and this function will try to load
+// the default
+void getTotalQuality(vector<VImage*>& imageInfoArray) {
+    // Get individual quality rating
+    getQualityRatings(imageInfoArray);
+
+    // Learning - combination of individual quality ratings
+    GetRating rater(1); // Looad default, 1 HL feature
+    rater.rate(imageInfoArray);
+}
+
+// Returns the total score of the given image:
+// alpha*quality + beta*uniqueness
+// Requires similarity to be initialized
+float getScore(const vector<VImage*>& currList, const VImage* image) {
+    float qualityScore = image->getTotalQuality();
+
+    float uniquenessScore = 0;
+    for(int i=0; i<currList.size(); ++i) {
+        uniquenessScore -= similarity->getSimilarity(currList[i], image);
+    }
+
+    float totalScore = QUALITY_WEIGHT*qualityScore +
+                       UNIQUENESS_WEIGHT*uniquenessScore;
+
+    return totalScore;
+}
+
+// Looks through candidates and push the best one to the end of the current set
+// Requires similarity to be initialized
+float addNextBestImage(vector<VImage*>& currList,
+                       vector<VImage*>& candidates) {
+    float maxScore = FLT_MIN;
+    vector<VImage*>::iterator maxScore_i;
+    
+
+    vector<VImage*>::iterator candidate;
+    for(candidate = candidates.begin();
+        candidate !=candidates.end();
+        ++candidate) {
+        float currScore = getScore(currList, *candidate);
+        if(currScore > maxScore) {
+            maxScore = currScore;
+            maxScore_i = candidate;
+        }
+    }
+
+    // Add next image from list
+    currList.push_back(*maxScore_i);
+    candidates.erase(maxScore_i);
+
+    return maxScore;
+}
+
+// Obtains quality ratings
+// Requires similarity to be initialized
+void sortImages(vector<VImage*>& imageInfoArray) {
+    assert(similarity != NULL);
+
+    // Get quality vector
+    getTotalQuality(imageInfoArray);
+    
+    // Create the newly sorted list
+    int numIms = imageInfoArray.size();
+    vector<VImage*> sortedList(numIms);
+    vector<VImage*> remainingImages = imageInfoArray;
+    for(int i=0; i<numIms; ++i) {
+        addNextBestImage(sortedList, remainingImages);
+    }
+}
+
+// Looks for matching MTurk files to go with the imageInfoArray
+void trainModelOn(vector<VImage*>& imageInfoArray) {
+    TrainData* trainingData = makeTrainingSet(imageInfoArray);
+    if(trainingData->size() == 0) {
+        cerr << "No training data available!" << endl;
+        delete trainingData;
+        return;
+    }
+    GetRating rater(trainingData, 1);
+    rater.rate(imageInfoArray);
+}
+
 void loadFiles(bool isTraining) {
     QStringList files = QFileDialog::getOpenFileNames(
             0,
@@ -220,28 +304,20 @@ void loadFiles(bool isTraining) {
     vector<char*> imageStrArray = makeCStringVector(files);
     vector<VImage*> imageInfoArray = initVImages(imageStrArray);
 
-    // Calculations
-    getQualityRatings(imageInfoArray);
-
-    // Learning
-    GetRating* rater;
+    // Train if requested
     if(isTraining) {
-        TrainData* t = makeTrainingSet(imageInfoArray);
-        if(t->size() == 0) {
-            cerr << "No training data available!" << endl;
-            delete t;
-            return;
-        }
-        rater = new GetRating(t, 1);
-        delete t;
-    } else {
-        rater = new GetRating(1); // Use default training set
+        trainModelOn(imageInfoArray);
+        return;
     }
-    rater->rate(imageInfoArray);
-    delete rater;
+
+    // Sort the list based on quality + uniqueness
+    similarity = new Similarity(imageInfoArray);
+    sortImages(imageInfoArray);
+    delete similarity;
 
     // Display
     manageDisplays(imageInfoArray);
+
 }
 
 int main(int argc, char *argv[])

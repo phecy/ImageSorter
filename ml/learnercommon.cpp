@@ -7,8 +7,7 @@
 #include "dirent.h"
 
 string LearnerCommon::findExistingFile(string ext) {
-    string filename = DEFAULT_LEARN_BASENAME;
-           filename+= ext;
+    string filename = DEFAULT_SVR_FILENAME;
 
     ifstream ifile(filename.c_str());
     if (!ifile) {

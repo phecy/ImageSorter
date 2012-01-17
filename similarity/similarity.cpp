@@ -1,21 +1,23 @@
+#include "similarity.h"
+
 Similarity::Similarity(vector<VImage*> allImages) {
     int numImages = allImages.size();
 
-    timed = new DuplicateTime();
-    histogram = new DuplicateHistogram();
+    timed = new SimilarityTime(allImages);
+    histogram = new SimilarityHistogram(allImages);
 #ifndef FAST_MODE
-    gaussian = new DuplicateGaussian();
+    gaussian = new SimilarityGaussian(allImages);
 #endif
 
     // Initialize a numImages-by-numImages array to -1
-    similarityMatrix =
-        vector<vector<float>(
-              <vector<float>(-1, numImages),
-                                 numImages);
+    similarityMatrix = vector<vector<float> >(numImages);
+    for(int i=0; i<numImages; ++i) {
+        similarityMatrix[i] = vector<float>(numImages);
+    }
 }
 
 
-VImage* Similarity::getSimilarity(VImage* one, VImage* two) {
+float Similarity::getSimilarity(const VImage* one, const VImage* two) {
     int one_i = one->getIndex();
     int two_i = two->getIndex();
 
@@ -26,7 +28,7 @@ VImage* Similarity::getSimilarity(VImage* one, VImage* two) {
         return rank;
 }
 
-float Similarity::calculateSimilarity(VImage* one, VImage* two) {
+float Similarity::calculateSimilarity(const VImage* one, const VImage* two) {
     // Get each module's rating
     timed->calculateSimilarity(one, two);
     histogram->calculateSimilarity(one, two);
@@ -43,7 +45,7 @@ float Similarity::calculateSimilarity(VImage* one, VImage* two) {
     return rank;
 }
 
-void addSimilarityRating(VImage* one, VImage* two, float ranking) {
+void Similarity::addSimilarityRating(const VImage* one, const VImage* two, float ranking) {
     int one_i = one->getIndex();
     int two_i = two->getIndex();
 

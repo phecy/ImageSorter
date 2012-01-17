@@ -13,7 +13,7 @@ ExifInfo::ExifInfo()
 
 void ExifInfo::parseData(ExifData* data) {
     ExifEntry* entry;
-    char vals[20];
+    char vals[20]();
 
     // Aperture
     entry = exif_data_get_entry(data, EXIF_TAG_FNUMBER);

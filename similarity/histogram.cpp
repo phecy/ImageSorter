@@ -10,21 +10,16 @@
 #define STRICTNESS_G 2.0 * MULTIPLIER
 #define STRICTNESS_B 1.0 * MULTIPLIER
 
-SimilarityHistogram::SimilarityHistogram(vector<VImage*> allImages) {
-}
-
-void SimilarityHistogram::addImage(VImage* vim) {
-    // Nothing to do; it's contained in VImage already
-}
-
 // Averages similarity of each segment
-float SimilarityHistogram::calculateSimilarity(VImage* first, VImage* second) {
+float SimilarityHistogram::calculateSimilarity(const VImage* first,
+                                               const VImage* second) {
     int similarity = compareHistograms(first, second);
 
     return similarity;
 }
 
-int SimilarityHistogram::compareHistograms(VImage* vim1, VImage* vim2) {
+int SimilarityHistogram::compareHistograms(const VImage* vim1,
+                                           const VImage* vim2) {
     const vector<int> oneMeds = vim1->getMedians();
     const vector<int> twoMeds = vim2->getMedians();
 

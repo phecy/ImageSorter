@@ -34,7 +34,7 @@ void SimilarityTime::addImage(VImage *vim) {
     }
 }
 
-float SimilarityTime::calculateSimilarity(VImage* vim1, VImage* vim2) {
+float SimilarityTime::calculateSimilarity(const VImage* vim1, const VImage* vim2) {
     // Get indeces of images
     int firstIndex = vim1->getIndex();
     int secondIndex = vim2->getIndex();

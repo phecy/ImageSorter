@@ -13,18 +13,14 @@ using namespace std;
 class SimilarityHistogram
 {
 public:
-    SimilarityHistogram(vector<VImage*> allImages);
+    SimilarityHistogram(vector<VImage*> allImages) { }
 
     // Adds a single ranking to the SimilarityRater
-    float calculateSimilarity (VImage* first, VImage* second);
+    float calculateSimilarity(const VImage* first, const VImage* second);
 
 private:
-    // Throw groups of pixels into bins, with some pixels in
-    // multiple bins
-    void addImage(VImage*);
-
     // Compares two partial histograms
-    int compareHistograms(VImage* first, VImage* second);
+    int compareHistograms(const VImage* first, const VImage* second);
 
     void debugPrint(VImage* vim, HistogramSet);
 };

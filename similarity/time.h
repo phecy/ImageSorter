@@ -18,7 +18,7 @@ public:
     //
     // e.g. gets everything between two images, WINDOWSIZE before first,
     // and WINDOWSIZE after second
-    float calculateSimilarity(VImage* first, VImage* second);
+    float calculateSimilarity(const VImage* first, const VImage* second);
 
 private:
     // Add this image to the internal structure (updates sumGapLogs)

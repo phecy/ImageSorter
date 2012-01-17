@@ -12,6 +12,7 @@ HEADERS += util/common.h \
     similarity/time.h \
     similarity/gaussian.h \
     similarity/histogram.h \
+    similarity/similarity.h \
     util/algorithmPresets.h \
     quality/blurdetect.h \
     quality/contrast.h \
@@ -36,6 +37,7 @@ SOURCES += \
     similarity/time.cpp \
     similarity/gaussian.cpp \
     similarity/histogram.cpp \
+    similarity/similarity.cpp \
     quality/blurdetect.cpp \
     quality/exposure.cpp \
     quality/contrast.cpp \
@@ -54,4 +56,5 @@ SOURCES += \
     ml/learnercommon.cpp \
     util/common.cpp
 LIBS += /usr/lib/libexif.a
-QMAKE_CXXFLAGS_DEBUG += -Wno-sign-compare
+
+*-g++ : QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-compare

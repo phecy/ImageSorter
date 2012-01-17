@@ -1,7 +1,7 @@
 #include "maindisplay.h"
 #include "ui_maindisplay.h"
 
-#include "common.h"
+#include "util/common.h"
 
 MainDisplay::MainDisplay(QWidget *parent) :
     QTabWidget(parent),
@@ -26,9 +26,11 @@ MainDisplay::~MainDisplay()
 }
 
 void loadFiles(bool isTrainingSet);
+
 void MainDisplay::loadFileTrain() {
     loadFiles(true);
 }
+
 void MainDisplay::loadFileNew() {
     loadFiles(false);
 }
