@@ -12,9 +12,6 @@ QImage and a VImage (Vision Workbench image)
 #include <QMainWindow>
 #include <QImage>
 
-#include "vw/Core.h"
-#include "vw/InterestPoint.h"
-#include "vw/Image.h"
 #include "exifinfo.h"
 #include "util/common.h"
 
@@ -25,10 +22,7 @@ QImage and a VImage (Vision Workbench image)
 #define HBLUE 3
 
 using namespace std;
-using namespace vw;
-using namespace vw::ip;
 
-typedef ImageView<PixelRGB<uint8> > VImage_t;
 typedef pair<int,int> Point;
 typedef vector<float> HistogramChannel;
 typedef vector<HistogramChannel> HistogramSet;
@@ -42,7 +36,6 @@ public:
 
     // Data
     QImage* getQImage() { return qimage; }
-    VImage_t* getVImage() {return vimage; }
     uchar* getUchar() {return qimage->bits(); }
 
     // Information
@@ -66,7 +59,8 @@ public:
 
     // For sharpdetect and duplicategaussian
     // Returns avg pixel difference
-    static int avgPixelDiff(VImage_t one, VImage_t two);
+    static QImage gaussianFilter(const QImage& im, float strength);
+    static int avgPixelDiff(const QImage& one, const QImage& two);
 
     // Colors
     // Make histogram starting at QImage's (x,y)
@@ -89,12 +83,10 @@ public:
     int getAvgBlue() { return avgColors[HBLUE]; }
 
 private:
-    void setData(uchar* data);
     void makeQImage();
     void makeMedianAndAvgColors();
 
     // Data
-    VImage_t* vimage;
     QImage* qimage; // Scaled to 800px wide
 
     // Information
@@ -103,7 +95,7 @@ private:
     string ip_fullpath;
     int index; // As sorted by filesystem
     int width, height; // Width scaled to 800px
-    int origwidth, origheight; // VImage_t width+height
+    int origwidth, origheight; // Original qimage width+height
     ExifInfo exifdata;
 
     // The image's final rank (combination of the qualities vector)

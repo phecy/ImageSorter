@@ -1,6 +1,7 @@
 #ifndef SIMILARITYGAUSSIAN_H
 #define SIMILARITYGAUSSIAN_H
 
+#include <map>
 #include "vimage.h"
 
 using namespace std;
@@ -14,10 +15,6 @@ public:
     float calculateSimilarity(VImage* first, VImage* second);
 
 private:
-    // Creates a small gaussian'd copy of the image
-    void addImage(VImage*);
-
-    map<VImage*, VImage_t> blurmap;
 };
 
 #endif // SIMILARITYGAUSSIAN_H

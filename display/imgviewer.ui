@@ -70,9 +70,9 @@
   <widget class="QLabel" name="rankText">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>190</x>
      <y>450</y>
-     <width>361</width>
+     <width>201</width>
      <height>16</height>
     </rect>
    </property>
@@ -85,7 +85,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Image %d/%d: Ranked %.03f/9 || set %d/%d</string>
+    <string>Image %d/%d: Ranked %.03f/10</string>
    </property>
   </widget>
   <widget class="QSlider" name="slider">

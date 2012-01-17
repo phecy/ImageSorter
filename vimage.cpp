@@ -7,14 +7,7 @@
 #include "vimage.h"
 #include "limits.h"
 
-using namespace vw;
-
 VImage::VImage(char* filename) {
-    vimage = new VImage_t();
-    read_image(*vimage, filename);
-    origwidth = vimage->cols();
-    origheight = vimage->rows();
-
     this->fullpath = filename;
     this->filename = strrchr(filename, '/')+1;
     this->ip_fullpath = filename;
@@ -22,6 +15,9 @@ VImage::VImage(char* filename) {
 
     quality = -1;
     makeQImage();
+    origheight = qimage->height();
+    origwidth = qimage->width();
+
     histograms = VImage::makeHistograms(this, 0, 0, width, height);
     makeMedianAndAvgColors();
 }
@@ -29,47 +25,12 @@ VImage::VImage(char* filename) {
 VImage::~VImage() {
 //    if(qimage != NULL)
 //        delete qimage;
-//    if(vimage != NULL)
-//        delete vimage;
-//    if(foreground != NULL)
-//        delete foreground;
 }
 
 void VImage::makeQImage() {
-    if(vimage == NULL) return;
-
-    // *4: one per ARGB channel (yes, A is necessary)
-#ifndef FAST_MODE
-    uchar* data = (uchar*)malloc(sizeof(uchar) * origwidth * origheight * 4);
-
-    qimage = new QImage(data,
-              origwidth, origheight, QImage::Format_RGB32);
-
-    for(int h=0; h<origheight; ++h) {
-        for(int w=0; w<origwidth; ++w) {
-            PixelRGB<uint8> pix = (*vimage)(w,h);
-            qimage->setPixel(w,h,qRgb(pix.r(), pix.g(), pix.b()));
-        }
-    }
-
-    QImage* tmp = qimage;
-    qimage = new QImage(qimage->scaledToWidth(800));
-    delete tmp;
-#else
     qimage = new QImage(fullpath);
-#endif
     height = qimage->height();
     width = qimage->width();
-
-    /* DEBUG
-    QLabel* imageLabel = new QLabel;
-    imageLabel->setBackgroundRole(QPalette::Base);
-    imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    imageLabel->setScaledContents(true);
-    imageLabel->setPixmap(QPixmap::fromImage(*qimage));
-    setCentralWidget(imageLabel);
-    this->show();
-    */
 }
 
 void VImage::makeMedianAndAvgColors() {
@@ -98,18 +59,18 @@ void VImage::makeMedianAndAvgColors() {
 
 // For sharpdetect and duplicategaussian
 // Returns 0-9 based on similarity
-int VImage::avgPixelDiff(VImage_t one, VImage_t two) {
-    int width = one.cols();
-    int height = one.rows();
+int VImage::avgPixelDiff(const QImage& one, const QImage& two) {
+    int width = one.width();
+    int height = one.height();
     // Compare blurred vs normal
     unsigned long long int total = 0;
     for(int w=0; w<width; ++w) {
         for(int h=0; h<height; ++h) {
             // For now, just compare green channel2)
-            PixelRGB<unsigned char> pix1 = one(w,h);
-            PixelRGB<unsigned char> pix2 = two(w,h);
-            int val1 = (pix1.r() + pix1.g() + pix1.b())/3;
-            int val2 = (pix2.r() + pix2.g() + pix2.b())/3;
+            QRgb pix1 = one.pixel(w,h);
+            QRgb pix2 = two.pixel(w,h);
+            int val1 = qGray(pix1);
+            int val2 = qGray(pix2);
             total += abs(val1 - val2);
             // std::cout << "|" << abs(val1 - val2);
         }
@@ -163,4 +124,11 @@ HistogramSet VImage::makeHistograms(VImage* vim,
 void VImage::setQuality(string attributeName, double value)  {
     qualities.push_back(pair<string, double>
                         (attributeName, value));
+}
+
+QImage VImage::gaussianFilter(const QImage& im, float strength) {
+    int unscaledWidth = im.width();
+    QImage small = im.scaledToWidth(unscaledWidth/strength);
+    QImage large = small.scaledToWidth(unscaledWidth);
+    return large;
 }

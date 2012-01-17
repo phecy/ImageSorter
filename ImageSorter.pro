@@ -52,12 +52,6 @@ SOURCES += \
     ml/lowlevellearner.cpp \
     ml/highlevellearner.cpp \
     ml/learnercommon.cpp \
-    vw/InterestPoint/InterestData.cc\
     util/common.cpp
-LIBS += /usr/lib/libexif.a \
-    /usr/lib/libboost*.a \
-    /usr/local/lib/libvw.so \
-    /usr/lib/liblapack.a \
-    /usr/lib/liblapack.so \
-    /usr/lib/libgsl.so.0
+LIBS += /usr/lib/libexif.a
 QMAKE_CXXFLAGS_DEBUG += -Wno-sign-compare

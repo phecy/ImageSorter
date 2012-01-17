@@ -1,6 +1,7 @@
 #ifndef SIMILARITYTIME_H
 #define SIMILARITYTIME_H
 
+#include <map>
 #include "vimage.h"
 
 // For readability
@@ -24,7 +25,7 @@ private:
     void addImage(VImage*);
 
     // Maps an image to its index in times and gapFinder
-    map<QImage*, int> timeIndexFinder;
+    std::map<QImage*, int> timeIndexFinder;
 
     // The list of times a picture was taken
     vector<ExifTime> times;

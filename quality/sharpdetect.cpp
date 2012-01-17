@@ -1,7 +1,8 @@
 #include "vw/Core.h"
-#include "vw/Image.h"
 
 #include "sharpdetect.h"
+
+#define GAUSS_STRENGTH 3
 
 SharpDetect::SharpDetect()
 {
@@ -9,11 +10,11 @@ SharpDetect::SharpDetect()
 
 int SharpDetect::rankOne(VImage* vim) {
     // Get difference between image and blurred image
-    VImage_t im = *vim->getVImage();
-    VImage_t blurred = gaussian_filter(im, 3.0);
+    QImage* im = vim->getQImage();
+    QImage blurred = VImage::gaussianFilter(*im, GAUSS_STRENGTH);
 
     // Compare blurred vs normal
-    int rating = VImage::avgPixelDiff(im, blurred);
+    int rating = VImage::avgPixelDiff(*im, blurred);
     rating = rating < 0 ? 0 : rating > 9 ? 9 : rating; // 0<=r<=9
 
     //qDebug("SharpDetect rank of %s: %d (avg pixel diff=%lld)",
