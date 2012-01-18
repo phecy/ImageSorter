@@ -6,31 +6,40 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>609</width>
-    <height>420</height>
+    <width>641</width>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="widget_11" native="true">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>240</y>
-     <width>130</width>
-     <height>100</height>
+     <x>330</x>
+     <y>260</y>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_10" native="true">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>240</y>
-     <width>130</width>
-     <height>100</height>
+     <x>180</x>
+     <y>260</y>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_1" native="true">
@@ -38,8 +47,8 @@
     <rect>
      <x>30</x>
      <y>20</y>
-     <width>130</width>
-     <height>100</height>
+     <width>140</width>
+     <height>90</height>
     </rect>
    </property>
    <property name="maximumSize">
@@ -48,102 +57,132 @@
      <height>300</height>
     </size>
    </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
+   </property>
   </widget>
   <widget class="QWidget" name="widget_6" native="true">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>130</y>
-     <width>130</width>
-     <height>100</height>
+     <x>180</x>
+     <y>140</y>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_9" native="true">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>240</y>
-     <width>130</width>
-     <height>100</height>
+     <y>260</y>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_3" native="true">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>330</x>
      <y>20</y>
-     <width>130</width>
-     <height>100</height>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_12" native="true">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>240</y>
-     <width>130</width>
-     <height>100</height>
+     <x>480</x>
+     <y>260</y>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_7" native="true">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>130</y>
-     <width>130</width>
-     <height>100</height>
+     <x>330</x>
+     <y>140</y>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_4" native="true">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>480</x>
      <y>20</y>
-     <width>130</width>
-     <height>100</height>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_8" native="true">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>130</y>
-     <width>130</width>
-     <height>100</height>
+     <x>480</x>
+     <y>140</y>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_2" native="true">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>180</x>
      <y>20</y>
-     <width>130</width>
-     <height>100</height>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_5" native="true">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>130</y>
-     <width>130</width>
-     <height>100</height>
+     <y>140</y>
+     <width>140</width>
+     <height>90</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QLabel" name="qualityLabel">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>370</y>
+     <y>410</y>
      <width>151</width>
      <height>31</height>
     </rect>
@@ -160,9 +199,9 @@
   <widget class="QLabel" name="uniquenessLabel">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>370</y>
-     <width>151</width>
+     <x>420</x>
+     <y>410</y>
+     <width>191</width>
      <height>31</height>
     </rect>
    </property>
@@ -173,6 +212,198 @@
    </property>
    <property name="text">
     <string>Uniqueness: %d</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_1">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>110</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_1</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_2">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>110</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_2</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_3">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>110</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_3</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_4">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>110</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_4</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_5">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>230</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_5</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_7">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>230</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_7</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_6">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>230</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_6</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_8">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>230</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_8</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_9">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>350</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_9</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_12">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>350</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_12</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_11">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>350</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_11</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="similarity_10">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>350</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>similarity_10</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

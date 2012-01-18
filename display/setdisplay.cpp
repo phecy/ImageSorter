@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -23,9 +24,25 @@ SetDisplay::SetDisplay(QWidget *parent) :
     widgets[10] = ui->widget_11;
     widgets[11] = ui->widget_12;
 
+    similarityText[0] = ui->similarity_1;
+    similarityText[1] = ui->similarity_2;
+    similarityText[2] = ui->similarity_3;
+    similarityText[3] = ui->similarity_4;
+    similarityText[4] = ui->similarity_5;
+    similarityText[5] = ui->similarity_6;
+    similarityText[6] = ui->similarity_7;
+    similarityText[7] = ui->similarity_8;
+    similarityText[8] = ui->similarity_9;
+    similarityText[9] = ui->similarity_10;
+    similarityText[10] = ui->similarity_11;
+    similarityText[11] = ui->similarity_12;
+
     for(int i=0; i<NUMSETWIDGETS; ++i) {
         widgets[i]->installEventFilter(this);
+        similarityText[i]->setText("");
     }
+    ui->uniquenessLabel->setText("");
+    ui->qualityLabel->setText("");
 }
 
 SetDisplay::~SetDisplay()
@@ -46,6 +63,7 @@ void SetDisplay::display(vector<VImage*> vims)
         label->setScaledContents(true);
 
         QPixmap currPix = QPixmap::fromImage(*vims.at(i)->getQImage());
+        label->resize(widgets[i]->frameSize());
         currPix = currPix.scaledToWidth(label->width());
         label->setPixmap(currPix);
     }
@@ -53,9 +71,9 @@ void SetDisplay::display(vector<VImage*> vims)
     show();
 }
 
-int getWidgetIndex(QObject *object) {
+int SetDisplay::getWidgetIndex(QObject *object) {
     for(int i=0; i<NUMSETWIDGETS; ++i) {
-        if(images[i] == object) return i;
+        if(widgets[i] == object) return i;
     }
     return -1;
 }
@@ -63,18 +81,35 @@ int getWidgetIndex(QObject *object) {
 bool SetDisplay::eventFilter(QObject *object, QEvent *event)
 {
     int index = getWidgetIndex(object);
-    if(index == -1 || event->type() == QEvent::MouseButtonRelease) {
+    if(index == -1 || event->type() != QEvent::MouseButtonRelease ||
+       index >= images.size()) {
         return false;
     }
 
-    int index = 1;
-    cout << "LOL CAUGHT" << endl;
     std::stringstream qualityText;
     std::stringstream uniqueText;
 
-    qualityText << "Quality: " << images[index]->getTotalQuality();
-    uniqueText << "Uniqueness: " << images[index]->getUniqueness();
+    // Give it's total quality and uniqueness
+    qualityText << "Quality: " << setprecision(2)
+                << images[index]->getTotalQuality();
+    uniqueText << "Uniqueness: "  << setprecision(2)
+               << images[index]->getUniqueness();
     ui->qualityLabel->setText(qualityText.str().c_str());
     ui->uniquenessLabel->setText(uniqueText.str().c_str());
+
+    // Show its similarity to every other image
+    char text[32];
+    int numims = min(NUMSETWIDGETS, (int)images.size());
+    for(int i=0; i<numims; ++i) {
+        if(i == index) {
+            similarityText[i]->setText("X");
+            continue;
+        }
+
+        float rating = 3.14;
+        sprintf(text, "%1.2f", rating);
+        similarityText[i]->setText(text);
+    }
+
     return true;
 }

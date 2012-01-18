@@ -28,9 +28,12 @@ private:
     Ui::SetDisplay *ui;
 
     QWidget* widgets[NUMSETWIDGETS];
+    QLabel* similarityText[NUMSETWIDGETS];
 
     vector<VImage*> images;
 
+    // Returns the index of the object in widgets, or -1 if not found
+    int getWidgetIndex(QObject *object);
     bool eventFilter(QObject *object, QEvent *event);
 };
 

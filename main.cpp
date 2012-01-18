@@ -140,7 +140,8 @@ void getQualityRatings(vector<VImage*> &imageInfoArray) {
     }
 }
 
-void manageDisplays(vector<VImage*>& imageInfoArray) {
+void manageDisplays(vector<VImage*>& unsorted,
+                    vector<VImage*>& sorted) {
     // GUI
     vector<string> ranksToDisplay;
     ranksToDisplay.push_back("blur");
@@ -149,7 +150,7 @@ void manageDisplays(vector<VImage*>& imageInfoArray) {
     ranksToDisplay.push_back("localcontrast");
 
     ImgViewer *viewer = new ImgViewer();
-    viewer->setImageData(imageInfoArray);
+    viewer->setImageData(unsorted);
     viewer->setRanksToDisplay(ranksToDisplay);
     viewer->init();
 
@@ -157,7 +158,7 @@ void manageDisplays(vector<VImage*>& imageInfoArray) {
     disp->setCurrentWidget(viewer);
 
     SetDisplay *setdisp_sorted = new SetDisplay();
-    setdisp_sorted->display(imageInfoArray);
+    setdisp_sorted->display(sorted);
     disp->addTab(setdisp_sorted, QIcon(), "Top Images (incl. sets)");
 
 }
@@ -217,13 +218,17 @@ void getTotalQuality(vector<VImage*>& imageInfoArray) {
 // Returns the total score of the given image:
 // alpha*quality + beta*uniqueness
 // Requires similarity to be initialized
-float getScore(const vector<VImage*>& currList, const VImage* image) {
+// Will update image with uniqueness
+float getScore(const vector<VImage*>& currList, VImage* image) {
     float qualityScore = image->getTotalQuality();
 
     float uniquenessScore = 0;
     for(int i=0; i<currList.size(); ++i) {
         uniquenessScore -= similarity->getSimilarity(currList[i], image);
     }
+
+    // Update internal structure
+    image->setUniqueness(uniquenessScore);
 
     float totalScore = QUALITY_WEIGHT*qualityScore +
                        UNIQUENESS_WEIGHT*uniquenessScore;
@@ -250,9 +255,6 @@ float addNextBestImage(vector<VImage*>& currList,
         }
     }
 
-    // Update internal structure
-    (*maxScore_i)->setUniqueness(maxScore);
-
     // Add next image from list
     currList.push_back(*maxScore_i);
     candidates.erase(maxScore_i);
@@ -263,7 +265,7 @@ float addNextBestImage(vector<VImage*>& currList,
 // Obtains quality ratings
 // Requires similarity to be initialized
 // And individual qualities to be initialized (not total)
-void sortImages(vector<VImage*>& imageInfoArray) {
+vector<VImage*> sortImages(vector<VImage*>& imageInfoArray) {
     assert(similarity != NULL);
     assert(imageInfoArray[0]->getQualities().size() > 0);
 
@@ -277,6 +279,8 @@ void sortImages(vector<VImage*>& imageInfoArray) {
     for(int i=0; i<numIms; ++i) {
         addNextBestImage(sortedList, remainingImages);
     }
+
+    return sortedList;
 }
 
 // Looks for matching MTurk files to go with the imageInfoArray
@@ -316,11 +320,11 @@ void loadFiles(bool isTraining) {
 
     // Sort the list based on quality + uniqueness
     similarity = new Similarity(imageInfoArray);
-    sortImages(imageInfoArray);
+    vector<VImage*> sortedImages = sortImages(imageInfoArray);
     delete similarity;
 
     // Display
-    manageDisplays(imageInfoArray);
+    manageDisplays(imageInfoArray, sortedImages);
 
 }
 
