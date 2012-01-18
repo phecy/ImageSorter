@@ -3,9 +3,6 @@
 
 #include "math.h"
 
-
-#define FAST_MODE
-
 #define BLUR_SHORTNAME "blur"
 #define CONTRAST_SHORTNAME "contrast"
 #define EXPOSURE_SHORTNAME "exposure"

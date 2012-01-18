@@ -125,7 +125,7 @@ void getQualityRatings(vector<VImage*> &imageInfoArray) {
         vim = imageInfoArray[i];
 
 #ifndef FAST_MODE
-        vim->addRank("sharpness",
+        vim->setQuality("sharpness",
                        sharpRater.rankOne(vim));
 #endif
         // newBlur->show();
@@ -141,7 +141,8 @@ void getQualityRatings(vector<VImage*> &imageInfoArray) {
 }
 
 void manageDisplays(vector<VImage*>& unsorted,
-                    vector<VImage*>& sorted) {
+                    vector<VImage*>& sorted,
+                    Similarity* similarity) {
     // GUI
     vector<string> ranksToDisplay;
     ranksToDisplay.push_back("blur");
@@ -158,7 +159,7 @@ void manageDisplays(vector<VImage*>& unsorted,
     disp->setCurrentWidget(viewer);
 
     SetDisplay *setdisp_sorted = new SetDisplay();
-    setdisp_sorted->display(sorted);
+    setdisp_sorted->display(sorted, similarity);
     disp->addTab(setdisp_sorted, QIcon(), "Top Images (incl. sets)");
 
 }
@@ -230,6 +231,8 @@ float getScore(const vector<VImage*>& currList, VImage* image) {
     // Update internal structure
     image->setUniqueness(uniquenessScore);
 
+    cout << "quality: " << qualityScore << ", unique: " << uniquenessScore << endl;
+
     float totalScore = QUALITY_WEIGHT*qualityScore +
                        UNIQUENESS_WEIGHT*uniquenessScore;
 
@@ -240,9 +243,8 @@ float getScore(const vector<VImage*>& currList, VImage* image) {
 // Requires similarity to be initialized
 float addNextBestImage(vector<VImage*>& currList,
                        vector<VImage*>& candidates) {
-    float maxScore = FLT_MIN;
+    float maxScore = -FLT_MAX;
     vector<VImage*>::iterator maxScore_i;
-    
 
     vector<VImage*>::iterator candidate;
     for(candidate = candidates.begin();
@@ -321,11 +323,10 @@ void loadFiles(bool isTraining) {
     // Sort the list based on quality + uniqueness
     similarity = new Similarity(imageInfoArray);
     vector<VImage*> sortedImages = sortImages(imageInfoArray);
-    delete similarity;
 
     // Display
-    manageDisplays(imageInfoArray, sortedImages);
-
+    manageDisplays(imageInfoArray, sortedImages, similarity);
+    // delete similarity; DISPLAY WILL DELETE SIMILARITY
 }
 
 int main(int argc, char *argv[])

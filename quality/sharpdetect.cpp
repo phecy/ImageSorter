@@ -11,7 +11,8 @@ SharpDetect::SharpDetect()
 int SharpDetect::rankOne(VImage* vim) {
     // Get difference between image and blurred image
     QImage* im = vim->getQImage();
-    QImage blurred = VImage::gaussianFilter(*im, GAUSS_STRENGTH);
+    QImage imref = QImage(*im);
+    QImage blurred = VImage::gaussianFilter(imref, GAUSS_STRENGTH);
 
     // Compare blurred vs normal
     int rating = VImage::avgPixelDiff(*im, blurred);

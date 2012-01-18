@@ -69,12 +69,6 @@ BlurDetect::BlurDetect()
 float BlurDetect::calculateBlur(VImage* vim) {
     assert(highpassRadius > edgeRadius);
 
-    // Test # IPs
-#ifndef FAST_MODE
-    if(vim->getIps().size() <= MIN_NUM_IPS)
-        return 0;
-#endif
-
     QImage* image = vim->getQImage();
     minColor = avgColor = maxColor = 0;
     assert(image != NULL);

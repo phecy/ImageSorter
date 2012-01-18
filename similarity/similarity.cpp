@@ -1,4 +1,7 @@
+#include <iostream>
 #include "similarity.h"
+
+using namespace std;
 
 Similarity::Similarity(vector<VImage*> allImages) {
     int numImages = allImages.size();
@@ -12,7 +15,7 @@ Similarity::Similarity(vector<VImage*> allImages) {
     // Initialize a numImages-by-numImages array to -1
     similarityMatrix = vector<vector<float> >(numImages);
     for(int i=0; i<numImages; ++i) {
-        similarityMatrix[i] = vector<float>(numImages);
+        similarityMatrix[i] = vector<float>(numImages, -1);
     }
 }
 
@@ -30,14 +33,15 @@ float Similarity::getSimilarity(const VImage* one, const VImage* two) {
 
 float Similarity::calculateSimilarity(const VImage* one, const VImage* two) {
     // Get each module's rating
-    timed->calculateSimilarity(one, two);
-    histogram->calculateSimilarity(one, two);
+    float timeSimilarity = timed->calculateSimilarity(one, two)    /10.f;
+    float histSimilarity = histogram->calculateSimilarity(one, two)/10.f;
 #ifndef FAST_MODE
-    gaussian->calculateSimilarity(one, two);
+    float gausSimilarity = gaussian->calculateSimilarity(one, two) /10.f;
 #endif
 
-    // Combine them TODO
-    float rank = 0;
+    float rank = timeSimilarity + histSimilarity + gausSimilarity;
+    cout << "Rank is " << rank << ": time=" << timeSimilarity << ", hist="
+         << histSimilarity << ", gaus=" << gausSimilarity << endl;
 
     // Update internal structure
     addSimilarityRating(one, two, rank);

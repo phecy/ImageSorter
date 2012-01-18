@@ -36,6 +36,7 @@ public:
 
     // Data
     QImage* getQImage() { return qimage; }
+    QImage* getQImage() const { return qimage; }
     uchar* getUchar() {return qimage->bits(); }
 
     // Information

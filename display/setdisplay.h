@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include <QLabel>
 
+#include "similarity/similarity.h"
 #include "vimage.h"
 
 #define NUMSETWIDGETS 12
@@ -22,7 +23,7 @@ public:
     explicit SetDisplay(QWidget *parent = 0);
     ~SetDisplay();
 
-    void display(vector<VImage*> vims);
+    void display(vector<VImage*> vims, Similarity* similarity);
 
 private:
     Ui::SetDisplay *ui;
@@ -31,6 +32,7 @@ private:
     QLabel* similarityText[NUMSETWIDGETS];
 
     vector<VImage*> images;
+    Similarity* similarity;
 
     // Returns the index of the object in widgets, or -1 if not found
     int getWidgetIndex(QObject *object);

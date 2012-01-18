@@ -12,7 +12,7 @@ public:
     SimilarityGaussian(vector<VImage*> allImages);
 
     // Adds the RGB difference between image and it's blurred copy
-    float calculateSimilarity(VImage* first, VImage* second);
+    float calculateSimilarity(const VImage* first, const VImage* second);
 
 private:
 };

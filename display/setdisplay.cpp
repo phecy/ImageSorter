@@ -47,22 +47,24 @@ SetDisplay::SetDisplay(QWidget *parent) :
 
 SetDisplay::~SetDisplay()
 {
+    delete similarity;
     delete ui;
 }
 
-void SetDisplay::display(vector<VImage*> vims)
+void SetDisplay::display(vector<VImage*> _images, Similarity* _similarity)
 {
-    images = vims;
+    images = _images;
+    similarity = _similarity;
 
     int max = NUMSETWIDGETS;
-    if(vims.size() < NUMSETWIDGETS) max = vims.size();
+    if(images.size() < NUMSETWIDGETS) max = images.size();
     for(int i=0; i<max; ++i) {
-        vims.at(i);
+        images.at(i);
         QLabel* label = new QLabel(widgets[i]);
         label->setBackgroundRole(QPalette::Base);
         label->setScaledContents(true);
 
-        QPixmap currPix = QPixmap::fromImage(*vims.at(i)->getQImage());
+        QPixmap currPix = QPixmap::fromImage(*images.at(i)->getQImage());
         label->resize(widgets[i]->frameSize());
         currPix = currPix.scaledToWidth(label->width());
         label->setPixmap(currPix);
@@ -106,7 +108,7 @@ bool SetDisplay::eventFilter(QObject *object, QEvent *event)
             continue;
         }
 
-        float rating = 3.14;
+        float rating = similarity->getSimilarity(images[i], images[index]);
         sprintf(text, "%1.2f", rating);
         similarityText[i]->setText(text);
     }

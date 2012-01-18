@@ -7,7 +7,8 @@ SimilarityGaussian::SimilarityGaussian(vector<VImage*> allImages) {
 }
 
 // Adds a single ranking to the SimilarityRater
-float SimilarityGaussian::calculateSimilarity(VImage* first, VImage* second) {
+float SimilarityGaussian::calculateSimilarity(const VImage* first,
+                                              const VImage* second) {
     QImage one = first->getQImage()->scaledToWidth(GAUSS_WIDTH_THUMBNAIL);
     QImage two = second->getQImage()->scaledToWidth(GAUSS_WIDTH_THUMBNAIL);
 

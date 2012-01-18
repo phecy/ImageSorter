@@ -127,8 +127,7 @@ void VImage::setQuality(string attributeName, double value)  {
 }
 
 // From qpixmapfilter.cpp
-static QImage blurred(const QImage& image, int radius)
-    {
+static QImage blurred(const QImage& image, int radius) {
     int tab[] = { 14, 10, 8, 6, 5, 5, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2 };
     int alpha = (radius < 1) ? 16 : (radius > 17) ? 1 : tab[radius-1];
      
@@ -193,10 +192,11 @@ static QImage blurred(const QImage& image, int radius)
 }
 
 QImage VImage::gaussianFilter(const QImage& im, float strength) {
-/*
     int unscaledWidth = im.width();
     QImage small = im.scaledToWidth(unscaledWidth/strength);
     QImage large = small.scaledToWidth(unscaledWidth);
-*/
+    return large;
+/*
     return blurred(im, strength);
+*/
 }
