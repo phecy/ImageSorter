@@ -51,11 +51,13 @@ public:
     void setExif(ExifInfo e) { exifdata = e; }
 
     // Rating
+    void setUniqueness(float u) { uniqueness=u; }
+    float getUniqueness() const { return uniqueness; }
     void setTotalQuality(float r) { quality=r; }
     float getTotalQuality() const { return quality; }
-    void setQualities(vector<pair<string, float> > q) { qualities=q; }
+    void setQualities(vector<pair<string, float> > q) { qualitiesVec=q; }
     void setQuality(string attributeName, double value);
-    const vector<pair<string, float> >& getQualities() { return qualities; }
+    const vector<pair<string, float> >& getQualities() { return qualitiesVec; }
 
     // For sharpdetect and duplicategaussian
     // Returns avg pixel difference
@@ -101,12 +103,14 @@ private:
 
     // The image's final rank (combination of the qualities vector)
     float quality; 
+    // The image's final uniqueness, dependenent on its sorted position
+    float uniqueness; 
 
     // A name and rating for each item in the quality vector
-    vector<pair<string, float> > qualities; 
+    vector<pair<string, float> > qualitiesVec;
 
     // A name and rating for each item in the uniqueness vector
-    vector<pair<string, float> > uniqueness;
+    vector<pair<string, float> > uniquenessVec;
 
     // Colors
     HistogramSet histograms; // 4 channels, black+RGB

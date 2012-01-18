@@ -250,6 +250,9 @@ float addNextBestImage(vector<VImage*>& currList,
         }
     }
 
+    // Update internal structure
+    (*maxScore_i)->setUniqueness(maxScore);
+
     // Add next image from list
     currList.push_back(*maxScore_i);
     candidates.erase(maxScore_i);

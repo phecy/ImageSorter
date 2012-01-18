@@ -8,6 +8,8 @@
 
 #include "vimage.h"
 
+#define NUMSETWIDGETS 12
+
 namespace Ui {
     class SetDisplay;
 }
@@ -24,6 +26,12 @@ public:
 
 private:
     Ui::SetDisplay *ui;
+
+    QWidget* widgets[NUMSETWIDGETS];
+
+    vector<VImage*> images;
+
+    bool eventFilter(QObject *object, QEvent *event);
 };
 
 #endif // SETDISPLAY_H

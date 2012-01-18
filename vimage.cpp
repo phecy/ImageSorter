@@ -122,7 +122,7 @@ HistogramSet VImage::makeHistograms(VImage* vim,
 }
 
 void VImage::setQuality(string attributeName, double value)  {
-    qualities.push_back(pair<string, double>
+    qualitiesVec.push_back(pair<string, double>
                         (attributeName, value));
 }
 
