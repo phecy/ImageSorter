@@ -30,6 +30,7 @@ private:
 
     QWidget* widgets[NUMSETWIDGETS];
     QLabel* similarityText[NUMSETWIDGETS];
+    QLabel* similarityVector[NUMSETWIDGETS];
 
     vector<VImage*> images;
     Similarity* similarity;

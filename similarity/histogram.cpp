@@ -4,7 +4,7 @@
 
 #define EDGE_BINS_TO_IGNORE 2
 
-#define MULTIPLIER .08 // more = less tolerant to differences
+#define MULTIPLIER 5 // more = less tolerant to differences
 #define STRICTNESS_K 1.0 * MULTIPLIER
 #define STRICTNESS_R 1.0 * MULTIPLIER
 #define STRICTNESS_G 2.0 * MULTIPLIER
@@ -13,12 +13,12 @@
 // Averages similarity of each segment
 float SimilarityHistogram::calculateSimilarity(const VImage* first,
                                                const VImage* second) {
-    int similarity = compareHistograms(first, second);
+    float similarity = compareHistograms(first, second);
 
     return similarity;
 }
 
-int SimilarityHistogram::compareHistograms(const VImage* vim1,
+float SimilarityHistogram::compareHistograms(const VImage* vim1,
                                            const VImage* vim2) {
     const vector<int> oneMeds = vim1->getMedians();
     const vector<int> twoMeds = vim2->getMedians();
@@ -49,13 +49,17 @@ int SimilarityHistogram::compareHistograms(const VImage* vim1,
         }
     }
 
-    int rating = floor(.5 +         // round
+    float rating = floorf(.5 +         // round
                  10.0 - STRICTNESS_K*diffs[HBLACK]
                       - STRICTNESS_R*diffs[HRED]
                       - STRICTNESS_G*diffs[HGREEN]
                       - STRICTNESS_B*diffs[HBLUE]);
 
-    rating = max(0, rating);
+    cout << "Diffs: " << diffs[0] << ", " << diffs[1] << ", "
+         << diffs[2] << ", " << diffs[3] << endl;
+    cout << "Rating: " << rating << endl;
+
+    rating = fmax(0, rating);
 
     return rating;
 }

@@ -20,7 +20,7 @@ public:
 
 private:
     // Compares two partial histograms
-    int compareHistograms(const VImage* first, const VImage* second);
+    float compareHistograms(const VImage* first, const VImage* second);
 
     void debugPrint(VImage* vim, HistogramSet);
 };

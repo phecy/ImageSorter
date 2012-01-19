@@ -11,35 +11,50 @@ SetDisplay::SetDisplay(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    widgets[0] = ui->widget_1;
-    widgets[1] = ui->widget_2;
-    widgets[2] = ui->widget_3;
-    widgets[3] = ui->widget_4;
-    widgets[4] = ui->widget_5;
-    widgets[5] = ui->widget_6;
-    widgets[6] = ui->widget_7;
-    widgets[7] = ui->widget_8;
-    widgets[8] = ui->widget_9;
-    widgets[9] = ui->widget_10;
+    widgets[0]  = ui->widget_1;
+    widgets[1]  = ui->widget_2;
+    widgets[2]  = ui->widget_3;
+    widgets[3]  = ui->widget_4;
+    widgets[4]  = ui->widget_5;
+    widgets[5]  = ui->widget_6;
+    widgets[6]  = ui->widget_7;
+    widgets[7]  = ui->widget_8;
+    widgets[8]  = ui->widget_9;
+    widgets[9]  = ui->widget_10;
     widgets[10] = ui->widget_11;
     widgets[11] = ui->widget_12;
 
-    similarityText[0] = ui->similarity_1;
-    similarityText[1] = ui->similarity_2;
-    similarityText[2] = ui->similarity_3;
-    similarityText[3] = ui->similarity_4;
-    similarityText[4] = ui->similarity_5;
-    similarityText[5] = ui->similarity_6;
-    similarityText[6] = ui->similarity_7;
-    similarityText[7] = ui->similarity_8;
-    similarityText[8] = ui->similarity_9;
-    similarityText[9] = ui->similarity_10;
+    similarityText[0]  = ui->similarity_1;
+    similarityText[1]  = ui->similarity_2;
+    similarityText[2]  = ui->similarity_3;
+    similarityText[3]  = ui->similarity_4;
+    similarityText[4]  = ui->similarity_5;
+    similarityText[5]  = ui->similarity_6;
+    similarityText[6]  = ui->similarity_7;
+    similarityText[7]  = ui->similarity_8;
+    similarityText[8]  = ui->similarity_9;
+    similarityText[9]  = ui->similarity_10;
     similarityText[10] = ui->similarity_11;
     similarityText[11] = ui->similarity_12;
+
+    // Unused for now
+    similarityVector[0]  = ui->simvector_1;
+    similarityVector[1]  = ui->simvector_2;
+    similarityVector[2]  = ui->simvector_3;
+    similarityVector[3]  = ui->simvector_4;
+    similarityVector[4]  = ui->simvector_5;
+    similarityVector[5]  = ui->simvector_6;
+    similarityVector[6]  = ui->simvector_7;
+    similarityVector[7]  = ui->simvector_8;
+    similarityVector[8]  = ui->simvector_9;
+    similarityVector[9]  = ui->simvector_10;
+    similarityVector[10] = ui->simvector_11;
+    similarityVector[11] = ui->simvector_12;
 
     for(int i=0; i<NUMSETWIDGETS; ++i) {
         widgets[i]->installEventFilter(this);
         similarityText[i]->setText("");
+        similarityVector[i]->setText("");
     }
     ui->uniquenessLabel->setText("");
     ui->qualityLabel->setText("");

@@ -231,7 +231,7 @@ float getScore(const vector<VImage*>& currList, VImage* image) {
     // Update internal structure
     image->setUniqueness(uniquenessScore);
 
-    cout << "quality: " << qualityScore << ", unique: " << uniquenessScore << endl;
+    //cout << "quality: " << qualityScore << ", unique: " << uniquenessScore << endl;
 
     float totalScore = QUALITY_WEIGHT*qualityScore +
                        UNIQUENESS_WEIGHT*uniquenessScore;

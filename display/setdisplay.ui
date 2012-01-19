@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>641</width>
-    <height>456</height>
+    <width>642</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>260</y>
+     <y>300</y>
      <width>140</width>
      <height>90</height>
     </rect>
@@ -33,7 +33,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>260</y>
+     <y>300</y>
      <width>140</width>
      <height>90</height>
     </rect>
@@ -65,7 +65,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>140</y>
+     <y>160</y>
      <width>140</width>
      <height>90</height>
     </rect>
@@ -78,7 +78,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>260</y>
+     <y>300</y>
      <width>140</width>
      <height>90</height>
     </rect>
@@ -104,7 +104,7 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>260</y>
+     <y>300</y>
      <width>140</width>
      <height>90</height>
     </rect>
@@ -117,7 +117,7 @@
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>140</y>
+     <y>160</y>
      <width>140</width>
      <height>90</height>
     </rect>
@@ -143,7 +143,7 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>140</y>
+     <y>160</y>
      <width>140</width>
      <height>90</height>
     </rect>
@@ -169,7 +169,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>140</y>
+     <y>160</y>
      <width>140</width>
      <height>90</height>
     </rect>
@@ -182,7 +182,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>410</y>
+     <y>450</y>
      <width>151</width>
      <height>31</height>
     </rect>
@@ -200,7 +200,7 @@
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>410</y>
+     <y>450</y>
      <width>191</width>
      <height>31</height>
     </rect>
@@ -282,7 +282,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>230</y>
+     <y>250</y>
      <width>130</width>
      <height>20</height>
     </rect>
@@ -298,7 +298,7 @@
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>230</y>
+     <y>250</y>
      <width>130</width>
      <height>20</height>
     </rect>
@@ -314,7 +314,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>230</y>
+     <y>250</y>
      <width>130</width>
      <height>20</height>
     </rect>
@@ -330,7 +330,7 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>230</y>
+     <y>250</y>
      <width>130</width>
      <height>20</height>
     </rect>
@@ -346,7 +346,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>350</y>
+     <y>390</y>
      <width>130</width>
      <height>20</height>
     </rect>
@@ -362,7 +362,7 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>350</y>
+     <y>390</y>
      <width>130</width>
      <height>20</height>
     </rect>
@@ -378,7 +378,7 @@
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>350</y>
+     <y>390</y>
      <width>130</width>
      <height>20</height>
     </rect>
@@ -394,13 +394,205 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>350</y>
+     <y>390</y>
      <width>130</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string>similarity_10</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_1">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>130</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_1</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_2">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>130</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_2</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_3">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>130</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_3</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_4">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>130</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_4</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_8">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>270</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_8</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_6">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>270</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_6</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_5">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>270</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_5</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_7">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>270</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_7</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_9">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>410</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_9</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_11">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>410</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_11</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_10">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>410</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_10</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="simvector_12">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>410</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>simvector_12</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
