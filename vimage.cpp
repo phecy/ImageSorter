@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 
 #include <QLabel>
@@ -60,6 +61,8 @@ void VImage::makeMedianAndAvgColors() {
 // For sharpdetect and duplicategaussian
 // Returns 0-9 based on similarity
 int VImage::avgPixelDiff(const QImage& one, const QImage& two) {
+    assert(one.size() == two.size());
+
     int width = one.width();
     int height = one.height();
     // Compare blurred vs normal
@@ -192,9 +195,9 @@ static QImage blurred(const QImage& image, int radius) {
 }
 
 QImage VImage::gaussianFilter(const QImage& im, float strength) {
-    int unscaledWidth = im.width();
-    QImage small = im.scaledToWidth(unscaledWidth/strength);
-    QImage large = small.scaledToWidth(unscaledWidth);
+    const QSize& unscaledSize = im.size();
+    QImage small = im.scaledToWidth(unscaledSize.width()/strength);
+    QImage large = small.scaled(unscaledSize);
     return large;
 /*
     return blurred(im, strength);
