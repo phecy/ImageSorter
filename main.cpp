@@ -160,8 +160,11 @@ void manageDisplays(vector<VImage*>& unsorted,
 
     SetDisplay *setdisp_sorted = new SetDisplay();
     setdisp_sorted->display(sorted, similarity);
-    disp->addTab(setdisp_sorted, QIcon(), "Top Images (incl. sets)");
+    disp->addTab(setdisp_sorted, QIcon(), "Sorted By Rank");
 
+    SetDisplay *setdisp_unsorted = new SetDisplay();
+    setdisp_unsorted->display(unsorted, similarity);
+    disp->addTab(setdisp_unsorted, QIcon(), "Unsorted");
 }
 
 vector<char*> makeCStringVector(QStringList files) {

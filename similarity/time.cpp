@@ -1,3 +1,4 @@
+#include <iostream>
 #include <math.h>
 #include "time.h"
 #include "vimage.h"
@@ -51,11 +52,11 @@ float SimilarityTime::calculateSimilarity(const VImage* vim1, const VImage* vim2
     double avgGapWindow = sumOfLogsWindow/actualWindowSize;
 
     // Get the avg gap between the two images (firstIndex -> secondIndex)
-    double gapImages = sumGapLogs[secondIndex] - sumGapLogs[firstIndex];
+    double gapImages = fabs(sumGapLogs[secondIndex] - sumGapLogs[firstIndex]);
 
     // Finally, compare the current gap to the average window gap,
     //  scaling to account for image distance
-    int rank = round(MAXRANK - gapImages/avgGapWindow);
+    float rank = round(MAXRANK - gapImages/avgGapWindow);
 
     if(rank < 0) rank = 0;
 

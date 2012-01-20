@@ -3,6 +3,8 @@
 
 #include "math.h"
 
+#define MAX_RATING 10.f
+
 #define BLUR_SHORTNAME "blur"
 #define CONTRAST_SHORTNAME "contrast"
 #define EXPOSURE_SHORTNAME "exposure"
