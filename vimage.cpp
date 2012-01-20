@@ -58,9 +58,8 @@ void VImage::makeMedianAndAvgColors() {
     }
 }
 
-// For sharpdetect and duplicategaussian
-// Returns 0-9 based on similarity
-int VImage::avgPixelDiff(const QImage& one, const QImage& two) {
+// Sqrt of sum of squared differences of the pixels
+float VImage::l2norm(const QImage& one, const QImage& two) {
     assert(one.size() == two.size());
 
     int width = one.width();
@@ -72,16 +71,18 @@ int VImage::avgPixelDiff(const QImage& one, const QImage& two) {
             // For now, just compare green channel2)
             QRgb pix1 = one.pixel(w,h);
             QRgb pix2 = two.pixel(w,h);
-            int val1 = qGray(pix1);
-            int val2 = qGray(pix2);
-            total += abs(val1 - val2);
+            int valRed = abs(qRed(pix1) - qRed(pix2));
+            int valBlu = abs(qBlue(pix1) - qBlue(pix2));
+            int valGre = abs(qGreen(pix1) - qGreen(pix2));
+            int sum = valRed*valRed + valBlu*valBlu + valGre*valGre;
+            total += sum;
             // std::cout << "|" << abs(val1 - val2);
         }
     }
     // Get avg diff per pixel
     total /= width*height;
 
-    return total;
+    return sqrt(total);
 }
 
 HistogramSet VImage::makeHistograms(VImage* vim,

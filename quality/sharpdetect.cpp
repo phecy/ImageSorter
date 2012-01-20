@@ -15,7 +15,7 @@ int SharpDetect::rankOne(VImage* vim) {
     QImage blurred = VImage::gaussianFilter(imref, GAUSS_STRENGTH);
 
     // Compare blurred vs normal
-    int rating = VImage::avgPixelDiff(*im, blurred);
+    int rating = VImage::l2norm(*im, blurred);
     rating = rating < 0 ? 0 : rating > 9 ? 9 : rating; // 0<=r<=9
 
     //qDebug("SharpDetect rank of %s: %d (avg pixel diff=%lld)",

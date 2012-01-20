@@ -2,9 +2,9 @@
 
 #include "gaussian.h"
 
-#define GAUSS_WIDTH_THUMBNAIL 25
-#define GAUSS_HEIGHT_THUMBNAIL 25
-#define GAUSS_DIVIDE_BY 10
+#define GAUSS_WIDTH_THUMBNAIL 6
+#define GAUSS_HEIGHT_THUMBNAIL 4
+#define GAUSS_DIVIDE_BY 20
 
 SimilarityGaussian::SimilarityGaussian(vector<VImage*> allImages) {
 }
@@ -17,7 +17,7 @@ float SimilarityGaussian::calculateSimilarity(const VImage* first,
     QImage two = second->getQImage()->scaled(GAUSS_WIDTH_THUMBNAIL,
                                              GAUSS_HEIGHT_THUMBNAIL);
 
-    int rating = VImage::avgPixelDiff(one, two) / GAUSS_DIVIDE_BY;
+    int rating = VImage::l2norm(one, two) / GAUSS_DIVIDE_BY;
     rating = 10 - rating;
     rating = rating < 0 ? 0 : rating > 9 ? 9 : rating; // 0<=r<=9
 

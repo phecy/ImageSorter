@@ -40,7 +40,7 @@ float Similarity::calculateSimilarity(const VImage* one, const VImage* two) {
 #endif
 
     float rank = timeSimilarity + histSimilarity + gausSimilarity;
-    rank = histSimilarity; // TODO REMOVE THIS
+    rank = gausSimilarity; // TODO REMOVE THIS
     cout << "Rank is " << rank << ": time=" << timeSimilarity << ", hist="
          << histSimilarity << ", gaus=" << gausSimilarity << endl;
 

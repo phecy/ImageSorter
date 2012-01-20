@@ -63,7 +63,7 @@ public:
     // For sharpdetect and duplicategaussian
     // Returns avg pixel difference
     static QImage gaussianFilter(const QImage& im, float strength);
-    static int avgPixelDiff(const QImage& one, const QImage& two);
+    static float l2norm(const QImage& one, const QImage& two);
 
     // Colors
     // Make histogram starting at QImage's (x,y)
