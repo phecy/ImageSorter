@@ -19,54 +19,59 @@
 # gvh    (visual - eps only - highlevel only)
 # gvl    (visual - eps only - lowlevel only)
 
+LATEX=latex -output-directory=build paper
+BIBTEX=bibtex build/paper
+
 basic:
-	latex README_PAPER
+	${LATEX}
 
 complete-dvi:
-	latex README_PAPER
-	bibtex README_PAPER
-	latex README_PAPER
-	latex README_PAPER
+	${LATEX}
+	${BIBTEX}
+	${LATEX}
+	${LATEX}
 
 d: complete-dvi
 
 dvi-visual: complete-dvi
-	xdvi README_PAPER.dvi &
+	gnome-open build/paper.dvi &
 
 dv: dvi-visual
 
 complete-pdf: complete-dvi
-	dvipdf README_PAPER.dvi
+	dvipdf build/paper.dvi build/paper.pdf
 
 p: complete-pdf
 
 pdf-visual: complete-pdf
-	gnome-open README_PAPER.pdf
+	gnome-open build/paper.pdf
 
 pv: pdf-visual
 
 bib-only:
-	latex README_PAPER > /dev/null
-	bibtex README_PAPER
-	latex README_PAPER > /dev/null
-	latex README_PAPER > /dev/null
+	${LATEX} > /dev/null
+	${BIBTEX}
+	${LATEX} > /dev/null
+	${LATEX} > /dev/null
 
 b: bib-only
 
 bib-visual: b
-	xdvi README_PAPER.dvi &
+	xdvi build/paper.dvi &
 
 bv: bib-visual
 
 g:
+	cd figures
 	dot -Teps flowchart.graphviz > flowchart.eps
 	dot -Teps mlflowchart.graphviz > mlflowchart.eps
 	dot -Teps mlhighlevel.graphviz > mlhighlevel.eps
 	dot -Teps mllowlevel.graphviz > mllowlevel.eps
 	epstopdf flowchart.eps
-	epstopdf mlflowchart.eps
+	pstopdf mlflowchart.eps
 	epstopdf mlhighlevel.eps
 	epstopdf mllowlevel.eps
+	cd ..
 
 gv1: g
 	gnome-open flowchart.eps
@@ -78,7 +83,7 @@ gvl: g
 	gnome-open mllowlevel.eps
 
 commit:
-	git commit README*
+	git commit figures/*graphviz *tex
 
 push:
 	git push

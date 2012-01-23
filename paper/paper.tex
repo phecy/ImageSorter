@@ -75,7 +75,7 @@ This work focuses on the removal stage and contains both quality assessment and 
 
 \begin{figure*}
   \centering
-    \epsfig{file=flowchart.eps,width=16cm}
+    \epsfig{file=figures/flowchart.eps,width=16cm}
   \caption{Interest points are used to find the foreground subject. Blur, contrast, and exposure assessment algorithms are used to calculate an image's quality rating. Images are clustered into groups of similar images based on their histograms, color distribution, and timestamps. A reordering of the input results, allowing the user to remove images at the end of this ordering.}
   \label{flowchart}
 \end{figure*}
@@ -166,11 +166,11 @@ To determine the Importance Order, we iteratively choose the image with the high
 \centering
 \subfloat[Unsorted]
 {
-	\fbox{\epsfig{file=result_unsorted.eps,width=8.5cm}}
+	\fbox{\epsfig{file=figures/result_unsorted.eps,width=8.5cm}}
 	\label{resultunsorted}
 }
 \subfloat[Sorted]{
-	\fbox{\epsfig{file=result_sorted.eps,width=8.5cm}}
+	\fbox{\epsfig{file=figures/result_sorted.eps,width=8.5cm}}
 	\label{resultsorted}
 }
 \caption{\subref{resultunsorted} shows four sets of similar photographs provided by the user. \subref{resultsorted} shows the reordered set. We asked 10 Turk users to rank each image and we correctly chose the top image from each set.}
@@ -181,15 +181,15 @@ To determine the Importance Order, we iteratively choose the image with the high
 \centering
 \subfloat[Blurry]
 {
-	\epsfig{file=example_blur.eps,width=5cm}
+	\epsfig{file=figures/example_blur.eps,width=5cm}
 	\label{example_blur}
 }
 \subfloat[Overexposed]{
-	\epsfig{file=example_expose.eps,width=5cm}
+	\epsfig{file=figures/example_expose.eps,width=5cm}
 	\label{example_expose}
 }
 \subfloat[High quality]{
-	\epsfig{file=example_good.eps,width=5cm}
+	\epsfig{file=figures/example_good.eps,width=5cm}
 	\label{example_good}
 }
 \caption{Examples of \subref{example_blur}\subref{example_expose} low quality and \subref{example_good} high-quality images, as determined by our modules. The dots are interest points found; the rectangle is the bounding box considered to be the subject.}
@@ -212,6 +212,6 @@ Our work focuses on a small portion of the Photographer's Process. In the future
 
 {
  \bibliographystyle{IEEEbib}
- \bibliography{README_BIB}
+ \bibliography{bibliography}
 }
 \end{document}
