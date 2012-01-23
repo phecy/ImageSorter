@@ -84,16 +84,27 @@ This work focuses on the removal stage and contains both quality assessment and 
 
 Previous works have classified images as professional vs. amateur with high accuracy\cite{1640788}\cite{springerlink:10.1007/11744078_23}\cite{springerlink:10.1007/978-3-540-88690-7_29}, which is useful for search engines' retrieval of high quality images. Others have focused on personalized \emph{aesthetic} rankings of photographs\cite {Sun:2009:PAB:1631272.1631351}\cite {Yeh:2010:PPR:1873951.1873963}. All of these works focus on finalized images, while we focus on images that are still raw and may be retouched afterwards.
 
-Event classification has been explored in order to choose the best images from an entire event\cite{1223566}\cite{4444209}, while we choose the best images from each scene within each event: images with the same subject content rather than the same event context.
+Event classification has been explored in order to choose the best images from an entire event\cite{1223566}\cite{4444209}, but it doesn't do (TODO how are we actually different? reread these.).
+
+To summarize scenes from large online image databases, Simon et. al. develop a method to create a hierarchy of a large scene (for example, a hiercarchy of Flickr images matching the keyword ``Rome''). This method requires the set of images to contain the same objects. We improve upon their method by using Gist features to find similar images (cite Gist), rather than SIFT features to find exact content matches (cite SIFT).
 
 Kormann, Dunker, and Paduschek\cite{springerlink:10.1007/978-3-642-10543-2_23} describe a method of automatically rating and ranking images based on image content and time-metadata, but do not report numerical results, only that their results are better than random. 
 
+\section{Algorithm}
+Our algorithm is derived from Scene Summarization \cite{Simon2007}. Given a set of images $S$, we reorder the set based on its \emph{importance score} into a sequence of images $C$. At each iteration $i$, we add the image with the greatest importance score to $C$. The importance score $I(s)$ of an image $s \in S$ is defined by:
 
-\section{Quantifying Image Quality}
+$$
+I_i(s) = \alpha Q(s) + \beta U_i(s)
+$$
 
-To find the Importance Order of the user's photographs, we use both quality assessment and similarity clustering. Quality is determined by the rankings of the blur, exposure, and contrast modules. Similarity of images is determined by matching the color content and timestamp of every pair of images. Both modules make use of a foreground region detection module based on interest points. We combine these measures to get the final ordering (Fig. \ref{flowchart}).
+Where $Q(s)$ is the \emph{quality} of the image, and $U_i(s)$ is its uniqueness at iteration $i$.
 
-The quality modules (blur, exposure, and contrast assessment) provide a ranking between zero and nine, with larger numbers indicating higher quality. Because an image which is flawed in any of the three factors would be considered poor, we take the weighted sum-of-squares to penalize low scores more than we reward high scores. We assign weights to each module as follows: blur 50\%, exposure 40\%, and contrast 10\%.
+The quality $Q(s)$ of an image is only based on the content, as described in Section \ref{section:quality}. The uniqueness $U_i(s)$ of an image is measured by how different it is from each of the images in $C$ at iteration $i$. This must be updated at each iteration $i$ with information about the image added at step $i-1$.
+
+\section{Image Quality}
+\label{section:quality}
+
+The quality Q(s) is determined by three metrics: blur, exposure, and contrast. Each metric provides value between 0 and 1, with larger values indicating higher quality. The three scores are combined in an Artificial Neural Network (TODO CITE) to represent the nonlinear nature of image quality: if any one score is too low, the quality of the entire image is low.
 
 \subsection{Foreground detection}\label{ContentRecognition}
 Several modules make use of foreground detection. We use a Harris corner detector\cite{Harris} (utilizing NASA's Vision Workbench\cite{vision-workbench}) to obtain interest points for each image. To extract a bounding box from these points, the most dense rectangle is calculated by maximizing the ratio of interest points to rectangle area. We assume this to be the primary foreground subject.
