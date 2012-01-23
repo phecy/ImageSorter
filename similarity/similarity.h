@@ -19,6 +19,7 @@ This file is part of ppm.
 #define SIMILARITY_H
 
 #include <map>
+#include "content.h"
 #include "time.h"
 #include "gaussian.h"
 #include "histogram.h"
@@ -51,6 +52,7 @@ private:
     SimilarityTime* timed;
     SimilarityGaussian* gaussian;
     SimilarityHistogram* histogram;
+    SimilarityContent* content;
 };
 
 #endif

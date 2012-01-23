@@ -6,6 +6,7 @@ using namespace std;
 Similarity::Similarity(vector<VImage*> allImages) {
     int numImages = allImages.size();
 
+    content = new SimilarityContent(allImages);
     timed = new SimilarityTime(allImages);
     histogram = new SimilarityHistogram(allImages);
 #ifndef FAST_MODE
@@ -33,15 +34,19 @@ float Similarity::getSimilarity(const VImage* one, const VImage* two) {
 
 float Similarity::calculateSimilarity(const VImage* one, const VImage* two) {
     // Get each module's rating
+    float contentSimilarity = content->calculateSimilarity(one, two)    /10.f;
     float timeSimilarity = timed->calculateSimilarity(one, two)    /10.f;
     float histSimilarity = histogram->calculateSimilarity(one, two)/10.f;
 #ifndef FAST_MODE
     float gausSimilarity = gaussian->calculateSimilarity(one, two) /10.f;
 #endif
 
-    float rank = timeSimilarity + histSimilarity + gausSimilarity;
+    float rank = timeSimilarity + histSimilarity +
+                 gausSimilarity + contentSimilarity;;
+          rank = contentSimilarity; // TODO remove this
     cout << "Rank is " << rank << ": time=" << timeSimilarity << ", hist="
-         << histSimilarity << ", gaus=" << gausSimilarity << endl;
+         << histSimilarity << ", gaus=" << gausSimilarity 
+         << ", content=" << contentSimilarity << endl;
 
     // Update internal structure
     addSimilarityRating(one, two, rank);
