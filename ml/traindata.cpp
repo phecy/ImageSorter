@@ -258,7 +258,9 @@ map <string, vector<double> > TrainData::getCSVData()
     // look how many lines we gonna have in our "big map" the highlevel features
         for (int i=0; i<row; i++)
         {
-            string t = array[i][key_arr["Input.image"].second];
+            pair<int,int> k = key_arr["Input.image"];
+            int j = k.second;
+            string t = array[i][j];
             t = strrchr(t.c_str(), '/')+1;
             if (highlevel.end() == highlevel.find(t))  // we didn't find this file name
                                                 // have to create a new line in the map
