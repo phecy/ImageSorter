@@ -34,11 +34,11 @@ float Similarity::getSimilarity(const VImage* one, const VImage* two) {
 
 float Similarity::calculateSimilarity(const VImage* one, const VImage* two) {
     // Get each module's rating
-    float contentSimilarity = content->calculateSimilarity(one, two)    /10.f;
-    float timeSimilarity = timed->calculateSimilarity(one, two)    /10.f;
-    float histSimilarity = histogram->calculateSimilarity(one, two)/10.f;
+    float contentSimilarity = content->calculateSimilarity(one, two);
+    float timeSimilarity = timed->calculateSimilarity(one, two);
+    float histSimilarity = histogram->calculateSimilarity(one, two);
 #ifndef FAST_MODE
-    float gausSimilarity = gaussian->calculateSimilarity(one, two) /10.f;
+    float gausSimilarity = gaussian->calculateSimilarity(one, two);
 #endif
 
     float rank = timeSimilarity + histSimilarity +

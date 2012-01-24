@@ -60,5 +60,5 @@ float SimilarityTime::calculateSimilarity(const VImage* vim1, const VImage* vim2
 
     if(rank < 0) rank = 0;
 
-    return rank;
+    return rank / MAX_RATING;
 }

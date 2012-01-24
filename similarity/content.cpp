@@ -11,6 +11,8 @@ static const int N_SCALE = 3;
 static const int ORIENTATIONS_PER_SCALE[50]={8,8,4};
 static const int DESCRIPTION_LENGTH = 960;
 
+static const float SCALING = 100;
+
 SimilarityContent::SimilarityContent(vector<VImage*> allImages) {
     vector<VImage*>::iterator it;
     for(it = allImages.begin(); it != allImages.end(); ++it) {
@@ -59,8 +61,9 @@ float SimilarityContent::compareDescriptions(float* desc1, float* desc2) {
         float diff = desc1[i] - desc2[i];
         totalDiff += diff*diff;
     }
+    totalDiff /= DESCRIPTION_LENGTH;
 
-    return 1.f/(1+totalDiff);
+    return 1-totalDiff*SCALING;
 }
 
 float SimilarityContent::calculateSimilarity(const VImage* vim1,

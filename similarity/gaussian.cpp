@@ -18,8 +18,8 @@ float SimilarityGaussian::calculateSimilarity(const VImage* first,
                                              GAUSS_HEIGHT_THUMBNAIL);
 
     int rating = VImage::l2norm(one, two) / GAUSS_DIVIDE_BY;
-    rating = 10 - rating;
+    rating = MAX_RATING - rating;
     rating = rating < 0 ? 0 : rating > 9 ? 9 : rating; // 0<=r<=9
 
-    return rating;
+    return rating / MAX_RATING;
 }

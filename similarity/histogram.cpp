@@ -58,7 +58,7 @@ float SimilarityHistogram::compareHistograms(const VImage* vim1,
                           - STRICTNESS_B*diffs[i][HBLUE]));
     }
 
-    return rating;
+    return rating / MAX_RATING;
 }
 
 void SimilarityHistogram::debugPrint(VImage* vim, HistogramSet hists) {
