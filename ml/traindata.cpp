@@ -255,6 +255,12 @@ map <string, vector<double> > TrainData::getCSVData()
             }
         } while (it != EOF);
 
+        if(array[0].size() == 1) {
+            fprintf(stderr, "Incorrect MTurk format! Needs to be separated by"
+                            " semicolons.\n");
+            abort();
+        }
+
     // look how many lines we gonna have in our "big map" the highlevel features
         for (int i=0; i<row; i++)
         {
