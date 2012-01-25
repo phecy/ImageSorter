@@ -14,14 +14,15 @@ MainDisplay::MainDisplay(QWidget *parent) :
                      this, SLOT(loadFileNew()));
     QObject::connect(ui->tdat_change, SIGNAL(clicked()),
                      this, SLOT(loadTrainData()));
+    QObject::connect(this, SIGNAL(tabCloseRequested(int)),
+                     this, SLOT(closeTab(int)));
 
     QString defaultname(DEFAULT_LEARN_DIR);
     defaultname.append(DEFAULT_SVR_FILENAME);
     ui->tdat_var->setText(defaultname);
 }
 
-MainDisplay::~MainDisplay()
-{
+MainDisplay::~MainDisplay() {
     delete ui;
 }
 
@@ -37,4 +38,12 @@ void MainDisplay::loadFileNew() {
 
 void MainDisplay::loadTrainData() {
 
+}
+
+void MainDisplay::closeTab(int tabIndex) {
+    QWidget *widget = this->widget(tabIndex);
+    if(widget != NULL) {
+        this->removeTab(tabIndex);
+        widget->deleteLater();
+    }
 }

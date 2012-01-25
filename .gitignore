@@ -4,4 +4,7 @@ build/
 paper/build/*
 results/data/
 results/luotang_correl.xcf
+similarity/lear_gist/Makefile
+similarity/lear_gist/README
+similarity/lear_gist/ar.ppm
 *.swp

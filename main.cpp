@@ -145,26 +145,37 @@ void manageDisplays(vector<VImage*>& unsorted,
                     Similarity* similarity) {
     // GUI
     vector<string> ranksToDisplay;
+    ranksToDisplay.push_back("sharpness");
     ranksToDisplay.push_back("blur");
     ranksToDisplay.push_back("exposure");
     ranksToDisplay.push_back("contrast");
     ranksToDisplay.push_back("localcontrast");
 
-    ImgViewer *viewer = new ImgViewer();
-    viewer->setImageData(unsorted);
-    viewer->setRanksToDisplay(ranksToDisplay);
-    viewer->init();
+    // Unsorted viewer
+    ImgViewer *unsortedViewer = new ImgViewer();
+    unsortedViewer->setImageData(unsorted);
+    unsortedViewer->setRanksToDisplay(ranksToDisplay);
+    unsortedViewer->init();
+    disp->addTab(unsortedViewer, QIcon(), "Browse unsorted");
 
-    disp->addTab(viewer, QIcon(), "Image Browser");
-    disp->setCurrentWidget(viewer);
+    // Sorted viewer
+    ImgViewer *sortedViewer = new ImgViewer();
+    sortedViewer->setImageData(sorted);
+    sortedViewer->setRanksToDisplay(ranksToDisplay);
+    sortedViewer->init();
+    disp->addTab(sortedViewer, QIcon(), "Browse sorted");
 
+    // Sorted top images
     SetDisplay *setdisp_sorted = new SetDisplay();
     setdisp_sorted->display(sorted, similarity);
-    disp->addTab(setdisp_sorted, QIcon(), "Sorted By Rank");
+    disp->addTab(setdisp_sorted, QIcon(), "Top 12");
 
+    // Unsorted top images
     SetDisplay *setdisp_unsorted = new SetDisplay();
     setdisp_unsorted->display(unsorted, similarity);
-    disp->addTab(setdisp_unsorted, QIcon(), "Unsorted");
+    disp->addTab(setdisp_unsorted, QIcon(), "First 12");
+
+    disp->setCurrentWidget(setdisp_sorted);
 }
 
 vector<char*> makeCStringVector(QStringList files) {

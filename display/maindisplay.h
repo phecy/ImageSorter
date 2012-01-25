@@ -21,6 +21,7 @@ private:
 protected slots:
     void loadFileTrain(); // Load training data files
     void loadFileNew(); // Load files to predict on
+    void closeTab(int tabIndex);
 
     void loadTrainData(); // Load a tdat file
 };
