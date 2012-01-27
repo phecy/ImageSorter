@@ -31,83 +31,23 @@ public:
         // Be sure to check validity of file before calling.
     float calculateBlur(VImage* im);
 
-    // Minimum threshhold for high pass: -100-100% of colors from average
-    void setThreshhold(int t) { threshhold = t; }
-    int  getThreshhold()      { return threshhold; }
-
-    // Radius to examine during angle calculations
-    void setRadius(int r) { radius = r; }
-    int  getRadius()      { return radius; }
-
-    // How many pixels thick may an edge in highpass be?
-    void setEdgeRadius(int r) { edgeRadius = r; }
-    int  getEdgeRadius()      { return edgeRadius; }
-
-    // How sharp is sharp? 0-180
-    void setSharpness(int s) { sharpness = s; }
-    int  getSharpness()      { return sharpness; }
-
-    // How far apart do we want our edges?
-    void setHighpassRadius(int r) { highpassRadius = r; }
-    int  getHighpassRadius()      { return highpassRadius; }
-
-    // Returns average color intensity
-    int  getAverage()      { return avgColor; }
-
     // For debugging, see the high pass or angles as a grayscale image
     void debugPrint(int** image, bool stepped = false, int step1=4, int step2=25);
-    int** getOriginalImage() { return originalImage; }
-    int** getHighPass() { return highPass; }
-    int** getAngles() { return angles; }
 
 protected:
-/*  Part 0: Color average, min, max
-    Given some images are darker than others without loss of quality, an absolute
-    threshhold in Part 1 is inadequate. The threshhold should be the percent deviation
-    from this average, positive or negative. This is easily influenced by noise. */
-    // (Implemented in calculateBlur())
+    // Returns a sobel edge detected image
+    QImage sobelEdgeDetect(const QImage& source);
 
-/*  Part 1: Edge detection
-    We want to focus our connectivity on important edges and not calculate angles
-    for unimportant details within the image.*/
-    void edgeDetect();
-    void correctSpacing(int w, int h);
+    // Bins the edge image
+    vector<int> getEdgeHistogram(const QImage& sobelEdges);
 
-/* Part 2: Calculate width of edges and angle and adds to vector */
-    void followEdges();
-    void calcEdgeWidthAndAngle(int w, int h);
+    // Get the final rating
+    float getBlurAmount(vector<int>& edgeStrengthHist);
 
-    //int calcAngle(int w, int h);
-
-/*  Part 3: Calculate blur
-    Maximum angle differences is optimal:
-     More sharp angles means more sharpness and less blur. */
-    float resultCalc();
-    float angleCalc();
-    float edgeCalc();
-    float contrastCalc();
+    // For debugging
+    void printHistogram(const vector<int> &hist);
 
 private:
-    int** originalImage; // The grayscale original image.
-    int** highPass; // Stores gray vals of highest [threshhold] pixels
-    int** angles;   // Stores differences in angles between [radius] pixels
-    vector<int> sharpestAngles; // Stack of all angles along sharp edges
-    vector<int> sharpestDists; // Stack of all euclidean dists along sharp edges
-    vector<int> weightedContrast; // Distance-weighted bright-to-dark diff
-    int width, height;
-
-    // User-set constants
-    int threshhold;  // -100-100%: how far from average we want to be
-    int radius;     // >0: How many pixels around this pixel to look at?
-    int edgeRadius;     // How many pixels thick may an edge in highpass be?
-    int highpassRadius; // How far apart do we want our edges?
-    int sharpness; // Angle required between two pixels to be considered sharp
-
-    // Gray value stats for threshhold calcs
-    int minColor;
-    int avgColor;
-    int maxColor;
-    int numColors; // The number of colors entered into highPass[][]
 };
 
 #endif // BLURDETECT_H
