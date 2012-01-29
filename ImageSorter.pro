@@ -7,7 +7,7 @@ DEFINES += USE_GIST
 DEFINES += STANDALONE_GIST
 
 # Input
-HEADERS += util/common.h \
+HEADERS += \
     similarity/content.h \
     similarity/lear_gist/gist.h \
     similarity/lear_gist/standalone_image.h \
@@ -15,11 +15,13 @@ HEADERS += util/common.h \
     similarity/gaussian.h \
     similarity/histogram.h \
     similarity/similarity.h \
-    util/algorithmPresets.h \
     quality/blurdetect.h \
     quality/contrast.h \
     quality/exposure.h \
     quality/grey.h \
+    util/algorithmPresets.h \
+    util/common.h \
+    util/kurtosis.h \
     exifinfo.h \
     vimage.h \
     quality/sharpdetect.h \
@@ -59,7 +61,8 @@ SOURCES += \
     ml/lowlevellearner.cpp \
     ml/highlevellearner.cpp \
     ml/learnercommon.cpp \
-    util/common.cpp
+    util/common.cpp \
+    util/kurtosis.cpp
 LIBS += /usr/lib/libexif.a \
         -lfftw3f
 

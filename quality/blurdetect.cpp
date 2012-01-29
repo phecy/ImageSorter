@@ -15,15 +15,16 @@ This file is part of ppm.
     along with ppm.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <assert.h>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+
 #include <QImage>
 #include <QLabel>
-#include <iostream>
-#include "assert.h"
-#include "blurdetect.h"
-#include "stdio.h"
-#include "math.h"
 
-#define PI 3.142
+#include "blurdetect.h"
+#include "util/kurtosis.h"
 
 static const int NUM_BINS_EDGE_STRENGTH_HIST = 15;
 
@@ -33,16 +34,19 @@ BlurDetect::BlurDetect() {
 float BlurDetect::calculateBlur(VImage* vim) {
     QImage* image = vim->getQImage();
     assert(image != NULL);
-    *image = image->scaledToWidth(600); // TODO why the fuck is this here?
 
     // Compute edges + histogram
     QImage sobelEdges = sobelEdgeDetect(*image);
-    vector<int> edgeStrengthHist = getEdgeHistogram(sobelEdges);
-    float rating = getBlurAmount(edgeStrengthHist);
 
-    cerr << "Blur result: " << rating << endl;
+    vector<int> edgeStrengthHist = getEdgeHistogram(sobelEdges); // 15 bins
+    float rating = calcBlurAmount(edgeStrengthHist);
 
-    return fmin(rating, MAX_RATING);
+    vector<double> edgeStrengthList = getEdgeStrengthList(sobelEdges);
+    float rating2 = calcKurtosisRating(edgeStrengthList);
+
+    cerr << "Blur result: " << rating2 << endl;
+
+    return fmin(rating2, MAX_RATING);
 }
 
 vector<int> BlurDetect::getEdgeHistogram(const QImage& sobelEdges) {
@@ -134,19 +138,17 @@ QImage BlurDetect::sobelEdgeDetect(const QImage& source) {
     return sobelEdges;
 }
 
-float BlurDetect::getBlurAmount(vector<int>& edgeStrengthHist) {
+float BlurDetect::calcBlurAmount(vector<int>& edgeStrengthHist) {
     // Get a list of all bins with components
     vector<int> sortedBinThatAreFilled;
     for(int i=0; i<edgeStrengthHist.size(); ++i) {
-        if(edgeStrengthHist[i] > 0) {
+        if(edgeStrengthHist[i] > 20) {
             sortedBinThatAreFilled.push_back(i);
         }
     }
 
     /*
-       Get the median of this list.
-       "Fake" median because the actual median (in the even case doesn't make
-       sense if it results in a .5)
+       Get the median of this list, truncated to an int.
     */
     int median = sortedBinThatAreFilled[sortedBinThatAreFilled.size()/2]; 
     cout << "Median bin is: " << median << endl;
@@ -161,4 +163,24 @@ float BlurDetect::getBlurAmount(vector<int>& edgeStrengthHist) {
          << endl;
 
     return numStrengthsOverMedianBin / 1000.f;
+}
+
+vector<double> BlurDetect::getEdgeStrengthList(const QImage& sobelEdges) {
+    vector<double> edges(sobelEdges.width() * sobelEdges.height());
+
+    int width = sobelEdges.width();
+    int height = sobelEdges.height();
+    for(int x=0; x<width; ++x) {
+        for(int y=0; y<height; ++y) {
+            edges[x+width*y] = qGray(sobelEdges.pixel(x,y)) / 255.0;
+        }
+    }
+
+    return edges;
+}
+
+float BlurDetect::calcKurtosisRating(vector<double>& edgeStrengthList) {
+    float kurtosis = Kurtosis::calcKurtosis(edgeStrengthList);
+    cout << "Kurtosis is: " << kurtosis << endl;
+    return kurtosis;
 }

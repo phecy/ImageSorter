@@ -41,8 +41,14 @@ protected:
     // Bins the edge image
     vector<int> getEdgeHistogram(const QImage& sobelEdges);
 
-    // Get the final rating
-    float getBlurAmount(vector<int>& edgeStrengthHist);
+    // Converts the sobel edge image into one long vector of values in [0,1]
+    vector<double> getEdgeStrengthList(const QImage& sobelEdges);
+
+    // Get the final rating based on the number > median
+    float calcBlurAmount(vector<int>& edgeStrengthHist);
+
+    // Get the final rating based on the kurtosis
+    float calcKurtosisRating(vector<double>& edgeStrengthList);
 
     // For debugging
     void printHistogram(const vector<int> &hist);

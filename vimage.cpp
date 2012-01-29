@@ -8,6 +8,8 @@
 #include "vimage.h"
 #include "limits.h"
 
+static const int QIMAGE_DEFAULT_WIDTH = 600;
+
 VImage::VImage(char* filename) {
     this->fullpath = filename;
     this->filename = strrchr(filename, '/')+1;
@@ -30,6 +32,7 @@ VImage::~VImage() {
 
 void VImage::makeQImage() {
     qimage = new QImage(fullpath);
+    *qimage = qimage->scaledToWidth(QIMAGE_DEFAULT_WIDTH);
     height = qimage->height();
     width = qimage->width();
 }

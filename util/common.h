@@ -1,7 +1,11 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include "math.h"
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <vector>
 
 #define MAX_RATING 10.f
 
