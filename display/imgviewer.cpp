@@ -29,7 +29,7 @@ ImgViewer::~ImgViewer()
 
 void ImgViewer::init()
 {
-    qDebug("Initialize ui");
+    // qDebug("Initialize ui");
 
     label = new QLabel(ui->widget);
     label->setBackgroundRole(QPalette::Base);

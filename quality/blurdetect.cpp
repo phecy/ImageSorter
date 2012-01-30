@@ -39,14 +39,14 @@ float BlurDetect::calculateBlur(VImage* vim) {
     // Compute edges + histogram
     QImage sobelEdges = sobelEdgeDetect(*image);
 
-    vector<int> edgeStrengthHist = getEdgeHistogram(sobelEdges); // 15 bins
-    float rating = calcBlurAmount(edgeStrengthHist);
+    // vector<int> edgeStrengthHist = getEdgeHistogram(sobelEdges); // 15 bins
+    // float rating = calcBlurAmount(edgeStrengthHist);
     // printHistogram(edgeStrengthHist);
 
     vector<double> edgeStrengthList = getEdgeStrengthList(sobelEdges);
     float rating2 = calcKurtosisRating(edgeStrengthList) * MAX_RATING;
 
-    cerr << "Blur result: " << rating2 << endl;
+    // cerr << "Blur result: " << rating2 << endl;
 
     return fmin(rating2, MAX_RATING);
 }
@@ -183,10 +183,10 @@ vector<double> BlurDetect::getEdgeStrengthList(const QImage& sobelEdges) {
 
 float BlurDetect::calcKurtosisRating(vector<double>& edgeStrengthList) {
     float kurtosis = Kurtosis::calcKurtosis(edgeStrengthList);
-    cout << "Kurtosis is: " << kurtosis << endl;
+    // cout << "Kurtosis is: " << kurtosis << endl;
 
     float sigm = 1.f / (1.f + pow(E, -(kurtosis - 12.f)));
 
-    cout << "sigm(kurt) = " << sigm << endl;
+    // cout << "sigm(kurt) = " << sigm << endl;
     return sigm;
 }

@@ -269,8 +269,8 @@ float addNextBestImage(vector<VImage*>& currList,
             maxScore = currScore;
             maxScore_i = candidate;
         }
-        cout << "Curr score: " << currScore
-             << ", Max Score: " << maxScore << endl;
+        // cout << "Curr score: " << currScore
+        //      << ", Max Score: " << maxScore << endl;
     }
 
     assert(*maxScore_i != NULL);

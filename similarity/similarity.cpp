@@ -44,9 +44,9 @@ float Similarity::calculateSimilarity(const VImage* one, const VImage* two) {
     float rank = timeSimilarity + histSimilarity +
                  gausSimilarity + contentSimilarity;;
     rank = contentSimilarity + timeSimilarity; // TODO remove this?
-    cout << "Rank is " << rank << ": time=" << timeSimilarity << ", hist="
-         << histSimilarity << ", gaus=" << gausSimilarity 
-         << ", content=" << contentSimilarity << endl;
+    // cout << "Rank is " << rank << ": time=" << timeSimilarity << ", hist="
+    //      << histSimilarity << ", gaus=" << gausSimilarity 
+    //      << ", content=" << contentSimilarity << endl;
 
     // Update internal structure
     addSimilarityRating(one, two, rank);
