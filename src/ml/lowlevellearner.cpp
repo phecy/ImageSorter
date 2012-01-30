@@ -41,7 +41,6 @@ LowLevelLearner::LowLevelLearner(TrainData* trainingset, int hlFeat_i)
     filename = DEFAULT_SVR_FILENAME;
     save_libsvm_formatted_data(filename, llsamples, lltargets);
 
-/*
     // Now we see how well we predicted on the training set
     int numImages = trainingset->size();
     int numFeatures = trainingset->numLLFeatures();
@@ -56,7 +55,6 @@ LowLevelLearner::LowLevelLearner(TrainData* trainingset, int hlFeat_i)
         cerr << "actual = " << trainingset->getHLFeature(img_i, hlFeat_i)
              << "      predicted = " << predict(lowLevelSample) << endl;
     }
-*/
 }
 
 void LowLevelLearner::loadFromFileWrapper(string filename) {
