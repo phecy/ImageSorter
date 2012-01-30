@@ -26,7 +26,8 @@ This file is part of ppm.
 #include "blurdetect.h"
 #include "util/kurtosis.h"
 
-static const int NUM_BINS_EDGE_STRENGTH_HIST = 15;
+static const int NUM_BINS_EDGE_STRENGTH_HIST = 51;
+static const float E = 2.71828183;
 
 BlurDetect::BlurDetect() {
 }
@@ -40,9 +41,10 @@ float BlurDetect::calculateBlur(VImage* vim) {
 
     vector<int> edgeStrengthHist = getEdgeHistogram(sobelEdges); // 15 bins
     float rating = calcBlurAmount(edgeStrengthHist);
+    // printHistogram(edgeStrengthHist);
 
     vector<double> edgeStrengthList = getEdgeStrengthList(sobelEdges);
-    float rating2 = calcKurtosisRating(edgeStrengthList);
+    float rating2 = calcKurtosisRating(edgeStrengthList) * MAX_RATING;
 
     cerr << "Blur result: " << rating2 << endl;
 
@@ -70,7 +72,7 @@ void BlurDetect::printHistogram(const vector<int> &hist) {
     for(int i=0; i<hist.size(); ++i) area+=hist[i];
     
     cout << "Edge strength histogram: " << endl;
-    for(int i=0; i<15; ++i) {
+    for(int i=0; i<NUM_BINS_EDGE_STRENGTH_HIST; ++i) {
         float numInBin = hist[i];
         numInBin /= area; // % in bin
         numInBin *= 100; // Make 100 *s total across histogram
@@ -182,5 +184,9 @@ vector<double> BlurDetect::getEdgeStrengthList(const QImage& sobelEdges) {
 float BlurDetect::calcKurtosisRating(vector<double>& edgeStrengthList) {
     float kurtosis = Kurtosis::calcKurtosis(edgeStrengthList);
     cout << "Kurtosis is: " << kurtosis << endl;
-    return kurtosis;
+
+    float sigm = 1.f / (1.f + pow(E, -(kurtosis - 12.f)));
+
+    cout << "sigm(kurt) = " << sigm << endl;
+    return sigm;
 }

@@ -10,18 +10,21 @@ Contrast::Contrast()
 
 float Contrast::RMS(VImage *vim)
 {
-    int avgGray = vim->getAvgGray();
-   // int area = vim->getWidth() * vim->getHeight();
-    HistogramChannel hist = vim->getHistogramK();
+    int avgGray = vim->getAvgGray() / 255.f;
+    QImage* im = vim->getQImage();
 
-    double sumOfSquareDiffs = 0;
-
-    for(unsigned int j=0; j<hist.size(); ++j) {
-        double diff = hist[j]*(j - avgGray);
-        sumOfSquareDiffs += diff*diff;
+    double rms = 0;
+    int height = vim->getHeight();
+    int width = vim->getWidth();
+    for(int x=0; x<width; ++x) {
+        for(int y=0; y<height; ++y) {
+            float currPixel = qGray(im->pixel(x,y))/255.0; // [0,1]
+            rms += pow(currPixel - avgGray, 2);
+        }
     }
 
-    float rms = sqrt(sumOfSquareDiffs);
+    rms /= width*height;
+    rms = sqrt(rms);
     // printf("%f\n",        rms);
 
     return rms;
@@ -91,13 +94,8 @@ float Contrast::local_contrast(VImage *vim)
 
     }
 
-
-    // printf("local contrast = %d \n", diff);
-
     delete graySumMap;
 
-    return diff/area;
+    return (diff/255.f)/area;
 
 }
-
-// XXXX figure out how to scale to be from 0 to 10
