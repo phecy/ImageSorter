@@ -39,6 +39,7 @@ LowLevelLearner::LowLevelLearner(TrainData* trainingset, int hlFeat_i)
     string filename = trainingset->genHashFilename(hlFeat_i);
     save_libsvm_formatted_data(filename, llsamples, lltargets);
     filename = DEFAULT_SVR_FILENAME;
+
     save_libsvm_formatted_data(filename, llsamples, lltargets);
 
     // Now we see how well we predicted on the training set
@@ -115,6 +116,7 @@ void LowLevelLearner::loadSamples(TrainData* trainingset,
     for (unsigned long i = 0; i < llsamples.size(); ++i) {
         normsamples.push_back(normalizer(llsamples[i]));
     }
+
     // And save
     string fn = trainingset->genHashFilename(hlFeat_i);
     save_libsvm_formatted_data(fn, llsamples, normsamples);

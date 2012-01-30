@@ -8,3 +8,5 @@ src/similarity/lear_gist/Makefile
 src/similarity/lear_gist/README
 src/similarity/lear_gist/ar.ppm
 *.swp
+trainingdata/hl*.tdat
+trainingdata/all_turk_data/

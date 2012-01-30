@@ -23,7 +23,7 @@
 #define LL_CONTRAST_I 2
 
 // Loading SVR stuff:
-#define DEFAULT_LEARN_DIR "./trainingdata/"
+#define DEFAULT_LEARN_DIR "../trainingdata/"
 #define DEFAULT_LEARN_FN "default"
 #define DEFAULT_LEARN_BASENAME \
 DEFAULT_LEARN_DIR DEFAULT_LEARN_FN

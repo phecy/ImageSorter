@@ -104,6 +104,9 @@ map <string, vector<double> > TrainData::getCSVData()
     FILE *pFileOfFileNames;
     char csv_file_name[CSV_FILE_NAME_LENGTH];
 
+    char* savedPath = new char[512];
+    savedPath = getcwd(savedPath,512);
+
     chdir(DEFAULT_LEARN_DIR);
 
     char cmd[CMD_LENGTH];
@@ -302,7 +305,7 @@ map <string, vector<double> > TrainData::getCSVData()
 
         fclose(pCSVFile);
     }
-    chdir("..");
+    chdir(savedPath);
 
     // Calc averages
     map <string, vector<double> > averagedVals;
