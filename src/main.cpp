@@ -55,6 +55,7 @@ using namespace std;
 
 #define QUALITY_WEIGHT 1
 #define UNIQUENESS_WEIGHT 1
+#define NUM_HL_FEATURES 2
 
 static QTabWidget *disp;
 Similarity* similarity = NULL;
@@ -226,7 +227,7 @@ TrainData* makeTrainingSet(vector<VImage*>& imageInfoArray) {
 // the default
 void getTotalQuality(vector<VImage*>& imageInfoArray) {
     // Learning - combination of individual quality ratings
-    GetRating rater(1); // Looad default, 1 HL feature
+    GetRating rater(NUM_HL_FEATURES); // Looad default, 1 HL feature
     rater.rate(imageInfoArray);
 }
 

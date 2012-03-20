@@ -53,6 +53,7 @@ LowLevelLearner::LowLevelLearner(TrainData* trainingset, int hlFeat_i)
             lowLevelSample(feat_i)
                  = trainingset->getLLFeature(img_i, feat_i);
         }
+        cerr << "For high level feature " << hlFeat_i << ", ";
         cerr << "actual = " << trainingset->getHLFeature(img_i, hlFeat_i)
              << "      predicted = " << predict(lowLevelSample) << endl;
     }
