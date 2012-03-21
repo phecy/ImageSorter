@@ -1,6 +1,7 @@
 ImageSorter.pro.user
 VisionWorkbench-2.1.0/
-build/
+build/*cpp
+build/*o
 paper/build/*
 results/data/
 results/luotang_correl.xcf
