@@ -1,5 +1,3 @@
-#include "vw/Core.h"
-
 #include "sharpdetect.h"
 
 #define GAUSS_STRENGTH 3
